@@ -15,15 +15,15 @@ public class ChinchonTest {
 
         // GIVEN
         Carta carta1 = new Carta(1, Palo.ORO);
-        Carta carta2 = new Carta(2, Palo.ORO);
+        Carta carta2 = new Carta(7, Palo.ORO);
         Carta carta3 = new Carta(3, Palo.ORO);
-        Carta carta4 = new Carta(4, Palo.ORO);
-        Carta carta5 = new Carta(5, Palo.ORO);
+        Carta carta4 = new Carta(5, Palo.ORO);
+        Carta carta5 = new Carta(4, Palo.ORO);
         Carta carta6 = new Carta(6, Palo.ORO);
-        Carta carta7 = new Carta(7, Palo.ORO);
+        Carta carta7 = new Carta(2, Palo.ORO);
 
         List<Carta> mano = Arrays.asList(carta1, carta2, carta3, carta4, carta5, carta6, carta7);
-
+    
         ServicioChinchon servicioChinchon = new ServicioChinchon();
 
         // WHEN
@@ -41,9 +41,9 @@ public class ChinchonTest {
         Carta carta1 = new Carta(1, Palo.ORO);
         Carta carta2 = new Carta(2, Palo.ORO);
         Carta carta3 = new Carta(3, Palo.ORO);
-        Carta carta4 = new Carta(4, Palo.ORO);
+        Carta carta4 = new Carta(6, Palo.ORO);
         Carta carta5 = new Carta(5, Palo.ORO);
-        Carta carta6 = new Carta(6, Palo.ORO);
+        Carta carta6 = new Carta(4, Palo.ORO);
         Carta carta7 = new Carta(7, Palo.BASTO);
 
         List<Carta> mano = Arrays.asList(carta1, carta2, carta3, carta4, carta5, carta6, carta7);
