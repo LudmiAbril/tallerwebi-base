@@ -8,8 +8,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+import com.tallerwebi.infraestructura.ServicioBlackjackImpl;
+
 
 public class BlackjackTest {
 
@@ -19,7 +19,7 @@ public class BlackjackTest {
         Carta carta1 = new Carta("J", 10, Palo.CORAZON);
         Carta carta2 = new Carta("A", 11, Palo.PICA);
 
-        ServicioBlackjack serviciobj = new ServicioBlackjack();
+        ServicioBlackjack serviciobj = new ServicioBlackjackImpl();
 
         List<Carta> cartasJugador = new ArrayList<Carta>();
 
@@ -38,7 +38,7 @@ public class BlackjackTest {
         Carta carta2 = new Carta("Q", 10, Palo.PICA);
         Carta carta3 = new Carta("4", 4, Palo.DIAMANTE);
 
-        ServicioBlackjack serviciobj = new ServicioBlackjack();
+        ServicioBlackjack serviciobj = new ServicioBlackjackImpl();
 
         List<Carta> cartasJugador = new ArrayList<Carta>();
 
@@ -55,7 +55,7 @@ public class BlackjackTest {
     @Test
     public void entregarCartasInciales() {
         List<Carta> cartas = new ArrayList<Carta>();
-        ServicioBlackjack serviciobj = new ServicioBlackjack();
+        ServicioBlackjack serviciobj = new ServicioBlackjackImpl();
         cartas = serviciobj.entregarCartasPrincipales();
         assertEquals(2, cartas.size());
     }
