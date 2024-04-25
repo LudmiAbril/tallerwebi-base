@@ -23,10 +23,9 @@ public class PlataformaTest {
     @Test
     public void queSePuedanAgregarUnaPartida() {
         Plataforma nuevaPlataforma = new Plataforma();
-        Jugador jugador = new Jugador();
-        Jugador jugador2 = new Jugador();
-        Jugador ganador = new Jugador();
-        Partida multijugador = new PartidaMultijugador(Juego.CHIN, jugador, jugador2, ganador);
+        Jugador jugador = new Jugador("Mica");
+        Jugador jugador2 = new Jugador("Cele");
+        Partida multijugador = new PartidaMultijugador(Juego.CHIN, jugador, jugador2);
     }
 
 
