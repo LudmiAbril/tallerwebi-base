@@ -13,7 +13,7 @@ public class BingoTest {
 
 	@Test
 	public void queSePuedaHacerBingo() {
-// necesito un carton
+		// necesito un carton
 		// necesito que me entreguen un numero
 		// busco que ese numero q me entregaron este en mi carton
 		// si esta, lo marco.
@@ -23,8 +23,10 @@ public class BingoTest {
 
 	@Test
 	public void queSePuedaEntregarUnNumeroAleatorioDel1Al100() {
-		Jugador jugador = new Jugador("Mica");
-		Jugador jugador2 = new Jugador("Mica");
+		Jugador jugador = new Jugador();
+		Jugador jugador2 = new Jugador();
+		jugador.setNombre("mica");
+		jugador2.setNombre("cele");
 		Partida multijugador = new PartidaMultijugador(Juego.BINGO, jugador, jugador2);
 		ServicioBingoImpl servicioBingo = new ServicioBingoImpl();
 		Integer numeroAleatorio = servicioBingo.entregarNumeroAleatorio();
@@ -34,16 +36,18 @@ public class BingoTest {
 
 	@Test
 	public void queSePuedaGenerarUnCartonConNumerosAleatoriosQueNoSeRepitan() {
-		Jugador jugador = new Jugador("Mica");
-		Jugador jugador2 = new Jugador("Mica");
+		Jugador jugador = new Jugador();
+		Jugador jugador2 = new Jugador();
+		jugador.setNombre("mica");
+		jugador2.setNombre("cele");
 		Partida multijugador = new PartidaMultijugador(Juego.BINGO, jugador, jugador2);
 		ServicioBingoImpl servicioBingo = new ServicioBingoImpl();
 		CartonBingo carton = servicioBingo.generarCarton();
 		Integer[][] numeros = carton.getNumeros();
-		Set <Integer> numerosUsados = new HashSet<Integer>();
+		Set<Integer> numerosUsados = new HashSet<Integer>();
 		int cantidadDeNumerosActual = 0;
 		final int CANTIDAD_DE_NUMEROS_ESPERADA = 25;
-		
+
 		for (int f = 0; f < numeros.length; f++) {
 			for (int c = 0; c < numeros[f].length; c++) {
 				int numero = numeros[f][c];
@@ -55,8 +59,7 @@ public class BingoTest {
 		}
 		assertEquals(cantidadDeNumerosActual, CANTIDAD_DE_NUMEROS_ESPERADA);
 		assertNotNull(carton);
-		
-		
+
 	}
-	
+
 }

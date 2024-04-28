@@ -12,4 +12,6 @@ public interface ServicioBlackjack {
 
     boolean Perdio(List<Carta> cartasJugador);
 
+    Carta pedirCarta();
+
 }
