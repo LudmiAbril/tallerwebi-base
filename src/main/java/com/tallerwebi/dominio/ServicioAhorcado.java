@@ -1,30 +1,30 @@
-package com.tallerwebi.dominio;
+// package com.tallerwebi.dominio;
 
-import java.util.function.BooleanSupplier;
+// import java.util.function.BooleanSupplier;
 
-public interface ServicioAhorcado {
+// public interface ServicioAhorcado {
 
 	   
-	String elegirPalabraAleatoria() ;
+// 	String elegirPalabraAleatoria() ;
 		
-	Boolean intentarLetra(char letra);
+// 	Boolean intentarLetra(char letra);
 
-	Boolean buscarLetraEnPalabra(char letra);
+// 	Boolean buscarLetraEnPalabra(char letra);
 
-	Integer getPartesAhorcado();
+// 	Integer getPartesAhorcado();
 
-	Object getPalabraAdivinada();
+// 	Object getPalabraAdivinada();
 
-	BooleanSupplier isPerdido();
+// 	BooleanSupplier isPerdido();
 
-	Object getPalabras();
+// 	Object getPalabras();
 
-	Object getPalabrasAdivinadas();
+// 	Object getPalabrasAdivinadas();
 	
-	void agregarPalabraAdivinada(String palabra);
+// 	void agregarPalabraAdivinada(String palabra);
 	
-	 Object obtenerPalabrasAdivinadasSinNulos();
+// 	 Object obtenerPalabrasAdivinadasSinNulos();
 		
 	
 		
-}
+//}

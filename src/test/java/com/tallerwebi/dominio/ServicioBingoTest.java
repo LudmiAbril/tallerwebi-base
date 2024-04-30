@@ -32,8 +32,8 @@ public class ServicioBingoTest {
 
 	@Test
 	public void queSePuedaEntregarUnNumeroAleatorioDel1Al100() {
-		Jugador jugador = new Jugador("Mica");
-		Jugador jugador2 = new Jugador("Mica");
+		Jugador jugador = new Jugador();
+		Jugador jugador2 = new Jugador();
 		Partida multijugador = new PartidaMultijugador(Juego.BINGO, jugador, jugador2);
 		Integer numeroAleatorio = servicioBingo.entregarNumeroAleatorio();
 		assertNotNull(numeroAleatorio);
@@ -42,8 +42,8 @@ public class ServicioBingoTest {
 
 	@Test
 	public void queSePuedaGenerarUnCartonConNumerosAleatoriosQueNoSeRepitan() {
-		Jugador jugador = new Jugador("Mica");
-		Jugador jugador2 = new Jugador("Mica");
+		Jugador jugador = new Jugador();
+		Jugador jugador2 = new Jugador();
 		Partida multijugador = new PartidaMultijugador(Juego.BINGO, jugador, jugador2);
 		CartonBingo carton = servicioBingo.generarCarton();
 		Integer[][] numeros = carton.getNumeros();

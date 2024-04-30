@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <title>Taller Web I</title>
+
+    <!-- Boostrap core css -->
+    <link
+      rel="stylesheet"
+      th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"
+    />
+
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+  </head>
+
+  <body>
+    <!--
+    HEADER Y NAV, AUN EN CONSTRUCCION
+-->
+
+    <main>
+      <h1>Inicio Blackjack</h1>
+      <form
+        action="#"
+        th:action="@{/comenzar-blackjack}"
+        method="POST"
+        th:object="${nuevoJugador}"
+      >
+        <h3 class="form-signin-heading">Nueva Partida</h3>
+        <hr class="colorgraph" />
+        <br />
+
+        <label for="email">Ingresa tu nombre :</label>
+        <input th:field="*{nombre}" id="email" class="form-control" required />
+
+        <button
+          id="btn-registrarme"
+          class="btn btn-lg btn-primary btn-block"
+          type="Submit"
+        >
+          Comenzar
+        </button>
+      
+      </form>
+    </main>
+    <!-- /.container -->
+
+    <!-- Boostrap core js -->
+    <script
+      type="text/javascript"
+      th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"
+    ></script>
+    <script>
+
+    </script>
+  </body>
+</html>
