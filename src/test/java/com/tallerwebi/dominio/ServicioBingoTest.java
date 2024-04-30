@@ -5,28 +5,36 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 
 import com.tallerwebi.infraestructura.ServicioBingoImpl;
 
-public class BingoTest {
+public class ServicioBingoTest {
 
-	@Test
-	public void queSePuedaHacerBingo() {
-// necesito un carton
-		// necesito que me entreguen un numero
-		// busco que ese numero q me entregaron este en mi carton
-		// si esta, lo marco.
-		// marcar una linea completa horizontal o vertical del carton significa que hay
-		// bingo
+	private ServicioBingo servicioBingo;
+
+	@BeforeEach
+	public void init(){
+		this.servicioBingo = new ServicioBingoImpl();
 	}
+
+// 	@Test
+// 	public void queSePuedaHacerBingo() {
+// // necesito un carton
+// 		// necesito que me entreguen un numero
+// 		// busco que ese numero q me entregaron este en mi carton
+// 		// si esta, lo marco.
+// 		// marcar una linea completa horizontal o vertical del carton significa que hay
+// 		// bingo
+// 	}
 
 	@Test
 	public void queSePuedaEntregarUnNumeroAleatorioDel1Al100() {
 		Jugador jugador = new Jugador("Mica");
 		Jugador jugador2 = new Jugador("Mica");
 		Partida multijugador = new PartidaMultijugador(Juego.BINGO, jugador, jugador2);
-		ServicioBingoImpl servicioBingo = new ServicioBingoImpl();
 		Integer numeroAleatorio = servicioBingo.entregarNumeroAleatorio();
 		assertNotNull(numeroAleatorio);
 		assertTrue(numeroAleatorio >= 1 && numeroAleatorio < 100);
@@ -37,7 +45,6 @@ public class BingoTest {
 		Jugador jugador = new Jugador("Mica");
 		Jugador jugador2 = new Jugador("Mica");
 		Partida multijugador = new PartidaMultijugador(Juego.BINGO, jugador, jugador2);
-		ServicioBingoImpl servicioBingo = new ServicioBingoImpl();
 		CartonBingo carton = servicioBingo.generarCarton();
 		Integer[][] numeros = carton.getNumeros();
 		Set <Integer> numerosUsados = new HashSet<Integer>();
