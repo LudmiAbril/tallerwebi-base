@@ -7,7 +7,8 @@ public interface ServicioChin {
 
     List<Carta> repartirTodasLasCartas();
     List<Carta> repartirCuatroCartasDeFrente(Jugador jugador);
-    boolean hayChin(ArrayList descarte1, ArrayList descarte2);
+    boolean hayChin(ArrayList<Carta> descarte1, ArrayList<Carta> descarte2);
     Carta pedirUnaCartaExtra();
+    void ponerCartaEnPilaDeDescarte(Carta carta, ArrayList<Carta> descarte1, ArrayList<Carta> descarte2);
     void guardarResultadoDePartida(Juego CHIN, Integer puntaje);
 }
