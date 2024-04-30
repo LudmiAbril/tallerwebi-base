@@ -30,4 +30,11 @@ public class ControladorBingoTest {
         ModelAndView mav = this.controladorBingo.irAlBingo();
         assertThat(mav.getViewName(), equalToIgnoringCase("bingo"));
     }
+
+    @Test
+    public void queAlSolicitarLaVistaBingoSeEntreguenLosModelosCorrespondientes(){
+        ModelAndView mav = this.controladorBingo.irAlBingo();
+        assertThat(mav.getModel().get("carton"), is(instanceOf(CartonBingo.class)));
+        assertThat(mav.getModel().get("numeroCantado"), is(instanceOf(Integer.class)));
+    }
 }
