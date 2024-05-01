@@ -127,4 +127,66 @@ public class SenkuTest {
         assertFalse(servicio.getCasillero(tablero,4,2).getOcupado());
 
     }
+    @Test
+    public void queNoSePuedaRealizarUnMovimientoSiElCasilleroDestinoNoEstaVacio() throws CasilleroInexistenteException, CasilleroVacio, MovimientoInvalidoException {
+        // GIVEN
+        // TENGO UN TABLERO
+        Senku nuevo = new Senku(5);
+        Tablero tablero = nuevo.getTablero();
+        ServicioSenkuImpl servicio = new ServicioSenkuImpl();
+        // WHEN-
+        //(0, 0), (0, 1), (0, 2), (0, 3), (0, 4)
+        //(1, 0), (1, 1), (1, 2), (1, 3), (1, 4)
+        //(2, 0), (2, 1),*(2, 2)*, (2, 3), (2, 4)
+        //(3, 0), (3, 1), (3, 2), (3, 3), (3, 4)
+        //(4, 0), (4, 1), (4, 2), (4, 3), (4, 4)
+        Casillero seleccionado=servicio.seleccionarCasillero(tablero,0,4);
+        Casillero destino= servicio.getCasillero(tablero,2,4);
+
+        //THEN
+        assertThrows(MovimientoInvalidoException.class, () -> {
+            servicio.realizarMovimiento(tablero,seleccionado,destino);
+        });
+
+    }
+    @Test
+    public void queNoSePuedaRealizarUnMovimientoSiElCasilleroDelMedioEstaVacio() throws CasilleroInexistenteException, CasilleroVacio, MovimientoInvalidoException {
+        // GIVEN
+        // TENGO UN TABLERO
+        Senku nuevo = new Senku(5);
+        Tablero tablero = nuevo.getTablero();
+        ServicioSenkuImpl servicio = new ServicioSenkuImpl();
+        // WHEN-
+        //(0, 0), (0, 1), (0, 2), (0, 3), (0, 4)
+        //(1, 0), (1, 1), (1, 2), (1, 3), (1, 4)
+        //(2, 0), (2, 1),*(2, 2)*, (2, 3), (2, 4)
+        //(3, 0), (3, 1), (3, 2), (3, 3), (3, 4)
+        //(4, 0), (4, 1), (4, 2), (4, 3), (4, 4)
+        Casillero seleccionado=servicio.seleccionarCasillero(tablero,4,2);
+        Casillero destino= servicio.getCasillero(tablero,2,2);
+        servicio.realizarMovimiento(tablero,seleccionado,destino);
+        //SI MOVI LA (4,2) A LA (2,2) ENTONCES AHORA (3,2) VA A ESTAR VACIO Y (2,2) OCUPADO Y (4,2) VACIO
+        Casillero seleccionado2=servicio.seleccionarCasillero(tablero,2,2);
+        Casillero destino2= servicio.getCasillero(tablero,4,2);
+        assertThrows(MovimientoInvalidoException.class, () -> {
+            servicio.realizarMovimiento(tablero,seleccionado2,destino2);
+        });
+
+    }
+
+    @Test
+    public void queElJuegoAviseQueYaNoHayMovimientosValidos() throws CasilleroInexistenteException, CasilleroVacio, MovimientoInvalidoException {
+        // GIVEN
+        Senku nuevo = new Senku(1);
+        Tablero tablero = nuevo.getTablero();
+        ServicioSenkuImpl servicio = new ServicioSenkuImpl();
+        Casillero seleccionado=servicio.getCasillero(tablero,0,0);
+        // WHEN-
+        //(0, 0)
+
+        assertFalse(servicio.hayMovimientosValidosDisponiblesDesdeCasillero(tablero,seleccionado));
+    }
+
+
+
 }
