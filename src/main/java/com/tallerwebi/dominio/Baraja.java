@@ -6,10 +6,16 @@ import java.util.List;
 
 public class Baraja {
     private List<Carta> cartas;
+    private Integer size;
+
+    public Integer getSize() {
+        return size;
+    }
 
     public Baraja() {
         cartas = new ArrayList<>();
         inicializarBaraja();
+        size= cartas.size();
     }
 
     private void inicializarBaraja() {

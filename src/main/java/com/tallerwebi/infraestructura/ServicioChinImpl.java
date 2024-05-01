@@ -12,6 +12,10 @@ public class ServicioChinImpl implements ServicioChin {
     private Baraja baraja;
     private ArrayList<Carta> descarte1 = new ArrayList<>();
     private ArrayList<Carta> descarte2 = new ArrayList<>();
+    private ArrayList<Carta> mazoJugador1 = new ArrayList<>();
+    private ArrayList<Carta> mazoJugador2 = new ArrayList<>();
+    private ArrayList<Carta> manoJugador1 = new ArrayList<>();
+    private ArrayList<Carta> manoJugador2 = new ArrayList<>();
 
     @Autowired
     public ServicioChinImpl(){
@@ -19,8 +23,14 @@ public class ServicioChinImpl implements ServicioChin {
     }
 
     @Override
-    public List<Carta> repartirTodasLasCartas() {
-        return List.of();
+    public void repartirTodasLasCartas(ArrayList<Carta> mazoJugador1, ArrayList<Carta> mazoJugador2) {
+
+        for(int i =0; i< (baraja.getSize()/2); i++){
+            mazoJugador1.add(baraja.sacarCarta());
+        }
+        for(int i =baraja.getSize()/2; i< baraja.getSize(); i++){
+            mazoJugador2.add(baraja.sacarCarta());
+        }
     }
 
     @Override
@@ -49,30 +59,35 @@ public class ServicioChinImpl implements ServicioChin {
     }
 
     @Override
-    public void ponerCartaEnPilaDeDescarte(Carta carta, ArrayList<Carta> descarte1, ArrayList<Carta> descarte2) {
-        //ArrayList<Carta> descarte1= new ArrayList<>();
-        //ArrayList<Carta> descarte2= new ArrayList<>();
-        Carta carta1 = new Carta("3", 3, Palo.CORAZON);
-        Carta carta2 = new Carta("6", 16, Palo.DIAMANTE);
-        descarte1.add(carta1);
-        descarte2.add(carta2);
-        Integer valor1 = carta1.getValor();
-        Integer valor2 = carta2.getValor();
-        if(sePuedePonerCartaSiguienteOAnterior(carta.getValor(), valor1)){
-            descarte1.add(carta);
+    public void ponerCartaEnPilaDeDescarte(Carta cartaJugada, ArrayList<Carta> descarte1, ArrayList<Carta> descarte2) {
+        if (descarte1.isEmpty() && descarte2.isEmpty()) {
+            return;
         }
-        if(sePuedePonerCartaSiguienteOAnterior(carta.getValor(), valor2)){
-            descarte2.add(carta);
+
+        Integer valorJugada = cartaJugada.getValor();
+
+        Integer ultimoValorDescarte1 = !descarte1.isEmpty() ? descarte1.get(descarte1.size() - 1).getValor() : null;
+        Integer ultimoValorDescarte2 = !descarte2.isEmpty() ? descarte2.get(descarte2.size() - 1).getValor() : null;
+
+        if (ultimoValorDescarte1 != null && (valorJugada.equals(ultimoValorDescarte1 - 1) || valorJugada.equals(ultimoValorDescarte1 + 1))) {
+            descarte1.add(cartaJugada);
+        }
+
+        else if (ultimoValorDescarte2 != null && (valorJugada.equals(ultimoValorDescarte2 - 1) || valorJugada.equals(ultimoValorDescarte2 + 1))) {
+            descarte2.add(cartaJugada);
         }
     }
-    public boolean sePuedePonerCartaSiguienteOAnterior(Integer miCarta, Integer otroValor){
-        boolean sePuede=false;
-        if(miCarta.equals(otroValor+1) || miCarta.equals(otroValor-1))
-            sePuede=true;
-        return sePuede;
-    }
+
     @Override
     public void guardarResultadoDePartida(Juego CHIN, Integer puntaje) {
 
+
+    }
+
+    @Override
+    public void sacarDelMazoYPonerEnMano(ArrayList<Carta> mazoJugador1, ArrayList<Carta> manoJugador1) {
+        //ArrayList<Carta> manoJugador1 = new ArrayList<>();
+
+        manoJugador1.add(mazoJugador1.remove(mazoJugador1.size()-1));
     }
 }
