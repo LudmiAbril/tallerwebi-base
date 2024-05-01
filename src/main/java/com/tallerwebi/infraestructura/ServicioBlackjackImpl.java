@@ -52,4 +52,10 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
         return puntuacion;
     }
 
+    @Override
+    public Carta pedirCarta() {
+        this.baraja.barajar();
+        return this.baraja.sacarCarta();
+    }
+
 }

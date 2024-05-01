@@ -13,7 +13,7 @@ public class PlataformaTest {
 
     @Test
     public void queSePuedaCrearUnaPlataformaDeJuegos() {
-// - Array <Juego> : partidas
+        // - Array <Juego> : partidas
         // + generarRanking(Juego) : Array<Juego>
 
         Plataforma nuevaPlataforma = new Plataforma();
@@ -25,9 +25,9 @@ public class PlataformaTest {
         Plataforma nuevaPlataforma = new Plataforma();
         Jugador jugador = new Jugador();
         Jugador jugador2 = new Jugador();
-        Jugador ganador = new Jugador();
-        Partida multijugador = new PartidaMultijugador(Juego.CHIN, jugador, jugador2, ganador);
+        jugador.setNombre("Mica");
+        jugador2.setNombre("Cele");
+        Partida multijugador = new PartidaMultijugador(Juego.CHIN, jugador, jugador2);
     }
-
 
 }
