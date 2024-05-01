@@ -34,7 +34,6 @@ public class ServicioBingoTest {
 	public void queSePuedaEntregarUnNumeroAleatorioDel1Al100() {
 		Jugador jugador = new Jugador("Mica");
 		Jugador jugador2 = new Jugador("Mica");
-		Partida multijugador = new PartidaMultijugador(Juego.BINGO, jugador, jugador2);
 		Integer numeroAleatorio = servicioBingo.entregarNumeroAleatorio();
 		assertNotNull(numeroAleatorio);
 		assertTrue(numeroAleatorio >= 1 && numeroAleatorio < 100);

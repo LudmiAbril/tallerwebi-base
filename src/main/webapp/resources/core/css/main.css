@@ -20,10 +20,11 @@ h2 {
 }
 
 .casillero {
-  background-color: aquamarine;
+  /* background-color: aquamarine; */
   padding: 10px;
 }
 
 .carton{
   text-align: center;
+  gap:10px;
 }
