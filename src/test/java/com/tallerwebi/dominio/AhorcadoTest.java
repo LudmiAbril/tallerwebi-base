@@ -4,27 +4,39 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+import com.tallerwebi.dominio.RepositorioPalabra;
+import com.tallerwebi.infraestructura.RepositorioPalabraImpl;
+import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import com.tallerwebi.infraestructura.ServicioAhorcadoImpel;
 
 class AhorcadoTest {
-    ServicioAhorcado servicio;
+    private Palabra palabraMock;
+    private ServicioAhorcado servicio;
+    private RepositorioPalabra repositorioPalabra;
+    private SessionFactory sessionFactory;
+
     @BeforeEach
-    public void init (){ this.servicio = new ServicioAhorcadoImpel();}
+    public void init() {
+        palabraMock = mock(Palabra.class);
+        sessionFactory = (SessionFactory) sessionFactory.getCurrentSession();
+        repositorioPalabra = new RepositorioPalabraImpl(sessionFactory);
+        this.servicio = new ServicioAhorcadoImpel(this.repositorioPalabra);
+    }
 
 
     @Test
     public void queSePuedaIngresarUnaLetraCorrecta() {
 
         Integer partesAhorcado=6;
-        String palabraParaAdivinar= servicio.entregarPalabra();
-        Character letra= 'a';
+        String palabraParaAdivinar= "perro";
+        Character letra= 'e';
 
         partesAhorcado=servicio.intentarLetra(letra, palabraParaAdivinar, partesAhorcado);
 
