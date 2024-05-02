@@ -166,7 +166,7 @@ public class Tablero {
         for (int i = 0; i < cantidadFilasYColumnas; i++) {
             for (int j = 0; j < cantidadFilasYColumnas; j++) {
                 if (casilleros[i][j].getOcupado()) {
-                    return this.ganado;
+                    return this.ganado=false;
                 }else{
                     this.ganado = true;
             } }

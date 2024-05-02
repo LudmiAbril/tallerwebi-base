@@ -189,7 +189,7 @@ public class SenkuTest {
     @Test
     public void queElJuegoSepaQueYaGanaste() throws CasilleroInexistenteException, CasilleroVacio, MovimientoInvalidoException {
         // GIVEN
-        Senku nuevo = new Senku(1);
+        Senku nuevo = new Senku(5);
         Tablero tablero = nuevo.getTablero();
         ServicioSenkuImpl servicio = new ServicioSenkuImpl();
         // WHEN-"NO HAY FICHAS""
@@ -209,7 +209,7 @@ public class SenkuTest {
     @Test
     public void queElJuegoSepaQueNoGanaste() throws CasilleroInexistenteException, CasilleroVacio, MovimientoInvalidoException {
         // GIVEN
-        Senku nuevo = new Senku(1);
+        Senku nuevo = new Senku(5);
         Tablero tablero = nuevo.getTablero();
         ServicioSenkuImpl servicio = new ServicioSenkuImpl();
         // WHEN-" HAY FICHAS""

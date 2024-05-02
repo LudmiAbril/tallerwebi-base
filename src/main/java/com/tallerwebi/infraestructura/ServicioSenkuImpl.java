@@ -69,6 +69,6 @@ public class ServicioSenkuImpl implements ServicioSenku {
     }
 
     public Boolean seGano(Tablero tablero) {
-       return tablero.getGanado();
+       return tablero.ganar();
     }
 }
