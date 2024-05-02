@@ -1,10 +1,18 @@
 package com.tallerwebi.dominio;
 
-public abstract class Partida {
+public class Partida {
     private Integer puntaje;
     private Juego juego;
 
-    public Partida(Juego juego){
+    public Juego getJuego() {
+        return juego;
+    }
+
+    public void setJuego(Juego juego) {
+        this.juego = juego;
+    }
+
+    public Partida(Juego juego) {
         this.juego = juego;
     }
 
@@ -15,4 +23,5 @@ public abstract class Partida {
     public void setPuntaje(Integer puntaje) {
         this.puntaje = puntaje;
     }
+
 }

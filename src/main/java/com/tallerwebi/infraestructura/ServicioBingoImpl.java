@@ -13,9 +13,12 @@ import com.tallerwebi.dominio.ServicioBingo;
 public class ServicioBingoImpl implements ServicioBingo {
 
 	private Random rand;
+	private Boolean seHizobingo;
+	private CartonBingo cartonNuevo;
 
 	public ServicioBingoImpl() {
 		this.rand = new Random();
+		this.seHizobingo = false;
 	}
 
 	@Override
@@ -25,15 +28,26 @@ public class ServicioBingoImpl implements ServicioBingo {
 	}
 
 	@Override
-	public void completarCasillero() {
+	public void marcarCasillero(Integer numeroCantado) {
 // completo una celda de mi casillero cuando el numero que me entregan esta tambien en mi celda
-		// este metodo depende si o si de la url q llegue del cliente asi q todavia no
-		// puedo hacerlo
+		// este metodo depende si o si de la url q llegue del cliente asi q todavia no puedo hacerlo
+		CartonBingo cartonActual = this.getCartonNuevo();
+		for (Integer[] fila : cartonActual.getNumeros()) {
+			for (int i = 0; i < fila.length; i++) {
+				if (fila[i].equals(numeroCantado)) {
+				// entonces puedo marcar el casillero
+				// deberia ser null u otra cosa?
+				fila[i]=null;
+				return;
+				}
+			}
+		}
 	}
 
 	@Override
 	public Boolean bingo() {
-		return null;
+		return this.seHizobingo = true;
+		// se va a hacer bingo cuando 
 	}
 
 	@Override
@@ -52,9 +66,14 @@ public class ServicioBingoImpl implements ServicioBingo {
 				numerosUsados.add(numero);
 			}
 		}
-		return new CartonBingo(carton);
+		
+		 return this.cartonNuevo = new CartonBingo(carton);
+		
 	}
 
+	public CartonBingo getCartonNuevo() {
+		return cartonNuevo;
+	}
 	
 }
 

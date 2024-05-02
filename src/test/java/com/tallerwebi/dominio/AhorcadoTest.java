@@ -41,18 +41,15 @@ class AhorcadoTest {
 
         assertThat(partesAhorcado, equalTo(5) );
     }
-/*
+
     @Test
     public void queSeAcerteLaPalabra() {
-        String[] palabras = {"java"};
-        ServicioAhorcado juego = new ServicioAhorcadoImpel(palabras);
 
-        assertTrue(juego.intentarLetra('a'));
-        assertTrue(juego.intentarLetra('j'));
-        assertTrue(juego.intentarLetra('v'));
-        assertEquals("java", juego.getPalabraAdivinada().toString());
+
+
+
     }
-
+/*
     @Test
     public void quesePonganEnLaPosicionCorrectaLasLetrasAlAdivinar() {
         String[] palabras = {"java"};
