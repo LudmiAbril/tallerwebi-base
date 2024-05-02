@@ -186,7 +186,37 @@ public class SenkuTest {
 
         assertFalse(servicio.hayMovimientosValidosDisponiblesDesdeCasillero(tablero,seleccionado));
     }
+    @Test
+    public void queElJuegoSepaQueYaGanaste() throws CasilleroInexistenteException, CasilleroVacio, MovimientoInvalidoException {
+        // GIVEN
+        Senku nuevo = new Senku(1);
+        Tablero tablero = nuevo.getTablero();
+        ServicioSenkuImpl servicio = new ServicioSenkuImpl();
+        // WHEN-"NO HAY FICHAS""
+        resetearCasilleros(tablero);
+        //THEN
+        Boolean ganaste=servicio.seGano(tablero);
+        assertTrue(ganaste);
+    }
+    private void resetearCasilleros(Tablero tablero) {
+        Casillero[][] casilleros = tablero.getCasilleros();
+        for (Casillero[] casillero : casilleros) {
+            for (Casillero value : casillero) {
+                value.setOcupado(false);
+            }
+        }
+    }
+    @Test
+    public void queElJuegoSepaQueNoGanaste() throws CasilleroInexistenteException, CasilleroVacio, MovimientoInvalidoException {
+        // GIVEN
+        Senku nuevo = new Senku(1);
+        Tablero tablero = nuevo.getTablero();
+        ServicioSenkuImpl servicio = new ServicioSenkuImpl();
+        // WHEN-" HAY FICHAS""
 
-
+        //THEN
+        Boolean ganaste=servicio.seGano(tablero);
+        assertFalse(ganaste);
+    }
 
 }

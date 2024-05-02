@@ -68,4 +68,7 @@ public class ServicioSenkuImpl implements ServicioSenku {
         tablero.realizarMovimiento(seleccionado, destino);
     }
 
+    public Boolean seGano(Tablero tablero) {
+       return tablero.getGanado();
+    }
 }

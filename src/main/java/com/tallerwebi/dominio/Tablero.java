@@ -7,10 +7,12 @@ public class Tablero {
     private Casillero[][] casilleros;
     private Integer cantidadFilasYColumnas;
     private Integer contadorMovimientos;
+    private Boolean ganado;
 
 
 
     public Tablero(Integer cantidadFilasYColumnas) {
+        this.ganado=false;
 
         this.cantidadFilasYColumnas = cantidadFilasYColumnas;
         this.contadorMovimientos = 0;
@@ -159,7 +161,28 @@ public class Tablero {
         return false;
 
 }
-     }
+
+    public Boolean ganar() {
+        for (int i = 0; i < cantidadFilasYColumnas; i++) {
+            for (int j = 0; j < cantidadFilasYColumnas; j++) {
+                if (casilleros[i][j].getOcupado()) {
+                    return this.ganado;
+                }else{
+                    this.ganado = true;
+            } }
+        }
+
+        return this.ganado;
+    }
+
+    public Boolean getGanado() {
+        return ganado;
+    }
+
+    public void setGanado(Boolean ganado) {
+        this.ganado = ganado;
+    }
+}
 
 
 
