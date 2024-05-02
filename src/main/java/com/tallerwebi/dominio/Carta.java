@@ -15,12 +15,24 @@ public class Carta {
         return this.simbolo;
     }
 
+    public void setSimbolo(String simbolo) {
+        this.simbolo = simbolo;
+    }
+
     public Integer getValor() {
         return this.valor;
     }
 
+    public void setPalo(Palo palo) {
+        this.palo = palo;
+    }
+
     public Palo getPalo() {
         return this.palo;
+    }
+
+    public void setValor(Integer valor) {
+        this.valor = valor;
     }
 
 }
