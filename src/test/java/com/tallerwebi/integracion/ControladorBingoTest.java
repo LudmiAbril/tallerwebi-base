@@ -37,4 +37,9 @@ public class ControladorBingoTest {
         assertThat(mav.getModel().get("carton"), is(instanceOf(CartonBingo.class)));
         assertThat(mav.getModel().get("numeroCantado"), is(instanceOf(Integer.class)));
     }
+
+    @Test
+    public void queElCasilleroQueSeMarcaSeaIgualAlNumeroCantado(){
+        
+    }
 }
