@@ -56,7 +56,8 @@ public class ControladorBlackjack {
         session.setAttribute("cartasJugador", cartasJugador);
         session.setAttribute("cartasCasa", cartasCasa);
         session.setAttribute("estadoPartida", servicioBlackjack.estadoPartida(cartasJugador, cartasCasa));
-        session.setAttribute("ganador", servicioBlackjack.ganador(cartasJugador, cartasCasa, nuevoJugador.getNombre()));
+        session.setAttribute("ganador",
+                servicioBlackjack.ganador(cartasJugador, cartasCasa, nuevoJugador.getNombre(), false));
 
         // si estado partida "finalizado" llamo al servicioplataforma y guardo en la
         // base
@@ -90,13 +91,13 @@ public class ControladorBlackjack {
         // recupero los masos de la sesion
         List<Carta> cartasJugadorActualizadas = (List<Carta>) session.getAttribute("cartasJugador");
         List<Carta> cartasCasaActualizadas = (List<Carta>) session.getAttribute("cartasCasa");
-        // Agregar una carta al jugador y al crupier
+        // Agregar una carta al jugador
         cartasJugadorActualizadas.add(servicioBlackjack.pedirCarta());
-        cartasCasaActualizadas.add(servicioBlackjack.pedirCarta());
+
         // calculo el resto
         EstadoPartida nuevoEstado = servicioBlackjack.estadoPartida(cartasJugadorActualizadas, cartasCasaActualizadas);
         String ganadorActualizado = servicioBlackjack.ganador(cartasJugadorActualizadas, cartasCasaActualizadas,
-                (String) session.getAttribute("jugadorActual"));
+                (String) session.getAttribute("jugadorActual"), false);
 
         // Actualizar la sesión con las nuevas cartas y el estado de la partida
         session.setAttribute("cartasJugador", cartasJugadorActualizadas);
@@ -110,6 +111,7 @@ public class ControladorBlackjack {
         response.put("cartasCasa", cartasCasaActualizadas);
         response.put("estadoPartida", nuevoEstado);
         response.put("ganador", ganadorActualizado);
+        response.put("jugadorActual", session.getAttribute("jugadorActual"));
 
         return response;
 
@@ -117,9 +119,34 @@ public class ControladorBlackjack {
 
     @GetMapping("/plantarse")
     @ResponseBody
-    public Boolean plantarse() {
-// los datos del jugador siguen igual pero al crupier se le agregan unas pares
-        return true;
+    public Map<String, Object> plantarse(HttpSession session) {
+        // recupero los datos de la sesion
+        List<Carta> cartasJugador = (List<Carta>) session.getAttribute("cartasJugador");
+        List<Carta> cartasCasaActualizadas = (List<Carta>) session.getAttribute("cartasCasa");
+        String jugador = (String) session.getAttribute("jugadorActual");
+
+        // actualizo al crupier
+        cartasCasaActualizadas = servicioBlackjack.plantarse(cartasCasaActualizadas);
+        // actualizo el estado y ganador
+        String ganador = servicioBlackjack.ganador(cartasJugador, cartasCasaActualizadas, jugador, true);
+
+        // guardo en el map
+        Map<String, Object> response = new HashMap<String, Object>();
+        response.put("cartasJugador", cartasJugador);
+        response.put("cartasCasa", cartasCasaActualizadas);
+        response.put("ganador", ganador);
+
+        // guardo la partida
+        Partida partida = new Partida(jugador, servicioBlackjack.calcularPuntuacion(cartasJugador), Juego.BLACKJACK);
+        servicioPlataforma.agregarPartida(partida);
+        // limpio/elimino los datos de la sesion
+        session.removeAttribute("jugadorActual");
+        session.removeAttribute("cartasJugador");
+        session.removeAttribute("cartasCasa");
+        session.removeAttribute("estadoPartida");
+        session.removeAttribute("ganador");
+
+        return response;
     }
 
 }

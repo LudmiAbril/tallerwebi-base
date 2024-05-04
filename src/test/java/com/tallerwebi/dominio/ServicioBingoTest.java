@@ -34,7 +34,7 @@ public class ServicioBingoTest {
 	public void queSePuedaEntregarUnNumeroAleatorioDel1Al100() {
 		Jugador jugador = new Jugador();
 		Jugador jugador2 = new Jugador();
-		Partida multijugador = new PartidaMultijugador(Juego.BINGO, jugador, jugador2);
+		// Partida multijugador = new PartidaMultijugador(Juego.BINGO, jugador, jugador2);
 		Integer numeroAleatorio = servicioBingo.entregarNumeroAleatorio();
 		assertNotNull(numeroAleatorio);
 		assertTrue(numeroAleatorio >= 1 && numeroAleatorio < 100);
@@ -44,7 +44,7 @@ public class ServicioBingoTest {
 	public void queSePuedaGenerarUnCartonConNumerosAleatoriosQueNoSeRepitan() {
 		Jugador jugador = new Jugador();
 		Jugador jugador2 = new Jugador();
-		Partida multijugador = new PartidaMultijugador(Juego.BINGO, jugador, jugador2);
+		// Partida multijugador = new PartidaMultijugador(Juego.BINGO, jugador, jugador2);
 		CartonBingo carton = servicioBingo.generarCarton();
 		Integer[][] numeros = carton.getNumeros();
 		Set <Integer> numerosUsados = new HashSet<Integer>();
