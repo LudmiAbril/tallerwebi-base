@@ -1,7 +1,6 @@
 $(document).ready(function () {
   // TRAER LOS DATOS INICIALES
   $.get("comenzar", function (data) {
-   
     // Mostrar las cartas iniciales del crupier
     data.cartasCasa.forEach(function (carta) {
       $("#cartasCasa").append("carta: " + carta.valor + carta.palo + "<br>");
@@ -9,9 +8,8 @@ $(document).ready(function () {
 
     // Mostrar las cartas iniciales del jugador
     data.cartasJugador.forEach(function (carta) {
-      $("#cartasJugador").append(
-        "carta: " + carta.valor + " de " + carta.palo + "<br>"
-      );
+      let nombreCarta = carta.simbolo + "_" + carta.palo;
+      $("#cartasJugador").append("<div class='carta'>l</div>");
     });
 
     // si llegara a haber un blackjack inicial, finalizar
@@ -31,8 +29,9 @@ $(document).ready(function () {
 
       // Mostrar las nuevas cartas del jugador
       data.cartasJugador.forEach(function (carta) {
+        let nombreCarta = carta.simbolo + "_" + carta.palo;
         $("#cartasJugador").append(
-          "carta" + carta.valor + " de " + carta.palo + "<br>"
+          "<img th:src='@{/img/cartas/" + nombreCarta + "}' width='140px'>"
         );
       });
 
@@ -52,7 +51,6 @@ $(document).ready(function () {
   // MOSTRAR MODAL CON EL RESULTADO
   $("#plantarse").click(function () {
     $.get("plantarse", function (data) {
-
       // Limpiar las cartas anteriores
       $("#cartasCasa").empty();
 

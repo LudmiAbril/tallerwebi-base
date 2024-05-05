@@ -55,7 +55,7 @@ public class ControladorBlackjack {
         session.setAttribute("jugadorActual", nuevoJugador.getNombre());
         session.setAttribute("cartasJugador", cartasJugador);
         session.setAttribute("cartasCasa", cartasCasa);
-        session.setAttribute("estadoPartida", servicioBlackjack.estadoPartida(cartasJugador, cartasCasa));
+        session.setAttribute("estadoPartida", servicioBlackjack.estadoPartida(cartasJugador, cartasCasa, false));
         session.setAttribute("ganador",
                 servicioBlackjack.ganador(cartasJugador, cartasCasa, nuevoJugador.getNombre(), false));
 
@@ -95,7 +95,8 @@ public class ControladorBlackjack {
         cartasJugadorActualizadas.add(servicioBlackjack.pedirCarta());
 
         // calculo el resto
-        EstadoPartida nuevoEstado = servicioBlackjack.estadoPartida(cartasJugadorActualizadas, cartasCasaActualizadas);
+        EstadoPartida nuevoEstado = servicioBlackjack.estadoPartida(cartasJugadorActualizadas, cartasCasaActualizadas,
+                false);
         String ganadorActualizado = servicioBlackjack.ganador(cartasJugadorActualizadas, cartasCasaActualizadas,
                 (String) session.getAttribute("jugadorActual"), false);
 
@@ -135,6 +136,7 @@ public class ControladorBlackjack {
         response.put("cartasJugador", cartasJugador);
         response.put("cartasCasa", cartasCasaActualizadas);
         response.put("ganador", ganador);
+        response.put("estadoPartida", servicioBlackjack.estadoPartida(cartasJugador, cartasCasaActualizadas, true));
 
         // guardo la partida
         Partida partida = new Partida(jugador, servicioBlackjack.calcularPuntuacion(cartasJugador), Juego.BLACKJACK);

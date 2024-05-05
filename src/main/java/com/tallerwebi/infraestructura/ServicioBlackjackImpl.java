@@ -60,8 +60,8 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
     }
 
     @Override
-    public EstadoPartida estadoPartida(List<Carta> cartasJugador, List<Carta> cartasCasa) {
-        if (sePaso(cartasJugador) || sePaso(cartasCasa) || hayBlackjack(cartasJugador) || hayBlackjack(cartasCasa)) {
+    public EstadoPartida estadoPartida(List<Carta> cartasJugador, List<Carta> cartasCasa, Boolean plantado) {
+        if (sePaso(cartasJugador) || sePaso(cartasCasa) || hayBlackjack(cartasJugador) || hayBlackjack(cartasCasa) || plantado) {
             return EstadoPartida.FINALIZADA;
         }
         return EstadoPartida.EN_CURSO;

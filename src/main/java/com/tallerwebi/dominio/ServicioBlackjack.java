@@ -14,7 +14,7 @@ public interface ServicioBlackjack {
 
     Carta pedirCarta();
 
-    EstadoPartida estadoPartida(List<Carta> cartasJugador, List<Carta> cartasCasa);
+    EstadoPartida estadoPartida(List<Carta> cartasJugador, List<Carta> cartasCasa, Boolean plantado);
 
     String ganador(List<Carta> cartasJugador, List<Carta> cartasCasa, String nombreJugador, Boolean plantado);
 
