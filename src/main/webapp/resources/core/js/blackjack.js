@@ -1,18 +1,24 @@
 $(document).ready(function () {
   // TRAER LOS DATOS INICIALES
   $.get("comenzar", function (data) {
-    // Mostrar las cartas iniciales del crupier
     data.cartasCasa.forEach(function (carta) {
-      $("#cartasCasa").append("carta: " + carta.valor + carta.palo + "<br>");
+      let nombreCarta = carta.simbolo + "_" + carta.palo;
+      $("#cartasCasa").append(
+        "<img src='./img/cartas/" +
+          nombreCarta +
+          ".png' width='140px' class='carta nueva-carta-casa'>"
+      );
     });
 
-    // Mostrar las cartas iniciales del jugador
     data.cartasJugador.forEach(function (carta) {
       let nombreCarta = carta.simbolo + "_" + carta.palo;
-      $("#cartasJugador").append("<div class='carta'>l</div>");
+      $("#cartasJugador").append(
+        "<img src='./img/cartas/" +
+          nombreCarta +
+          ".png' width='140px' class='carta nueva-carta-jugador' >"
+      );
     });
-
-    // si llegara a haber un blackjack inicial, finalizar
+    // si llegara a haber un blackjack inicial, finalizar separar esta funcion
     if (data.estadoPartida === "FINALIZADA") {
       setTimeout(function () {
         finalizar(data.ganador, data.jugadorActual);
@@ -20,25 +26,16 @@ $(document).ready(function () {
     }
   });
 
-  // PEDIR UNA CARTA NUEVA Y ACTUALIZAR LAS CARTAS (ESTAR ATENTO AL ESTADO DE LA PARTIDA)
+  // PEDIR UNA CARTA NUEVA Y METERLA AL DIV(ESTAR ATENTO AL ESTADO DE LA PARTIDA)
   $("#pedirCarta").click(function () {
     $.get("pedir-carta", function (data) {
-      // Limpiar las cartas anteriores
-      $("#cartasJugador").empty();
-      $("#cartasCasa").empty();
-
-      // Mostrar las nuevas cartas del jugador
-      data.cartasJugador.forEach(function (carta) {
-        let nombreCarta = carta.simbolo + "_" + carta.palo;
-        $("#cartasJugador").append(
-          "<img th:src='@{/img/cartas/" + nombreCarta + "}' width='140px'>"
-        );
-      });
-
-      // Mostrar las nuevas cartas del crupier
-      data.cartasCasa.forEach(function (carta) {
-        $("#cartasCasa").append("carta: " + carta.valor + carta.palo + "<br>");
-      });
+      // Agrego la carta nueva al div del jugador
+      let nombreCarta = data.cartaNueva.simbolo + "_" + data.cartaNueva.palo;
+      $("#cartasJugador").append(
+        "<img src='./img/cartas/" +
+          nombreCarta +
+          ".png' width='140px' class='carta nueva-carta-jugador' >"
+      );
 
       if (data.estadoPartida === "FINALIZADA") {
         setTimeout(function () {
@@ -48,15 +45,17 @@ $(document).ready(function () {
     });
   });
 
-  // MOSTRAR MODAL CON EL RESULTADO
+  //  PLANTARSE, AGREGAR CARTAS CRUPIER Y MOSTRAR MODAL CON EL RESULTADO
   $("#plantarse").click(function () {
     $.get("plantarse", function (data) {
-      // Limpiar las cartas anteriores
-      $("#cartasCasa").empty();
-
       // Mostrar las nuevas cartas del crupier
-      data.cartasCasa.forEach(function (carta) {
-        $("#cartasCasa").append("carta: " + carta.valor + carta.palo + "<br>");
+      data.manoFinalCrupier.forEach(function (carta) {
+        let nombreCarta = carta.simbolo + "_" + carta.palo;
+        $("#cartasCasa").append(
+          "<img src='./img/cartas/" +
+            nombreCarta +
+            ".png' width='140px' class='carta nueva-carta-casa'>"
+        );
       });
 
       setTimeout(function () {

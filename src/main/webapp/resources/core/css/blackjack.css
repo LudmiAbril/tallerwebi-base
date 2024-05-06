@@ -1,13 +1,3 @@
-.carta {
-    width: 100px;
-    height: 300px;
-    background-color: blueviolet;
-}
-
-
-
-
-/* MODAL */
 .modal {
     display: none;
     position: fixed;
@@ -18,6 +8,11 @@
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.5);
+}
+
+body {
+    background-image: url("https://www.shutterstock.com/image-vector/poker-table-background-green-color-600nw-1645872547.jpg");
+    background-size: cover;
 }
 
 @keyframes zoomIn {
@@ -45,4 +40,49 @@
 
 .result {
     font-weight: bold;
+}
+
+@keyframes aparecerDesdeArriba {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes aparecerDesdeAbajo {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.carta {
+    box-shadow: 10px 10px 10px -2px rgba(0, 0, 0, 0.27);
+    border-radius: 8px;
+    width: 120px;
+
+}
+
+.nueva-carta-jugador {
+    animation: aparecerDesdeAbajo 0.5s ease-out forwards;
+}
+
+.nueva-carta-casa {
+    animation: aparecerDesdeArriba 0.5s ease-out forwards;
+}
+
+.cartas-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
 }

@@ -61,7 +61,8 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
 
     @Override
     public EstadoPartida estadoPartida(List<Carta> cartasJugador, List<Carta> cartasCasa, Boolean plantado) {
-        if (sePaso(cartasJugador) || sePaso(cartasCasa) || hayBlackjack(cartasJugador) || hayBlackjack(cartasCasa) || plantado) {
+        if (sePaso(cartasJugador) || sePaso(cartasCasa) || hayBlackjack(cartasJugador) || hayBlackjack(cartasCasa)
+                || plantado) {
             return EstadoPartida.FINALIZADA;
         }
         return EstadoPartida.EN_CURSO;
@@ -109,9 +110,12 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
     public List<Carta> plantarse(List<Carta> cartasCasa) {
         // si la casa tiene menos de 17, se obliga a sacar mas cartas hasta que sea 17 o
         // mayor
-        List<Carta> manoFinalCrupier = new ArrayList<>(cartasCasa);
-        while (calcularPuntuacion(manoFinalCrupier) < 17) {
-            manoFinalCrupier.add(pedirCarta());
+        List<Carta> manoFinalCrupier = new ArrayList<>();
+        List<Carta> manoConteo = new ArrayList<>(cartasCasa);
+        while (calcularPuntuacion(manoConteo) < 17) {
+            Carta nuevaCarta = pedirCarta();
+            manoConteo.add(nuevaCarta);
+            manoFinalCrupier.add(nuevaCarta);
         }
         return manoFinalCrupier;
     }
