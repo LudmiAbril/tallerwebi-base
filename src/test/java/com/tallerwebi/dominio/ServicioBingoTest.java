@@ -25,10 +25,12 @@ public class ServicioBingoTest {
 	}
 
 	@Test
-	public void queSePuedaEntregarUnNumeroAleatorioDel1Al99() {
+	public void queSePuedaEntregarUnNumeroAleatorioDel1Al99YQueNoSeRepitan() {
 		Integer numeroAleatorio = servicioBingo.entregarNumeroAleatorio();
+		Set<Integer> numerosEntregados = ((ServicioBingoImpl) servicioBingo).getNumerosEntregados();
 		assertThat(numeroAleatorio, is(notNullValue()));
 		assertThat(numeroAleatorio, allOf(greaterThanOrEqualTo(1), lessThan(100)));
+		assertThat(numerosEntregados, containsInAnyOrder(numeroAleatorio));
 	}
 
 	// USAR HAS SIZE

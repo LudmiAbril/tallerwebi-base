@@ -8,22 +8,30 @@ $(document).ready(function () {
         for (var i = 0; i < data.carton.numeros.length; i++) {
             tablaHtml += "<tr>";
             for (var j = 0; j < data.carton.numeros[i].length; j++) {
-                numeroCasillero = JSON.stringify(data.carton.numeros[i][j]);
-                tablaHtml += "<td><button id='botonCasillero" + numeroCasillero + "' onclick='marcarCasillero(" + JSON.stringify(numeroCasillero) + "," + data.numeroAleatorioCantado + ")'>" + numeroCasillero + "</button></td>";
+                var numeroCasillero = data.carton.numeros[i][j];
+                tablaHtml += "<td><button id='botonCasillero" + numeroCasillero + "' onclick='marcarCasillero(" + numeroCasillero + ")'>" + numeroCasillero + "</button></td>";
             }
             tablaHtml += "</tr>";
         }
         $(".carton").html(tablaHtml);
     });
-
+    setInterval(() => {
+        refrescarNumero();
+    }, 7000);
 });
 
-function marcarCasillero(numeroCasillero, numeroCantado) {
-    // Si el número del casillero coincide con el número cantado, pintar el botón de color
-    if (numeroCasillero == numeroCantado) {
-        $("#botonCasillero" + numeroCasillero).css("background-color", "green");
-    }
-
+function marcarCasillero(numeroCasillero) {
+    $.get("obtenerNumeroActual", function(data) {
+        numeroActual = data.numeroActual;
+        if (numeroCasillero == numeroActual) {
+            $("#botonCasillero" + numeroCasillero).css("background-color", "green");
+        }
+    });
 }
 
-
+function refrescarNumero(){
+    console.log("hola!!");
+    $.get("obtenerNuevoNumero", function(data) {
+        $("#numeroCantado").text(data.nuevoNumero);
+    });
+}
