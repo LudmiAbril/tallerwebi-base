@@ -21,16 +21,23 @@ public class ServicioBingoImpl implements ServicioBingo {
 	private Boolean seHizobingo;
 	private CartonBingo cartonNuevo;
 	private List<Integer> numerosMarcadosEnElCarton;
+	private Set<Integer> numerosEntregados;
 
 	public ServicioBingoImpl() {
 		this.rand = new Random();
 		this.seHizobingo = false;
 		this.numerosMarcadosEnElCarton = new ArrayList<Integer>();
+		this.numerosEntregados = new HashSet<Integer>();
 	}
 
 	@Override
 	public Integer entregarNumeroAleatorio() {
-		Integer numeroAleatorio = rand.nextInt(100) + 1;
+		Integer numeroAleatorio;
+		do {
+			numeroAleatorio = rand.nextInt(99) + 1;
+		} while (numerosEntregados.contains(numeroAleatorio));
+		
+		numerosEntregados.add(numeroAleatorio);
 		return numeroAleatorio;
 	}
 
@@ -97,5 +104,15 @@ public class ServicioBingoImpl implements ServicioBingo {
 	public CartonBingo getCartonNuevo() {
 		return cartonNuevo;
 	}
+
+	public Set<Integer> getNumerosEntregados() {
+		return numerosEntregados;
+	}
+
+	public void setNumerosEntregados(Set<Integer> numerosEntregados) {
+		this.numerosEntregados = numerosEntregados;
+	}
+
+	
 
 }

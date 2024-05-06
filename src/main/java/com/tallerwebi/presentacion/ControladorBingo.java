@@ -6,8 +6,6 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -97,5 +95,25 @@ public class ControladorBingo {
 		}
 		return new ModelAndView("redirect:/bingo");
 	}
+
+	@RequestMapping(path = "/obtenerNuevoNumero", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Integer> obtenerNuevoNumero(HttpSession session) {
+		Integer nuevoNumero = this.servicioBingo.entregarNumeroAleatorio();
+		session.setAttribute("numeroAleatorioCantado", nuevoNumero);
+		Map<String, Integer> respuesta = new HashMap<>();
+		respuesta.put("nuevoNumero", nuevoNumero);
+		return respuesta;
+	}
+
+	@RequestMapping(path = "/obtenerNumeroActual", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Integer> obtenerNumeroActual(HttpSession session) {
+		Integer numeroActual = (Integer) session.getAttribute("numeroAleatorioCantado");
+		Map<String, Integer> respuesta = new HashMap<>();
+		respuesta.put("numeroActual", numeroActual);
+		return respuesta;
+	}
+	
 
 }

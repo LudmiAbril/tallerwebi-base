@@ -5,7 +5,9 @@ margin:0;
   background-image: url("fondoInicio.jpg");
 }
 
-
+#numeroCantado{
+  font-size: xx-large;
+}
 /*
 
 .starter-template {
