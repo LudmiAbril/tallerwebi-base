@@ -1,0 +1,35 @@
+body {
+margin:0;
+  padding:0;
+  box-sizing: border-box;
+  background-image: url("../imgStatic/fondoInicio.jpg");
+  background-size: cover; /* Ajusta la imagen de fondo para cubrir todo el contenedor */
+  background-position: center;
+  min-height: 100vh; /
+
+}
+
+
+main {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+
+}
+
+#btn-entrar a {
+  background-color: rgba(255, 255, 255, 0.54);
+  padding: 15px 65px;
+  font-size:40px;
+  color:#2D2A49;
+  border: none;
+  text-decoration: none;
+  font-family: "Bebas Neue";
+  font-weight: 800;
+}
+
+#btn-entrar a:hover{
+  background-color: #2D2A49;
+  color: white;
+}

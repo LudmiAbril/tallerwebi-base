@@ -2,38 +2,38 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Bingo</title>
+    <title>Bingo</title>
 
-  <!-- Boostrap core css -->
-  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}" />
-  <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}"/>
+    <!-- Boostrap core css
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}"/>-->
 
-  <!-- custom style -->
-  <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/prueba-loguin.css}">
 
 </head>
 
 <body>
-
-  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">UNLAM</a>
-  </nav>
-
-  <main role="main" class="container">
-    <h1>Bingo</h1>
-    <p>Ingrese su nombre:</p>
-    <form th:action="@{/comenzarJuegoBingo}" method="post" th:object="${nuevoJugador}">
-        <input th:field="*{nombre}" type="text">
-        <button type="submit">Enviar</button>
+<main role="main" class="container">
+    <img th:src="@{/imgStatic/tituloPerfil.png}" alt="titulo" class="titulo-img">
+    <div class="text-center">
+        <img th:src="@{/imgStatic/logo.png}" alt="Imagen Redonda">
+    </div>
+    <form th:action="@{/comenzarJuegoBingo}" method="post" th:object="${nuevoJugador}" class="text-center">
+        <div class="mb-3">
+            <input th:field="*{nombre}" type="text" class="form-control" placeholder="Ingrese su nombre">
+        </div>
+        <button type="submit" class="btn btn-primary">Ingresar</button>
     </form>
-  </main>
-  <!-- /.container -->
+</main>
 
-  <!-- Boostrap core js -->
-  <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+
+<!-- Boostrap core js -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 
 </body>
 

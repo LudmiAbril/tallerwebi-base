@@ -1,0 +1,88 @@
+/*----------------ESTILOS GENERAL--------------------*/
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+/*----------------ESTILOS 1 COLUMNA--------------------*/
+.columna {
+    width: 40%;
+    justify-content: center;
+    align-items: center;
+
+}
+.columna:nth-child(1) {
+    background-color: #A48CA2;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+
+}
+
+.container .columna h1.nombre-casino{
+    padding-top: 40px;
+    font-size: 70px;
+    color: white;
+    font-family: "Bebas Neue";
+    font-weight: 800;
+    text-shadow: 0 0 10px #F9EADE, 0 0 20px #F9EADE, 0 0 30px #F9EADE, 0 0 40px #F9EADE, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE;
+    letter-spacing: 5px;
+}
+.container .columna .imagen-acceso
+{
+    width:500px;
+
+}
+
+/*----------------ESTILOS 2 COLUMNA--------------------*/
+.columna:nth-child(2) {
+    width: 60%;
+    border: 2px solid #ccc;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 0;
+}
+
+/*----------------ESTILOS CUADRADOS DE LOS JUEGOS--------------------*/
+.grid-item {
+    text-align:center;
+    border:2px solid #ccc;
+    padding: 84px;
+}
+
+.grid-item:nth-child(1) {
+    background: linear-gradient(0deg, rgba(143,124,145,1) 33%, rgba(40,44,64,1) 100%);
+}
+
+.grid-item:nth-child(2) {
+    background: linear-gradient(90deg, rgba(83,51,107,1) 0%, rgba(209,128,165,1) 100%);
+}
+
+.grid-item:nth-child(3) {
+    background: linear-gradient(90deg, rgba(137,91,176,1) 0%, rgba(255,168,225,1) 100%);
+}
+.grid-item:nth-child(4) {
+    background: linear-gradient(0deg, rgba(163,36,117,1) 0%, rgba(211,163,255,1) 100%);
+}
+.grid-item:nth-child(5) {
+    background: linear-gradient(90deg, rgba(45,42,73,1) 0%, rgba(160,130,172,1) 53%, rgba(156,119,147,1) 100%);
+}
+.grid-item:nth-child(6) {
+    background: linear-gradient(0deg, rgba(201,213,247,1) 4%, rgba(82,123,141,1) 100%);
+}
+.link-juego {
+    color: white;
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.link-juego:hover {
+    color:black;
+    text-shadow: 0 0 10px #F9EADE, 0 0 20px #F9EADE, 0 0 30px #F9EADE, 0 0 40px #F9EADE, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE;
+}
