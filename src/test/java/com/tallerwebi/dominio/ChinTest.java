@@ -4,12 +4,13 @@ import com.tallerwebi.infraestructura.ServicioChinImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ChinTest {
     @Test
-    public void hayChinCuandoLasDosCartasDelMedioSonIguales(){
+    public void devuelveChinCuandoLasDosCartasDelMedioSonIguales(){
         Carta carta1 = new Carta("A", 1, Palo.DIAMANTE);
         Carta carta2 = new Carta("A", 1, Palo.CORAZON);
 
@@ -20,7 +21,7 @@ public class ChinTest {
         descarte2.add(carta2);
         ServicioChin chin = new ServicioChinImpl();
 
-        assertTrue(chin.hayChin(descarte1, descarte2));
+        assertThat(chin.hayChin(descarte1, descarte2), is(true));
     }
     @Test
     public void noHayChinCuandoLosValoresDeLasCartasSonDistintos(){
@@ -34,7 +35,7 @@ public class ChinTest {
         descarte2.add(carta2);
         ServicioChin chin = new ServicioChinImpl();
 
-        assertFalse(chin.hayChin(descarte1, descarte2));
+        assertThat(chin.hayChin(descarte1, descarte2), is(false));
     }
     @Test
     public void soloSePuedeAgregarCartaSiguienteOAnteriorAlMazoDeDescarte(){
@@ -49,7 +50,7 @@ public class ChinTest {
         ServicioChin chin = new ServicioChinImpl();
         Carta cartaTest = new Carta("7",7, Palo.PICA);
         chin.ponerCartaEnPilaDeDescarte(cartaTest, descarte1, descarte2);
-        assertEquals(2, descarte2.size());
+        assertThat(descarte2.size(), is(2));
     }
     @Test
     public void noSePuedeAgregarCartaDistintaALaAnteriorOSiguiente(){
@@ -64,30 +65,30 @@ public class ChinTest {
         ServicioChin chin = new ServicioChinImpl();
         Carta cartaTest = new Carta("4",4, Palo.PICA);
         chin.ponerCartaEnPilaDeDescarte(cartaTest, descarte1, descarte2);
-        assertEquals(1, descarte1.size());
+        assertThat(descarte1.size(), is(1));
     }
     @Test
     public void elJugador1GanaSiNoTieneMasCartas(){
         ArrayList<Carta> mazoJugador1 = new ArrayList<>();
 
-        assertEquals(0, mazoJugador1.size());
+        assertThat(mazoJugador1.size(), is(0));
     }
     @Test
     public void elJugador2GanaSiNoTieneMasCartas(){
         ArrayList<Carta> mazoJugador2 = new ArrayList<>();
 
-        assertEquals(0, mazoJugador2.size());
+        assertThat(mazoJugador2.size(), is(0));
     }
     @Test
-    public void queSeRepartanLas52CartasDelMazoACadaJugador(){
+    public void devuelveLasCartasDelMazoACadaJugador(){
         ArrayList<Carta> mazoJugador1 = new ArrayList<>();
         ArrayList<Carta> mazoJugador2 = new ArrayList<>();
 
         ServicioChin chin = new ServicioChinImpl();
         chin.repartirTodasLasCartas(mazoJugador1, mazoJugador2);
 
-        assertEquals(26, mazoJugador1.size());
-        assertEquals(26, mazoJugador2.size());
+        assertThat(mazoJugador1.size(), is(26));
+        assertThat(mazoJugador2.size(), is(26));
     }
     @Test
     public void soloSePuedenTenerHasta4CartasEnLaMano(){
@@ -101,7 +102,7 @@ public class ChinTest {
         while(manoJugador1.size()<4){
             chin.sacarDelMazoYPonerEnMano(mazoJugador1, manoJugador1);
         }
-        assertEquals(4, manoJugador1.size());
+        assertThat(manoJugador1.size(), is(4));
 
     }
     @Test
@@ -125,8 +126,8 @@ public class ChinTest {
                 manoJugador2.add(descarte2.remove(descarte2.size()-1));
             }
         }
-        assertTrue(descarte1.isEmpty());
-        assertTrue(descarte2.isEmpty());
+        assertThat(descarte1.isEmpty(), is(true));
+        assertThat(descarte2.isEmpty(), is(true));
 
     }
     @Test
@@ -144,7 +145,7 @@ public class ChinTest {
         chin.repartirCuatroCartasDeFrente(mazoJugador2, manoJugador2);
         descarte1.add(mazoJugador1.remove(mazoJugador1.size()-1));
         descarte2.add(mazoJugador2.remove(mazoJugador2.size()-1));
-        assertTrue(chin.sePuedenAgregarCartasAlDescarte(descarte1, descarte2, manoJugador1, manoJugador2));
+        assertThat(chin.sePuedenAgregarCartasAlDescarte(descarte1, descarte2, manoJugador1, manoJugador2),is(true));
     }
 
 
@@ -160,8 +161,8 @@ public class ChinTest {
         chin.repartirCuatroCartasDeFrente(mazoJugador1, manoJugador1);
         chin.repartirCuatroCartasDeFrente(mazoJugador2, manoJugador2);
 
-        assertEquals(4, manoJugador1.size());
-        assertEquals(4, manoJugador2.size());
+        assertThat(manoJugador1.size(), is(4));
+        assertThat(manoJugador2.size(), is(4));
     }
 
 }
