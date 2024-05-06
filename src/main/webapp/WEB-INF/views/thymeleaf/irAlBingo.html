@@ -13,7 +13,7 @@
 
   <!-- custom style -->
   <link rel="stylesheet" th:href="@{/css/main.css}" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 
 <body>
@@ -24,19 +24,17 @@
 
   <main role="main" class="container">
     <h1>Bingo</h1>
-    <p id="numeroCantado"></p>
-
-      <table class="w3-table-all w3-card-4">
-        <tbody class="carton">
-        </tbody>
-      </table>
-
+    <p>Ingrese su nombre:</p>
+    <form th:action="@{/comenzarJuegoBingo}" method="post" th:object="${nuevoJugador}">
+        <input th:field="*{nombre}" type="text">
+        <button type="submit">Enviar</button>
+    </form>
   </main>
   <!-- /.container -->
 
   <!-- Boostrap core js -->
   <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
-  <script th:src="@{/js/bingo.js}"></script>
+
 </body>
 
 </html>
