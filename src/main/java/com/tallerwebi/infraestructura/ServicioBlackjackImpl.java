@@ -60,18 +60,17 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
     }
 
     @Override
-    public EstadoPartida estadoPartida(List<Carta> cartasJugador, List<Carta> cartasCasa) {
-        if (sePaso(cartasJugador) || sePaso(cartasCasa) || hayBlackjack(cartasJugador) || hayBlackjack(cartasCasa)) {
+    public EstadoPartida estadoPartida(List<Carta> cartasJugador, List<Carta> cartasCasa, Boolean plantado) {
+        if (sePaso(cartasJugador) || sePaso(cartasCasa) || hayBlackjack(cartasJugador) || hayBlackjack(cartasCasa) || plantado) {
             return EstadoPartida.FINALIZADA;
         }
         return EstadoPartida.EN_CURSO;
     }
 
     @Override
-    public String ganador(List<Carta> cartasJugador, List<Carta> cartasCasa, String nombreJugador) {
+    public String ganador(List<Carta> cartasJugador, List<Carta> cartasCasa, String nombreJugador, Boolean plantado) {
         String ganador = "ninguno";
-        // logica para sacar un gaandor o un empate
-        // no importa, la logica que estoy siguiendo esta bien!!!
+
         if (hayBlackjack(cartasJugador) && !hayBlackjack(cartasCasa)) {
             ganador = nombreJugador;
         }
@@ -84,14 +83,37 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
         if (sePaso(cartasJugador) && !sePaso(cartasCasa)) {
             ganador = "casa";
         }
-        if (sePaso(cartasCasa) && !sePaso(cartasJugador) ) {
+        if (sePaso(cartasCasa) && !sePaso(cartasJugador)) {
             ganador = nombreJugador;
         }
         if (sePaso(cartasJugador) && sePaso(cartasCasa)) {
             ganador = "empate";
         }
+        if (plantado) {
+            if (calcularPuntuacion(cartasJugador) > calcularPuntuacion(cartasCasa)) {
+                ganador = nombreJugador;
+            }
+            if (calcularPuntuacion(cartasJugador) < calcularPuntuacion(cartasCasa)) {
+                ganador = "casa";
+            }
+            if (calcularPuntuacion(cartasJugador) == calcularPuntuacion(cartasCasa)) {
+                ganador = "empate";
+            }
+
+        }
 
         return ganador;
+    }
+
+    @Override
+    public List<Carta> plantarse(List<Carta> cartasCasa) {
+        // si la casa tiene menos de 17, se obliga a sacar mas cartas hasta que sea 17 o
+        // mayor
+        List<Carta> manoFinalCrupier = new ArrayList<>(cartasCasa);
+        while (calcularPuntuacion(manoFinalCrupier) < 17) {
+            manoFinalCrupier.add(pedirCarta());
+        }
+        return manoFinalCrupier;
     }
 
 }

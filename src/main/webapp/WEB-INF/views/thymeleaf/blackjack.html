@@ -16,14 +16,25 @@
     />
     <!-- custom style -->
     <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/blackjack.css}" />
+    li
+    <!-- javascript-->
     <script th:src="@{/js/blackjack.js}"></script>
   </head>
 
   <body>
+    <!-- El modal que se abre al finalizar la partida -->
+    <div id="modalFinPartida" class="modal">
+      <!-- Contenido del modal -->
+      <div class="modal-content">
+        <h2 id="resultadoPartida"></h2>
+        <form th:action="@{/inicio-blackjack}">
+          <button type="submit">Home</button>
+        </form>
+      </div>
+    </div>
+
     <h1>Blackjack</h1>
-    <h2>Jugador: <span id="jugadorNombre"></span></h2>
-    <h2>Estado de la partida: <span id="estado"></span></h2>
-    <h2>Ganador: <span id="ganador"></span></h2>
     <p>Cartas del crupier:</p>
     <div id="cartasCasa"></div>
     <br />
@@ -31,6 +42,6 @@
     <div id="cartasJugador"></div>
     <button id="pedirCarta">Pedir Carta</button>
     <button id="plantarse">Plantarse</button>
-    <button id="reiniciar">Reiniciar</button>
+    <button id="reiniciar">modal</button>
   </body>
 </html>

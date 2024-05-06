@@ -1,6 +1,11 @@
 package com.tallerwebi.infraestructura;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -15,10 +20,12 @@ public class ServicioBingoImpl implements ServicioBingo {
 	private Random rand;
 	private Boolean seHizobingo;
 	private CartonBingo cartonNuevo;
+	private List<Integer> numerosMarcadosEnElCarton;
 
 	public ServicioBingoImpl() {
 		this.rand = new Random();
 		this.seHizobingo = false;
+		this.numerosMarcadosEnElCarton = new ArrayList<Integer>();
 	}
 
 	@Override
@@ -28,26 +35,24 @@ public class ServicioBingoImpl implements ServicioBingo {
 	}
 
 	@Override
-	public void marcarCasillero(Integer numeroCantado) {
-// completo una celda de mi casillero cuando el numero que me entregan esta tambien en mi celda
-		// este metodo depende si o si de la url q llegue del cliente asi q todavia no puedo hacerlo
-		CartonBingo cartonActual = this.getCartonNuevo();
-		for (Integer[] fila : cartonActual.getNumeros()) {
-			for (int i = 0; i < fila.length; i++) {
-				if (fila[i].equals(numeroCantado)) {
-				// entonces puedo marcar el casillero
-				// deberia ser null u otra cosa?
-				fila[i]=null;
-				return;
+	public void marcarCasillero(Integer numeroCasillero, CartonBingo carton) {
+		Integer[][] numeros = carton.getNumeros();
+		for (int i = 0; i < numeros.length; i++) {
+			for (int j = 0; j < numeros[i].length; j++) {
+				if (numeros[i][j].equals(numeroCasillero)) {
+					// Marcar el casillero asignándole un valor especial
+					numerosMarcadosEnElCarton.add(numeros[i][j]);
+					return;
 				}
 			}
 		}
 	}
+	
 
 	@Override
 	public Boolean bingo() {
 		return this.seHizobingo = true;
-		// se va a hacer bingo cuando 
+		// se va a hacer bingo cuando
 	}
 
 	@Override
@@ -66,14 +71,31 @@ public class ServicioBingoImpl implements ServicioBingo {
 				numerosUsados.add(numero);
 			}
 		}
-		
-		 return this.cartonNuevo = new CartonBingo(carton);
-		
+
+		List<Integer> numerosOrdenados = new ArrayList<Integer>();
+		for (int f = 0; f < CANTIDAD_DE_FILAS; f++) {
+			for (int c = 0; c < CANTIDAD_DE_COLUMNAS; c++) {
+				numerosOrdenados.add(carton[c][f]);
+
+			}
+		}
+
+		Collections.sort(numerosOrdenados);
+
+		int index = 0;
+
+		for (int f = 0; f < CANTIDAD_DE_FILAS; f++) {
+			for (int c = 0; c < CANTIDAD_DE_COLUMNAS; c++) {
+				carton[c][f] = numerosOrdenados.get(index++);
+			}
+		}
+
+		return this.cartonNuevo = new CartonBingo(carton);
+
 	}
 
 	public CartonBingo getCartonNuevo() {
 		return cartonNuevo;
 	}
-	
-}
 
+}

@@ -7,7 +7,7 @@ public interface ServicioBingo {
 
     Integer entregarNumeroAleatorio();
 
-    void marcarCasillero(Integer numeroCantado);
+    void marcarCasillero(Integer numeroCasillero, CartonBingo carton);
 
     Boolean bingo();
 
