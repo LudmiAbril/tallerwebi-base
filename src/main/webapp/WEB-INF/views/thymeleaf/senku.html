@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>CatSino Senku</title>
+
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/senku.css}"/>
+    <!-- Boostrap core css -->
+    <link
+            rel="stylesheet"
+            th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"
+    />
+
+
+</head>
+
+<body>
+<main>
+    <h1 th:text="${saludo}"></h1>
+    <p>Sólo uno</p>
+    <nav class="navbar navbar-light bg-light">
+        <form class="form-inline">
+            <button class="btn btn-sm btn-outline-secondary" type="button">REGLAS</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button">REINICIAR</button>
+            <button class="btn btn-sm btn-outline-secondary" type="button">VOLVER</button>
+        </form>
+    </nav>
+
+    <div class="tablero" id="tablero">
+
+    </div>
+</main>
+<!-- Boostrap core js -->
+<script
+        type="text/javascript"
+        th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"
+></script>
+
+<script th:href="@{/js/senku.js}"></script>
+</body>
+</html>
