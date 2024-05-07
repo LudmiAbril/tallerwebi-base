@@ -1,5 +1,7 @@
 package com.tallerwebi.infraestructura;
 
+import org.springframework.stereotype.Service;
+
 import com.tallerwebi.dominio.Casillero;
 import com.tallerwebi.dominio.ServicioSenku;
 import com.tallerwebi.dominio.Tablero;
@@ -7,6 +9,7 @@ import com.tallerwebi.dominio.excepcion.CasilleroInexistenteException;
 import com.tallerwebi.dominio.excepcion.CasilleroVacio;
 import com.tallerwebi.dominio.excepcion.MovimientoInvalidoException;
 
+@Service("servicioSenku")
 public class ServicioSenkuImpl implements ServicioSenku {
 
 

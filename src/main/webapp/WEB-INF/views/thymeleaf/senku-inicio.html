@@ -6,44 +6,29 @@
 
     <title>CatSino Senku</title>
 
-    <!-- custom style -->
-    <link rel="stylesheet" th:href="@{/css/senku.css}"/>
-    <!-- Boostrap core css -->
-    <link
-            rel="stylesheet"
-            th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"
-    />
+  
+    <!--  <link rel="stylesheet" th:href="@{/css/senku.css}"/>
+    <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}"/>-->
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/prueba-loguin.css}">
 
 
 </head>
 
 <body>
-<main>
-    <h1 th:text="${mensaje}"></h1>
-    <p>Sólo uno</p>
-    <form
-            action="#"
-            th:action="@{/senku}"
-            method="POST"
-    >
-        <h3 class="form-signin-heading">Nueva Partida</h3>
-        <hr class="colorgraph" />
-        <br />
+    <main role="main" class="container">
+        <img th:src="@{/imgStatic/tituloPerfil.png}" alt="titulo" class="titulo-img">
+        <div class="text-center">
+            <img th:src="@{/imgStatic/logo.png}" alt="Imagen Redonda">
+        </div>
+        <form th:action="@{/comenzarJuegoSenku}" method="post" th:object="${nuevoJugador}" class="text-center">
+            <div class="mb-3">
+                <input th:field="*{nombre}" type="text" class="form-control" placeholder="Ingrese su nombre">
+            </div>
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+        </form>
+    </main>
 
-        <label for="nombre">Ingresa tu nombre :</label>
-        <input th:field="*{nombre}" id="nombre" class="form-control" required />
-
-        <button
-                id="btn-registrarme"
-                class="btn btn-lg btn-primary btn-block"
-                type="Submit"
-        >
-            ¡ A JUGAR !
-        </button>
-
-    </form>
-</main>
-<!-- Boostrap core js -->
 <script
         type="text/javascript"
         th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"
