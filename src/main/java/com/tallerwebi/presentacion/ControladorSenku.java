@@ -38,7 +38,7 @@ public class ControladorSenku {
     public ModelAndView comenzarJuegoSenku(@ModelAttribute("nuevoJugador") Jugador nuevoJugador, HttpSession session) {
         Senku senku = new Senku(5);
         Tablero tablero = senku.getTablero();
-        // GUARDANDO DATOS DE SESION!!!!!!!!!
+        // GUARDANDO DATOS DE SESION
         session.setAttribute("senku", senku);
         session.setAttribute("tablero", tablero);
         return new ModelAndView("senku");
@@ -46,12 +46,9 @@ public class ControladorSenku {
 
     @RequestMapping(path = "/obtenerTablero", method = RequestMethod.GET)
     @ResponseBody
-    public Tablero obtenerTablero(@ModelAttribute("nuevoJugador") Jugador nuevoJugador, HttpSession session) {
+    public Tablero obtenerTablero(HttpSession session) {
         Senku senku = (Senku) session.getAttribute("senku");
-        Tablero tablero = (Tablero) session.getAttribute("tablero");
-        // GUARDANDO DATOS DE SESION
-        session.setAttribute("tablero", tablero);
-        return tablero;
+        return senku.getTablero();
     }
 
 }
