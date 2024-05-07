@@ -12,12 +12,16 @@
     align-items: center;
 
 }
+.columna-con-fondo {
+    background-image: url('../imgStatic/fondoSeccionJuegos.png');
+    background-size: cover;
+    background-position: center;
+
+}
 .columna:nth-child(1) {
-    background-color: #A48CA2;
     align-items: center;
     text-align: center;
     justify-content: center;
-
 }
 
 .container .columna h1.nombre-casino{
