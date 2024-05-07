@@ -6,8 +6,9 @@
 
 body{
     background-image: url(../imgStatic/fondoLoguin.png);
+    background-size: cover;
 }
-/* Centrar la imagen y el formulario */
+
 .container {
     display: flex;
     flex-direction: column;
