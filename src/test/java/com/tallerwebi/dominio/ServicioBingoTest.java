@@ -1,6 +1,5 @@
 package com.tallerwebi.dominio;
 
-import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashSet;
@@ -33,12 +32,30 @@ public class ServicioBingoTest {
 		assertThat(numerosEntregados, containsInAnyOrder(numeroAleatorio));
 	}
 
-	// USAR HAS SIZE
+	@Test
+	public void queSePuedaGenerarUnCartonDe25NumerosAleatorios() {
+		CartonBingo carton = servicioBingo.generarCarton();
+		Integer[][] numeros = carton.getNumeros();
+		Set<Integer> numerosUsados = new HashSet<Integer>();
+		int cantidadDeNumerosActual = 0;
+		final int CANTIDAD_DE_NUMEROS_ESPERADA = 25;
+
+		for (int f = 0; f < numeros.length; f++) {
+			for (int c = 0; c < numeros[f].length; c++) {
+				int numero = numeros[f][c];
+				assertTrue(numero >= 1 && numero <= 99);
+				assertFalse(numerosUsados.contains(numero));
+				cantidadDeNumerosActual++;
+				numerosUsados.add(numero);
+			}
+		}
+
+		assertThat(numerosUsados, hasSize(CANTIDAD_DE_NUMEROS_ESPERADA));
+
+	}
+
 	@Test
 	public void queSePuedaGenerarUnCartonConNumerosAleatoriosQueNoSeRepitan() {
-		Jugador jugador = new Jugador();
-		Jugador jugador2 = new Jugador();
-		Partida multijugador = new PartidaMultijugador(Juego.BINGO, jugador, jugador2);
 		CartonBingo carton = servicioBingo.generarCarton();
 		Integer[][] numeros = carton.getNumeros();
 		Set<Integer> numerosUsados = new HashSet<Integer>();
@@ -55,8 +72,38 @@ public class ServicioBingoTest {
 			}
 		}
 		assertEquals(cantidadDeNumerosActual, CANTIDAD_DE_NUMEROS_ESPERADA);
-		assertNotNull(carton);
 
 	}
 
+	// @Test
+	// public void queElCasilleroMarcadoSeaIgualAlNumeroEntregado() {
+	// 	CartonBingo carton = this.servicioBingo.generarCarton();
+	// 	Integer[][] numeros = carton.getNumeros();
+	
+	// 	Integer numeroAleatorio;
+	// 	do {
+	// 		numeroAleatorio = this.servicioBingo.entregarNumeroAleatorio();
+	// 	} while (esNumeroEnElCarton(numeroAleatorio, numeros));
+	
+	// 	this.servicioBingo.marcarCasillero(numeroAleatorio, carton);
+	
+	// 	Set<Integer> numerosEntregados = ((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados();
+	// 	Set<Integer> numerosMarcadosEnElCarton = ((ServicioBingoImpl) this.servicioBingo)
+	// 			.getNumerosMarcadosEnElCarton();
+	
+	// 	assertThat(numerosEntregados, contains(numeroAleatorio));
+	// 	assertThat(numerosMarcadosEnElCarton, contains(numeroAleatorio));
+	// }
+	
+
+	// private boolean esNumeroEnElCarton(Integer numero, Integer[][] carton) {
+	// 	for (int i = 0; i < carton.length; i++) {
+	// 		for (int j = 0; j < carton[i].length; j++) {
+	// 			if (carton[i][j].equals(numero)) {
+	// 				return true;
+	// 			}
+	// 		}
+	// 	}
+	// 	return false;
+	// }
 }
