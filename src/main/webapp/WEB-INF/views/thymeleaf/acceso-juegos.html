@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Acceso a Juegos</title>
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" th:href="@{/css/acceso-juegos.css}"/>
+    <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}">
+
+    <!-- Enlace a Google Fonts con Thymeleaf -->
+    <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
+    <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}" rel="stylesheet">
+
+</head>
+<body>
+<div class="container">
+    <div class="columna columna-con-fondo">
+        <h1 class="nombre-casino">CATSINO</h1>
+
+        <img th:src="@{/imgStatic/imagenAcesso.png}"  class="imagen-acceso" alt="imagen-bienvenida">
+    </div>
+    <div class="columna">
+        <div class="grid-container">
+            <div class="grid-item"><a href="home" class="link-juego">AHORCADO</a></div>
+            <div class="grid-item"><a href="irAlBingo" class="link-juego">BINGO</a></div>
+            <div class="grid-item"><a href="home" class="link-juego">BLACKJACK</a></div>
+            <div class="grid-item"><a href="home" class="link-juego">CHIN</a></div>
+            <div class="grid-item"><a href="home" class="link-juego">SUDOKU</a></div>
+            <div class="grid-item"><a href="home" class="link-juego">REGLAS</a></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

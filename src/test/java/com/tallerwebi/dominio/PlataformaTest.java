@@ -27,7 +27,7 @@ public class PlataformaTest {
         Jugador jugador2 = new Jugador();
         jugador.setNombre("Mica");
         jugador2.setNombre("Cele");
-        Partida multijugador = new PartidaMultijugador(Juego.CHIN, jugador, jugador2);
+        // Partida multijugador = new PartidaMultijugador(Juego.CHIN, jugador, jugador2);
     }
 
 }

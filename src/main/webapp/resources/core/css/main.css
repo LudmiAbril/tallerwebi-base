@@ -2,10 +2,12 @@ body {
 margin:0;
   padding:0;
   box-sizing: border-box;
-  background-image: url("fondoInicio.jpg");
+  background-image: url("../imgStatic/fondoInicio.jpg");
 }
 
-
+#numeroCantado{
+  font-size: xx-large;
+}
 /*
 
 .starter-template {

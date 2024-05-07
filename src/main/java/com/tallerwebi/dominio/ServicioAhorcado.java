@@ -5,7 +5,6 @@ import java.util.function.BooleanSupplier;
 
 public interface ServicioAhorcado {
 
-
     Integer intentarLetra(Character letra, String palabra, Integer partesAhorcado);
 
     Boolean buscarLetraEnPalabra(Character letra, String palabra);
@@ -13,6 +12,5 @@ public interface ServicioAhorcado {
     Boolean Perdio(Integer partesAhorcado);
 
     String entregarPalabra();
-
 
 }
