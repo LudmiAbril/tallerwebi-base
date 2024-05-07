@@ -17,13 +17,14 @@ $(document).ready(function () {
     });
     setInterval(() => {
         refrescarNumero();
-    }, 7000);
+    }, 4500);
 });
 
 function marcarCasillero(numeroCasillero) {
     $.get("obtenerNumeroActual", function(data) {
         numeroActual = data.numeroActual;
         if (numeroCasillero == numeroActual) {
+            $.post("marcarCasillero/" + numeroCasillero);
             $("#botonCasillero" + numeroCasillero).css("background-color", "green");
         }
     });
@@ -37,7 +38,11 @@ function refrescarNumero(){
 
 function bingo(){
     $.post("bingo", function(data){
-        
+        if(data.seHizoBingo){
+            console.log("hiciste bingo");
+        } else {
+            console.log("no hiciste bingo");
+        }
     }
     );
 }

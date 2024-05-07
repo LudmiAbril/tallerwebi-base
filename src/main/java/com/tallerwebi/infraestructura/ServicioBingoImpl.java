@@ -31,11 +31,11 @@ public class ServicioBingoImpl implements ServicioBingo {
 	}
 
 	@Override
-	public Integer entregarNumeroAleatorio() {
+	public Integer entregarNumeroAleatorio(Set<Integer> numerosEntregados) {
 		Integer numeroAleatorio;
 		do {
 			numeroAleatorio = rand.nextInt(99) + 1;
-		} while (numerosEntregados.contains(numeroAleatorio));
+		} while (!numerosEntregados.contains(numeroAleatorio));
 
 		numerosEntregados.add(numeroAleatorio);
 		return numeroAleatorio;
@@ -46,19 +46,21 @@ public class ServicioBingoImpl implements ServicioBingo {
 		Integer[][] numeros = carton.getNumeros();
 		for (int i = 0; i < numeros.length; i++) {
 			for (int j = 0; j < numeros[i].length; j++) {
-				if (numeros[i][j].equals(numeroCasillero) && !numerosMarcadosEnElCarton.contains(numeroCasillero) && !this.getSeHizobingo()) {
+				if (numeros[i][j].equals(numeroCasillero) && !numerosMarcadosEnElCarton.contains(numeroCasillero)
+						&& !this.getSeHizobingo()) {
 					numerosMarcadosEnElCarton.add(numeroCasillero);
 					return;
 				}
 			}
 		}
 	}
-	
 
 	@Override
 	public Boolean bingo(Set<Integer> numerosMarcadosEnElCarton, Set<Integer> numerosEntregados) {
-		if (numerosEntregados.containsAll(numerosMarcadosEnElCarton)) {
+		if (numerosMarcadosEnElCarton.size()==25) {
 			this.setSeHizobingo(true);
+			this.numerosMarcadosEnElCarton.clear();
+			this.numerosEntregados.clear();
 		} else {
 			this.setSeHizobingo(false);
 		}
@@ -131,7 +133,5 @@ public class ServicioBingoImpl implements ServicioBingo {
 	public void setNumerosMarcadosEnElCarton(Set<Integer> numerosMarcadosEnElCarton) {
 		this.numerosMarcadosEnElCarton = numerosMarcadosEnElCarton;
 	}
-
-
 
 }

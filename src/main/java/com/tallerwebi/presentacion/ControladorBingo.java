@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -46,7 +47,8 @@ public class ControladorBingo {
 	@RequestMapping(path = "/comenzarJuegoBingo", method = RequestMethod.POST)
 	public ModelAndView comenzarJuegoBingo(@ModelAttribute("nuevoJugador") Jugador nuevoJugador, HttpSession session) {
 		CartonBingo carton = servicioBingo.generarCarton();
-		Integer numeroCantadoAleatorio = servicioBingo.entregarNumeroAleatorio();
+		Set<Integer> numerosEntregados = new HashSet<Integer>();
+		Integer numeroCantadoAleatorio = servicioBingo.entregarNumeroAleatorio(numerosEntregados);
 		// GUARDANDO DATOS DE SESION!!!!!!!!!
 		session.setAttribute("carton", carton);
 		session.setAttribute("numeroAleatorioCantado", numeroCantadoAleatorio);
@@ -68,8 +70,11 @@ public class ControladorBingo {
 		// recupero los datos de la sesion
 		CartonBingo carton = (CartonBingo) session.getAttribute("carton");
 		Integer numeroCantadoAleatorio = (Integer) session.getAttribute("numeroAleatorioCantado");
-		Set<Integer> numerosEntregados = ((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados();
+		Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregados");
+		numerosEntregados.add(numeroCantadoAleatorio);
 		session.setAttribute("numerosEntregados", numerosEntregados);
+		HashSet<Integer> numerosMarcadosDeLaSesion = new HashSet<Integer>();
+		session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
 		// creo un map para la respuesta
 		Map<String, Object> respuesta = new HashMap<>();
 		respuesta.put("carton", carton);
@@ -86,27 +91,23 @@ public class ControladorBingo {
 	// recargar toda la página.
 
 	@RequestMapping(path = "/marcarCasillero/{numeroCasillero}", method = RequestMethod.POST)
-	public ModelAndView marcarCasillero(@PathVariable Integer numeroCasillero, HttpSession session) {
+	public void marcarCasillero(@PathVariable Integer numeroCasillero, HttpSession session) {
 		CartonBingo carton = (CartonBingo) session.getAttribute("carton");
 		Integer numeroCantado = (Integer) session.getAttribute("numeroAleatorioCantado");
-
-		if (carton != null && numeroCantado != null) {
-			// Marcar el casillero en el cartón si el número coincide con el número cantado
-			if (numeroCasillero.equals(numeroCantado)) {
-				servicioBingo.marcarCasillero(numeroCasillero, carton);
-				Set<Integer> numerosMarcadosEnElCarton = ((ServicioBingoImpl) this.servicioBingo).getNumerosMarcadosEnElCarton();
-				session.setAttribute("numerosMarcadosEnElCarton", numerosMarcadosEnElCarton);
-			}
-		}
-		return new ModelAndView("redirect:/bingo");
+		servicioBingo.marcarCasillero(numeroCasillero, carton);
+		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+		numerosMarcadosDeLaSesion.add(numeroCasillero);
+		session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
 	}
 
 	@RequestMapping(path = "/obtenerNuevoNumero", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Integer> obtenerNuevoNumero(HttpSession session) {
-		Integer nuevoNumero = this.servicioBingo.entregarNumeroAleatorio();
+		HashSet<Integer> numerosEntregados = (HashSet<Integer>) session.getAttribute("numerosEntregados");
+		Integer nuevoNumero = this.servicioBingo.entregarNumeroAleatorio(numerosEntregados);
+		numerosEntregados.add(nuevoNumero);
 		session.setAttribute("numeroAleatorioCantado", nuevoNumero);
-		session.setAttribute("numerosEntregados", nuevoNumero);
+		session.setAttribute("numerosEntregados", numerosEntregados);
 		Map<String, Integer> respuesta = new HashMap<>();
 		respuesta.put("nuevoNumero", nuevoNumero);
 		return respuesta;
@@ -121,15 +122,14 @@ public class ControladorBingo {
 		return respuesta;
 	}
 
-	@RequestMapping(path = "bingo", method = RequestMethod.POST)
-	public Map<String, Object> hacerBingo(HttpSession session){
-	Set<Integer> numerosMarcadosEnElCarton = (Set<Integer>) session.getAttribute("numerosMarcadosEnElCarton");
-	Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregados");
-	Boolean seHizoBingo = this.servicioBingo.bingo(numerosMarcadosEnElCarton, numerosEntregados);
-	Map<String, Object> respuesta = new HashMap<String, Object>();
-	respuesta.put("seHizoBingo", seHizoBingo);
-	return respuesta;
+	@RequestMapping(path = "/bingo", method = RequestMethod.POST)
+	public Map<String, Object> hacerBingo(HttpSession session) {
+		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+		Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregados");
+		Boolean seHizoBingo = this.servicioBingo.bingo(numerosMarcadosDeLaSesion, numerosEntregados);
+		Map<String, Object> respuesta = new HashMap<String, Object>();
+		respuesta.put("seHizoBingo", seHizoBingo);
+		return respuesta;
 	}
-	
 
 }
