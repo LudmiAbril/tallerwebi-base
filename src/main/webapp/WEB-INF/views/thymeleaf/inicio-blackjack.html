@@ -7,16 +7,13 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
 
-    <title>Taller Web I</title>
-
-    <!-- Boostrap core css -->
-    <link
-      rel="stylesheet"
-      th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"
-    />
+    <title>Blackjack</title>
 
     <!-- custom style -->
     <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/prueba-loguin.css}">
+
+  
   </head>
 
   <body>
@@ -24,27 +21,32 @@
     HEADER Y NAV, AUN EN CONSTRUCCION
 -->
 
-    <main>
-      <h1>Inicio Blackjack</h1>
-      <form
+<main role="main" class="container">
+  <img th:src="@{/imgStatic/tituloPerfil.png}" alt="titulo" class="titulo-img">
+  <div class="text-center">
+    <img th:src="@{/imgStatic/logo.png}" alt="Imagen Redonda">
+</div>
+  <form
         action="#"
         th:action="@{/blackjack}"
         method="POST"
         th:object="${nuevoJugador}"
+        class="text-center"
       >
+      <div class="mb-3">
         <h3 class="form-signin-heading">Nueva Partida</h3>
         <hr class="colorgraph" />
         <br />
 
         <label for="email">Ingresa tu nombre :</label>
         <input th:field="*{nombre}" id="email" class="form-control" required />
-
+      </div>
         <button
           id="btn-registrarme"
-          class="btn btn-lg btn-primary btn-block"
+          class="btn btn-primary"
           type="Submit"
         >
-          Comenzar
+          Ingresar
         </button>
       </form>
     </main>
