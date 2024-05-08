@@ -126,7 +126,6 @@ main {
 
 
 main table {
-<<<<<<< HEAD
     font-size: 2.0rem;
     border-radius: 20px;
     background-color: #B49FCC;
@@ -181,7 +180,6 @@ main .w3-button {
     border: 1px solid #888;
     width: 80%;
     /* Ancho del contenido */
-=======
     font-size: 1.5rem;
     border-radius:20px;
     background-color: #B49FCC;
@@ -211,5 +209,4 @@ td button{
 
 table{
     border-collapse:separate;
->>>>>>> develop-Celeste
 }
