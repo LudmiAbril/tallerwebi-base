@@ -1,5 +1,9 @@
 package com.tallerwebi.presentacion;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,7 @@ import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.Senku;
 import com.tallerwebi.dominio.ServicioSenku;
 import com.tallerwebi.dominio.Tablero;
+import com.tallerwebi.infraestructura.ServicioBingoImpl;
 
 @Controller
 public class ControladorSenku {
@@ -43,12 +48,31 @@ public class ControladorSenku {
         session.setAttribute("tablero", tablero);
         return new ModelAndView("senku");
     }
+	// utiliza para recuperar ese objeto guardado.
+
+	/*@RequestMapping(path = "/obtenerDatosIniciales", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> obtenerDatosIniciales(HttpSession session) {
+		// recupero los datos de la sesion
+		CartonBingo carton = (CartonBingo) session.getAttribute("carton");
+		Integer numeroCantadoAleatorio = (Integer) session.getAttribute("numeroAleatorioCantado");
+		Set<Integer> numerosEntregados = ((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados();
+		session.setAttribute("numerosEntregados", numerosEntregados);
+		// creo un map para la respuesta
+		Map<String, Object> respuesta = new HashMap<>();
+		respuesta.put("carton", carton);
+		respuesta.put("numeroAleatorioCantado", numeroCantadoAleatorio);
+		return respuesta;*/
+	
 
     @RequestMapping(path = "/obtenerTablero", method = RequestMethod.GET)
     @ResponseBody
-    public Tablero obtenerTablero(HttpSession session) {
-        Senku senku = (Senku) session.getAttribute("senku");
-        return senku.getTablero();
+    public Map<String, Object> obtenerTablero(HttpSession session) {
+       // Senku senku = (Senku) session.getAttribute("senku");
+        Tablero tablero=(Tablero) session.getAttribute("tablero");
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("tablero", tablero);
+        return respuesta;
     }
 
 }
