@@ -99,6 +99,4 @@ public class BlackjackTest {
         Boolean plantado = true;
         String ganador = servicio.ganador(cartasJugador, cartasCrupier, "jugador", plantado);
         assertThat(ganador, equalToIgnoringCase("casa"));
-    }
-
-}
+    }}
