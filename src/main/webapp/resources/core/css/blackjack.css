@@ -69,7 +69,7 @@ body {
 .carta {
     box-shadow: 10px 10px 10px -2px rgba(0, 0, 0, 0.27);
     border-radius: 8px;
-    width: 120px;
+    width: 110px;
 
 }
 
@@ -81,8 +81,84 @@ body {
     animation: aparecerDesdeArriba 0.5s ease-out forwards;
 }
 
+.container-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
 .cartas-container {
     display: flex;
     justify-content: center;
     gap: 40px;
+}
+
+.container-principal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+/* Definición de la animación de volteo */
+@keyframes flip {
+    from {
+        transform: rotateY(180deg);
+    }
+
+    to {
+        transform: rotateY(0deg);
+    }
+}
+
+/* Aplicación de la animación al elemento */
+.flip-animation {
+    animation: flip 0.5s ease;
+}
+
+.botones {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+}
+
+button {
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    cursor: pointer;
+    color: white;
+    
+    border-radius: 10px;
+    font-size: small;
+
+
+}
+
+.boton-pedir {
+    background-image: linear-gradient(to bottom, #00a7ff, #0a95eb, #0e84d7, #1073c3, #0f63af);
+    border: solid 1px;
+    padding: 10px;
+    border-color: #00a7ff;
+    box-shadow: 10px 10px 11px -4px rgba(0, 0, 0, 0.19);
+}
+
+.boton-plantarse {
+    background-image: linear-gradient(to bottom, #ff0000, #ec0016, #d80020, #c40527, #af0f2b);
+    border: solid 1px;
+    border-color: #ff0000;
+    padding: 10px;
+    box-shadow: 10px 10px 11px -4px rgba(0, 0, 0, 0.19);
+}
+
+.boton-volver {
+    width: 100px;
+    padding: 5px;
+    background-color: rgb(75, 75, 75);
 }
