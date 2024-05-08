@@ -29,18 +29,21 @@
       <div class="modal-content">
         <h2 id="resultadoPartida"></h2>
         <form th:action="@{/inicio-blackjack}">
-          <button type="submit">Home</button>
+          <button type="submit" class="boton-volver">Home</button>
         </form>
       </div>
     </div>
+    <main class="container-main">
+      <div class="container-principal">
+        <div class="cartas-container" id="cartasCasa"></div>
+        <br />
 
-    <div class="container-principal">
-      <div class="cartas-container" id="cartasCasa"></div>
-      <br />
-
-      <div class="cartas-container" id="cartasJugador"></div>
-    </div>
-    <button id="pedirCarta">Pedir Carta</button>
-    <button id="plantarse">Plantarse</button>
+        <div class="cartas-container" id="cartasJugador"></div>
+      </div>
+      <div class="botones">
+        <button id="pedirCarta" class="boton-pedir">Pedir Carta</button>
+        <button id="plantarse" class="boton-plantarse">Plantarse</button>
+      </div>
+    </main>
   </body>
 </html>

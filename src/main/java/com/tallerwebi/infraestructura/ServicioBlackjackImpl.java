@@ -61,7 +61,7 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
 
     @Override
     public EstadoPartida estadoPartida(List<Carta> cartasJugador, List<Carta> cartasCasa, Boolean plantado) {
-        if (sePaso(cartasJugador) || sePaso(cartasCasa) || hayBlackjack(cartasJugador) || hayBlackjack(cartasCasa)
+        if (sePaso(cartasJugador) || hayBlackjack(cartasJugador)
                 || plantado) {
             return EstadoPartida.FINALIZADA;
         }
@@ -72,25 +72,26 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
     public String ganador(List<Carta> cartasJugador, List<Carta> cartasCasa, String nombreJugador, Boolean plantado) {
         String ganador = "ninguno";
 
-        if (hayBlackjack(cartasJugador) && !hayBlackjack(cartasCasa)) {
+        if (hayBlackjack(cartasJugador)) {
             ganador = nombreJugador;
         }
-        if (hayBlackjack(cartasCasa) && !hayBlackjack(cartasJugador)) {
+        if (sePaso(cartasJugador)) {
             ganador = "casa";
         }
-        if (hayBlackjack(cartasJugador) && hayBlackjack(cartasCasa)) {
-            ganador = "empate";
-        }
-        if (sePaso(cartasJugador) && !sePaso(cartasCasa)) {
-            ganador = "casa";
-        }
-        if (sePaso(cartasCasa) && !sePaso(cartasJugador)) {
-            ganador = nombreJugador;
-        }
-        if (sePaso(cartasJugador) && sePaso(cartasCasa)) {
-            ganador = "empate";
-        }
+
         if (plantado) {
+            if (sePaso(cartasCasa) && !sePaso(cartasJugador)) {
+                ganador = nombreJugador;
+            }
+            if (sePaso(cartasJugador) && sePaso(cartasCasa)) {
+                ganador = "empate";
+            }
+            if (hayBlackjack(cartasCasa) && !hayBlackjack(cartasJugador)) {
+                ganador = "casa";
+            }
+            if (hayBlackjack(cartasJugador) && hayBlackjack(cartasCasa)) {
+                ganador = "empate";
+            }
             if (calcularPuntuacion(cartasJugador) > calcularPuntuacion(cartasCasa)) {
                 ganador = nombreJugador;
             }

@@ -1,35 +1,46 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <title>Inicio</title>
 
     <!-- custom style -->
-    <link rel="stylesheet" th:href="@{/css/home.css}"/>
-    <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}">
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+    <link
+      rel="stylesheet"
+      th:href="@{https://www.w3schools.com/w3css/4/w3.css}"
+    />
     <!-- Enlace a Google Fonts con Thymeleaf -->
-    <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
-    <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
-    <link th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}" rel="stylesheet">
+    <link rel="preconnect" th:href="@{https://fonts.googleapis.com}" />
+    <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin />
+    <link
+      th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}"
+      rel="stylesheet"
+    />
 
     <!-- Enlace animaciones-->
-    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}">
+    <link
+      rel="stylesheet"
+      th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}"
+    />
 
-</head>
+  </head>
 
-<body>
-
-<main>
-
-    <img th:src="@{/imgStatic/catsino.png}"  alt="imagen-bienvenida" class="imagen-home">
-    <div id="btn-entrar" class="animate__animated animate__backInUp">
+  <body>
+    <main>
+      <img
+        th:src="@{/imgStatic/catsino.png}"
+        alt="imagen-bienvenida"
+        class="imagen-home"
+      />
+      <div id="btn-entrar" class="animate__animated animate__backInUp">
         <a href="acceso-juegos">Entrar</a>
-    </div>
-
-
-</main>
-
-</body>
+      </div>
+    </main>
+  </body>
 </html>
