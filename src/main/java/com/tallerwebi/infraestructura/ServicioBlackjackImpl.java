@@ -80,8 +80,12 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
         }
 
         if (plantado) {
+
             if (sePaso(cartasCasa) && !sePaso(cartasJugador)) {
                 ganador = nombreJugador;
+            }
+            if (sePaso(cartasJugador) && !sePaso(cartasCasa)) {
+                ganador = "casa";
             }
             if (sePaso(cartasJugador) && sePaso(cartasCasa)) {
                 ganador = "empate";
@@ -92,10 +96,10 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
             if (hayBlackjack(cartasJugador) && hayBlackjack(cartasCasa)) {
                 ganador = "empate";
             }
-            if (calcularPuntuacion(cartasJugador) > calcularPuntuacion(cartasCasa)) {
+            if (calcularPuntuacion(cartasJugador) > calcularPuntuacion(cartasCasa) && !sePaso(cartasJugador)) {
                 ganador = nombreJugador;
             }
-            if (calcularPuntuacion(cartasJugador) < calcularPuntuacion(cartasCasa)) {
+            if (calcularPuntuacion(cartasJugador) < calcularPuntuacion(cartasCasa) && !sePaso(cartasCasa)) {
                 ganador = "casa";
             }
             if (calcularPuntuacion(cartasJugador) == calcularPuntuacion(cartasCasa)) {
