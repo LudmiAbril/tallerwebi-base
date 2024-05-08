@@ -8,7 +8,6 @@
 
 .titulo{
     text-align: center;
-    background-color: blue;
     margin: 5%;
     border-radius: 5px;
     background: rgb(118,216,241);
@@ -21,26 +20,35 @@
     color: #fff !important;
     margin: 2%;
     margin-left: 5%;
-    border-radius: 5px;
+    border-radius: 0.313em;
     background-color: #000 !important;
     margin-right: 5%;
 }
 
-/* Estilo para los casilleros ocupados (fichas) */
-.ficha {
-    width: 50px;
-    height: 50px;
-    background-color: #FF0000; /* Color de ficha */
-    margin: 5px;
-    display: inline-block;
+.tablero-fondo{
+    background: rgb(118,216,241);
+    background: radial-gradient(circle, rgba(118,216,241,0.768032212885154) 6%, rgba(250,139,187,0.6727941176470589) 52%, rgba(195,148,233,0.726015406162465) 100%);
 }
 
-/* Estilo para los casilleros vacíos */
+.ficha {
+    width: 3.125em;
+    height: 3.125em;
+    background-color: #7300ff; 
+    border-radius: 0.313em;
+    margin: 0.313em;
+    float: left; 
+}
+
 .vacio {
-    width: 50px;
-    height: 50px;
-    background-color: #FFFFFF; /* Color de casillero vacío */
-    margin: 5px;
-    display: inline-block;
+    width: 3.125em;
+    height:3.125em;
+    background-color: #FFFFFF; 
+    margin: 0.313em;
+    float: left; 
+}
+
+
+.fila {
+    clear: both; 
 }
 

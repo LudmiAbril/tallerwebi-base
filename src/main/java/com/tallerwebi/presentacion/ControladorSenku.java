@@ -48,21 +48,7 @@ public class ControladorSenku {
         session.setAttribute("tablero", tablero);
         return new ModelAndView("senku");
     }
-	// utiliza para recuperar ese objeto guardado.
 
-	/*@RequestMapping(path = "/obtenerDatosIniciales", method = RequestMethod.GET)
-	@ResponseBody
-	public Map<String, Object> obtenerDatosIniciales(HttpSession session) {
-		// recupero los datos de la sesion
-		CartonBingo carton = (CartonBingo) session.getAttribute("carton");
-		Integer numeroCantadoAleatorio = (Integer) session.getAttribute("numeroAleatorioCantado");
-		Set<Integer> numerosEntregados = ((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados();
-		session.setAttribute("numerosEntregados", numerosEntregados);
-		// creo un map para la respuesta
-		Map<String, Object> respuesta = new HashMap<>();
-		respuesta.put("carton", carton);
-		respuesta.put("numeroAleatorioCantado", numeroCantadoAleatorio);
-		return respuesta;*/
 	
 
     @RequestMapping(path = "/obtenerTablero", method = RequestMethod.GET)
