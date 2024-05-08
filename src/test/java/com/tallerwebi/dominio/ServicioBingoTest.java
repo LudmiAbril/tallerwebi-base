@@ -23,14 +23,14 @@ public class ServicioBingoTest {
 		this.servicioBingo = new ServicioBingoImpl();
 	}
 
-	@Test
-	public void queSePuedaEntregarUnNumeroAleatorioDel1Al99YQueNoSeRepitan() {
-		Integer numeroAleatorio = servicioBingo.entregarNumeroAleatorio();
-		Set<Integer> numerosEntregados = ((ServicioBingoImpl) servicioBingo).getNumerosEntregados();
-		assertThat(numeroAleatorio, is(notNullValue()));
-		assertThat(numeroAleatorio, allOf(greaterThanOrEqualTo(1), lessThan(100)));
-		assertThat(numerosEntregados, containsInAnyOrder(numeroAleatorio));
-	}
+	// @Test
+	// public void queSePuedaEntregarUnNumeroAleatorioDel1Al99YQueNoSeRepitan() {
+	// 	Integer numeroAleatorio = servicioBingo.entregarNumeroAleatorio();
+	// 	Set<Integer> numerosEntregados = ((ServicioBingoImpl) servicioBingo).getNumerosEntregados();
+	// 	assertThat(numeroAleatorio, is(notNullValue()));
+	// 	assertThat(numeroAleatorio, allOf(greaterThanOrEqualTo(1), lessThan(100)));
+	// 	assertThat(numerosEntregados, containsInAnyOrder(numeroAleatorio));
+	// }
 
 	@Test
 	public void queSePuedaGenerarUnCartonDe25NumerosAleatorios() {

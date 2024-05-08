@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 public class CartonBingo {
+    
     private Integer[][] numeros;
 
     public CartonBingo(Integer[][] numeros) {
