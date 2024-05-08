@@ -48,7 +48,11 @@ public class ControladorBingo {
 		session.setAttribute("carton", carton);
 		session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
 		session.setAttribute("numeroAleatorioCantado", numeroCantadoAleatorio);
-		return new ModelAndView("bingo");
+		ModelMap model = new ModelMap();
+		String nombreJugador = nuevoJugador.getNombre();
+		model.put("nombreJugador", nombreJugador);
+		session.setAttribute("nombreJugador", nombreJugador);
+		return new ModelAndView("bingo", model);
 	}
 
 	@RequestMapping(path = "/obtenerDatosIniciales", method = RequestMethod.GET)

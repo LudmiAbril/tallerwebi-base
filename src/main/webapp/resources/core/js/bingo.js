@@ -15,6 +15,7 @@ $(document).ready(function () {
             tablaHtml += "</tr>";
         }
         $(".carton").html(tablaHtml);
+        $(".numeroCantadoContenedor").addClass("w3-animate-top");
     });
     intervaloRefresco = setInterval(refrescarNumero, 7000);
 });
@@ -46,22 +47,16 @@ function casilleroEsIgualANumeroEntregado(numeroCasillero, callback) {
     });
 }
 
-// function marcarCasillero(numeroCasillero) {
-//     $.get("obtenerNumeroActual", function (data) {
-//         numeroActual = data.numeroActual;
-//         if (numeroCasillero == numeroActual || casilleroEsIgualANumeroEntregado(numeroCasillero)) {
-//             $.post("marcarCasillero/" + numeroCasillero, function () {
-//                 $("#botonCasillero" + numeroCasillero).css("background-color", "green");
-//             });
-//         }
-//     });
-// }
-
 function refrescarNumero() {
-    $.get("obtenerNuevoNumero", function (data) {
-        $("#numeroCantado").text(data.nuevoNumero);
-    });
+    $(".numeroCantadoContenedor").removeClass("w3-animate-top");
+    setTimeout(function(){
+        $.get("obtenerNuevoNumero", function (data) {
+            $("#numeroCantado").text(data.nuevoNumero);
+            $(".numeroCantadoContenedor").addClass("w3-animate-top");
+        });
+    }, 100); // Espera 100 milisegundos antes de solicitar el nuevo número
 }
+
 
 function bingo() {
     $.post("bingo", function (data) {
