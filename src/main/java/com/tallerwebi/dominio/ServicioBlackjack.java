@@ -10,8 +10,14 @@ public interface ServicioBlackjack {
 
     Integer calcularPuntuacion(List<Carta> cartasJugador);
 
-    boolean Perdio(List<Carta> cartasJugador);
+    boolean sePaso(List<Carta> cartasJugador);
 
     Carta pedirCarta();
+
+    EstadoPartida estadoPartida(List<Carta> cartasJugador, List<Carta> cartasCasa, Boolean plantado);
+
+    String ganador(List<Carta> cartasJugador, List<Carta> cartasCasa, String nombreJugador, Boolean plantado);
+
+    List<Carta> plantarse(List<Carta> cartasCasa);
 
 }

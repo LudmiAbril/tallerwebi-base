@@ -1,95 +1,107 @@
-// package com.tallerwebi.dominio;
+package com.tallerwebi.dominio;
 
-// import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.*;
+
+import com.tallerwebi.dominio.RepositorioPalabra;
+import com.tallerwebi.infraestructura.RepositorioPalabraImpl;
+import org.hibernate.SessionFactory;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+
+import com.tallerwebi.infraestructura.ServicioAhorcadoImpel;
+
+class AhorcadoTest {
+    private Palabra palabraMock;
+    private ServicioAhorcado servicio;
+    private RepositorioPalabra repositorioPalabra;
+    private SessionFactory sessionFactory;
+
+    @BeforeEach
+    public void init() {
+        palabraMock = mock(Palabra.class);
+        sessionFactory = (SessionFactory) sessionFactory.getCurrentSession();
+        repositorioPalabra = new RepositorioPalabraImpl(sessionFactory);
+        this.servicio = new ServicioAhorcadoImpel(this.repositorioPalabra);
+    }
 
 
-// import org.junit.jupiter.api.Test;
+    @Test
+    public void queSePuedaIngresarUnaLetraCorrecta() {
 
-// import com.tallerwebi.infraestructura.ServicioAhorcadoImpel;
+        Integer partesAhorcado=6;
+        String palabraParaAdivinar= "perro";
+        Character letra= 'e';
 
-// /*DUDAAS
-//  * Las palabras deberia ser un array o lista
-//  * 
-//  * */
+        partesAhorcado=servicio.intentarLetra(letra, palabraParaAdivinar, partesAhorcado);
 
-// /*IMPLEMENTAR
-//  * palabras BDD .  
-//  * pongo una falsa palaba hasta que hagamos un repositorio
-//  * que las palabras adivinadas se guarden en un array y salgan del array de palabras para adivinar del el usuario
-//  * Se pueden elegir en vez de palabras frases.
-//  * 
-//  * */
+       assertThat(partesAhorcado, equalTo(6) );
+    }
 
-// class AhorcadoTest {
-	
-// 	 @Test
-// 	    public void queSePuedaIngresarUnaLetraCorrecta() {
-// 	        String[] palabras = {"java"};
-// 	        ServicioAhorcado juego = new ServicioAhorcadoImpel(palabras);
+    @Test
+    public void queSeReduscanLosIntentosSiIngresamosUnaLetraIncorrecta() {
+        Integer partesAhorcado=6;
+        String palabraParaAdivinar= servicio.entregarPalabra();
+        Character letra= 'x';
 
-// 	        assertTrue(juego.intentarLetra('a'));
-// 	        assertEquals("_a_a", juego.getPalabraAdivinada().toString());
-// 	    }
+        partesAhorcado=servicio.intentarLetra(letra, palabraParaAdivinar, partesAhorcado);
 
-// 	 @Test
-// 	    public void queSeReduscanLosIntentosSiIngresamosUnaLetraIncorrecta() {
-// 	        String[] palabras = {"java"};
-// 	        ServicioAhorcado juego = new ServicioAhorcadoImpel(palabras);
+        assertThat(partesAhorcado, equalTo(5) );
+    }
 
-// 	        assertFalse(juego.intentarLetra('x'));
-// 	        assertEquals(1, juego.getPartesAhorcado()); 
-// 	    }
+    @Test
+    public void queSeAcerteLaPalabra() {
 
-// 	 @Test
-// 	    public void queSeAcerteLaPalabra() {
-// 	        String[] palabras = {"java"};
-// 	        ServicioAhorcado juego = new ServicioAhorcadoImpel(palabras);
 
-// 	        assertTrue(juego.intentarLetra('a'));
-// 	        assertTrue(juego.intentarLetra('j'));
-// 	        assertTrue(juego.intentarLetra('v'));
-// 	        assertEquals("java", juego.getPalabraAdivinada().toString());
-// 	    }
-// 	@Test
-//     public void quesePonganEnLaPosicionCorrectaLasLetrasAlAdivinar() {
-// 		 String[] palabras = {"java"};
-// 	        ServicioAhorcado juego = new ServicioAhorcadoImpel(palabras);
 
-// 	        assertTrue(juego.intentarLetra('a'));
-// 	        assertEquals("_a_a", juego.getPalabraAdivinada().toString());
-// 	        assertTrue(juego.intentarLetra('j'));
-// 	        assertEquals("ja_a", juego.getPalabraAdivinada().toString());
 
-// 	        assertTrue(juego.intentarLetra('v'));
-// 	        assertEquals("java", juego.getPalabraAdivinada().toString());
-//     }
-// 	@Test
-//     public void perderJuegoAhorcado() {
-//         String[] palabras = {"java"};
-//         ServicioAhorcado juego = new ServicioAhorcadoImpel(palabras);
+    }
+/*
+    @Test
+    public void quesePonganEnLaPosicionCorrectaLasLetrasAlAdivinar() {
+        String[] palabras = {"java"};
+        ServicioAhorcado juego = new ServicioAhorcadoImpel(palabras);
 
-//         assertFalse(juego.intentarLetra('x'));
-//         assertFalse(juego.intentarLetra('y'));
-//         assertTrue(juego.intentarLetra('j'));
-//         assertFalse(juego.intentarLetra('w'));
-//         assertFalse(juego.intentarLetra('q'));
-//         assertFalse(juego.intentarLetra('h'));
-//         assertFalse(juego.intentarLetra('p'));
+        assertTrue(juego.intentarLetra('a'));
+        assertEquals("_a_a", juego.getPalabraAdivinada().toString());
+        assertTrue(juego.intentarLetra('j'));
+        assertEquals("ja_a", juego.getPalabraAdivinada().toString());
 
-//         assertTrue(juego.isPerdido());
-//     }
-// //	
-// //	 @Test
-// //	    public void queSeActualiceLaPalabrasDisponiblesDespuesDeAdivinar() {
-// //	        String[] palabras = {"java"};
-// //	        ServicioAhorcado juego = new ServicioAhorcadoImpel(palabras);
-// //
-// //	        assertTrue(juego.intentarLetra('a'));
-// //	        assertTrue(juego.intentarLetra('j'));
-// //	        assertTrue(juego.intentarLetra('v'));
-// //	        
-// //	        assertFalse(Arrays.asList(juego.getPalabras()).contains("java"));
-// //	        assertTrue(Arrays.asList(juego.getPalabrasAdivinadas()).contains("java"));
-// //
-// //	    }
-// }
+        assertTrue(juego.intentarLetra('v'));
+        assertEquals("java", juego.getPalabraAdivinada().toString());
+    }
+
+    @Test
+    public void perderJuegoAhorcado() {
+        String[] palabras = {"java"};
+        ServicioAhorcado juego = new ServicioAhorcadoImpel(palabras);
+
+        assertFalse(juego.intentarLetra('x'));
+        assertFalse(juego.intentarLetra('y'));
+        assertTrue(juego.intentarLetra('j'));
+        assertFalse(juego.intentarLetra('w'));
+        assertFalse(juego.intentarLetra('q'));
+        assertFalse(juego.intentarLetra('h'));
+        assertFalse(juego.intentarLetra('p'));
+
+        assertTrue(juego.isPerdido());
+    }
+    @Test
+ public void queSeActualiceLaPalabrasDisponiblesDespuesDeAdivinar() {
+       String[] palabras = {"java"};
+       ServicioAhorcado juego = new ServicioAhorcadoImpel(palabras);
+
+       assertTrue(juego.intentarLetra('a'));
+       assertTrue(juego.intentarLetra('j'));
+       assertTrue(juego.intentarLetra('v'));
+
+       assertFalse(Arrays.asList(juego.getPalabras()).contains("java"));
+       assertTrue(Arrays.asList(juego.getPalabrasAdivinadas()).contains("java"));
+
+    }*/
+}

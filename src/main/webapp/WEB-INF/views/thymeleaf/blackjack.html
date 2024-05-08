@@ -8,84 +8,42 @@
     />
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>Taller Web I</title>
-
+    <title>BlackJack</title>
     <!-- Boostrap core css -->
     <link
       rel="stylesheet"
       th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"
     />
-
     <!-- custom style -->
     <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/blackjack.css}" />
+    li
+    <!-- javascript-->
+    <script th:src="@{/js/blackjack.js}"></script>
   </head>
 
   <body>
-    <!--
-HEADER Y NAV, AUN EN CONSTRUCCION
--->
+    <!-- El modal que se abre al finalizar la partida -->
+    <div id="modalFinPartida" class="modal">
+      <!-- Contenido del modal -->
+      <div class="modal-content">
+        <h2 id="resultadoPartida"></h2>
+        <form th:action="@{/inicio-blackjack}">
+          <button type="submit" class="boton-volver">Home</button>
+        </form>
+      </div>
+    </div>
+    <main class="container-main">
+      <div class="container-principal">
+        <div class="cartas-container" id="cartasCasa"></div>
+        <br />
 
-    <main>
-      <h1>Bienvenido, <span th:text="${nombreJugador}"></span>!</h1>
-      <h2>Tus cartas son:</h2>
-      <ul id="listaCartas">
-        <!-- Las cartas se agregarán aquí dinámicamente -->
-      </ul>
-      <span id="estado"></span>
-      <button onclick="plantarse()">Plantarse</button>
-
-      <button onclick="pedirCarta()">Pedir carta</button>
+        <div class="cartas-container" id="cartasJugador"></div>
+      </div>
+      <div class="botones">
+        <button id="pedirCarta" class="boton-pedir">Pedir Carta</button>
+        <button id="plantarse" class="boton-plantarse">Plantarse</button>
+      </div>
     </main>
-
-    <!-- Boostrap core js -->
-    <script
-      type="text/javascript"
-      th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"
-    ></script>
-    <script>
-      let perdio = false;
-      function mostrarEstado(perdio) {
-        let estadoElemento = document.getElementById("estado");
-        estadoElemento.textContent = perdio ? "Perdió" : "";
-      }
-      function pedirCarta() {
-        // no poner slash en la url
-        fetch("pedir-carta")
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Hubo un problema con la solicitud.");
-            }
-            return response.json();
-          })
-          .then((carta) => {
-            console.log(carta.valor);
-            var listaCartas = document.getElementById("listaCartas");
-            var nuevaCarta = document.createElement("li");
-            nuevaCarta.textContent =
-              carta.valor + " de " + carta.palo.toLowerCase();
-            listaCartas.appendChild(nuevaCarta);
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      }
-
-      function plantarse() {
-        fetch("plantarse")
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Hubo un problema con la solicitud.");
-            }
-            return response.json();
-          })
-          .then((perdio) => {
-            console.log(perdio);
-            mostrarEstado(perdio);
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      }
-    </script>
   </body>
 </html>

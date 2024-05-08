@@ -1,0 +1,55 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-image: url(../imgStatic/fondoLoguin.png);
+    background-size: cover;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+/* Estilos para el formulario */
+.form-control {
+    border: 1px solid gray;
+    width: 300px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    height: 40px;
+}
+
+
+.btn-primary {
+    border: none;
+    background-color: #2D2A49;
+    border-radius: 10px;
+    height: 40px;
+    width: 300px;
+    color: white;
+    text-transform: uppercase;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary:hover {
+    background-color: #CF4CEA;
+    box-shadow: 0 4px 8px rgba(255, 105, 180, 0.3);
+
+}
+.text-center img{
+    border: 4px solid #2D2A49;
+    width: 200px;
+    border-radius: 50%;
+    margin: 15px;
+}
+
+
+.titulo-img{
+    width: 300px;
+}

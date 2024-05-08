@@ -1,5 +1,7 @@
 package com.tallerwebi.infraestructura;
 
+import org.springframework.stereotype.Service;
+
 import com.tallerwebi.dominio.Casillero;
 import com.tallerwebi.dominio.ServicioSenku;
 import com.tallerwebi.dominio.Tablero;
@@ -7,6 +9,7 @@ import com.tallerwebi.dominio.excepcion.CasilleroInexistenteException;
 import com.tallerwebi.dominio.excepcion.CasilleroVacio;
 import com.tallerwebi.dominio.excepcion.MovimientoInvalidoException;
 
+@Service("servicioSenku")
 public class ServicioSenkuImpl implements ServicioSenku {
 
 
@@ -34,7 +37,33 @@ public class ServicioSenkuImpl implements ServicioSenku {
         ejecutarMovimiento(tablero, seleccionado, destino);
     }
 
-    private void validarMovimiento(Tablero tablero, Casillero seleccionado, Casillero destino) throws MovimientoInvalidoException {
+    @Override
+    public Boolean validarQueHayaMovimientosValidosDisponibles(Tablero tablero) throws MovimientoInvalidoException {
+        Casillero[][] casillerosEnRevision = tablero.getCasilleros();
+        int cantidadFilasYColumnas = tablero.getCantidadFilasYColumnas();
+
+
+        for (int i = 0; i < cantidadFilasYColumnas; i++) {
+            for (int j = 0; j < cantidadFilasYColumnas; j++) {
+                Casillero casilleroActual = casillerosEnRevision[i][j];
+
+                //REVISO SI ES POSIBLE REALIZAR MOVIMIENTO DESDE ESTE CASILLERO
+                if (hayMovimientosValidosDisponiblesDesdeCasillero(tablero, casilleroActual)) {
+                    return true; //SI HAY AL MENOS 1 MOV, YA ES TRUE
+                }
+            }
+        }
+
+
+        return false;
+    }
+
+    @Override
+    public Boolean hayMovimientosValidosDisponiblesDesdeCasillero(Tablero tablero, Casillero casilleroActual) throws MovimientoInvalidoException {
+        return tablero.hayMovimientoDisponibleEnTablero(casilleroActual);
+    }
+
+    public void validarMovimiento(Tablero tablero, Casillero seleccionado, Casillero destino) throws MovimientoInvalidoException {
         tablero.validarMovimiento(seleccionado, destino);
     }
 
@@ -42,4 +71,7 @@ public class ServicioSenkuImpl implements ServicioSenku {
         tablero.realizarMovimiento(seleccionado, destino);
     }
 
+    public Boolean seGano(Tablero tablero) {
+       return tablero.ganar();
+    }
 }

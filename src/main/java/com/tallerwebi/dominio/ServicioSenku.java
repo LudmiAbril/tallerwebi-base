@@ -10,5 +10,7 @@ public interface ServicioSenku {
 
     Casillero getCasillero(Tablero tablero, Integer x, Integer y) throws CasilleroInexistenteException;
     void realizarMovimiento(Tablero tablero, Casillero seleccionado, Casillero destino) throws MovimientoInvalidoException;
-
+    Boolean validarQueHayaMovimientosValidosDisponibles(Tablero tablero) throws MovimientoInvalidoException;
+    Boolean hayMovimientosValidosDisponiblesDesdeCasillero(Tablero tablero, Casillero casilleroActual) throws MovimientoInvalidoException;
+    public Boolean seGano(Tablero tablero);
 }

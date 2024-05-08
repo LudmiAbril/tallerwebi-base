@@ -1,0 +1,164 @@
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+body {
+    background-image: url("https://www.shutterstock.com/image-vector/poker-table-background-green-color-600nw-1645872547.jpg");
+    background-size: cover;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0)
+    }
+
+    to {
+        transform: scale(1)
+    }
+}
+
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    animation-name: zoomIn;
+    animation-duration: 0.6s;
+}
+
+.result {
+    font-weight: bold;
+}
+
+@keyframes aparecerDesdeArriba {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes aparecerDesdeAbajo {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.carta {
+    box-shadow: 10px 10px 10px -2px rgba(0, 0, 0, 0.27);
+    border-radius: 8px;
+    width: 110px;
+
+}
+
+.nueva-carta-jugador {
+    animation: aparecerDesdeAbajo 0.5s ease-out forwards;
+}
+
+.nueva-carta-casa {
+    animation: aparecerDesdeArriba 0.5s ease-out forwards;
+}
+
+.container-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.cartas-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.container-principal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+/* Definición de la animación de volteo */
+@keyframes flip {
+    from {
+        transform: rotateY(180deg);
+    }
+
+    to {
+        transform: rotateY(0deg);
+    }
+}
+
+/* Aplicación de la animación al elemento */
+.flip-animation {
+    animation: flip 0.5s ease;
+}
+
+.botones {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+}
+
+button {
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    cursor: pointer;
+    color: white;
+    
+    border-radius: 10px;
+    font-size: small;
+
+
+}
+
+.boton-pedir {
+    background-image: linear-gradient(to bottom, #00a7ff, #0a95eb, #0e84d7, #1073c3, #0f63af);
+    border: solid 1px;
+    padding: 10px;
+    border-color: #00a7ff;
+    box-shadow: 10px 10px 11px -4px rgba(0, 0, 0, 0.19);
+}
+
+.boton-plantarse {
+    background-image: linear-gradient(to bottom, #ff0000, #ec0016, #d80020, #c40527, #af0f2b);
+    border: solid 1px;
+    border-color: #ff0000;
+    padding: 10px;
+    box-shadow: 10px 10px 11px -4px rgba(0, 0, 0, 0.19);
+}
+
+.boton-volver {
+    width: 100px;
+    padding: 5px;
+    background-color: rgb(75, 75, 75);
+}

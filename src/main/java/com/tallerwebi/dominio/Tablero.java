@@ -7,10 +7,12 @@ public class Tablero {
     private Casillero[][] casilleros;
     private Integer cantidadFilasYColumnas;
     private Integer contadorMovimientos;
+    private Boolean ganado;
 
 
 
     public Tablero(Integer cantidadFilasYColumnas) {
+        this.ganado=false;
 
         this.cantidadFilasYColumnas = cantidadFilasYColumnas;
         this.contadorMovimientos = 0;
@@ -68,9 +70,18 @@ public class Tablero {
     }
 
 
-    public void validarMovimiento(Casillero seleccionado, Casillero destino) throws MovimientoInvalidoException {
+    public Boolean validarMovimiento(Casillero seleccionado, Casillero destino) throws MovimientoInvalidoException {
         validarDistancia(seleccionado, destino);
+        validarDestinoLiberado(destino);
         validarCasilleroIntermedio(seleccionado, destino);
+
+        return true;
+    }
+
+    private void validarDestinoLiberado(Casillero destino) throws MovimientoInvalidoException {
+        if (destino.getOcupado()) {
+            throw new MovimientoInvalidoException("El movimiento no es válido. Debe moverse a un espacio libre.");
+        }
     }
 
     private void validarDistancia(Casillero seleccionado, Casillero destino) throws MovimientoInvalidoException {
@@ -81,13 +92,17 @@ public class Tablero {
         }
     }
 
-    private void validarCasilleroIntermedio(Casillero seleccionado, Casillero destino) throws MovimientoInvalidoException {
+    private Boolean validarCasilleroIntermedio(Casillero seleccionado, Casillero destino) throws MovimientoInvalidoException {
         int xIntermedio = (seleccionado.getCoordenadaX() + destino.getCoordenadaX()) / 2;
         int yIntermedio = (seleccionado.getCoordenadaY() + destino.getCoordenadaY()) / 2;
+
         if (!casilleros[xIntermedio][yIntermedio].getOcupado()) {
             throw new MovimientoInvalidoException("El movimiento no es válido. Debe capturar una ficha en posición intermedia.");
         }
+
+        return true;
     }
+
 
     public void realizarMovimiento(Casillero seleccionado, Casillero destino) {
         //AL LUGAR A DONDE SE MUEVE LA FICHA,LO OCUPO
@@ -111,6 +126,61 @@ public class Tablero {
 
     public void setContadorMovimientos(Integer contadorMovimientos) {
         this.contadorMovimientos = contadorMovimientos;
+    }
+
+    public Boolean hayMovimientoDisponibleEnTablero(Casillero casilleroActual) throws MovimientoInvalidoException {
+        int x = casilleroActual.getCoordenadaX();
+        int y = casilleroActual.getCoordenadaY();
+
+        //VERIFICO HACIA ARRIBA,ABAJO,IZQ,DER
+        if (esMovimientoValido(x, y, x - 2, y)) {
+            return true;
+        }if (esMovimientoValido(x, y, x + 2, y)) {
+            return true;
+        }if (esMovimientoValido(x, y, x, y - 2)) {
+            return true;
+        }if (esMovimientoValido(x, y, x, y + 2)) {
+            return true;
+        }
+        return false;
+    }
+
+
+
+    public boolean esMovimientoValido(int xInicial, int yInicial, int xDestino, int yDestino) throws MovimientoInvalidoException {
+        //REVISO QUE SEA UNA JUGADA DENTRO DE LOS LIMITES DEL TABLERO
+        if (xDestino >= 0 && xDestino < cantidadFilasYColumnas &&
+                yDestino >= 0 && yDestino < cantidadFilasYColumnas) {
+            //UBICO LOS CASILLEROS QUE SON PARTE DE LA JUGADA/MOV
+            Casillero seleccionado = casilleros[xInicial][yInicial];
+            Casillero destino = casilleros[xDestino][yDestino];
+
+            //REVISO QUE EL MOV ES VALIDO
+            return validarMovimiento(seleccionado, destino);
+        }
+        return false;
+
+}
+
+    public Boolean ganar() {
+        for (int i = 0; i < cantidadFilasYColumnas; i++) {
+            for (int j = 0; j < cantidadFilasYColumnas; j++) {
+                if (casilleros[i][j].getOcupado()) {
+                    return this.ganado=false;
+                }else{
+                    this.ganado = true;
+            } }
+        }
+
+        return this.ganado;
+    }
+
+    public Boolean getGanado() {
+        return ganado;
+    }
+
+    public void setGanado(Boolean ganado) {
+        this.ganado = ganado;
     }
 }
 
