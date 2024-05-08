@@ -105,7 +105,7 @@
   <br><br><br><br><br>
   <main role="main" class="container">
 
-    <div class="numeroCantado">
+    <div class="numeroCantadoContenedor">
       <p id="numeroCantado"></p>
     </div>
 
@@ -127,10 +127,10 @@
   <script th:src="@{/js/bingo.js}"></script>
   <!-- Modal de Bingo -->
 
-  <div id="modalBingo" class="modal">
+  <div id="modalBingo" class="modal w3-animate-top">
     <div class="modal-content">
-      <h3>Hiciste bingo</h3>
-      <p>¡Felicidades!</p>
+      <h3>Hiciste BINGO</h3>
+      <p>¡Felicidades, <span th:text="${nombreJugador}"></span>!</p>
     </div>
   </div>
 
