@@ -48,7 +48,6 @@ public class ControladorBingo {
 		session.setAttribute("carton", carton);
 		session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
 		session.setAttribute("numeroAleatorioCantado", numeroCantadoAleatorio);
-
 		return new ModelAndView("bingo");
 	}
 
