@@ -1,3 +1,4 @@
+var intervaloRefresco;
 $(document).ready(function () {
     // una vez que se realiza la peticion /obtenerDatosIniciales se ejecuta la funcion siguiente, que es la respuesta a esa peticion. Es decir, cuando se pide /obtenerDatosIniciales se responde de esa forma
     $.get("obtenerDatosIniciales", function (data) {
@@ -15,34 +16,69 @@ $(document).ready(function () {
         }
         $(".carton").html(tablaHtml);
     });
-    setInterval(() => {
-        refrescarNumero();
-    }, 4500);
+    intervaloRefresco = setInterval(refrescarNumero, 7000);
 });
 
 function marcarCasillero(numeroCasillero) {
-    $.get("obtenerNumeroActual", function(data) {
+    $.get("obtenerNumeroActual", function (data) {
         numeroActual = data.numeroActual;
-        if (numeroCasillero == numeroActual) {
-            $.post("marcarCasillero/" + numeroCasillero);
-            $("#botonCasillero" + numeroCasillero).css("background-color", "green");
-        }
+        casilleroEsIgualANumeroEntregado(numeroCasillero, function (result) {
+            if (numeroCasillero == numeroActual || result) {
+                $.post("marcarCasillero/" + numeroCasillero, function () {
+                    $("#botonCasillero" + numeroCasillero).css("background-color", "green");
+                })
+            }
+        })
     });
 }
 
-function refrescarNumero(){
-    $.get("obtenerNuevoNumero", function(data) {
+function casilleroEsIgualANumeroEntregado(numeroCasillero, callback) {
+    $.get("obtenerLosNumerosEntregados", function (data) {
+        numerosEntregados = new Set(data.numerosEntregadosDeLaSesion);
+        if (numerosEntregados.has(numeroCasillero)) {
+            console.log("el casillero es igual a un numero entregado antes")
+            callback(true);
+        } else {
+            console.log("El casillero no es igual a un numero entregado antes")
+            callback(false);
+        }
+
+    });
+}
+
+// function marcarCasillero(numeroCasillero) {
+//     $.get("obtenerNumeroActual", function (data) {
+//         numeroActual = data.numeroActual;
+//         if (numeroCasillero == numeroActual || casilleroEsIgualANumeroEntregado(numeroCasillero)) {
+//             $.post("marcarCasillero/" + numeroCasillero, function () {
+//                 $("#botonCasillero" + numeroCasillero).css("background-color", "green");
+//             });
+//         }
+//     });
+// }
+
+function refrescarNumero() {
+    $.get("obtenerNuevoNumero", function (data) {
         $("#numeroCantado").text(data.nuevoNumero);
     });
 }
 
-function bingo(){
-    $.post("bingo", function(data){
-        if(data.seHizoBingo){
-            console.log("hiciste bingo");
+function bingo() {
+    $.post("bingo", function (data) {
+        if (data.seHizoBingo) {
+            abrirModal();
+            clearInterval(intervaloRefresco); // Detener la actualización del número
+            intervaloRefresco = null;
+            // console.log("hiciste bingo");
         } else {
-            console.log("no hiciste bingo");
+            // console.log("no hiciste bingo");
         }
+        // console.log(data.seHizoBingo);
     }
     );
 }
+
+function abrirModal() {
+    document.getElementById("modalBingo").style.display = "block";
+}
+

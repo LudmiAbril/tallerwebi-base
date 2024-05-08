@@ -9,10 +9,11 @@
 
   <!-- Boostrap core css -->
   <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}" />
-  <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}"/>
+  <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}" />
 
   <!-- custom style -->
   <link rel="stylesheet" th:href="@{/css/main.css}" />
+  <link rel="stylesheet" th:href="@{/css/bingo.css}">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
@@ -26,12 +27,12 @@
     <h1>Bingo</h1>
     <p id="numeroCantado"></p>
 
-      <table>
-        <tbody class="carton">
-        </tbody>
-      </table>
+    <table>
+      <tbody class="carton">
+      </tbody>
+    </table>
 
-      <button type="submit" class="w3-button w3-xlarge w3-wide w3-purple" onclick="bingo()">BINGO</button>
+    <button type="submit" class="w3-button w3-xlarge w3-wide w3-purple" onclick="bingo()">BINGO</button>
 
   </main>
   <!-- /.container -->
@@ -39,6 +40,15 @@
   <!-- Boostrap core js -->
   <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
   <script th:src="@{/js/bingo.js}"></script>
+  <!-- Modal de Bingo -->
+
+  <div id="modalBingo" class="modal">
+    <div class="modal-content">
+      <h3>Hiciste bingo</h3>
+      <p>¡Felicidades!</p>
+    </div>
+  </div>
+
 </body>
 
 </html>

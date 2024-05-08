@@ -32,13 +32,20 @@ public class ServicioBingoImpl implements ServicioBingo {
 
 	@Override
 	public Integer entregarNumeroAleatorio(Set<Integer> numerosEntregados) {
-		Integer numeroAleatorio;
+		Integer numeroAleatorio = 0;
+		if (numerosEntregados == null) {
+			numeroAleatorio = rand.nextInt(99) + 1;
+			numerosEntregados.add(numeroAleatorio);
+			return numeroAleatorio;
+
+		}
+
 		do {
 			numeroAleatorio = rand.nextInt(99) + 1;
-		} while (!numerosEntregados.contains(numeroAleatorio));
-
+		} while (numerosEntregados.contains(numeroAleatorio));
 		numerosEntregados.add(numeroAleatorio);
 		return numeroAleatorio;
+
 	}
 
 	@Override
@@ -46,8 +53,9 @@ public class ServicioBingoImpl implements ServicioBingo {
 		Integer[][] numeros = carton.getNumeros();
 		for (int i = 0; i < numeros.length; i++) {
 			for (int j = 0; j < numeros[i].length; j++) {
-				if (numeros[i][j].equals(numeroCasillero) && !numerosMarcadosEnElCarton.contains(numeroCasillero)
-						&& !this.getSeHizobingo()) {
+				if ((numeros[i][j].equals(numeroCasillero)) &&
+						(!numerosMarcadosEnElCarton.contains(numeroCasillero)) &&
+						(!this.getSeHizobingo() || numerosEntregados.contains(numeroCasillero))) {
 					numerosMarcadosEnElCarton.add(numeroCasillero);
 					return;
 				}
@@ -56,15 +64,17 @@ public class ServicioBingoImpl implements ServicioBingo {
 	}
 
 	@Override
-	public Boolean bingo(Set<Integer> numerosMarcadosEnElCarton, Set<Integer> numerosEntregados) {
-		if (numerosMarcadosEnElCarton.size()==25) {
+	public Boolean bingo(Set<Integer> numerosMarcadosEnElCarton) {
+		if (numerosMarcadosEnElCarton.size() == 25) {
 			this.setSeHizobingo(true);
 			this.numerosMarcadosEnElCarton.clear();
 			this.numerosEntregados.clear();
+			return this.getSeHizobingo();
 		} else {
 			this.setSeHizobingo(false);
+			return this.getSeHizobingo();
 		}
-		return this.getSeHizobingo();
+
 	}
 
 	@Override
