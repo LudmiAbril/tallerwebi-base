@@ -88,4 +88,17 @@ public class BlackjackTest {
         assertThat(ganador, equalToIgnoringCase("jugador"));
     }
 
+    @Test
+    public void queGaneElCrupierAlPlantarseElJugadorConUnPuntajeMenor() {
+        cartasJugador.add(new Carta("3", 3, Palo.DIAMANTE));
+        cartasJugador.add(new Carta("6", 6, Palo.DIAMANTE));
+        cartasCrupier.add(new Carta("8", 8, Palo.PICA));
+        cartasCrupier.add(new Carta("2", 2, Palo.PICA));
+        cartasCrupier.add(new Carta("5", 5, Palo.PICA));
+        cartasCrupier.add(new Carta("2", 3, Palo.PICA));
+        Boolean plantado = true;
+        String ganador = servicio.ganador(cartasJugador, cartasCrupier, "jugador", plantado);
+        assertThat(ganador, equalToIgnoringCase("casa"));
+    }
+
 }

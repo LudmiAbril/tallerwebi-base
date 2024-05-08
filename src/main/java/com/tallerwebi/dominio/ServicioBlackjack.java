@@ -20,4 +20,6 @@ public interface ServicioBlackjack {
 
     List<Carta> plantarse(List<Carta> cartasCasa);
 
+    void reponerBaraja();
+
 }
