@@ -1,54 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
+    font-family: "Ubuntu", sans-serif;
+   
 }
 
+body{
+    background: rgb(118, 216, 241);
+    background: radial-gradient(circle, rgba(118, 216, 241, 0.768032212885154) 6%, rgba(250, 139, 187, 0.6727941176470589) 52%, rgba(195, 148, 233, 0.726015406162465) 100%);
+
+}
 
 .titulo{
     text-align: center;
     margin: 5%;
     border-radius: 5px;
-    background: rgb(118,216,241);
-    background: radial-gradient(circle, rgba(118,216,241,0.768032212885154) 6%, rgba(250,139,187,0.6727941176470589) 52%, rgba(195,148,233,0.726015406162465) 100%);
 }
-.w3-bar-item {
-    background-color:pink;
-}
-.w3-black, .w3-hover-black:hover {
-    color: #fff !important;
+
+
+
+.barra{
+    color:white;
+    background-color: #e91e63a3 !important;
     margin: 2%;
     margin-left: 5%;
     border-radius: 0.313em;
-    background-color: #000 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-right: 5%;
 }
 
 .tablero-fondo{
-    background: rgb(118,216,241);
-    background: radial-gradient(circle, rgba(118,216,241,0.768032212885154) 6%, rgba(250,139,187,0.6727941176470589) 52%, rgba(195,148,233,0.726015406162465) 100%);
+    display: flex;
+    align-items: center;
+    margin: 5%;
+    justify-content: center;
 }
 
 .ficha {
     width: 3.125em;
     height: 3.125em;
     background-color: #7300ff; 
-    border-radius: 0.313em;
+    border-radius: 1.563em;
     margin: 0.313em;
     float: left; 
 }
-
+.ficha:hover {
+    background-color: #d400ffd4; 
+    transition: background-color 0.2s; 
+}
+.ficha-seleccionada{
+    background-color: #d400ff; 
+}
 .vacio {
     width: 3.125em;
     height:3.125em;
-    background-color: #FFFFFF; 
+    background-color: #ffffffa9; 
+    border-radius: 1.25em;
     margin: 0.313em;
     float: left; 
 }
+.vacio:hover{
+    background-color: #d9aee2cb; 
+    transition:  background-color  0.2s;
+}
 
-
+.vacio-seleccionado{
+    background-color: #d9aee2; 
+}
 .fila {
     clear: both; 
 }
-
