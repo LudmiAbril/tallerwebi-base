@@ -13,9 +13,9 @@ public class Baraja {
     }
 
     public Baraja() {
-        cartas = new ArrayList<>();
+        this.cartas = new ArrayList<>();
         inicializarBaraja();
-        size= cartas.size();
+        this.size = cartas.size();
     }
 
     private void inicializarBaraja() {
@@ -55,8 +55,9 @@ public class Baraja {
     }
 
     public Carta sacarCarta() {
-
-        return cartas.remove(0);
+        Carta carta = cartas.remove(0);
+        size = cartas.size();
+        return carta;
     }
 
 }
