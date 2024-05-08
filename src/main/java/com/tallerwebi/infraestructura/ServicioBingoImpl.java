@@ -20,13 +20,13 @@ public class ServicioBingoImpl implements ServicioBingo {
 	private Random rand;
 	private Boolean seHizobingo;
 	private CartonBingo cartonNuevo;
-	private List<Integer> numerosMarcadosEnElCarton;
+	private Set<Integer> numerosMarcadosEnElCarton;
 	private Set<Integer> numerosEntregados;
 
 	public ServicioBingoImpl() {
 		this.rand = new Random();
 		this.seHizobingo = false;
-		this.numerosMarcadosEnElCarton = new ArrayList<Integer>();
+		this.numerosMarcadosEnElCarton = new HashSet<Integer>();
 		this.numerosEntregados = new HashSet<Integer>();
 	}
 
@@ -36,7 +36,7 @@ public class ServicioBingoImpl implements ServicioBingo {
 		do {
 			numeroAleatorio = rand.nextInt(99) + 1;
 		} while (numerosEntregados.contains(numeroAleatorio));
-		
+
 		numerosEntregados.add(numeroAleatorio);
 		return numeroAleatorio;
 	}
@@ -46,9 +46,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 		Integer[][] numeros = carton.getNumeros();
 		for (int i = 0; i < numeros.length; i++) {
 			for (int j = 0; j < numeros[i].length; j++) {
-				if (numeros[i][j].equals(numeroCasillero)) {
-					// Marcar el casillero asignándole un valor especial
-					numerosMarcadosEnElCarton.add(numeros[i][j]);
+				if (numeros[i][j].equals(numeroCasillero) && !numerosMarcadosEnElCarton.contains(numeroCasillero) && !this.getSeHizobingo()) {
+					numerosMarcadosEnElCarton.add(numeroCasillero);
 					return;
 				}
 			}
@@ -57,9 +56,13 @@ public class ServicioBingoImpl implements ServicioBingo {
 	
 
 	@Override
-	public Boolean bingo() {
-		return this.seHizobingo = true;
-		// se va a hacer bingo cuando
+	public Boolean bingo(Set<Integer> numerosMarcadosEnElCarton, Set<Integer> numerosEntregados) {
+		if (numerosEntregados.containsAll(numerosMarcadosEnElCarton)) {
+			this.setSeHizobingo(true);
+		} else {
+			this.setSeHizobingo(false);
+		}
+		return this.getSeHizobingo();
 	}
 
 	@Override
@@ -113,6 +116,22 @@ public class ServicioBingoImpl implements ServicioBingo {
 		this.numerosEntregados = numerosEntregados;
 	}
 
-	
+	public Boolean getSeHizobingo() {
+		return seHizobingo;
+	}
+
+	public void setSeHizobingo(Boolean seHizobingo) {
+		this.seHizobingo = seHizobingo;
+	}
+
+	public Set<Integer> getNumerosMarcadosEnElCarton() {
+		return numerosMarcadosEnElCarton;
+	}
+
+	public void setNumerosMarcadosEnElCarton(Set<Integer> numerosMarcadosEnElCarton) {
+		this.numerosMarcadosEnElCarton = numerosMarcadosEnElCarton;
+	}
+
+
 
 }

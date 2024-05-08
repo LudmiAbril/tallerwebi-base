@@ -62,8 +62,4 @@ public class ControladorBingoTest {
     // is(instanceOf(Integer.class)));
     // }
 
-    @Test
-    public void queElCasilleroQueSeMarcaSeaIgualAlNumeroCantado() {
-        // este va a ser con mockito
-    }
 }

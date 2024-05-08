@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,8 +91,8 @@ public class ControladorBlackjack {
     @ResponseBody
     public Map<String, Object> pedirCarta(HttpSession session) {
         // recupero los masos de la sesion
-        List<Carta> cartasJugadorActualizadas = (List<Carta>) session.getAttribute("cartasJugador");
-        List<Carta> cartasCasaActualizadas = (List<Carta>) session.getAttribute("cartasCasa");
+        List<Carta> cartasJugadorActualizadas = new ArrayList<>((List<Carta>) session.getAttribute("cartasJugador"));
+        List<Carta> cartasCasaActualizadas = new ArrayList<>((List<Carta>) session.getAttribute("cartasCasa"));
         // pida la carta nueva
         Carta cartaNueva = servicioBlackjack.pedirCarta();
         // Agregar la carta al mazo del jugador
@@ -125,8 +126,8 @@ public class ControladorBlackjack {
     @Transactional
     public Map<String, Object> plantarse(HttpSession session) {
         // recupero los datos de la sesion
-        List<Carta> cartasJugador = (List<Carta>) session.getAttribute("cartasJugador");
-        List<Carta> cartasCasaActualizadas = (List<Carta>) session.getAttribute("cartasCasa");
+        List<Carta> cartasJugador = new ArrayList<>((List<Carta>) session.getAttribute("cartasJugador"));
+        List<Carta> cartasCasaActualizadas = new ArrayList<>((List<Carta>) session.getAttribute("cartasCasa"));
         String jugador = (String) session.getAttribute("jugadorActual");
         List<Carta> cartasNuevasCrupier = servicioBlackjack.plantarse(cartasCasaActualizadas);
 

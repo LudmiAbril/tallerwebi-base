@@ -30,8 +30,14 @@ function marcarCasillero(numeroCasillero) {
 }
 
 function refrescarNumero(){
-    console.log("hola!!");
     $.get("obtenerNuevoNumero", function(data) {
         $("#numeroCantado").text(data.nuevoNumero);
     });
+}
+
+function bingo(){
+    $.post("bingo", function(data){
+        
+    }
+    );
 }
