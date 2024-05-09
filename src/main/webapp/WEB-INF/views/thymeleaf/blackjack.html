@@ -20,9 +20,17 @@
     li
     <!-- javascript-->
     <script th:src="@{/js/blackjack.js}"></script>
+    <link rel="stylesheet"
+          th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
+
   </head>
 
   <body>
+  <nav class="nav-bar">
+    <a href="acceso-juegos">
+      <span class="material-symbols-outlined icono">arrow_back</span>
+    </a>
+  </nav>
     <!-- El modal que se abre al finalizar la partida -->
     <div id="modalFinPartida" class="modal">
       <!-- Contenido del modal -->
@@ -33,7 +41,7 @@
         </form>
       </div>
     </div>
-    <br> <br> <br>
+
     <main class="container-main">
       <div class="container-principal">
         <div class="cartas-container" id="cartasCasa"></div>

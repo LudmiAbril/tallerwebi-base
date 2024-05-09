@@ -2,39 +2,35 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow-x: hidden;
+    overflow-y: hidden;
     background-position: center;
     max-height: 100vh;
-
 }
 
 nav {
-    position: fixed; /* Fijar la posición del nav */
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.51);
     z-index: 1000;
-    bs-navbar-padding-y: 0.1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height:10px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:15px;
 }
-.navbar .titulo-bingo {
-    font-family: "Rammetto One";
-    font-size: 4em;
-    font-weight: 400;
-    font-style: normal;
-    color: white;
-    -webkit-text-stroke:4px #895BB0;
-}
+
 
 .icono{
     color:white;
-    font-size:25px;
+    font-size:20px;
     z-index: 1000;
-    margin-left:15px
+    margin-left:15px;
+    padding-top:10px;
 }
+
 .icono:hover{
-    text-shadow: 0 0 10px #e140ec, 0 0 20px #e140ec, 0 0 30px #e140ec, 0 0 40px #e140ec, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE;
+    text-shadow: 0 0 30px #e140ec, 0 0 50px #e140ec, 0 0 70px #e140ec, 0 0 60px #e140ec, 0 0 80px #F9EADE, 0 0 80px #F9EADE, 0 0 90px #F9EADE;
     color:white;
 }
 
@@ -275,6 +271,7 @@ table{
     background-size: cover;
     animation: animateBg 50s linear infinite;
     z-index: -10;
+    overflow:hidden;
 }
 @keyframes animateBg{
     0%,100%{
