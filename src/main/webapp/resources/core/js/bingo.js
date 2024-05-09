@@ -27,9 +27,12 @@ function marcarCasillero(numeroCasillero) {
             if (numeroCasillero == numeroActual || result) {
                 $.post("marcarCasillero/" + numeroCasillero, function () {
                     $("#botonCasillero" + numeroCasillero).css("background-color", "green");
-                })
+                    obtenerLosNumerosEntregados(); // Llamar aquí a la función
+                });
+            } else {
+                // obtenerLosNumerosEntregados()
             }
-        })
+        });
     });
 }
 
@@ -53,27 +56,24 @@ function refrescarNumero() {
         $.get("obtenerNuevoNumero", function (data) {
             $("#numeroCantado").text(data.nuevoNumero);
             $(".numeroCantadoContenedor").addClass("w3-animate-top");
+            obtenerLosNumerosEntregados();
         });
     }, 100); // Espera 100 milisegundos antes de solicitar el nuevo número
-    obtenerLosNumerosEntregados();
 }
 
 function obtenerLosNumerosEntregados() {
     $.get("obtenerLosNumerosEntregados", function (data) {
-        // Obtener los últimos 5 números entregados
         var ultimosNumeros = data.numerosEntregadosDeLaSesion.slice(-5);
-
-        // Limpiar el contenido anterior
+        ultimosNumeros.reverse(); // Invertir el orden de los números entregados
         var numerosEntregadosDiv = $(".numerosEntregados");
         numerosEntregadosDiv.empty();
-
-        // Iterar sobre los últimos 5 números y mostrarlos
         ultimosNumeros.forEach(function (numero) {
             var parrafo = $("<p>").text(numero).attr("id", "numeroCantado").addClass("numerosEntregadosContenedor");
             numerosEntregadosDiv.append(parrafo);
         });
     });
 }
+
 
 /*function obtenerLosNumerosEntregados() {
     $.get("obtenerLosNumerosEntregados", function (data) {
@@ -105,5 +105,13 @@ function abrirModal() {
 }
 
 function sacudirBotonDeBingo() {
-
+    var botonBingo = document.getElementById("botonBingo");
+    botonBingo.classList.add('animate__animated', 'animate__shakeX');
+    botonBingo.style.backgroundColor = 'gray';
+    setTimeout(function () {
+        botonBingo.classList.remove('animate__animated', 'animate__shakeX');
+        botonBingo.style.backgroundColor = '#8a2be2';
+    }, 1000);
 }
+
+

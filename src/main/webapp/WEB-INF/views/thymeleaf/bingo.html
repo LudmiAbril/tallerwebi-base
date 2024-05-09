@@ -22,6 +22,7 @@
   <link rel="stylesheet"
     th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0}" />
   <link rel="stylesheet" th:href="@{/css/main.css}" />
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}">
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -31,8 +32,7 @@
   <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <h1 class="mx-auto titulo-bingo">BINGO</h1>
     <!-- Botón que abre el modal -->
-    <button
-      class="btn btn-link" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" id="icono-modal">
+    <button class="btn btn-link" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" id="icono-modal">
       <span class="material-symbols-outlined">help</span>
     </button>
   </nav>
@@ -120,7 +120,8 @@
 
     <div class="w3-container">
       <button type="submit" class="w3-button w3-xlarge w3-wide w3-green w3-cell">LINEA</button>
-      <button type="submit" class="w3-button w3-xlarge w3-wide w3-purple w3-cel" onclick="bingo()">BINGO</button>
+      <button id="botonBingo" type="submit" class="w3-button w3-xlarge w3-wide w3-purple w3-cel"
+        onclick="bingo()">BINGO</button>
     </div>
 
   </main>
