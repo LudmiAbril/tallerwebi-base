@@ -28,7 +28,6 @@ function marcarCasillero(numeroCasillero) {
                 $.post("marcarCasillero/" + numeroCasillero, function () {
                     $("#botonCasillero" + numeroCasillero).css("background-color", "green");
                 })
-            obtenerLosNumerosEntregados();
             }
         })
     });
@@ -55,8 +54,8 @@ function refrescarNumero() {
             $("#numeroCantado").text(data.nuevoNumero);
             $(".numeroCantadoContenedor").addClass("w3-animate-top");
         });
-        obtenerLosNumerosEntregados();
     }, 100); // Espera 100 milisegundos antes de solicitar el nuevo número
+    obtenerLosNumerosEntregados();
 }
 
 function obtenerLosNumerosEntregados() {
@@ -65,7 +64,7 @@ function obtenerLosNumerosEntregados() {
         numerosEntregadosDiv = $(".numerosEntregados");
         numerosEntregadosDiv.empty();
         data.numerosEntregadosDeLaSesion.forEach(function (numero) {
-            parrafo = $("<p>").text(numero).attr("id", "numeroCantado").addClass("numerosEntregadosContenedor");
+            parrafo = $("<p>").text(numero).attr("id", "numeroEntregado").addClass("numerosEntregadosContenedor");
             numerosEntregadosDiv.append(parrafo);
         })
     })
