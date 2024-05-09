@@ -26,7 +26,7 @@ function marcarCasillero(numeroCasillero) {
         casilleroEsIgualANumeroEntregado(numeroCasillero, function (result) {
             if (numeroCasillero == numeroActual || result) {
                 $.post("marcarCasillero/" + numeroCasillero, function () {
-                    $("#botonCasillero" + numeroCasillero).css("background-color", "green");
+                    $("#botonCasillero" + numeroCasillero).css("background-color", "purple");
                 })
             }
         })
@@ -69,7 +69,7 @@ function obtenerLosNumerosEntregados() {
 
         // Iterar sobre los últimos 5 números y mostrarlos
         ultimosNumeros.forEach(function (numero) {
-            var parrafo = $("<p>").text(numero).attr("id", "numeroCantado").addClass("numerosEntregadosContenedor");
+            var parrafo = $("<p>").text(numero).attr("id", "numeroCantadoColeccion").addClass("numerosEntregadosContenedor");
             numerosEntregadosDiv.append(parrafo);
         });
     });
