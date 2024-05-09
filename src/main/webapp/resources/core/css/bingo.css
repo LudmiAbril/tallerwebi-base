@@ -389,3 +389,10 @@ table{
     animation-delay: 2.75s;
     animation-duration: 2.75s;
 }
+
+
+.boton-volver {
+    width: 100px;
+    padding: 5px;
+    background-color: rgb(75, 75, 75);
+}
