@@ -33,7 +33,7 @@
     </div>
     <form th:action="@{/comenzarJuegoBingo}" method="post" th:object="${nuevoJugador}" class="text-center">
         <div class="mb-3">
-            <input th:field="*{nombre}" type="text" class="form-control" placeholder="Ingrese su nombre">
+            <input th:field="*{nombre}" type="text" class="form-control" placeholder="Ingrese su nombre" required>
         </div>
         <button type="submit" class="btn btn-primary">Ingresar</button>
     </form>
