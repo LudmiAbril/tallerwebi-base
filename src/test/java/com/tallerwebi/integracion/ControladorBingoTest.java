@@ -45,21 +45,4 @@ public class ControladorBingoTest {
         assertThat(MODELO_ACTUAL, is(instanceOf(Jugador.class)));
 
     }
-
-    // @Test
-    // public void queAlSolicitarLaVistaBingoSeEntregueLaVistaBingo() {
-    // ModelAndView mav =
-    // this.controladorBingo.comenzarJuegoBingo(this.nuevoJugador, HttpSession);
-    // assertThat(mav.getViewName(), equalToIgnoringCase("bingo"));
-    // }
-
-    // @Test
-    // public void
-    // queAlSolicitarLaVistaBingoSeEntreguenLosModelosCorrespondientes(){
-    // ModelAndView mav = this.controladorBingo.comenzarJuegoBingo();
-    // assertThat(mav.getModel().get("carton"), is(instanceOf(CartonBingo.class)));
-    // assertThat(mav.getModel().get("numeroCantado"),
-    // is(instanceOf(Integer.class)));
-    // }
-
 }

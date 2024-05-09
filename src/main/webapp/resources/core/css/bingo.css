@@ -13,10 +13,19 @@ body {
     margin-top: 24px;
 }
 
-.numeroCantado {
+.numeroCantadoContenedor {
     margin-bottom: 8px;
     width: 100px;
     height: 100px;
+    background-image: url("../imgStatic/numero.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.numerosEntregadosContenedor{
+    margin-bottom: 8px;
+    width: 50px;
+    height: 50px;
     background-image: url("../imgStatic/numero.png");
     background-size: cover;
     background-position: center;
@@ -167,7 +176,7 @@ main .w3-button {
     /* Altura total */
     overflow: auto;
     /* Permitir desplazamiento cuando el contenido es demasiado grande */
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.5);
     /* Fondo semi-transparente */
 }
 
@@ -175,31 +184,38 @@ main .w3-button {
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto;
-    /* Margen superior e inferior y centrar horizontalmente */
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
+
     /* Ancho del contenido */
     font-size: 1.5rem;
     border-radius:20px;
     background-color: #B49FCC;
     margin-bottom:10px;
     padding: 20px 30px 20px;
+
+    max-width: 400px;
+    text-align: center;
+    animation-name: zoomIn;
+    animation-duration: 0.6s;
+
 }
 
 main .w3-button {
-    padding:12px;
+    padding: 12px;
     font-size: 1.0rem;
-    border-radius:15px;
+    border-radius: 15px;
 
 
 }
 
-main .w3-button .w3-green{
-background-color: #28a745;
+main .w3-button .w3-green {
+    background-color: #28a745;
 }
+
 /* Estilos para td */
-td button{
+td button {
     font-family: 'Rammetto One';
     height: 2em;
     border-radius: 10px;
@@ -207,6 +223,16 @@ td button{
     border: 1px solid #ccc;
 }
 
+
 table{
     border-collapse:separate;
+}
+
+.numerosEntregados{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
 }

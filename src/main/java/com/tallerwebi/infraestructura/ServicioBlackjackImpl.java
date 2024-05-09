@@ -23,8 +23,14 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
     @Override
     public List<Carta> entregarCartasPrincipales() {
         List<Carta> cartasEntregadas = new ArrayList<>();
-        cartasEntregadas.add(baraja.sacarCarta());
-        cartasEntregadas.add(baraja.sacarCarta());
+        if (baraja.getSize() >= 2) { // Verifica si hay al menos dos cartas disponibles
+            cartasEntregadas.add(baraja.sacarCarta());
+            cartasEntregadas.add(baraja.sacarCarta());
+        } else {
+            reponerBaraja();
+            cartasEntregadas.add(baraja.sacarCarta());
+            cartasEntregadas.add(baraja.sacarCarta());
+        }
         return cartasEntregadas;
     }
 
@@ -55,6 +61,9 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
 
     @Override
     public Carta pedirCarta() {
+        if (baraja.getSize() == 0) {
+            reponerBaraja();
+        }
         this.baraja.barajar();
         return this.baraja.sacarCarta();
     }
@@ -80,8 +89,12 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
         }
 
         if (plantado) {
+
             if (sePaso(cartasCasa) && !sePaso(cartasJugador)) {
                 ganador = nombreJugador;
+            }
+            if (sePaso(cartasJugador) && !sePaso(cartasCasa)) {
+                ganador = "casa";
             }
             if (sePaso(cartasJugador) && sePaso(cartasCasa)) {
                 ganador = "empate";
@@ -92,10 +105,10 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
             if (hayBlackjack(cartasJugador) && hayBlackjack(cartasCasa)) {
                 ganador = "empate";
             }
-            if (calcularPuntuacion(cartasJugador) > calcularPuntuacion(cartasCasa)) {
+            if (calcularPuntuacion(cartasJugador) > calcularPuntuacion(cartasCasa) && !sePaso(cartasJugador)) {
                 ganador = nombreJugador;
             }
-            if (calcularPuntuacion(cartasJugador) < calcularPuntuacion(cartasCasa)) {
+            if (calcularPuntuacion(cartasJugador) < calcularPuntuacion(cartasCasa) && !sePaso(cartasCasa)) {
                 ganador = "casa";
             }
             if (calcularPuntuacion(cartasJugador) == calcularPuntuacion(cartasCasa)) {
@@ -119,6 +132,12 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
             manoFinalCrupier.add(nuevaCarta);
         }
         return manoFinalCrupier;
+    }
+
+    @Override
+    public void reponerBaraja() {
+        this.baraja = new Baraja();
+
     }
 
 }
