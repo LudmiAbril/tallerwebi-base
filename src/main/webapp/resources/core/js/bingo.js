@@ -1,14 +1,17 @@
 var intervaloRefresco;
+//se utilizará para almacenar el intervalo de actualización del número cantado.
 $(document).ready(function () {
     // una vez que se realiza la peticion /obtenerDatosIniciales se ejecuta la funcion siguiente, que es la respuesta a esa peticion. Es decir, cuando se pide /obtenerDatosIniciales se responde de esa forma
     $.get("obtenerDatosIniciales", function (data) {
         // en el elemento HTML con la id numeroCantado guarda el numeroAleatorioCantado que llega por data
+        //Establece el número cantado en el elemento HTML con el id numeroCantado, utilizando el número aleatorio devueltpor el servidor.
         $("#numeroCantado").text(data.numeroAleatorioCantado);
-        // Generar la tabla con la matriz
+        //para construir la estructura de la tabla del cartón.
         var tablaHtml = "";
         for (var i = 0; i < data.carton.numeros.length; i++) {
             tablaHtml += "<tr>";
             for (var j = 0; j < data.carton.numeros[i].length; j++) {
+                //Obtiene el número de casillero en la posición (i, j) del cartón.
                 var numeroCasillero = data.carton.numeros[i][j];
                 tablaHtml += "<td><button id='botonCasillero" + numeroCasillero + "' onclick='marcarCasillero(" + numeroCasillero + ")'>" + numeroCasillero + "</button></td>";
             }

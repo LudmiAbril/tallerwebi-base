@@ -64,7 +64,9 @@ public class ControladorBingoTest {
         //THEN
         assertEquals("bingo", modelAndView.getViewName());
         assertNotNull(modelAndView.getModel().get("nombreJugador"));
+        //que la sesion tenga un carton
         assertSame(cartonMock, session.getAttribute("carton"));
+        //que haya un numero que mostrar
         assertNotNull(session.getAttribute("numeroAleatorioCantado"));
     }
 

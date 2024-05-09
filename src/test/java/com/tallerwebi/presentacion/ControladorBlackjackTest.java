@@ -82,7 +82,7 @@ public class ControladorBlackjackTest {
         session.setAttribute("cartasCasa", cartasCasa);
         session.setAttribute("jugadorActual", "jugador");
 
-        // ejecucion
+        // ejecucion- le paso la sesion con todo los datos nuevos.Actualiza la sesion y retorna un mapa
         Map<String, Object> datosSalida = controladorBlackjack.pedirCarta(session);
 
         // validacion
