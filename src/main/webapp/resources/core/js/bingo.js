@@ -26,8 +26,9 @@ function marcarCasillero(numeroCasillero) {
         casilleroEsIgualANumeroEntregado(numeroCasillero, function (result) {
             if (numeroCasillero == numeroActual || result) {
                 $.post("marcarCasillero/" + numeroCasillero, function () {
-                    $("#botonCasillero" + numeroCasillero).css("background-color", "green");
+                    $("#botonCasillero" + numeroCasillero).css("background-color", "purple");
                 })
+            obtenerLosNumerosEntregados();
             }
         })
     });
@@ -49,26 +50,53 @@ function casilleroEsIgualANumeroEntregado(numeroCasillero, callback) {
 
 function refrescarNumero() {
     $(".numeroCantadoContenedor").removeClass("w3-animate-top");
-    setTimeout(function(){
+    setTimeout(function () {
         $.get("obtenerNuevoNumero", function (data) {
             $("#numeroCantado").text(data.nuevoNumero);
             $(".numeroCantadoContenedor").addClass("w3-animate-top");
         });
+        obtenerLosNumerosEntregados();
     }, 100); // Espera 100 milisegundos antes de solicitar el nuevo número
 }
 
+function obtenerLosNumerosEntregados() {
+    $.get("obtenerLosNumerosEntregados", function (data) {
+        // Obtener los últimos 5 números entregados
+        var ultimosNumeros = data.numerosEntregadosDeLaSesion.slice(-5);
 
+        // Limpiar el contenido anterior
+        var numerosEntregadosDiv = $(".numerosEntregados");
+        numerosEntregadosDiv.empty();
+
+        // Iterar sobre los últimos 5 números y mostrarlos
+        ultimosNumeros.forEach(function (numero) {
+            var parrafo = $("<p>").text(numero).attr("id", "numeroCantadoColeccion").addClass("numerosEntregadosContenedor");
+            numerosEntregadosDiv.append(parrafo);
+        });
+    });
+}
+
+/*function obtenerLosNumerosEntregados() {
+    $.get("obtenerLosNumerosEntregados", function (data) {
+        // tengo que ir recorriendo cada item de los numeros y ponerlos en una etiqueta html
+        numerosEntregadosDiv = $(".numerosEntregados");
+        numerosEntregadosDiv.empty();
+        data.numerosEntregadosDeLaSesion.forEach(function (numero) {
+            parrafo = $("<p>").text(numero).attr("id", "numeroCantado").addClass("numerosEntregadosContenedor");
+            numerosEntregadosDiv.append(parrafo);
+        })
+    })
+}*/
 function bingo() {
     $.post("bingo", function (data) {
         if (data.seHizoBingo) {
             abrirModal();
             clearInterval(intervaloRefresco); // Detener la actualización del número
             intervaloRefresco = null;
-            // console.log("hiciste bingo");
         } else {
-            // console.log("no hiciste bingo");
+            sacudirBotonDeBingo();
         }
-        // console.log(data.seHizoBingo);
+
     }
     );
 }
@@ -77,3 +105,6 @@ function abrirModal() {
     document.getElementById("modalBingo").style.display = "block";
 }
 
+function sacudirBotonDeBingo() {
+
+}
