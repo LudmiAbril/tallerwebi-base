@@ -61,6 +61,23 @@ function refrescarNumero() {
 
 function obtenerLosNumerosEntregados() {
     $.get("obtenerLosNumerosEntregados", function (data) {
+        // Obtener los últimos 5 números entregados
+        var ultimosNumeros = data.numerosEntregadosDeLaSesion.slice(-5);
+
+        // Limpiar el contenido anterior
+        var numerosEntregadosDiv = $(".numerosEntregados");
+        numerosEntregadosDiv.empty();
+
+        // Iterar sobre los últimos 5 números y mostrarlos
+        ultimosNumeros.forEach(function (numero) {
+            var parrafo = $("<p>").text(numero).attr("id", "numeroCantado").addClass("numerosEntregadosContenedor");
+            numerosEntregadosDiv.append(parrafo);
+        });
+    });
+}
+
+/*function obtenerLosNumerosEntregados() {
+    $.get("obtenerLosNumerosEntregados", function (data) {
         // tengo que ir recorriendo cada item de los numeros y ponerlos en una etiqueta html
         numerosEntregadosDiv = $(".numerosEntregados");
         numerosEntregadosDiv.empty();
@@ -69,7 +86,7 @@ function obtenerLosNumerosEntregados() {
             numerosEntregadosDiv.append(parrafo);
         })
     })
-}
+}*/
 function bingo() {
     $.post("bingo", function (data) {
         if (data.seHizoBingo) {
