@@ -11,8 +11,20 @@
 }
 
 body {
-    background-image: url("../imgStatic/fondoBlackjack.png");
+    background-image: url("../imgStatic/fondoBlackjack.gif");
     background-size: cover;
+}
+.icono{
+    color:black;
+    font-size:25px;
+    z-index: 1000;
+    margin-left:15px;
+    text-shadow: 0 0 10px #e140ec, 0 0 20px #e140ec, 0 0 30px #e140ec, 0 0 40px #e140ec, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE;
+
+}
+.icono:hover{
+    text-shadow: 0 0 10px #e140ec, 0 0 20px #e140ec, 0 0 30px #e140ec, 0 0 40px #e140ec, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE;
+    color:white;
 }
 
 @keyframes zoomIn {

@@ -13,13 +13,18 @@
     <link rel="stylesheet" th:href="@{/css/main.css}" />
     <link rel="stylesheet" th:href="@{/css/prueba-loguin.css}">
 
-  
+    <link rel="stylesheet"
+          th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
+
+
   </head>
 
   <body>
-    <!--
-    HEADER Y NAV, AUN EN CONSTRUCCION
--->
+  <nav class="nav-bar">
+    <a href="acceso-juegos">
+      <span class="material-symbols-outlined icono">arrow_back</span>
+    </a>
+  </nav>
 
 <main role="main" class="container">
   <img th:src="@{/imgStatic/tituloPerfil.png}" alt="titulo" class="titulo-img">
@@ -34,7 +39,7 @@
         class="text-center"
       >
       <div class="mb-3">
-        <h3 class="form-signin-heading">Nueva Partida</h3>
+<!--        <h3 class="form-signin-heading">Nueva Partida</h3>-->
         <hr class="colorgraph" />
         <br />
 

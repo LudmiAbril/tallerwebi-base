@@ -53,3 +53,17 @@ body{
 .titulo-img{
     width: 300px;
 }
+
+
+.icono{
+    color:white;
+    font-size:20px;
+    z-index: 1000;
+    margin-left:15px;
+    padding-top:10px;
+}
+
+.icono:hover{
+    text-shadow: 0 0 30px #e140ec, 0 0 50px #e140ec, 0 0 70px #e140ec, 0 0 60px #e140ec, 0 0 80px #F9EADE, 0 0 80px #F9EADE, 0 0 90px #F9EADE;
+    color:white;
+}
