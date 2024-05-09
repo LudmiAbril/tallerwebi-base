@@ -4,45 +4,38 @@ body {
     box-sizing: border-box;
     overflow-x: hidden;
     background-position: center;
-    min-height: 100vh;
+    max-height: 100vh;
 
 }
 
 nav {
     position: fixed; /* Fijar la posición del nav */
-    top: 0; /* Colocarlo en la parte superior */
-    left: 0; /* Alinearlo a la izquierda */
-    width: 100%; /* Ocupar todo el ancho */
-    background-color: black; /* Color de fondo opcional */
-    z-index: 1000; /* Ajustar si es necesario */
-    padding: 10px; /* Añadir un poco de espacio interno */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra opcional */
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.51);
+    z-index: 1000;
+    bs-navbar-padding-y: 0.1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.navbar .titulo-bingo {
+    font-family: "Rammetto One";
+    font-size: 4em;
+    font-weight: 400;
+    font-style: normal;
+    color: white;
+    -webkit-text-stroke:4px #895BB0;
 }
 
-#numeroCantado {
-    font-size: xx-large;
-    margin-top: 24px;
+.icono{
+    color:white;
+    font-size:25px;
+    z-index: 1000;
+    margin-left:15px
 }
-#numeroCantadoColeccion {
-    font-size: large;
-    padding-top: 11px;
-}
-.numeroCantadoContenedor {
-    margin-bottom: 8px;
-    width: 100px;
-    height: 100px;
-    background-image: url("../imgStatic/numero.png");
-    background-size: cover;
-    background-position: center;
-}
-
-.numerosEntregadosContenedor{
-    margin-bottom: 8px;
-    width: 50px;
-    height: 50px;
-    background-image: url("../imgStatic/numero.png");
-    background-size: cover;
-    background-position: center;
+.icono:hover{
+    text-shadow: 0 0 10px #e140ec, 0 0 20px #e140ec, 0 0 30px #e140ec, 0 0 40px #e140ec, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE;
+    color:white;
 }
 
 
@@ -57,15 +50,6 @@ nav {
     border: 4px solid #895BB0;
 }
 
-
-.navbar .titulo-bingo {
-    font-family: "Rammetto One";
-    font-size: 4em;
-    font-weight: 400;
-    font-style: normal;
-    color: white;
-    -webkit-text-stroke:4px #895BB0;
-}
 
 .btn-link {
     background-color: transparent;
@@ -156,9 +140,8 @@ main table {
     background-color: #B49FCC;
     margin-bottom: 10px;
 }
-nav{
-    z-index: 1000;
-}
+
+
 
 thead,
 tbody,
@@ -177,6 +160,31 @@ main .w3-button {
     font-size: 1.0rem;
     border-radius: 15px;
 
+}
+#numeroCantado {
+    font-size: xx-large;
+    margin-top: 24px;
+}
+#numeroCantadoColeccion {
+    font-size: large;
+    padding-top: 11px;
+}
+.numeroCantadoContenedor {
+    margin-bottom: 8px;
+    width: 100px;
+    height: 100px;
+    background-image: url("../imgStatic/numero.png");
+    background-size: cover;
+    background-position: center;
+}
+
+.numerosEntregadosContenedor{
+    margin-bottom: 8px;
+    width: 50px;
+    height: 50px;
+    background-image: url("../imgStatic/numero.png");
+    background-size: cover;
+    background-position: center;
 }
 
 /* Estilo para el modal */
@@ -255,18 +263,8 @@ table{
     gap: 15px;
 }
 
-.icono{
-    color:white;
-    font-size:25px;
-    z-index: 1000;
-    margin-left:15px
-}
-.icono:hover{
-    text-shadow: 0 0 10px #e140ec, 0 0 20px #e140ec, 0 0 30px #e140ec, 0 0 40px #e140ec, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE;
-    color:white;
-}
 
-
+/*-----------------ANIMACION FONDO------------------*/
 #fondoBingo {
     position: absolute;
     top: 0;
@@ -287,7 +285,7 @@ table{
     }
 }
 
-span{
+#fondoBingo span{
     position: absolute;
     top:50%;
     left:50%;
@@ -298,7 +296,7 @@ span{
     box-shadow: 0 0 0 4px rgba(255,255,255,0.1),0 0 0 8px rgba(255,255,255,0.1),0 0 20px rgba(255,255,255,0.1);
     animation: animate 3s linear infinite;
 }
-span::before{
+#fondoBingo span::before{
     content:'';
     position: absolute;
     top: 50%;
@@ -324,70 +322,70 @@ span::before{
         opacity: 0;
     }
 }
-span:nth-child(1){
+#fondoBingo span:nth-child(1){
     top: 0;
     right: 0;
     left: initial;
     animation-delay: 0s;
     animation-duration: 1s;
 }
-span:nth-child(2){
+#fondoBingo span:nth-child(2){
     top: 0;
     right: 80px;
     left: initial;
     animation-delay: 0.2s;
     animation-duration: 3s;
 }
-span:nth-child(3){
+#fondoBingo span:nth-child(3){
     top: 0;
     right: 0px;
     left: initial;
     animation-delay: 0.4s;
     animation-duration: 2s;
 }
-span:nth-child(4){
+#fondoBingo span:nth-child(4){
     top: 0;
     right: 180px;
     left: initial;
     animation-delay: 0.6s;
     animation-duration: 1.5s;
 }
-span:nth-child(5){
+#fondoBingo span:nth-child(5){
     top: 0;
     right: 400px;
     left: initial;
     animation-delay: 0.8s;
     animation-duration: 2.5s;
 }
-span:nth-child(6){
+#fondoBingo span:nth-child(6){
     top: 0;
     right: 600px;
     left: initial;
     animation-delay: 1s;
     animation-duration: 3s;
 }
-span:nth-child(7){
+#fondoBingo span:nth-child(7){
     top: 300px;
     right: 0px;
     left: initial;
     animation-delay: 1.2s;
     animation-duration: 1.75s;
 }
-span:nth-child(8){
+#fondoBingo span:nth-child(8){
     top: 0px;
     right: 700px;
     left: initial;
     animation-delay: 1.4s;
     animation-duration: 1.25s;
 }
-span:nth-child(9){
+#fondoBingo span:nth-child(9){
     top: 0px;
     right: 1000px;
     left: initial;
     animation-delay: 0.75s;
     animation-duration: 2.25s;
 }
-span:nth-child(9){
+#fondoBingo span:nth-child(9){
     top: 0px;
     right: 450px;
     left: initial;
