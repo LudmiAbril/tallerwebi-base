@@ -11,7 +11,7 @@
 }
 
 body {
-    background-image: url("https://www.shutterstock.com/image-vector/poker-table-background-green-color-600nw-1645872547.jpg");
+    background-image: url("../imgStatic/fondoBlackjack.png");
     background-size: cover;
 }
 
@@ -100,7 +100,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 50px;
+    gap: 30px;
 }
 
 /* Definición de la animación de volteo */
