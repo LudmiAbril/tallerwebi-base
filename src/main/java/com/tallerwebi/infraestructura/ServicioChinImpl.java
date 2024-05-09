@@ -20,6 +20,7 @@ public class ServicioChinImpl implements ServicioChin {
     @Autowired
     public ServicioChinImpl(){
         this.baraja= new Baraja();
+
     }
 
     @Override

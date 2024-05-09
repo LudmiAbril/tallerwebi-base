@@ -18,7 +18,9 @@ public class ControladorChin {
     private ServicioChin servicioChin;
 
     public ControladorChin(ServicioChin servicioChin){
+
         this.servicioChin = servicioChin;
+
     }
 
     @RequestMapping(path = "/inicio-chin")
