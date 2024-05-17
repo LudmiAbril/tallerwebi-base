@@ -10,19 +10,22 @@ $(document).ready(function() {
             tableroHtml += '</div>';
         }
         $('.tablero').html(tableroHtml);
+
+        // Después de establecer el HTML del tablero, adjunta los manejadores de eventos
+        $('.casillero').click(function() {
+            var x = $(this).data('x');
+            var y = $(this).data('y');
+            $.post("marcarCasillero/" + x + "/" + y, function(data) {
+                if (data.success) {
+                    // Elimina la clase 'ficha-seleccionada' de todos los casilleros
+                    $('.casillero').removeClass('ficha-seleccionada');
+                    // Agrega la clase 'ficha-seleccionada' al casillero marcado
+                    $(this).addClass('ficha-seleccionada');
+                    console.log("Casillero marcado con éxito.");
+                } else {
+                    console.error("Error al marcar el casillero: " + data.message);
+                }
+            }.bind(this)); // Necesario para mantener el contexto de 'this' dentro de la función de retorno
+        });
     });
 });
-
-// $('.tablero').on('click', '.casillero', function() {
-//     var x = $(this).data('x');
-//     var y = $(this).data('y');
-//     $.post("seleccionarCasillero", { x: x, y: y }, function(data) {
-//         if (data.success) {
-            
-//             $(this).addClass('ficha-seleccionada');
-//         } else {
-           
-//             alert(data.message);
-//         }
-//     });
-//});
