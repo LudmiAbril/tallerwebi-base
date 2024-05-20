@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,12 +14,13 @@ public class Partida {
     private String jugador;
     private Integer puntaje;
     private Juego juego;
-    // private String ganador;
+    private LocalDateTime fechaYhora;
 
     public Partida(String jugador, Integer puntaje, Juego juego) {
         this.jugador = jugador;
         this.puntaje = puntaje;
         this.juego = juego;
+        this.fechaYhora = LocalDateTime.now();
     }
 
     public Juego getJuego() {
@@ -42,6 +45,14 @@ public class Partida {
 
     public void setJugador(String jugador) {
         this.jugador = jugador;
+    }
+
+    public void setFechaYhora(LocalDateTime fechaYhora) {
+        this.fechaYhora = fechaYhora;
+    }
+
+    public LocalDateTime getFechaYhora() {
+        return this.fechaYhora;
     }
 
 }
