@@ -6,5 +6,6 @@ public interface ServicioPlataforma {
 
     List<Partida> generarRanking(Juego juego);
     void agregarPartida(Partida partida);
+    List<Partida> obtenerPartidasUsuario(String nombre);
 
 }

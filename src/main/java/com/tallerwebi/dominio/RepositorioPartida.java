@@ -2,7 +2,16 @@ package com.tallerwebi.dominio;
 
 import java.util.List;
 
+import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
+import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
+
 public interface RepositorioPartida {
     void guardar(Partida partida);
-    List<Partida> listarPartidasPorJuego(Juego juego);
+
+    List<Partida> listarPartidasPorJuego(Juego juego) throws PartidasDelJuegoNoEncontradasException;
+
+    List<Partida> obtenerPartidasUsuario(String nombreJugador, Juego juego)
+            throws PartidaDeUsuarioNoEncontradaException;
+
+    List<Partida> obtenerPartidasUsuarioPorFecha(String nombreJugador, Juego juego) throws PartidaDeUsuarioNoEncontradaException;
 }

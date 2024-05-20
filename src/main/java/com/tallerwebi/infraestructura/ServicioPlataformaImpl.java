@@ -29,4 +29,10 @@ public class ServicioPlataformaImpl implements ServicioPlataforma {
     public void agregarPartida(Partida partida) {
         this.repositorioPartida.guardar(partida);
     }
+
+    @Override
+    public List<Partida> obtenerPartidasUsuario(String nombre) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'obtenerPartidasUsuario'");
+    }
 }
