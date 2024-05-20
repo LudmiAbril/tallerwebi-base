@@ -3,6 +3,7 @@ package com.tallerwebi.presentacion;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -39,6 +40,38 @@ public class ControladorBlackjackTest {
     }
 
     @Test
+    public void queSeAlIniciarseElJuegoSeRepartanDosCartasAlJugadorYalCrupier() {
+        // Preparación
+        Carta ca = new Carta("A", 11, Palo.CORAZON);
+        Carta cb = new Carta("3", 3, Palo.CORAZON);
+        Carta cc = new Carta("6", 6, Palo.DIAMANTE);
+        Carta cd = new Carta("9", 9, Palo.TREBOL);
+
+        List<Carta> manoJugadorEsperada = new ArrayList<>();
+        manoJugadorEsperada.add(cc);
+        manoJugadorEsperada.add(ca);
+
+        List<Carta> manoCrupierEsperada =new ArrayList<>();
+        manoCrupierEsperada.add(cd);
+        manoCrupierEsperada.add(cb);
+
+        when(servicioBlackjackMock.entregarCartasPrincipales())
+                .thenReturn(manoJugadorEsperada)
+                .thenReturn(manoCrupierEsperada);
+
+        // Ejecución
+        controladorBlackjack.comenzarBlackjack(mock(Jugador.class), session);
+
+        // Verificación
+        List<Carta> manoJugadorObtenida = (List<Carta>) session.getAttribute("cartasJugador");
+        List<Carta> manoCrupierObtenida = (List<Carta>) session.getAttribute("cartasCasa");
+
+        assertNotNull(manoJugadorObtenida);
+        assertNotNull(manoCrupierObtenida);
+        assertThat(manoJugadorObtenida, equalTo(manoJugadorEsperada));
+        assertThat(manoCrupierObtenida, equalTo(manoCrupierEsperada));
+    }
+    @Test
     public void queSeDevuelvaLaVistaInicialBlackjackYObjetoJugadorVacio() {
 
         ModelAndView modelAndView = controladorBlackjack.inicioBlackjack();
@@ -49,21 +82,7 @@ public class ControladorBlackjackTest {
         assertThat(((Jugador) modelAndView.getModel().get("nuevoJugador")).getNombre(), nullValue());
     }
 
-    @Test
-    public void queSeAlIniciarseElJuegoSeRepartanDosCartasAlJugadorYalCrupier() {
-        // preparacion
-        when(servicioBlackjackMock.entregarCartasPrincipales())
-                .thenReturn(Arrays.asList(mock(Carta.class), mock(Carta.class)));
 
-        // ejecucion
-        controladorBlackjack.comenzarBlackjack(mock(Jugador.class), session);
-        List<Carta> cartasJugador = (List<Carta>) session.getAttribute("cartasJugador");
-        List<Carta> cartasCasa = (List<Carta>) session.getAttribute("cartasCasa");
-
-        // validacion
-        assertThat(cartasJugador.size(), equalTo(2));
-        assertThat(cartasCasa.size(), equalTo(2));
-    }
 
     @Test
     public void queSePuedaPedirUnaCarta() {
