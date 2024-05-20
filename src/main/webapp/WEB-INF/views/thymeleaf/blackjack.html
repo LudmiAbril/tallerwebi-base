@@ -20,6 +20,7 @@
     li
     <!-- javascript-->
     <script th:src="@{/js/blackjack.js}"></script>
+    <script th:src="@{/js/cronometro.js}"></script>
     <link rel="stylesheet"
           th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
 
@@ -43,6 +44,7 @@
     </div>
 
     <main class="container-main">
+      <p style="color:white" class="reloj">00:00:00</p>
       <div class="container-principal">
         <div class="cartas-container" id="cartasCasa"></div>
         <br />
