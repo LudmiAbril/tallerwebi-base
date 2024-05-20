@@ -5,6 +5,8 @@ import com.tallerwebi.dominio.Partida;
 import com.tallerwebi.dominio.RepositorioPartida;
 import com.tallerwebi.dominio.RepositorioUsuario;
 import com.tallerwebi.dominio.ServicioPlataforma;
+import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
+import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +23,8 @@ public class ServicioPlataformaImpl implements ServicioPlataforma {
     }
 
     @Override
-    public List<Partida> generarRanking(Juego juego) {
-        return List.of();
+    public List<Partida> generarRanking(Juego juego) throws PartidasDelJuegoNoEncontradasException {
+        return repositorioPartida.listarPartidasPorJuego(juego);
     }
 
     @Override
@@ -31,8 +33,14 @@ public class ServicioPlataformaImpl implements ServicioPlataforma {
     }
 
     @Override
-    public List<Partida> obtenerPartidasUsuario(String nombre) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'obtenerPartidasUsuario'");
+    public List<Partida> obtenerPartidasUsuario(String nombre, Juego juego) throws PartidaDeUsuarioNoEncontradaException {
+        return repositorioPartida.obtenerPartidasUsuario(nombre, juego);
     }
+
+    @Override
+    public List<Partida> obtenerUltimasPartidasDelUsuario(String nombre, Juego juego) throws PartidaDeUsuarioNoEncontradaException {
+        return repositorioPartida.obtenerPartidasUsuarioPorFecha(nombre, juego);
+    }
+
+    
 }
