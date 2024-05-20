@@ -20,16 +20,15 @@ public class ServicioChinImpl implements ServicioChin {
     @Autowired
     public ServicioChinImpl(){
         this.baraja= new Baraja();
-
     }
 
     @Override
     public void repartirTodasLasCartas(ArrayList<Carta> mazoJugador1, ArrayList<Carta> mazoJugador2) {
 
-        for(int i =0; i< (baraja.getSize()/2); i++){
+        for(int i =0; i< (26); i++){
             mazoJugador1.add(baraja.sacarCarta());
         }
-        for(int i =baraja.getSize()/2; i< baraja.getSize(); i++){
+        for(int i =0; i< 26; i++){
             mazoJugador2.add(baraja.sacarCarta());
         }
     }

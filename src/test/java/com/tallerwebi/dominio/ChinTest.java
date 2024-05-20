@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.infraestructura.ServicioChinImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -9,18 +10,22 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ChinTest {
+
+    @BeforeEach
+    public void init(){
+
+
+    }
     @Test
     public void devuelveChinCuandoLasDosCartasDelMedioSonIguales(){
         Carta carta1 = new Carta("A", 1, Palo.DIAMANTE);
         Carta carta2 = new Carta("A", 1, Palo.CORAZON);
-
         ArrayList<Carta> descarte1 = new ArrayList<>();
         ArrayList<Carta> descarte2 = new ArrayList<>();
-
         descarte1.add(carta1);
         descarte2.add(carta2);
-        ServicioChin chin = new ServicioChinImpl();
 
+        ServicioChin chin = new ServicioChinImpl();
         assertThat(chin.hayChin(descarte1, descarte2), is(true));
     }
     @Test
@@ -34,7 +39,6 @@ public class ChinTest {
         descarte1.add(carta1);
         descarte2.add(carta2);
         ServicioChin chin = new ServicioChinImpl();
-
         assertThat(chin.hayChin(descarte1, descarte2), is(false));
     }
     @Test

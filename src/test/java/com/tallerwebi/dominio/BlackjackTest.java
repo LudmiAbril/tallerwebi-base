@@ -24,7 +24,7 @@ public class BlackjackTest {
     }
 
     @Test
-    public void entregarCartasInciales() {
+    public void entregarCartasIniciales() {
         cartasJugador = servicio.entregarCartasPrincipales();
         assertThat(cartasJugador.size(), equalTo(2));
     }
