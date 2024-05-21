@@ -45,7 +45,9 @@ public class BlackjackTest {
     @Test
     public void queAlPlantarseSeActualizeElMazoDelCrupier() {
         cartasCrupier.add(new Carta("3", 3, Palo.CORAZON));
-        cartasCrupier = servicio.plantarse(cartasCrupier);
+        cartasCrupier.add(new Carta("3", 3, Palo.DIAMANTE));
+        Integer valorMano1 = servicio.calcularPuntuacion(cartasCrupier);
+        cartasCrupier.addAll(servicio.plantarse(cartasCrupier));
         Integer valorMano = servicio.calcularPuntuacion(cartasCrupier);
         assertThat(valorMano, greaterThanOrEqualTo(17));
     }
