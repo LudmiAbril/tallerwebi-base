@@ -18,6 +18,7 @@ $(document).ready(function () {
         $(".numeroCantadoContenedor").addClass("w3-animate-top");
     });
     intervaloRefresco = setInterval(refrescarNumero, 7000);
+
 });
 
 function marcarCasillero(numeroCasillero) {
@@ -58,31 +59,51 @@ function refrescarNumero() {
     }, 100); // Espera 100 milisegundos antes de solicitar el nuevo número
 }
 
+
 function obtenerLosNumerosEntregados() {
+    bolaAmarillo = "bolaAmarillo.png";
+    bolaCeleste = "bolaCeleste.png"
+    bolaNaranja = "bolaNaranja.png";
+    bolaRoja = "bolaRoja.png";
+    bolaVerde = "bolaVerde.png"
+    bolaVioleta = "bolaVioleta.png"
+    rutaDeLasImgDeLasBolas = "/spring/imgStatic/";
+
+    let bolas = [
+        bolaAmarillo,
+        bolaCeleste,
+        bolaNaranja,
+        bolaRoja,
+        bolaVerde,
+        bolaVioleta
+    ];
+
+    let currentBolaIndex = 0;
     $.get("obtenerLosNumerosEntregados", function (data) {
-        var ultimosNumeros = data.numerosEntregadosDeLaSesion.slice(-5);
-        ultimosNumeros.reverse(); // Invertir el orden de los números entregados
+        var ultimosNumeros = Array.from(data.numerosEntregadosDeLaSesion);
+        // ultimo = ultimosNumeros.lastIndexOf();
+        // console.log(ultimo);
+        ultimosNumeros.reverse();
+        var numerosParaMostrar = ultimosNumeros.slice(0, 5);
+        // console.log("Números a mostrar:", numerosParaMostrar);
         var numerosEntregadosDiv = $(".numerosEntregados");
         numerosEntregadosDiv.empty();
-        ultimosNumeros.forEach(function (numero) {
+        numerosParaMostrar.forEach(function (numero) {
             var parrafo = $("<p>").text(numero).attr("id", "numeroCantadoColeccion").addClass("numerosEntregadosContenedor");
+
+            // Agregar la imagen de fondo
+            var bola = bolas[currentBolaIndex];
+            var backgroundImageUrl = rutaDeLasImgDeLasBolas + bola;
+            parrafo.css('background-image', 'url(' + backgroundImageUrl + ')');
+
+            // Incrementar el índice de la bola y reiniciar si alcanza el final del array
+            currentBolaIndex = (currentBolaIndex + 1) % bolas.length;
+
             numerosEntregadosDiv.append(parrafo);
         });
     });
 }
 
-
-/*function obtenerLosNumerosEntregados() {
-    $.get("obtenerLosNumerosEntregados", function (data) {
-        // tengo que ir recorriendo cada item de los numeros y ponerlos en una etiqueta html
-        numerosEntregadosDiv = $(".numerosEntregados");
-        numerosEntregadosDiv.empty();
-        data.numerosEntregadosDeLaSesion.forEach(function (numero) {
-            parrafo = $("<p>").text(numero).attr("id", "numeroEntregado").addClass("numerosEntregadosContenedor");
-            numerosEntregadosDiv.append(parrafo);
-        })
-    })
-}*/
 function bingo() {
     $.post("bingo", function (data) {
         if (data.seHizoBingo) {
@@ -102,7 +123,9 @@ function abrirModal() {
 }
 
 function sacudirBotonDeBingo() {
-    var botonBingo = document.getElementById("botonBingo");
+    console.log("apretado")
+    var botonBingo = document.querySelector("#botonBingo");
+    botonBingo.style.color='black';
     botonBingo.classList.add('animate__animated', 'animate__shakeX');
     botonBingo.style.backgroundColor = 'gray';
     setTimeout(function () {
