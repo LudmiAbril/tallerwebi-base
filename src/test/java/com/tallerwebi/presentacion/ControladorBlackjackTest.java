@@ -45,6 +45,17 @@ public class ControladorBlackjackTest {
     }
 
     @Test
+    public void queSeDevuelvaLaVistaInicialBlackjackYObjetoJugadorVacio() {
+
+        ModelAndView modelAndView = controladorBlackjack.inicioBlackjack();
+        String viewname = modelAndView.getViewName();
+
+        assertThat(viewname, equalToIgnoringCase("inicio-blackjack"));
+        assertThat(modelAndView.getModel().get("nuevoJugador"), instanceOf(Jugador.class));
+        assertThat(((Jugador) modelAndView.getModel().get("nuevoJugador")).getNombre(), nullValue());
+    }
+    
+    @Test
     public void queSeAlIniciarseElJuegoSeRepartanDosCartasAlJugadorYalCrupier() {
         // Preparación
         Carta ca = new Carta("A", 11, Palo.CORAZON);
@@ -76,49 +87,7 @@ public class ControladorBlackjackTest {
         assertThat(manoJugadorObtenida, equalTo(manoJugadorEsperada));
         assertThat(manoCrupierObtenida, equalTo(manoCrupierEsperada));
     }
-    @Test
-    public void queSeDevuelvaLaVistaInicialBlackjackYObjetoJugadorVacio() {
-
-        ModelAndView modelAndView = controladorBlackjack.inicioBlackjack();
-        String viewname = modelAndView.getViewName();
-
-        assertThat(viewname, equalToIgnoringCase("inicio-blackjack"));
-        assertThat(modelAndView.getModel().get("nuevoJugador"), instanceOf(Jugador.class));
-        assertThat(((Jugador) modelAndView.getModel().get("nuevoJugador")).getNombre(), nullValue());
-    }
-
-    @Test
-    public void queSeAlIniciarseElJuegoSeRepartanDosCartasAlJugadorYalCrupier() {
-        // Preparación
-        Carta ca = new Carta("A", 11, Palo.CORAZON);
-        Carta cb = new Carta("3", 3, Palo.CORAZON);
-        Carta cc = new Carta("6", 6, Palo.DIAMANTE);
-        Carta cd = new Carta("9", 9, Palo.TREBOL);
-
-        List<Carta> manoJugadorEsperada= new ArrayList<Carta>();
-        manoJugadorEsperada.add(ca);
-        manoJugadorEsperada.add(cc);
-
-        List<Carta> manoCrupierEsperada = new ArrayList<Carta>();
-        manoCrupierEsperada.add(cd);
-        manoCrupierEsperada.add(cb);
-
-        when(servicioBlackjackMock.entregarCartasPrincipales())
-                .thenReturn(manoJugadorEsperada)
-                .thenReturn(manoCrupierEsperada);
-
-        // Ejecución
-       controladorBlackjack.comenzarBlackjack(mock(Jugador.class), session);
-
-        // Verificación
-        List<Carta> manoJugadorObtenida = (List<Carta>) session.getAttribute("cartasJugador");
-        List<Carta> manoCrupierObtenida = (List<Carta>) session.getAttribute("cartasCasa");
-
-        assertNotNull(manoJugadorObtenida);
-        assertNotNull(manoCrupierObtenida);
-        assertThat(manoJugadorObtenida, equalTo(manoJugadorEsperada));
-        assertThat(manoCrupierObtenida, equalTo(manoCrupierEsperada));
-    }
+    
 
     @Test
     public void queSePuedaPedirUnaCarta() {
@@ -142,7 +111,6 @@ public class ControladorBlackjackTest {
         // validacion
         assertThat(datosSalida.get("cartaNueva"), equalTo(cartaEsperada));
     }
-
     @Test
     public void QueAlPlantarseSeActualizeElMazoDelCrupier() {
         // preparacion
