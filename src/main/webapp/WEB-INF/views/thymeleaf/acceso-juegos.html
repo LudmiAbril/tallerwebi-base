@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seccion-juegos</title>
-    <link rel="stylesheet" th:href="@{/seccion2.css}">
+    <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}">
+    <link rel="stylesheet" th:href="@{/css/seccion2.css}">
     <link rel="stylesheet" th:href="@{/css/acceso-juegos.css}">
 
     <link th:href="@{https://fonts.googleapis.com/css?family=Teko:700&display=swap}" rel="stylesheet">
@@ -48,7 +49,7 @@
     /*---COLUMNA DEL MEDIO---*/
     .columna:nth-child(1) {
         width: 40%;
-        background-image: url('fondoSeccionJuegos.png');
+        background-image: url('/imgStatic/fondoSeccionJuegos.png');
         background-size: cover;
         background-position: center;
         display: flex;
@@ -263,7 +264,7 @@
         align-items: center;
         width: 100%;
         border: 1px solid #ccc;
-        background-image: url('fondoVerde.png');
+        background-image: url('/imgStatic/fondoVerde.png');
         height: 50%;
         position: relative;
     }
@@ -294,7 +295,8 @@
         <div class="sign">
             <span class="fast-flicker">C</span>ats<span class="flicker">i</span>no
         </div>
-        <img th:src="@{/imagenAcesso.png}" class="imagen-acceso" alt="imagen-bienvenida">
+<!--        <img th:src="@{/imgStatic/imagenAcesso.png}"  class="imagen-acceso" alt="imagen-bienvenida">-->
+        <img th:src="@{/imgStatic/imagenAcesso.png}" class="imagen-acceso" alt="imagen-bienvenida">
     </div>
 
     <div class="columna">
@@ -302,13 +304,13 @@
             <a th:href="@{/home}" class="link-juego">
                 <h2 class="h2"><span class='one'>B</span><span class='two'>I</span><span class='three'>N</span><span class='four'>G</span><span class='five'>O</span></h2>
             </a>
-            <img th:src="@{/fondoCarton.png}" alt="Imagen al hover" class="hover-image">
+            <img th:src="@{/imgStatic/fondoCarton.png}" alt="Imagen al hover" class="hover-image">
         </div>
         <div class="item">
             <a th:href="@{/home}" class="link-juego">
                 <h2 class="h2"><span class='one'>B</span><span class='two'>L</span><span class='three'>A</span><span class='four'>C</span><span class='five'>K</span><span class='six'>J</span><span class='seven'>A</span><span class='eight'>C</span><span class='nine'>K</span></h2>
             </a>
-            <img th:src="@{/fondoCartas.png}" alt="Imagen al hover" class="hover-image">
+            <img th:src="@{/imgStatic/fondoCartas.png}" alt="Imagen al hover" class="hover-image">
         </div>
     </div>
 
