@@ -1,37 +1,319 @@
-<!DOCTYPE HTML>
+
+<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Acceso a Juegos</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seccion-juegos</title>
+    <link rel="stylesheet" th:href="@{/seccion2.css}">
+    <link rel="stylesheet" th:href="@{/css/acceso-juegos.css}">
 
-    <!-- Estilos personalizados -->
-    <link rel="stylesheet" th:href="@{/css/acceso-juegos.css}"/>
-    <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}">
+    <link th:href="@{https://fonts.googleapis.com/css?family=Teko:700&display=swap}" rel="stylesheet">
 
     <!-- Enlace a Google Fonts con Thymeleaf -->
     <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
     <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
     <link th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}" rel="stylesheet">
+<style>
+    /*---GENERAL---*/
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
+    body {
+        height: 100vh;
+        overflow: hidden; /* Evita el scroll */
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-between;
+        height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+    }
+
+    .columna {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 60%;
+        height: 100%;
+        background-color: #f0f0f0;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+    }
+
+    /*---COLUMNA DEL MEDIO---*/
+    .columna:nth-child(1) {
+        width: 40%;
+        background-image: url('fondoSeccionJuegos.png');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .container .columna .imagen-acceso {
+        width: 480px;
+    }
+
+    .container .columna .sign {
+        /* position: absolute;*/
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+        height: 50%;
+        background-image: radial-gradient(
+                ellipse 50% 35% at 50% 50%,
+                #6b1839,
+                transparent
+        );
+        /*transform: translate(-50%, -50%);
+        letter-spacing: 2;
+        left: 50%;*/
+        top: 50%;
+        font-family: "Clip";
+        text-transform: uppercase;
+        font-size: 4em;
+        color: #ffe6ff;
+        text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+        -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+        0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+        animation: shine 2s forwards, flicker 3s infinite;
+    }
+
+    .container .columna .sign .fast-flicker {
+        animation: shine 2s forwards, blink 10s 1s infinite;
+    }
+
+    .container .columna .sign .flicker {
+        animation: shine 2s forwards, blink 3s 2s infinite;
+    }
+
+    @keyframes blink {
+        0%, 22%, 36%, 75% {
+            color: #ffe6ff;
+            text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+            -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+            0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+        }
+        28%, 33% {
+            color: #ff65bd;
+            text-shadow: none;
+        }
+        82%, 97% {
+            color: #ff2483;
+            text-shadow: none;
+        }
+    }
+
+    @keyframes shine {
+        0% {
+            color: #6b1839;
+            text-shadow: none;
+        }
+        100% {
+            color: #ffe6ff;
+            text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+            -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+            0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+        }
+    }
+
+    @keyframes flicker {
+        from {
+            opacity: 1;
+        }
+        4% {
+            opacity: 0.9;
+        }
+        6% {
+            opacity: 0.85;
+        }
+        8% {
+            opacity: 0.95;
+        }
+        10% {
+            opacity: 0.9;
+        }
+        11% {
+            opacity: 0.922;
+        }
+        12% {
+            opacity: 0.9;
+        }
+        14% {
+            opacity: 0.95;
+        }
+        16% {
+            opacity: 0.98;
+        }
+        17% {
+            opacity: 0.9;
+        }
+        19% {
+            opacity: 0.93;
+        }
+        20% {
+            opacity: 0.99;
+        }
+        24% {
+            opacity: 1;
+        }
+        26% {
+            opacity: 0.94;
+        }
+        28% {
+            opacity: 0.98;
+        }
+        37% {
+            opacity: 0.93;
+        }
+        38% {
+            opacity: 0.5;
+        }
+        39% {
+            opacity: 0.96;
+        }
+        42% {
+            opacity: 1;
+        }
+        44% {
+            opacity: 0.97;
+        }
+        46% {
+            opacity: 0.94;
+        }
+        56% {
+            opacity: 0.9;
+        }
+        58% {
+            opacity: 0.9;
+        }
+        60% {
+            opacity: 0.99;
+        }
+        68% {
+            opacity: 1;
+        }
+        70% {
+            opacity: 0.9;
+        }
+        72% {
+            opacity: 0.95;
+        }
+        93% {
+            opacity: 0.93;
+        }
+        95% {
+            opacity: 0.95;
+        }
+        97% {
+            opacity: 0.93;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /*---ESTILO DE ENLANCES---*/
+
+    .h2 {
+        color: white;
+        margin: 0;
+        grid-column: 1;
+        grid-row: 1;
+        z-index: 1;
+        font-family: 'Teko', sans-serif;
+        font-size: 5rem;
+        text-transform: uppercase;
+        animation: glow 2s ease-in-out infinite alternate;
+        text-align: center;
+    }
+
+    @keyframes glow {
+        from {
+            text-shadow: 0 0 20px #fcfcfc;
+        }
+        to {
+            text-shadow: 0 0 10px #6d2194;
+        }
+    }
+
+    /*---OTRAS COLUMNAS---*/
+    .link-juego {
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .h2:hover {
+        color: black;
+    }
+
+    .item {
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        border: 1px solid #ccc;
+        background-image: url('fondoVerde.png');
+        height: 50%;
+        position: relative;
+    }
+
+    .hover-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+        pointer-events: none;
+    }
+    .link-juego:hover + .hover-image {
+        opacity: 1;
+    }
+
+</style>
 </head>
 <body>
-<div class="container">
-    <div class="columna columna-con-fondo">
-        <h1 class="nombre-casino">CATSINO</h1>
 
-        <img th:src="@{/imgStatic/imagenAcesso.png}"  class="imagen-acceso" alt="imagen-bienvenida">
-    </div>
+<section class="container">
+
     <div class="columna">
-        <div class="grid-container">
-            <div class="grid-item"><a href="home" class="link-juego">AHORCADO</a></div>
-            <div class="grid-item"><a href="irAlBingo" class="link-juego">BINGO</a></div>
-            <div class="grid-item"><a href="inicio-blackjack" class="link-juego">BLACKJACK</a></div>
-            <div class="grid-item"><a href="home" class="link-juego">CHIN</a></div>
-            <div class="grid-item"><a href="senku-inicio" class="link-juego">SENKU</a></div>
-            <div class="grid-item"><a href="home" class="link-juego">REGLAS</a></div>
+        <br><br><br><br>
+        <div class="sign">
+            <span class="fast-flicker">C</span>ats<span class="flicker">i</span>no
+        </div>
+        <img th:src="@{/imagenAcesso.png}" class="imagen-acceso" alt="imagen-bienvenida">
+    </div>
+
+    <div class="columna">
+        <div class="item">
+            <a th:href="@{/home}" class="link-juego">
+                <h2 class="h2"><span class='one'>B</span><span class='two'>I</span><span class='three'>N</span><span class='four'>G</span><span class='five'>O</span></h2>
+            </a>
+            <img th:src="@{/fondoCarton.png}" alt="Imagen al hover" class="hover-image">
+        </div>
+        <div class="item">
+            <a th:href="@{/home}" class="link-juego">
+                <h2 class="h2"><span class='one'>B</span><span class='two'>L</span><span class='three'>A</span><span class='four'>C</span><span class='five'>K</span><span class='six'>J</span><span class='seven'>A</span><span class='eight'>C</span><span class='nine'>K</span></h2>
+            </a>
+            <img th:src="@{/fondoCartas.png}" alt="Imagen al hover" class="hover-image">
         </div>
     </div>
-</div>
+
+</section>
+
 </body>
 </html>
+

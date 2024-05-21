@@ -31,7 +31,7 @@ body {
 /*---COLUMNA DEL MEDIO---*/
 .columna:nth-child(1) {
     width: 40%;
-    background-image: url('../imgStatic/fondoSeccionJuegos.png');
+    background-image: url('fondoSeccionJuegos.png');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -246,7 +246,7 @@ body {
     align-items: center;
     width: 100%;
     border: 1px solid #ccc;
-    background-image: url('../imgStatic/fondoVerde.png');
+    background-image: url('fondoVerde.png');
     height: 50%;
     position: relative;
 }
