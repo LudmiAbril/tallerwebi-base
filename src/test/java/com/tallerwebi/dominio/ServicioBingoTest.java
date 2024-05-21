@@ -81,6 +81,22 @@ public class ServicioBingoTest {
 	}
 
 	// que los numeros entregados se guarden correctamente
+	@Test
+	public void queLosNumerosEntregadosSeGuardenCorrectamente(){
+
+	}
 	// gue los num marcados se guarda
+	@Test
+	public void queLosNumerosMarcadosSeGuarden(){}
 	// que no puedas ganar si no marcaste todos los numeros entregados
+	@Test
+	public void queNoPuedasGanarSiNoMarcasteTodosLosNumerosEntregados(){}
+	@Test
+	public void queSoloUnoPuedaGanar(){}
+	@Test
+	public void queSoloMarque99Numeros(){}
+	@Test
+	public void queMuestreLosUltimos5NumerosEntregados(){}
+	@Test
+	public void queSePuedaHacerLinea(){}
 }
