@@ -2,7 +2,7 @@ let startTime;
 let elapsedTime = 0;
 let timerInterval;
 
-function timeToString(time) {
+export function timeToString(time) {
     const diffInHrs = time / 3600000;
     const hh = Math.floor(diffInHrs);
 
@@ -19,32 +19,28 @@ function timeToString(time) {
     return `${formattedHH}:${formattedMM}:${formattedSS}`;
 }
 
-function print(txt) {
+export function print(txt) {
     document.getElementsByClassName('reloj')[0].textContent = txt;
 }
 
-function start() {
+export function start() {
     startTime = Date.now() - elapsedTime;
     timerInterval = setInterval(function printTime() {
         elapsedTime = Date.now() - startTime;
         print(timeToString(elapsedTime));
     }, 1000);
-    showButton('STOP');
+    
 }
 
-function stop() {
+export function stop() {
     clearInterval(timerInterval);
     showButton('START');
 }
 
-function reset() {
+export function reset() {
     clearInterval(timerInterval);
     print("00:00:00");
     elapsedTime = 0;
     showButton('START');
 }
-
-start();
-
-export{start,stop,reset};
 

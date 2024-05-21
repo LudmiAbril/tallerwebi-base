@@ -19,19 +19,20 @@
     <link rel="stylesheet" th:href="@{/css/blackjack.css}" />
     li
     <!-- javascript-->
-    <script th:src="@{/js/blackjack.js}"></script>
+    <script type="module" th:src="@{/js/blackjack.js}"></script>
     <script th:src="@{/js/cronometro.js}"></script>
-    <link rel="stylesheet"
-          th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
-
+    <link
+      rel="stylesheet"
+      th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}"
+    />
   </head>
 
   <body>
-  <nav class="nav-bar">
-    <a href="acceso-juegos">
-      <span class="material-symbols-outlined icono">arrow_back</span>
-    </a>
-  </nav>
+    <nav class="nav-bar">
+      <a href="acceso-juegos">
+        <span class="material-symbols-outlined icono">arrow_back</span>
+      </a>
+    </nav>
     <!-- El modal que se abre al finalizar la partida -->
     <div id="modalFinPartida" class="modal">
       <!-- Contenido del modal -->
@@ -44,7 +45,7 @@
     </div>
 
     <main class="container-main">
-      <p style="color:white" class="reloj">00:00:00</p>
+      <p style="color: white" class="reloj">00:00:00</p>
       <div class="container-principal">
         <div class="cartas-container" id="cartasCasa"></div>
         <br />
