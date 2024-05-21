@@ -31,29 +31,29 @@
 </head>
 
 <body>
-<section id="fondoBingo">
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-</section>
-<nav class="nav-bar">
-  <a href="acceso-juegos" >
-    <span class="material-symbols-outlined icono">arrow_back</span>
-  </a>
-  <!-- Botón que abre el modal
+  <section id="fondoBingo">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </section>
+  <nav class="nav-bar">
+    <a href="acceso-juegos">
+      <span class="material-symbols-outlined icono">arrow_back</span>
+    </a>
+    <!-- Botón que abre el modal
   class="btn btn-link icono" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
           id="icono-modal"-->
-  <button class="btn btn-link icono" >
-    <span class="material-symbols-outlined">help</span>
-  </button>
-</nav>
+    <button class="btn btn-link icono">
+      <span class="material-symbols-outlined">help</span>
+    </button>
+  </nav>
 
   <!-- Modal
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -136,7 +136,7 @@
     </table>
 
     <div class="w3-container">
-      <button type="submit" class="w3-button w3-xlarge w3-wide w3-purple w3-cel" onclick="bingo()">BINGO</button>
+      <button id="botonBingo" type="submit" class="w3-button w3-xlarge w3-wide w3-purple w3-cel" onclick="bingo()">BINGO</button>
     </div>
 
   </main>
@@ -149,7 +149,7 @@
   <!-- Modal de Bingo -->
 
   <div id="modalBingo" class="modal w3-animate-top">
-    <div class="modal-content" >
+    <div class="modal-content">
       <h3>Hiciste BINGO</h3>
       <p>¡Felicidades, <span th:text="${nombreJugador}"></span>!</p>
       <form th:action="@{/irAlBingo.html}">
