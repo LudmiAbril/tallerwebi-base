@@ -5,6 +5,8 @@ import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -109,7 +111,50 @@ public class ControladorBingoTest {
         assertEquals(cartonMock, cartonObtenido);
         assertEquals(numeroCantadoAleatorio, respuesta.get("numeroAleatorioCantado"));
     }
+// Test Negativos
 
-    // que no se puede hacer bingo si todos los numeros entregados no fueron marcados
+
+
+@Test
+public void queAlComenzarJuegoBingoNoSeGenereUnNumeroAleatorioNiSeGuardeEnLaSesion() {
+    Jugador jugadorMock = mock(Jugador.class);
+    when(jugadorMock.getNombre()).thenReturn("Mica");
+
+    Set<Integer> numerosEntregados = new LinkedHashSet<>();
+    Integer numeroAleatorio = 10;
+
+    when(servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(null);
+
+    controladorBingo.comenzarJuegoBingo(jugadorMock, session);
+    
+    assertThat(session.getAttribute("numeroAleatorioCantado"), equalTo(null));
+}
+
+@Test
+public void queAlComenzarJuegoBingoNoSeGenereUnCartonNiSeGuardeEnLaSesion() {
+    Jugador jugadorMock = mock(Jugador.class);
+    when(this.servicioBingoMock.generarCarton()).thenReturn(null);
+    controladorBingo.comenzarJuegoBingo(jugadorMock, session);
+
+    assertThat(session.getAttribute("carton"), equalTo(null));
+}
+
+
+/*@Test
+public void queAlObtenerDatosInicialesNoEncontremosUnCartonYElNumeroAleatorioEnLaSesion() {
+    // Configuración del mock de HttpSession
+    HttpSession sessionMock = mock(HttpSession.class);
+    when(sessionMock.getAttribute("carton")).thenReturn(null);
+    when(sessionMock.getAttribute("numeroAleatorioCantado")).thenReturn(null);
+
+    // Ejecución del método bajo prueba
+    Map<String, Object> respuesta = controladorBingo.obtenerDatosIniciales(sessionMock);
+
+    // Validación
+    assertNotNull(respuesta);
+    assertFalse(respuesta.containsKey("carton"));
+    assertFalse(respuesta.containsKey("numeroAleatorioCantado"));
+}*/
+
 
 }
