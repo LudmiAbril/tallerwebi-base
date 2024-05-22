@@ -21,13 +21,15 @@ public class ControladorAhorcado {
         this.servicioAhorcado = servicio;
     }
 
-
-    @RequestMapping(path = "/ahorcado")
+    @RequestMapping(path = "/ahorcado", method = RequestMethod.GET)
     public ModelAndView irAlAhorcado() {
         ModelMap model = new ModelMap();
         try {
-           
-            model.put("jugador",  new Jugador());
+            model.put("jugador", new Jugador());
+            String palabra = servicioAhorcado.entregarPalabra();
+            model.put("palabra", palabra);
+            int partesAhorcado = 6; // Número de partes del muñeco del ahorcado
+            model.put("partesAhorcado", partesAhorcado);
             return new ModelAndView("ahorcado", model);
         } catch (Exception e) {
             model.put("mensajeError", "No se pudo inicializar el jugador.");
