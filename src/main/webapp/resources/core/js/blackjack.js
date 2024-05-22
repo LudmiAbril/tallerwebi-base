@@ -3,8 +3,7 @@ import { start, stop } from "./cronometro.js";
 $(document).ready(function () {
   // Variable para almacenar la última carta del crupier con el dorso
   let cartaDorsoMostrar = null;
-  let tiempoLimite = null;
-
+  let puntaje = document.getElementById("puntaje");
   // Función para agregar una nueva carta a un contenedor dado
   function agregarCarta(contenedor, nombreCarta, jugador) {
     contenedor.append(
@@ -22,7 +21,10 @@ $(document).ready(function () {
     if (data.partidas) {
       data.partidas.forEach(function (partida) {
         $(".partidas").append(
-          "</br> fecha:" + partida.fechaYhora + " puntaje alcanzado:" + partida.puntaje
+          "</br> fecha:" +
+            partida.fechaYhora +
+            " puntaje alcanzado:" +
+            partida.puntaje
         );
       });
     }
@@ -49,6 +51,8 @@ $(document).ready(function () {
         "jugador"
       );
     });
+
+    puntaje.text(data.puntaje);
     start();
     // si llegara a haber un blackjack inicial, finalizar separar esta funcion
     if (data.estadoPartida === "FINALIZADA") {

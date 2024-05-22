@@ -53,7 +53,10 @@
 
     <main class="container-main">
       <h3>jugador: <span id="nombre"></span></h3>
-      <p style="color: white">tiempo transcurrido: <span class="reloj">00:00:00</span></p>
+      <p style="color: white">
+        tiempo transcurrido: <span class="reloj">00:00:00</span>
+      </p>
+      <p>Tu mano:<span id="puntaje"></span></p>
       <div class="partidas">
         <h3>Tus historial de partidas</h3>
         <p th:text="${mensajePartidas}"></p>
