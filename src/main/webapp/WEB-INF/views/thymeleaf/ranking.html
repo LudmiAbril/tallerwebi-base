@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Ranking</title>
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" th:href="@{/css/ranking.css}"/>
+    <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}">
+
+    <!-- Enlace a Google Fonts con Thymeleaf -->
+    <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
+    <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}" rel="stylesheet">
+
+</head>
+<body>
+    <main>
+        <h1>R A N K I N G</h1>
+        <h2>¡Descubre quiénes son los verdaderos gatos en la ciudad! </h2>
+        <p th:if="${mensajeError}" th:text="${mensajeError}"></p>
+        <p th:unless="${mensajeError}">
+            <span th:text="${nombreJuego}"></span>
+        </p>
+        <div th:unless="${mensajeError}" th:each="partida : ${partidas}">
+            <div class="cajita-partida">
+                <h3>Jugador: <span th:text="${partida.jugador}"></span></h3>
+                <p>Puntaje: <span th:text="${partida.puntaje}"></span></p>
+            </div>
+        </div>
+    </main>
+    
