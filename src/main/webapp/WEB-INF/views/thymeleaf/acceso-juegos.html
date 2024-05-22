@@ -21,14 +21,18 @@
 </head>
 <body>
 <div class="icon-container" onclick="openModal()">
-    <span class="material-symbols-outlined">home</span>
+    <div class="home-icon">
+        <span class="material-symbols-outlined">home</span>
+    </div>
 </div>
 
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <label for="nombre">USUARIO:</label>
-        <input type="text" placeholder="Ingrese texto">
+        <label for="nombre">USUARIO:
+
+        </label>
+        <input type="text" placeholder="Ingrese texto" id="nombre" class="custom-input">
         <div class="btn-salir">
             <a th:href="@{/home}">
                 <button><span class="material-symbols-outlined">logout</span>Salir</button>
