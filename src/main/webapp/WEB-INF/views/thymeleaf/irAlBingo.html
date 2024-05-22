@@ -12,13 +12,58 @@
     <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}"/>-->
 
     <!-- custom style -->
-    <link rel="stylesheet" th:href="@{/css/main.css}" />
+
     <link rel="stylesheet" th:href="@{/css/prueba-loguin.css}">
     <link rel="stylesheet"
           th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
-
-
 </head>
+<style>
+    .imagen-home {
+        border-radius: 15px;
+        width: 700px;
+    }
+    body, html {
+        max-height:100vh;
+        height: 100%;
+        margin: 0;
+    }
+    main {
+        padding-top: 10px;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .btn-primary {
+        border: none;
+        background-color: #2D2A49;
+        border-radius: 10px;
+        height: 40px;
+        width: 300px;
+        color: white;
+        text-transform: uppercase;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top:10px;
+    }
+
+    .btn-primary span {
+        margin-right: 8px;
+        display: flex;
+        align-items: center;
+    }
+
+    .btn-primary:hover {
+        background-color: #CF4CEA;
+        box-shadow: 0 4px 8px rgba(255, 105, 180, 0.3);
+    }
+</style>
 
 <body>
 <nav class="nav-bar">
@@ -26,23 +71,20 @@
         <span class="material-symbols-outlined icono">arrow_back</span>
     </a>
 </nav>
+
 <main role="main" class="container">
-    <img th:src="@{/imgStatic/tituloPerfil.png}" alt="titulo" class="titulo-img">
-    <div class="text-center">
-        <img th:src="@{/imgStatic/logo.png}" alt="Imagen Redonda">
-    </div>
+    <img th:src="@{/imgStatic/bingoTitulo.png}" alt="titulo" class="imagen-home">
     <form th:action="@{/comenzarJuegoBingo}" method="post" th:object="${nuevoJugador}" class="text-center">
-        <div class="mb-3">
-            <input th:field="*{nombre}" type="text" class="form-control" placeholder="Ingrese su nombre">
-        </div>
-        <button type="submit" class="btn btn-primary">Ingresar</button>
+        <button type="submit" class="btn btn-primary">
+            <span class="material-symbols-outlined">play_circle</span>JUGAR</button>
+        <button type="submit" class="btn btn-primary">
+            <span class="material-symbols-outlined">group</span>MULTIJUGADOR</button>
+        <button type="submit" class="btn btn-primary">
+            <span class="material-symbols-outlined">bar_chart</span>RANKING</button>
     </form>
 </main>
 
-
 <!-- Boostrap core js -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
-
 </body>
-
 </html>
