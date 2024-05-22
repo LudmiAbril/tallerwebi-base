@@ -3,7 +3,6 @@ import { start, stop } from "./cronometro.js";
 $(document).ready(function () {
   // Variable para almacenar la última carta del crupier con el dorso
   let cartaDorsoMostrar = null;
-  let puntaje = document.getElementById("puntaje");
   // Función para agregar una nueva carta a un contenedor dado
   function agregarCarta(contenedor, nombreCarta, jugador) {
     contenedor.append(
@@ -17,6 +16,9 @@ $(document).ready(function () {
 
   // MOSTRAR DATOS INICIALES
   $.get("comenzar", function (data) {
+    // nombre y valor de la mano
+    $("#nombre").text(data.jugadorActual);
+    actualizarPuntaje(data.puntaje);
     // partidas anteriores
     if (data.partidas) {
       data.partidas.forEach(function (partida) {
@@ -29,7 +31,6 @@ $(document).ready(function () {
       });
     }
 
-    $("#nombre").text(data.jugadorActual);
     data.cartasCasa.forEach(function (carta, index) {
       // Mostrar el dorso de la carta inicialmente
       if (index === data.cartasCasa.length - 1) {
@@ -52,7 +53,6 @@ $(document).ready(function () {
       );
     });
 
-    puntaje.text(data.puntaje);
     start();
     // si llegara a haber un blackjack inicial, finalizar separar esta funcion
     if (data.estadoPartida === "FINALIZADA") {
@@ -71,6 +71,8 @@ $(document).ready(function () {
         data.cartaNueva.simbolo + "_" + data.cartaNueva.palo,
         "jugador"
       );
+      // actualizar puntaje de mano
+      actualizarPuntaje(data.puntaje);
 
       if (data.estadoPartida === "FINALIZADA") {
         setTimeout(function () {
@@ -113,6 +115,14 @@ $(document).ready(function () {
     });
   });
 });
+
+function actualizarPuntaje(puntaje) {
+  $("#puntaje").text(puntaje);
+
+  if (puntaje > 21) {
+    $("#puntaje").addClass("puntaje-limite");
+  }
+}
 
 function mostrarModalfinalizar(ganador, jugador) {
   $("#modalFinPartida").show();
