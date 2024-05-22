@@ -18,9 +18,17 @@ $(document).ready(function () {
         $(".numeroCantadoContenedor").addClass("w3-animate-top");
     });
     intervaloRefresco = setInterval(refrescarNumero, 7000);
-
 });
-
+function refrescarNumero() {
+    obtenerLosNumerosEntregados();
+    $(".numeroCantadoContenedor").removeClass("w3-animate-top");
+    setTimeout(function () {
+        $.get("obtenerNuevoNumero", function (data) {
+            $("#numeroCantado").text(data.nuevoNumero);
+            $(".numeroCantadoContenedor").addClass("w3-animate-top");
+        });
+    }, 100); // Espera 100 milisegundos antes de solicitar el nuevo número
+}
 function marcarCasillero(numeroCasillero) {
     $.get("obtenerNumeroActual", function (data) {
         numeroActual = data.numeroActual;
@@ -33,6 +41,7 @@ function marcarCasillero(numeroCasillero) {
         });
     });
 }
+
 
 function casilleroEsIgualANumeroEntregado(numeroCasillero, callback) {
     $.get("obtenerLosNumerosEntregados", function (data) {
@@ -47,18 +56,6 @@ function casilleroEsIgualANumeroEntregado(numeroCasillero, callback) {
 
     });
 }
-
-function refrescarNumero() {
-    obtenerLosNumerosEntregados();
-    $(".numeroCantadoContenedor").removeClass("w3-animate-top");
-    setTimeout(function () {
-        $.get("obtenerNuevoNumero", function (data) {
-            $("#numeroCantado").text(data.nuevoNumero);
-            $(".numeroCantadoContenedor").addClass("w3-animate-top");
-        });
-    }, 100); // Espera 100 milisegundos antes de solicitar el nuevo número
-}
-
 
 function obtenerLosNumerosEntregados() {
     bolaAmarillo = "bolaAmarillo.png";
@@ -111,7 +108,15 @@ function bingo() {
             clearInterval(intervaloRefresco); // Detener la actualización del número
             intervaloRefresco = null;
         } else {
-            sacudirBotonDeBingo();
+            console.log("apretado")
+            var botonBingo = document.querySelector("#botonBingo");
+            botonBingo.style.color = 'black';
+            botonBingo.classList.add('animate__animated', 'animate__shakeX');
+            botonBingo.style.backgroundColor = 'gray';
+            setTimeout(function () {
+                botonBingo.classList.remove('animate__animated', 'animate__shakeX');
+                botonBingo.style.backgroundColor = '#8a2be2';
+            }, 1000);
         }
 
     }
@@ -121,17 +126,4 @@ function bingo() {
 function abrirModal() {
     document.getElementById("modalBingo").style.display = "block";
 }
-
-function sacudirBotonDeBingo() {
-    console.log("apretado")
-    var botonBingo = document.querySelector("#botonBingo");
-    botonBingo.style.color='black';
-    botonBingo.classList.add('animate__animated', 'animate__shakeX');
-    botonBingo.style.backgroundColor = 'gray';
-    setTimeout(function () {
-        botonBingo.classList.remove('animate__animated', 'animate__shakeX');
-        botonBingo.style.backgroundColor = '#8a2be2';
-    }, 1000);
-}
-
 

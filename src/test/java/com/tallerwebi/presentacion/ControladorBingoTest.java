@@ -4,6 +4,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -67,12 +69,12 @@ public class ControladorBingoTest {
         when(servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
 
         controladorBingo.comenzarJuegoBingo(jugadorMock, session);
-        
+
         assertThat(session.getAttribute("numeroAleatorioCantado"), equalTo(numeroAleatorio));
     }
 
     @Test
-    public void queAlComenzarJuegoBingoSeGenereUnCartonYSeGuardeEnLaSesion(){
+    public void queAlComenzarJuegoBingoSeGenereUnCartonYSeGuardeEnLaSesion() {
         CartonBingo cartonMock = mock(CartonBingo.class);
         Jugador jugadorMock = mock(Jugador.class);
         when(this.servicioBingoMock.generarCarton()).thenReturn(cartonMock);
@@ -80,6 +82,7 @@ public class ControladorBingoTest {
 
         assertThat(cartonMock, equalTo(session.getAttribute("carton")));
     }
+
     @Test
     public void queAlIrAVistaBingoSeRendericeLaVistaCorrectaYSeGuardeCorrectamenteUnJugador() {
         ModelAndView modelAndView = controladorBingo.irAlBingo();
@@ -110,6 +113,23 @@ public class ControladorBingoTest {
         assertEquals(numeroCantadoAleatorio, respuesta.get("numeroAleatorioCantado"));
     }
 
-    // que no se puede hacer bingo si todos los numeros entregados no fueron marcados
-
+    @Test
+    public void queNoSePuedaHacerBingoSiElNumeroEntregadoNoFueMarcado() {
+        // necesito un carton
+        CartonBingo cartonMock = mock(CartonBingo.class);
+        when(this.servicioBingoMock.generarCarton()).thenReturn(cartonMock);
+        // necesito que el servicio me de un numero aleatorio
+        Set<Integer> numerosEntregados = new LinkedHashSet<>();
+        Integer numeroAleatorio = 10;
+        when(this.servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
+        // ahora ese numero no lo voy a marcar, es decir, no lo voy a agregar a los
+        // numeros marcados
+        Map<String, Object> respuesta = controladorBingo.hacerBingo(session);
+        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+        // el bingo del mapa de la respuesta tiene que ser false
+        Boolean seHizoBingo = (Boolean) respuesta.get("seHizoBingo");
+        // los numeros marcados de la sesion tienen que ser nulos porque no se marco ninguno
+        assertThat(seHizoBingo, is(false));
+        assertThat(numerosMarcadosDeLaSesion, is(nullValue()));
+    }
 }
