@@ -23,7 +23,7 @@
 <main role="main" class="container">
     <br><br><br><br><br>
     <div class="text-center">
-        <img th:src="@{/imgStatic/imagenAcesso.png}" alt="Imagen Redonda">
+        <img th:src="@{/imgStatic/logo.png}" alt="Imagen Redonda">
     </div>
     <form
             th:action="@{/acceso-juegos.html}"
@@ -32,7 +32,7 @@
         <br>
         <div class="mb-3">
             <hr class="colorgraph" /><br><br>
-            <!--  <input th:field="*{email}" id="email" type="email" class="form-control" required placeholder="Ingrese tu nombre" /> -->
+            <input th:field="*{email}" id="email" type="email" class="form-control" required placeholder="Ingrese tu nombre" />
          </div>
          <button id="btn-registrarme" class="btn btn-primary" type="Submit">Ingresar</button>
      </form>

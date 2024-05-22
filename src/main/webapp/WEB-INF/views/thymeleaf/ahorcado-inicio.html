@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>CatSino Senku</title>
+
+  
+    <!--  <link rel="stylesheet" th:href="@{/css/senku.css}"/>
+    <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}"/>-->
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/prueba-loguin.css}">
+
+
+</head>
+
+<body>
+    <main role="main" class="container">
+        <img th:src="@{/imgStatic/tituloPerfil.png}" alt="titulo" class="titulo-img">
+        <div class="text-center">
+            <img th:src="@{/imgStatic/logo.png}" alt="Imagen Redonda">
+        </div>
+        <form th:action="@{/comenzarAhorcado}" method="post" th:object="${nuevoJugador}" class="text-center">
+            <div class="mb-3">
+                <input th:field="*{nombre}" type="text" class="form-control" placeholder="Ingrese su nombre">
+            </div>
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+        </form>
+    </main>
+
+<script
+        type="text/javascript"
+        th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"
+></script>
+
+</body>
+</html>
