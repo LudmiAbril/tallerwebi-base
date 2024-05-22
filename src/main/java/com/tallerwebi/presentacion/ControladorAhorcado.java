@@ -21,10 +21,17 @@ public class ControladorAhorcado {
         this.servicioAhorcado = servicio;
     }
 
-  @RequestMapping(path = "/irAlAhorcado", method = RequestMethod.GET)
-    public ModelAndView irAlAhorcado(@SessionAttribute("jugador") Jugador jugador) {
+
+    @RequestMapping(path = "/ahorcado")
+    public ModelAndView irAlAhorcado() {
         ModelMap model = new ModelMap();
-        model.put("jugador", jugador);
-        return new ModelAndView("ahorcado", model);
+        try {
+           
+            model.put("jugador",  new Jugador());
+            return new ModelAndView("ahorcado", model);
+        } catch (Exception e) {
+            model.put("mensajeError", "No se pudo inicializar el jugador.");
+            return new ModelAndView("error", model);
+        }
     }
 }
