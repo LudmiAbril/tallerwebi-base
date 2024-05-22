@@ -180,3 +180,8 @@ button {
     padding: 5px;
     background-color: rgb(57, 179, 67);
 }
+
+.puntaje-limite{
+    color:red;
+    transition: 0.5s;
+}
