@@ -82,7 +82,7 @@ public class ControladorBlackjackTest {
                 .thenReturn(manoCrupierEsperada);
 
         // Ejecución
-        controladorBlackjack.comenzarBlackjack(mock(Jugador.class), session);
+        controladorBlackjack.comenzarBlackjack(session);
 
         // Verificación
         List<Carta> manoJugadorObtenida = (List<Carta>) session.getAttribute("cartasJugador");
@@ -110,7 +110,8 @@ public class ControladorBlackjackTest {
         session.setAttribute("cartasCasa", cartasCasa);
         session.setAttribute("jugadorActual", "jugador");
 
-        // ejecucion- le paso la sesion con todo los datos nuevos.Actualiza la sesion y retorna un mapa
+        // ejecucion- le paso la sesion con todo los datos nuevos.Actualiza la sesion y
+        // retorna un mapa
         Map<String, Object> datosSalida = controladorBlackjack.pedirCarta(session);
 
         // validacion
@@ -132,7 +133,7 @@ public class ControladorBlackjackTest {
                 .thenReturn(Arrays.asList(carta, carta));
         when(servicioBlackjackMock.plantarse(mano)).thenReturn(manoFinal);
         session.setAttribute("jugadorActual", "jugador");
-        controladorBlackjack.comenzarBlackjack(mock(Jugador.class), session);
+        controladorBlackjack.comenzarBlackjack(session);
 
         // ejecucion
         Map<String, Object> datosSalida = controladorBlackjack.plantarse(session);
@@ -141,7 +142,5 @@ public class ControladorBlackjackTest {
         assertThat(manoFinalCRupier.size(), greaterThan(2));
 
     }
-
-    
 
 }
