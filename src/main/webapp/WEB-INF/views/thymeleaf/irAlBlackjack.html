@@ -1,85 +1,80 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-
     <title>Blackjack</title>
+    <link rel="stylesheet" th:href="@{/css/estilos-IrA.css}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 
-
-<link rel="stylesheet" th:href="@{/css/estilos-IrA.css}">
-<link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
-
-<style>
-    .imagen-home {
-        border-radius: 15px;
-        width: 700px;
-    }
-    body, html {
-        max-height:100vh;
-        height: 100%;
-        margin: 0;
-    }
-    main {
-        padding-top: 10px;
-    }
-    .container {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        height: 100vh;
-    }
-
-    .btn-primary {
-        border: none;
-        background-color: #2D2A49;
-        border-radius: 10px;
-        height: 40px;
-        width: 300px;
-        color: white;
-        text-transform: uppercase;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top:10px;
-    }
-
-    .btn-primary span {
-        margin-right: 8px;
-        display: flex;
-        align-items: center;
-    }
-
-    .btn-primary:hover {
-        background-color: #CF4CEA;
-        box-shadow: 0 4px 8px rgba(255, 105, 180, 0.3);
-    }
-</style>
-  </head>
+</head>
 <body>
 <nav class="nav-bar">
     <a href="acceso-juegos">
         <span class="material-symbols-outlined icono">arrow_back</span>
     </a>
 </nav>
-
-<main role="main" class="container">
+<main class="container">
     <img th:src="@{/imgStatic/BjTitulo2.png}" alt="titulo" class="imagen-home">
     <form th:action="@{/blackjack}" method="post" th:object="${nuevoJugador}" class="text-center">
         <button type="submit" class="btn btn-primary">
-            <span class="material-symbols-outlined">play_circle</span>JUGAR</button>
+            <span class="material-symbols-outlined">play_circle</span>JUGAR
+        </button>
+        <button type="button" class="btn btn-primary" id="playWithTimeButton">
+            <span class="material-symbols-outlined">timer</span>JUGAR CON TIEMPO
+        </button>
         <button type="submit" class="btn btn-primary">
-            <span class="material-symbols-outlined">timer</span>JUGAR CON TIEMPO</button>
+            <span class="material-symbols-outlined">group</span>MULTIJUGADOR
+        </button>
         <button type="submit" class="btn btn-primary">
-            <span class="material-symbols-outlined">group</span>MULTIJUGADOR</button>
-        <button type="submit" class="btn btn-primary">
-            <span class="material-symbols-outlined">bar_chart</span>RANKING</button>
+            <span class="material-symbols-outlined">bar_chart</span>RANKING
+
+        </button>
     </form>
 </main>
+<!-- Modal -->
+<div id="timeModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Ingresa el tiempo en el que quieras jugar:</h3>
+        <input type="number" id="gameTime" placeholder="Tiempo en minutos">
+        <button class="btn" id="startGameWithTime">JUGAR</button>
+    </div>
+</div>
+<script>
+    // Obtener elementos del DOM
+    const modal = document.getElementById("timeModal");
+    const btn = document.getElementById("playWithTimeButton");
+    const span = document.getElementsByClassName("close")[0];
+    const startGameBtn = document.getElementById("startGameWithTime");
 
-<!-- Boostrap core js -->
-<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+    // Cuando el usuario hace clic en el botón, se abre el modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // Cuando el usuario hace clic en la 'x', se cierra el modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Cuando el usuario hace clic en cualquier parte fuera del modal, se cierra el modal
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+
+    // Redirigir al usuario a la partida con el tiempo ingresado
+    startGameBtn.onclick = function() {
+        const time = document.getElementById("gameTime").value;
+        if (time) {
+            window.location.href = `/blackjack?time=${time}`; // Ajusta la URL según sea necesario
+        } else {
+            alert("Por favor, ingresa un tiempo válido.");
+        }
+    }
+</script>
 </body>
 </html>
