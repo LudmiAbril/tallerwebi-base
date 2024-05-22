@@ -42,7 +42,7 @@ public class ControladorBlackjack {
 
         ModelMap modelo = new ModelMap();
         modelo.put("nuevoJugador", new Jugador());
-        return new ModelAndView("inicio-blackjack", modelo);
+        return new ModelAndView("irAlBlackjack", modelo);
     }
 
     @RequestMapping(path = "/blackjack", method = RequestMethod.POST)
