@@ -1,0 +1,9 @@
+.ahorcado{
+    width: 20%;
+}
+
+.titulo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
