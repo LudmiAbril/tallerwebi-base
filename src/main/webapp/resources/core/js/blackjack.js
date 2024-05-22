@@ -1,7 +1,8 @@
+import { start, stop } from "./cronometro.js";
+
 $(document).ready(function () {
   // Variable para almacenar la última carta del crupier con el dorso
   let cartaDorsoMostrar = null;
-
   // Función para agregar una nueva carta a un contenedor dado
   function agregarCarta(contenedor, nombreCarta, jugador) {
     contenedor.append(
@@ -13,8 +14,23 @@ $(document).ready(function () {
     );
   }
 
-  // TRAER LOS DATOS INICIALES
+  // MOSTRAR DATOS INICIALES
   $.get("comenzar", function (data) {
+    // nombre y valor de la mano
+    $("#nombre").text(data.jugadorActual);
+    actualizarPuntaje(data.puntaje);
+    // partidas anteriores
+    if (data.partidas) {
+      data.partidas.forEach(function (partida) {
+        $(".partidas").append(
+          "</br> fecha:" +
+            partida.fechaYhora +
+            " puntaje alcanzado:" +
+            partida.puntaje
+        );
+      });
+    }
+
     data.cartasCasa.forEach(function (carta, index) {
       // Mostrar el dorso de la carta inicialmente
       if (index === data.cartasCasa.length - 1) {
@@ -29,7 +45,6 @@ $(document).ready(function () {
         );
       }
     });
-
     data.cartasJugador.forEach(function (carta) {
       agregarCarta(
         $("#cartasJugador"),
@@ -38,15 +53,16 @@ $(document).ready(function () {
       );
     });
 
+    start();
     // si llegara a haber un blackjack inicial, finalizar separar esta funcion
     if (data.estadoPartida === "FINALIZADA") {
       setTimeout(function () {
-        finalizar(data.ganador, data.jugadorActual);
+        mostrarModalfinalizar(data.ganador, data.jugadorActual);
       }, 1000);
     }
   });
 
-  // PEDIR UNA CARTA NUEVA Y METERLA AL DIV(ESTAR ATENTO AL ESTADO DE LA PARTIDA)
+  // PEDIR CARTA
   $("#pedirCarta").click(function () {
     $.get("pedir-carta", function (data) {
       // Agrego la carta nueva al div del jugador
@@ -55,16 +71,18 @@ $(document).ready(function () {
         data.cartaNueva.simbolo + "_" + data.cartaNueva.palo,
         "jugador"
       );
+      // actualizar puntaje de mano
+      actualizarPuntaje(data.puntaje);
 
       if (data.estadoPartida === "FINALIZADA") {
         setTimeout(function () {
-          finalizar(data.ganador, data.jugadorActual);
+          mostrarModalfinalizar(data.ganador, data.jugadorActual);
         }, 1000);
       }
     });
   });
 
-  // PLANTARSE, AGREGAR CARTAS CRUPIER Y MOSTRAR MODAL CON EL RESULTADO
+  // PLANTARSE
   $("#plantarse").click(function () {
     $.get("plantarse", function (data) {
       let cartaDorsoCrupier = $("#cartasCasa img:last-child");
@@ -92,13 +110,21 @@ $(document).ready(function () {
       }, 800);
 
       setTimeout(function () {
-        finalizar(data.ganador, data.jugadorActual);
+        mostrarModalfinalizar(data.ganador, data.jugadorActual);
       }, 3000); // Esperar 3 segundos antes de finalizar
     });
   });
 });
 
-function finalizar(ganador, jugador) {
+function actualizarPuntaje(puntaje) {
+  $("#puntaje").text(puntaje);
+
+  if (puntaje > 21) {
+    $("#puntaje").addClass("puntaje-limite");
+  }
+}
+
+function mostrarModalfinalizar(ganador, jugador) {
   $("#modalFinPartida").show();
   let mensaje = "x";
   switch (ganador) {
@@ -113,4 +139,5 @@ function finalizar(ganador, jugador) {
       break;
   }
   $("#resultadoPartida").text(mensaje);
+  stop();
 }

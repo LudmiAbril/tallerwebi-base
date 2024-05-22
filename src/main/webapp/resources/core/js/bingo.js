@@ -1,14 +1,17 @@
 var intervaloRefresco;
+//se utilizará para almacenar el intervalo de actualización del número cantado.
 $(document).ready(function () {
     // una vez que se realiza la peticion /obtenerDatosIniciales se ejecuta la funcion siguiente, que es la respuesta a esa peticion. Es decir, cuando se pide /obtenerDatosIniciales se responde de esa forma
     $.get("obtenerDatosIniciales", function (data) {
         // en el elemento HTML con la id numeroCantado guarda el numeroAleatorioCantado que llega por data
+        //Establece el número cantado en el elemento HTML con el id numeroCantado, utilizando el número aleatorio devueltpor el servidor.
         $("#numeroCantado").text(data.numeroAleatorioCantado);
-        // Generar la tabla con la matriz
+        //para construir la estructura de la tabla del cartón.
         var tablaHtml = "";
         for (var i = 0; i < data.carton.numeros.length; i++) {
             tablaHtml += "<tr>";
             for (var j = 0; j < data.carton.numeros[i].length; j++) {
+                //Obtiene el número de casillero en la posición (i, j) del cartón.
                 var numeroCasillero = data.carton.numeros[i][j];
                 tablaHtml += "<td><button id='botonCasillero" + numeroCasillero + "' onclick='marcarCasillero(" + numeroCasillero + ")'>" + numeroCasillero + "</button></td>";
             }
@@ -19,7 +22,16 @@ $(document).ready(function () {
     });
     intervaloRefresco = setInterval(refrescarNumero, 7000);
 });
-
+function refrescarNumero() {
+    obtenerLosNumerosEntregados();
+    $(".numeroCantadoContenedor").removeClass("w3-animate-top");
+    setTimeout(function () {
+        $.get("obtenerNuevoNumero", function (data) {
+            $("#numeroCantado").text(data.nuevoNumero);
+            $(".numeroCantadoContenedor").addClass("w3-animate-top");
+        });
+    }, 100); // Espera 100 milisegundos antes de solicitar el nuevo número
+}
 function marcarCasillero(numeroCasillero) {
     $.get("obtenerNumeroActual", function (data) {
         numeroActual = data.numeroActual;
@@ -28,11 +40,11 @@ function marcarCasillero(numeroCasillero) {
                 $.post("marcarCasillero/" + numeroCasillero, function () {
                     $("#botonCasillero" + numeroCasillero).css("background-color", "purple");
                 })
-            obtenerLosNumerosEntregados();
             }
-        })
+        });
     });
 }
+
 
 function casilleroEsIgualANumeroEntregado(numeroCasillero, callback) {
     $.get("obtenerLosNumerosEntregados", function (data) {
@@ -48,45 +60,50 @@ function casilleroEsIgualANumeroEntregado(numeroCasillero, callback) {
     });
 }
 
-function refrescarNumero() {
-    $(".numeroCantadoContenedor").removeClass("w3-animate-top");
-    setTimeout(function () {
-        $.get("obtenerNuevoNumero", function (data) {
-            $("#numeroCantado").text(data.nuevoNumero);
-            $(".numeroCantadoContenedor").addClass("w3-animate-top");
-        });
-        obtenerLosNumerosEntregados();
-    }, 100); // Espera 100 milisegundos antes de solicitar el nuevo número
-}
-
 function obtenerLosNumerosEntregados() {
-    $.get("obtenerLosNumerosEntregados", function (data) {
-        // Obtener los últimos 5 números entregados
-        var ultimosNumeros = data.numerosEntregadosDeLaSesion.slice(-5);
+    bolaAmarillo = "bolaAmarillo.png";
+    bolaCeleste = "bolaCeleste.png"
+    bolaNaranja = "bolaNaranja.png";
+    bolaRoja = "bolaRoja.png";
+    bolaVerde = "bolaVerde.png"
+    bolaVioleta = "bolaVioleta.png"
+    rutaDeLasImgDeLasBolas = "/spring/imgStatic/";
 
-        // Limpiar el contenido anterior
+    let bolas = [
+        bolaAmarillo,
+        bolaCeleste,
+        bolaNaranja,
+        bolaRoja,
+        bolaVerde,
+        bolaVioleta
+    ];
+
+    let currentBolaIndex = 0;
+    $.get("obtenerLosNumerosEntregados", function (data) {
+        var ultimosNumeros = Array.from(data.numerosEntregadosDeLaSesion);
+        // ultimo = ultimosNumeros.lastIndexOf();
+        // console.log(ultimo);
+        ultimosNumeros.reverse();
+        var numerosParaMostrar = ultimosNumeros.slice(0, 5);
+        // console.log("Números a mostrar:", numerosParaMostrar);
         var numerosEntregadosDiv = $(".numerosEntregados");
         numerosEntregadosDiv.empty();
-
-        // Iterar sobre los últimos 5 números y mostrarlos
-        ultimosNumeros.forEach(function (numero) {
+        numerosParaMostrar.forEach(function (numero) {
             var parrafo = $("<p>").text(numero).attr("id", "numeroCantadoColeccion").addClass("numerosEntregadosContenedor");
+
+            // Agregar la imagen de fondo
+            var bola = bolas[currentBolaIndex];
+            var backgroundImageUrl = rutaDeLasImgDeLasBolas + bola;
+            parrafo.css('background-image', 'url(' + backgroundImageUrl + ')');
+
+            // Incrementar el índice de la bola y reiniciar si alcanza el final del array
+            currentBolaIndex = (currentBolaIndex + 1) % bolas.length;
+
             numerosEntregadosDiv.append(parrafo);
         });
     });
 }
 
-/*function obtenerLosNumerosEntregados() {
-    $.get("obtenerLosNumerosEntregados", function (data) {
-        // tengo que ir recorriendo cada item de los numeros y ponerlos en una etiqueta html
-        numerosEntregadosDiv = $(".numerosEntregados");
-        numerosEntregadosDiv.empty();
-        data.numerosEntregadosDeLaSesion.forEach(function (numero) {
-            parrafo = $("<p>").text(numero).attr("id", "numeroCantado").addClass("numerosEntregadosContenedor");
-            numerosEntregadosDiv.append(parrafo);
-        })
-    })
-}*/
 function bingo() {
     $.post("bingo", function (data) {
         if (data.seHizoBingo) {
@@ -94,7 +111,15 @@ function bingo() {
             clearInterval(intervaloRefresco); // Detener la actualización del número
             intervaloRefresco = null;
         } else {
-            sacudirBotonDeBingo();
+            console.log("apretado")
+            var botonBingo = document.querySelector("#botonBingo");
+            botonBingo.style.color = 'black';
+            botonBingo.classList.add('animate__animated', 'animate__shakeX');
+            botonBingo.style.backgroundColor = 'gray';
+            setTimeout(function () {
+                botonBingo.classList.remove('animate__animated', 'animate__shakeX');
+                botonBingo.style.backgroundColor = '#8a2be2';
+            }, 1000);
         }
 
     }
@@ -105,6 +130,3 @@ function abrirModal() {
     document.getElementById("modalBingo").style.display = "block";
 }
 
-function sacudirBotonDeBingo() {
-
-}

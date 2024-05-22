@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -27,7 +28,7 @@ public class ServicioBingoImpl implements ServicioBingo {
 		this.rand = new Random();
 		this.seHizobingo = false;
 		this.numerosMarcadosEnElCarton = new HashSet<Integer>();
-		this.numerosEntregados = new HashSet<Integer>();
+		this.numerosEntregados = new LinkedHashSet<Integer>();
 	}
 
 	@Override

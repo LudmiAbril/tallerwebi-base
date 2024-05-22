@@ -169,8 +169,19 @@ button {
     box-shadow: 10px 10px 11px -4px rgba(0, 0, 0, 0.19);
 }
 
-.boton-volver {
+.boton-volver-inicio {
     width: 100px;
     padding: 5px;
-    background-color: rgb(75, 75, 75);
+    background-color: rgb(82, 134, 194);
+}
+
+.boton-reiniciar {
+    width: 100px;
+    padding: 5px;
+    background-color: rgb(57, 179, 67);
+}
+
+.puntaje-limite{
+    color:red;
+    transition: 0.5s;
 }

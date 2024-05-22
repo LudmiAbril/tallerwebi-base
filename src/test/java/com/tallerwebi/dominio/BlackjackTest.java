@@ -24,7 +24,7 @@ public class BlackjackTest {
     }
 
     @Test
-    public void entregarCartasInciales() {
+    public void entregarCartasIniciales() {
         cartasJugador = servicio.entregarCartasPrincipales();
         assertThat(cartasJugador.size(), equalTo(2));
     }
@@ -45,7 +45,9 @@ public class BlackjackTest {
     @Test
     public void queAlPlantarseSeActualizeElMazoDelCrupier() {
         cartasCrupier.add(new Carta("3", 3, Palo.CORAZON));
-        cartasCrupier = servicio.plantarse(cartasCrupier);
+        cartasCrupier.add(new Carta("3", 3, Palo.DIAMANTE));
+        Integer valorMano1 = servicio.calcularPuntuacion(cartasCrupier);
+        cartasCrupier.addAll(servicio.plantarse(cartasCrupier));
         Integer valorMano = servicio.calcularPuntuacion(cartasCrupier);
         assertThat(valorMano, greaterThanOrEqualTo(17));
     }
@@ -88,4 +90,15 @@ public class BlackjackTest {
         assertThat(ganador, equalToIgnoringCase("jugador"));
     }
 
-}
+    @Test
+    public void queGaneElCrupierAlPlantarseElJugadorConUnPuntajeMenor() {
+        cartasJugador.add(new Carta("3", 3, Palo.DIAMANTE));
+        cartasJugador.add(new Carta("6", 6, Palo.DIAMANTE));
+        cartasCrupier.add(new Carta("8", 8, Palo.PICA));
+        cartasCrupier.add(new Carta("2", 2, Palo.PICA));
+        cartasCrupier.add(new Carta("5", 5, Palo.PICA));
+        cartasCrupier.add(new Carta("2", 3, Palo.PICA));
+        Boolean plantado = true;
+        String ganador = servicio.ganador(cartasJugador, cartasCrupier, "jugador", plantado);
+        assertThat(ganador, equalToIgnoringCase("casa"));
+    }}

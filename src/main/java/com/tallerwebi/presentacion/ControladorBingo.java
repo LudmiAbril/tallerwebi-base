@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,7 +42,7 @@ public class ControladorBingo {
 	@RequestMapping(path = "/comenzarJuegoBingo", method = RequestMethod.POST)
 	public ModelAndView comenzarJuegoBingo(@ModelAttribute("nuevoJugador") Jugador nuevoJugador, HttpSession session) {
 		CartonBingo carton = servicioBingo.generarCarton();
-		HashSet<Integer> numerosEntregados = new HashSet<Integer>();
+		Set<Integer> numerosEntregados = new LinkedHashSet<Integer>();
 		Integer numeroNuevo = this.servicioBingo.entregarNumeroAleatorio(numerosEntregados);
 		Integer numeroCantadoAleatorio = numeroNuevo;
 		numerosEntregados.add(numeroNuevo);
@@ -62,7 +63,7 @@ public class ControladorBingo {
 		Integer numeroCantadoAleatorio = (Integer) session.getAttribute("numeroAleatorioCantado");
 		Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
 		if (numerosEntregados == null) {
-			numerosEntregados = new HashSet<>();
+			numerosEntregados = new LinkedHashSet<>();
 			session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
 		}
 		numerosEntregados.add(numeroCantadoAleatorio);
@@ -94,7 +95,7 @@ public class ControladorBingo {
 	public Map<String, Integer> obtenerNuevoNumero(HttpSession session) {
 		Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
 		if (numerosEntregados == null) {
-			numerosEntregados = new HashSet<>();
+			numerosEntregados = new LinkedHashSet<>();
 			session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
 		}
 		Integer nuevoNumero = servicioBingo.entregarNumeroAleatorio(numerosEntregados);
@@ -133,5 +134,16 @@ public class ControladorBingo {
 		respuesta.put("numerosEntregadosDeLaSesion", numerosEntregadosDeLaSesion);
 		return respuesta;
 	}
+
+	@RequestMapping(path = "/obtenerNumerosMarcados", method = RequestMethod.GET)
+@ResponseBody
+public Map<String, Object> obtenerNumerosMarcados(HttpSession session) {
+    Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+    Map<String, Object> respuesta = new HashMap<>();
+    respuesta.put("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+    return respuesta;
+}
+
+	// obtener ultimo numero entregado
 
 }

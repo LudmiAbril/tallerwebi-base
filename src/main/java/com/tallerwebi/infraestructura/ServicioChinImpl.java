@@ -25,18 +25,20 @@ public class ServicioChinImpl implements ServicioChin {
     @Override
     public void repartirTodasLasCartas(ArrayList<Carta> mazoJugador1, ArrayList<Carta> mazoJugador2) {
 
-        for(int i =0; i< (baraja.getSize()/2); i++){
+        for(int i =0; i< (26); i++){
             mazoJugador1.add(baraja.sacarCarta());
         }
-        for(int i =baraja.getSize()/2; i< baraja.getSize(); i++){
+        for(int i =0; i< 26; i++){
             mazoJugador2.add(baraja.sacarCarta());
         }
     }
 
     @Override
-    public List<Carta> repartirCuatroCartasDeFrente(Jugador jugador) {
-        //ArrayList<Carta>
-        return List.of();
+    public List<Carta> repartirCuatroCartasDeFrente(ArrayList<Carta> mazoJugador1, ArrayList<Carta> manoJugador1) {
+        for(Integer i =0; i < 4; i++){
+            manoJugador1.add(mazoJugador1.remove(mazoJugador1.size()-1));
+        }
+        return manoJugador1;
     }
 
     @Override
@@ -72,22 +74,38 @@ public class ServicioChinImpl implements ServicioChin {
         if (ultimoValorDescarte1 != null && (valorJugada.equals(ultimoValorDescarte1 - 1) || valorJugada.equals(ultimoValorDescarte1 + 1))) {
             descarte1.add(cartaJugada);
         }
-
         else if (ultimoValorDescarte2 != null && (valorJugada.equals(ultimoValorDescarte2 - 1) || valorJugada.equals(ultimoValorDescarte2 + 1))) {
             descarte2.add(cartaJugada);
         }
     }
 
     @Override
-    public void guardarResultadoDePartida(Juego CHIN, Integer puntaje) {
-
-
-    }
+    public void guardarResultadoDePartida(Juego CHIN, Integer puntaje) {}
 
     @Override
     public void sacarDelMazoYPonerEnMano(ArrayList<Carta> mazoJugador1, ArrayList<Carta> manoJugador1) {
-        //ArrayList<Carta> manoJugador1 = new ArrayList<>();
-
         manoJugador1.add(mazoJugador1.remove(mazoJugador1.size()-1));
+    }
+
+    @Override
+    public boolean sePuedenAgregarCartasAlDescarte(ArrayList<Carta> descarte1, ArrayList<Carta> descarte2, ArrayList<Carta> manoJugador1, ArrayList<Carta> manoJugador2) {
+        Boolean sePuede = false;
+        if (descarte1.isEmpty() && descarte2.isEmpty()) {
+            return sePuede;
+        }
+        //Mientras haya una carta que sea posterior o anterior es true
+        Integer valor1 = descarte1.get(descarte1.size()-1).getValor();
+        Integer valor2 = descarte1.get(descarte1.size()-1).getValor();
+        for(Carta cartaAComprobar : manoJugador1){
+            if(cartaAComprobar.getValor().equals(valor1 +1 ) || cartaAComprobar.getValor().equals(valor1 -1 )){
+                sePuede=true;
+            }
+        }
+        for(Carta cartaAComprobar : manoJugador2){
+            if(cartaAComprobar.getValor().equals(valor2 +1 ) || cartaAComprobar.getValor().equals(valor2 -1 )){
+                sePuede=true;
+            }
+        }
+        return sePuede;
     }
 }

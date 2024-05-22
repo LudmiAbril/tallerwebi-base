@@ -21,23 +21,19 @@
         <div class="titulo">
             <h1>AHORCADO</h1>
             <p>¡No mueras, <span th:text="${jugador.nombre}">Jugador</span>!</p>
-        </div>
-
-        <div>
-            <form th:action="@{/intentarLetra}" method="post">
-                <label for="letra">Introduce una letra:</label>
-                <input type="text" id="letra" name="letra" maxlength="1" required>
-                <input type="hidden" name="palabra" th:value="${palabra}">
-                <input type="hidden" name="partesAhorcado" th:value="${partesAhorcado}">
-                <button type="submit">Intentar</button>
+            <p>Palabra: <span th:text="${palabra}"></span></p>
+          
+            <img th:src="@{/imgStatic/imagenAcesso.png}"  class="ahorcado" alt="ahorcado">
+       
+            <form action="#" method="post">
+                <input type="text" name="letra" />
+                <input type="hidden" name="palabra" th:value="${palabra}" />
+                <input type="hidden" name="partesAhorcado" th:value="${partesAhorcado}" />
+                <input type="submit" value="Enviar" />
             </form>
         </div>
-
-        <div>
-            <p>Partes del ahorcado restantes: <span th:text="${partesAhorcado}"></span></p>
-            <p th:text="${mensaje}"></p>
-        </div>
     </main>
+    
 
 </body>
 

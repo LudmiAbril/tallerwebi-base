@@ -2,9 +2,13 @@ package com.tallerwebi.presentacion;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -16,25 +20,32 @@ import javax.servlet.http.HttpSession;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tallerwebi.dominio.Carta;
+import com.tallerwebi.dominio.Juego;
 import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.Palo;
+import com.tallerwebi.dominio.Partida;
 import com.tallerwebi.dominio.ServicioBlackjack;
 import com.tallerwebi.dominio.ServicioPlataforma;
 
 public class ControladorBlackjackTest {
-    private ServicioBlackjack servicioBlackjackMock;
-    private ServicioPlataforma servicioPlataformaMock;
     private ControladorBlackjack controladorBlackjack;
-    private HttpSession session;
+    private MockHttpSession session;
+    @Mock
+    private ServicioBlackjack servicioBlackjackMock;
+    @Mock
+    private ServicioPlataforma servicioPlataformaMock;
 
     @BeforeEach
     public void init() {
-        this.servicioBlackjackMock = mock(ServicioBlackjack.class);
-        this.servicioPlataformaMock = mock(ServicioPlataforma.class);
+        MockitoAnnotations.initMocks(this);
         this.controladorBlackjack = new ControladorBlackjack(servicioBlackjackMock, servicioPlataformaMock);
         this.session = new MockHttpSession();
     }
@@ -52,18 +63,35 @@ public class ControladorBlackjackTest {
 
     @Test
     public void queSeAlIniciarseElJuegoSeRepartanDosCartasAlJugadorYalCrupier() {
-        // preparacion
+        // Preparación
+        Carta ca = new Carta("A", 11, Palo.CORAZON);
+        Carta cb = new Carta("3", 3, Palo.CORAZON);
+        Carta cc = new Carta("6", 6, Palo.DIAMANTE);
+        Carta cd = new Carta("9", 9, Palo.TREBOL);
+
+        List<Carta> manoJugadorEsperada = new ArrayList<>();
+        manoJugadorEsperada.add(cc);
+        manoJugadorEsperada.add(ca);
+
+        List<Carta> manoCrupierEsperada = new ArrayList<>();
+        manoCrupierEsperada.add(cd);
+        manoCrupierEsperada.add(cb);
+
         when(servicioBlackjackMock.entregarCartasPrincipales())
-                .thenReturn(Arrays.asList(mock(Carta.class), mock(Carta.class)));
+                .thenReturn(manoJugadorEsperada)
+                .thenReturn(manoCrupierEsperada);
 
-        // ejecucion
+        // Ejecución
         controladorBlackjack.comenzarBlackjack(mock(Jugador.class), session);
-        List<Carta> cartasJugador = (List<Carta>) session.getAttribute("cartasJugador");
-        List<Carta> cartasCasa = (List<Carta>) session.getAttribute("cartasCasa");
 
-        // validacion
-        assertThat(cartasJugador.size(), equalTo(2));
-        assertThat(cartasCasa.size(), equalTo(2));
+        // Verificación
+        List<Carta> manoJugadorObtenida = (List<Carta>) session.getAttribute("cartasJugador");
+        List<Carta> manoCrupierObtenida = (List<Carta>) session.getAttribute("cartasCasa");
+
+        assertNotNull(manoJugadorObtenida);
+        assertNotNull(manoCrupierObtenida);
+        assertThat(manoJugadorObtenida, equalTo(manoJugadorEsperada));
+        assertThat(manoCrupierObtenida, equalTo(manoCrupierEsperada));
     }
 
     @Test
@@ -82,7 +110,7 @@ public class ControladorBlackjackTest {
         session.setAttribute("cartasCasa", cartasCasa);
         session.setAttribute("jugadorActual", "jugador");
 
-        // ejecucion
+        // ejecucion- le paso la sesion con todo los datos nuevos.Actualiza la sesion y retorna un mapa
         Map<String, Object> datosSalida = controladorBlackjack.pedirCarta(session);
 
         // validacion
@@ -91,7 +119,7 @@ public class ControladorBlackjackTest {
 
     @Test
     public void QueAlPlantarseSeActualizeElMazoDelCrupier() {
-        // preparacion 
+        // preparacion
         Carta carta = new Carta("2", 2, Palo.CORAZON);
         List<Carta> mano = new ArrayList<>();
         mano.add(carta);
@@ -113,5 +141,7 @@ public class ControladorBlackjackTest {
         assertThat(manoFinalCRupier.size(), greaterThan(2));
 
     }
+
+    
 
 }
