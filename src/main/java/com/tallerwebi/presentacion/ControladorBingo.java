@@ -135,6 +135,15 @@ public class ControladorBingo {
 		return respuesta;
 	}
 
+	@RequestMapping(path = "/obtenerNumerosMarcados", method = RequestMethod.GET)
+@ResponseBody
+public Map<String, Object> obtenerNumerosMarcados(HttpSession session) {
+    Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+    Map<String, Object> respuesta = new HashMap<>();
+    respuesta.put("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+    return respuesta;
+}
+
 	// obtener ultimo numero entregado
 
 }

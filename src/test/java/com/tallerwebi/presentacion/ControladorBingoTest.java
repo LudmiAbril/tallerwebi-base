@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -139,22 +140,42 @@ public void queAlComenzarJuegoBingoNoSeGenereUnCartonNiSeGuardeEnLaSesion() {
     assertThat(session.getAttribute("carton"), equalTo(null));
 }
 
+@Test
+    public void queSePuedaHacerBingo() {
+        Set<Integer> numerosMarcadosDeLaSesion = new HashSet<>();
+        when(servicioBingoMock.bingo(numerosMarcadosDeLaSesion)).thenReturn(true);
+        session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
 
-/*@Test
-public void queAlObtenerDatosInicialesNoEncontremosUnCartonYElNumeroAleatorioEnLaSesion() {
-    // Configuración del mock de HttpSession
-    HttpSession sessionMock = mock(HttpSession.class);
-    when(sessionMock.getAttribute("carton")).thenReturn(null);
-    when(sessionMock.getAttribute("numeroAleatorioCantado")).thenReturn(null);
+        Map<String, Object> respuesta = controladorBingo.hacerBingo(session);
 
-    // Ejecución del método bajo prueba
-    Map<String, Object> respuesta = controladorBingo.obtenerDatosIniciales(sessionMock);
+        assertTrue(respuesta.containsKey("seHizoBingo"));
+        assertTrue((boolean) respuesta.get("seHizoBingo"));
+    }
 
-    // Validación
-    assertNotNull(respuesta);
-    assertFalse(respuesta.containsKey("carton"));
-    assertFalse(respuesta.containsKey("numeroAleatorioCantado"));
-}*/
+    /*
+    @Test
+public void queNoSePuedaMarcarUnNumeroQueNoEsIgualAlNumeroEntregado() {
+    // Arrange
+    CartonBingo cartonMock = mock(CartonBingo.class);
+    Integer numeroCantado = 5;
+    Integer numeroCasillero = 10;
 
+    // Establecer atributos en la sesión
+    session.setAttribute("carton", cartonMock);
+    session.setAttribute("numeroAleatorioCantado", numeroCantado);
 
+    // Act
+    controladorBingo.marcarCasillero(numeroCasillero, session);
+
+    // Assert
+    // Verificar que el número no se haya marcado en la sesión
+    Map<String, Object> respuesta = controladorBingo.obtenerNumerosMarcados(session);
+    Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) respuesta.get("numerosMarcadosDeLaSesion");
+    assertFalse(numerosMarcadosDeLaSesion.contains(numeroCasillero));
+     */
 }
+
+
+
+
+
