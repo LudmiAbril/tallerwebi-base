@@ -1,8 +1,10 @@
 package com.tallerwebi.presentacion;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalToIgnoringCase;
-import static org.hamcrest.Matchers.sameInstance; 
+import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -39,13 +41,14 @@ public class ControladorAhorcadoTest {
     }
 
     @Test
-    public void queAlSolicitarIrAlAhorcadoSeEntrgueLaVistaCorrespondiente() {
-        Jugador jugador = new Jugador();
-        jugador.setNombre("Juan");
-        when(session.getAttribute("jugador")).thenReturn(jugador);
+    public void queSeDevuelvaLaVistaInicialAhorcadoYObjetoJugadorVacio() {
 
-        ModelAndView mav = this.controlador.irAlAhorcado(jugador);
-        assertThat(mav.getViewName(), equalToIgnoringCase("ahorcado"));
-        assertThat(mav.getModel().get("jugador"), sameInstance(jugador)); 
+        ModelAndView modelAndView = controlador.irAlAhorcado();
+        String viewname = modelAndView.getViewName();
+
+        assertThat(viewname, equalToIgnoringCase("ahorcado"));
+        assertThat(modelAndView.getModel().get("jugador"), instanceOf(Jugador.class));
+        assertThat(((Jugador) modelAndView.getModel().get("jugador")).getNombre(), nullValue());
     }
+
 }
