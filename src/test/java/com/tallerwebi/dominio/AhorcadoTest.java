@@ -25,7 +25,7 @@ class AhorcadoTest {
     @BeforeEach
     public void init() {
         palabraMock = mock(Palabra.class);
-        sessionFactory = (SessionFactory) sessionFactory.getCurrentSession();
+        //sessionFactory = (SessionFactory) sessionFactory.getCurrentSession();
         repositorioPalabra = new RepositorioPalabraImpl(sessionFactory);
         this.servicio = new ServicioAhorcadoImpel(this.repositorioPalabra);
     }

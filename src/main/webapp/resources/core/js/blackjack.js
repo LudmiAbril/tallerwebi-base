@@ -1,3 +1,5 @@
+import { start, stop } from "./cronometro.js";
+
 $(document).ready(function () {
   // Variable para almacenar la última carta del crupier con el dorso
   let cartaDorsoMostrar = null;
@@ -37,6 +39,7 @@ $(document).ready(function () {
         "jugador"
       );
     });
+    start();
 
     // si llegara a haber un blackjack inicial, finalizar separar esta funcion
     if (data.estadoPartida === "FINALIZADA") {
@@ -45,6 +48,8 @@ $(document).ready(function () {
       }, 1000);
     }
   });
+
+  
 
   // PEDIR UNA CARTA NUEVA Y METERLA AL DIV(ESTAR ATENTO AL ESTADO DE LA PARTIDA)
   $("#pedirCarta").click(function () {
@@ -99,6 +104,7 @@ $(document).ready(function () {
 });
 
 function finalizar(ganador, jugador) {
+  
   $("#modalFinPartida").show();
   let mensaje = "x";
   switch (ganador) {
@@ -113,4 +119,5 @@ function finalizar(ganador, jugador) {
       break;
   }
   $("#resultadoPartida").text(mensaje);
+  stop();
 }
