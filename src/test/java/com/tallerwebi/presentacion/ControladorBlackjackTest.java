@@ -2,10 +2,13 @@ package com.tallerwebi.presentacion;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -18,14 +21,17 @@ import javax.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tallerwebi.dominio.Carta;
+import com.tallerwebi.dominio.Juego;
 import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.Palo;
+import com.tallerwebi.dominio.Partida;
 import com.tallerwebi.dominio.ServicioBlackjack;
 import com.tallerwebi.dominio.ServicioPlataforma;
 
@@ -54,7 +60,7 @@ public class ControladorBlackjackTest {
         assertThat(modelAndView.getModel().get("nuevoJugador"), instanceOf(Jugador.class));
         assertThat(((Jugador) modelAndView.getModel().get("nuevoJugador")).getNombre(), nullValue());
     }
-    
+
     @Test
     public void queSeAlIniciarseElJuegoSeRepartanDosCartasAlJugadorYalCrupier() {
         // Preparación
@@ -67,7 +73,7 @@ public class ControladorBlackjackTest {
         manoJugadorEsperada.add(cc);
         manoJugadorEsperada.add(ca);
 
-        List<Carta> manoCrupierEsperada =new ArrayList<>();
+        List<Carta> manoCrupierEsperada = new ArrayList<>();
         manoCrupierEsperada.add(cd);
         manoCrupierEsperada.add(cb);
 
@@ -87,7 +93,6 @@ public class ControladorBlackjackTest {
         assertThat(manoJugadorObtenida, equalTo(manoJugadorEsperada));
         assertThat(manoCrupierObtenida, equalTo(manoCrupierEsperada));
     }
-    
 
     @Test
     public void queSePuedaPedirUnaCarta() {
@@ -111,6 +116,7 @@ public class ControladorBlackjackTest {
         // validacion
         assertThat(datosSalida.get("cartaNueva"), equalTo(cartaEsperada));
     }
+
     @Test
     public void QueAlPlantarseSeActualizeElMazoDelCrupier() {
         // preparacion

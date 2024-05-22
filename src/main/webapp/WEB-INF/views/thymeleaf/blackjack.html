@@ -38,14 +38,26 @@
       <!-- Contenido del modal -->
       <div class="modal-content">
         <h2 id="resultadoPartida"></h2>
-        <form th:action="@{/inicio-blackjack}">
-          <button type="submit" class="boton-volver">Home</button>
+        <form th:action="@{/reiniciar}">
+          <button type="submit" class="boton-reiniciar">
+            Jugar otra partida
+          </button>
+        </form>
+        <form th:action="@{/finalizar}">
+          <button type="submit" class="boton-volver-inicio">
+            Volver al inicio
+          </button>
         </form>
       </div>
     </div>
 
     <main class="container-main">
-      <p style="color: white" class="reloj">00:00:00</p>
+      <h3>jugador: <span id="nombre"></span></h3>
+      <p style="color: white">tiempo transcurrido: <span class="reloj">00:00:00</span></p>
+      <div class="partidas">
+        <h3>Tus historial de partidas</h3>
+        <p th:text="${mensajePartidas}"></p>
+      </div>
       <div class="container-principal">
         <div class="cartas-container" id="cartasCasa"></div>
         <br />

@@ -4,17 +4,22 @@ import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 public class Partida {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String jugador;
     private Integer puntaje;
     private Juego juego;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime fechaYhora;
+
+    public Partida() {
+    }
 
     public Partida(String jugador, Integer puntaje, Juego juego) {
         this.jugador = jugador;
