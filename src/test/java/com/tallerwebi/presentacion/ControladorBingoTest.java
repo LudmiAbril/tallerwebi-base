@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -13,6 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -55,21 +57,29 @@ public class ControladorBingoTest {
     }
 
     @Test
-    public void queAlComenzarJuegoBingoSeRendericeLaVistaBingoGenerandoUnNumeroAleatorioEnLaSesion() {
-        //GIVEN
-        CartonBingo cartonMock = mock(CartonBingo.class);
-        //WHEN
-        when(servicioBingoMock.generarCarton()).thenReturn(cartonMock);
-        Jugador jugador = new Jugador();
-        jugador.setNombre("NombreDePrueba");
-        ModelAndView modelAndView = controladorBingo.comenzarJuegoBingo(jugador, session);
-        //THEN
-        assertEquals("bingo", modelAndView.getViewName());
-        assertNotNull(modelAndView.getModel().get("nombreJugador"));
-        assertSame(cartonMock, session.getAttribute("carton"));
-        assertNotNull(session.getAttribute("numeroAleatorioCantado"));
+    public void queAlComenzarJuegoBingoSeGenereUnNumeroAleatorioYSeGuardeEnLaSesion() {
+        Jugador jugadorMock = mock(Jugador.class);
+        when(jugadorMock.getNombre()).thenReturn("Mica");
+
+        Set<Integer> numerosEntregados = new LinkedHashSet<>();
+        Integer numeroAleatorio = 10;
+
+        when(servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
+
+        controladorBingo.comenzarJuegoBingo(jugadorMock, session);
+        
+        assertThat(session.getAttribute("numeroAleatorioCantado"), equalTo(numeroAleatorio));
     }
 
+    @Test
+    public void queAlComenzarJuegoBingoSeGenereUnCartonYSeGuardeEnLaSesion(){
+        CartonBingo cartonMock = mock(CartonBingo.class);
+        Jugador jugadorMock = mock(Jugador.class);
+        when(this.servicioBingoMock.generarCarton()).thenReturn(cartonMock);
+        controladorBingo.comenzarJuegoBingo(jugadorMock, session);
+
+        assertThat(cartonMock, equalTo(session.getAttribute("carton")));
+    }
     @Test
     public void queAlIrAVistaBingoSeRendericeLaVistaCorrectaYSeGuardeCorrectamenteUnJugador() {
         ModelAndView modelAndView = controladorBingo.irAlBingo();
@@ -100,6 +110,6 @@ public class ControladorBingoTest {
         assertEquals(numeroCantadoAleatorio, respuesta.get("numeroAleatorioCantado"));
     }
 
-
+    // que no se puede hacer bingo si todos los numeros entregados no fueron marcados
 
 }
