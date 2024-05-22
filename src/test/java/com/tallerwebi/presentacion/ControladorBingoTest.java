@@ -72,6 +72,15 @@ public class ControladorBingoTest {
     }
 
     @Test
+    public void queAlComenzarJuegoBingoSeGenereUnCartonYSeGuardeEnLaSesion(){
+        CartonBingo cartonMock = mock(CartonBingo.class);
+        Jugador jugadorMock = mock(Jugador.class);
+        when(this.servicioBingoMock.generarCarton()).thenReturn(cartonMock);
+        controladorBingo.comenzarJuegoBingo(jugadorMock, session);
+
+        assertThat(cartonMock, equalTo(session.getAttribute("carton")));
+    }
+    @Test
     public void queAlIrAVistaBingoSeRendericeLaVistaCorrectaYSeGuardeCorrectamenteUnJugador() {
         ModelAndView modelAndView = controladorBingo.irAlBingo();
         assertEquals("irAlBingo", modelAndView.getViewName());
@@ -100,5 +109,7 @@ public class ControladorBingoTest {
         assertEquals(cartonMock, cartonObtenido);
         assertEquals(numeroCantadoAleatorio, respuesta.get("numeroAleatorioCantado"));
     }
+
+    // que no se puede hacer bingo si todos los numeros entregados no fueron marcados
 
 }
