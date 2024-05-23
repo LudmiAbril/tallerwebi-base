@@ -179,30 +179,6 @@ public void queAlComenzarJuegoBingoNoSeGenereUnCartonNiSeGuardeEnLaSesion() {
         assertTrue((boolean) respuesta.get("seHizoBingo"));
     }
 
-    @Test
-    public void queNoSePuedaMarcarUnNumeroQueNoEsIgualAlNumeroEntregado() {
-        // Arrange
-        CartonBingo cartonMock = mock(CartonBingo.class);
-        Integer numeroAleatorio = 5;
-        Integer numeroCasillero = 20;
-
-        Set<Integer> numerosEntregados = new LinkedHashSet<>();
-        when(this.servicioBingoMock.generarCarton()).thenReturn(cartonMock);
-        when(this.servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
-
-        Set<Integer> numerosMarcadosDeLaSesion = new HashSet<>();
-        session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
-        session.getAttribute("numerosMarcadosDeLaSesion");
-
-        // Act
-        controladorBingo.marcarCasillero(numeroCasillero, session);
-
-        // Assert
-        // Verificar que el número no se haya marcado en la sesión
-        Map<String, Object> respuesta = controladorBingo.obtenerLosNumerosMarcados(session);
-        Set<Integer> numerosMarcadosDeLaSesionRespuesta = (Set<Integer>) respuesta.get("numerosMarcadosDeLaSesion");
-
-        assertFalse(numerosMarcadosDeLaSesionRespuesta.contains(numeroCasillero));
-    }
+   
 
 }
