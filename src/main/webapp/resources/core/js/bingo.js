@@ -1,5 +1,6 @@
 var intervaloRefresco;
 //se utilizará para almacenar el intervalo de actualización del número cantado.
+var numeroColorMap = {};
 $(document).ready(function () {
     // una vez que se realiza la peticion /obtenerDatosIniciales se ejecuta la funcion siguiente, que es la respuesta a esa peticion. Es decir, cuando se pide /obtenerDatosIniciales se responde de esa forma
     $.get("obtenerDatosIniciales", function (data) {
@@ -36,6 +37,7 @@ function marcarCasillero(numeroCasillero) {
     $.get("obtenerNumeroActual", function (data) {
         numeroActual = data.numeroActual;
         casilleroEsIgualANumeroEntregado(numeroCasillero, function (result) {
+            console.log("marcado")
             if (numeroCasillero == numeroActual || result) {
                 $.post("marcarCasillero/" + numeroCasillero, function () {
                     $("#botonCasillero" + numeroCasillero).css("background-color", "purple");
@@ -60,16 +62,52 @@ function casilleroEsIgualANumeroEntregado(numeroCasillero, callback) {
     });
 }
 
-function obtenerLosNumerosEntregados() {
-    bolaAmarillo = "bolaAmarillo.png";
-    bolaCeleste = "bolaCeleste.png"
-    bolaNaranja = "bolaNaranja.png";
-    bolaRoja = "bolaRoja.png";
-    bolaVerde = "bolaVerde.png"
-    bolaVioleta = "bolaVioleta.png"
-    rutaDeLasImgDeLasBolas = "/spring/imgStatic/";
+// function obtenerLosNumerosEntregados() {
+//     bolaAmarillo = "bolaAmarillo.png";
+//     bolaCeleste = "bolaCeleste.png"
+//     bolaNaranja = "bolaNaranja.png";
+//     bolaRoja = "bolaRoja.png";
+//     bolaVerde = "bolaVerde.png"
+//     bolaVioleta = "bolaVioleta.png"
+//     rutaDeLasImgDeLasBolas = "/spring/imgStatic/";
 
-    let bolas = [
+//     let bolas = [
+//         bolaAmarillo,
+//         bolaCeleste,
+//         bolaNaranja,
+//         bolaRoja,
+//         bolaVerde,
+//         bolaVioleta
+//     ];
+
+//     let currentBolaIndex = 0;
+//     $.get("obtenerLosNumerosEntregados", function (data) {
+//         var ultimosNumeros = Array.from(data.numerosEntregadosDeLaSesion);
+//         ultimosNumeros.reverse();
+//         var numerosParaMostrar = ultimosNumeros.slice(0, 5);
+//         var numerosEntregadosDiv = $(".numerosEntregados");
+//         numerosEntregadosDiv.empty();
+//         numerosParaMostrar.forEach(function (numero) {
+//             var parrafo = $("<p>").text(numero).attr("id", "numeroCantadoColeccion").addClass("numerosEntregadosContenedor");
+//             var bola = bolas[currentBolaIndex];
+//             var backgroundImageUrl = rutaDeLasImgDeLasBolas + bola;
+//             parrafo.css('background-image', 'url(' + backgroundImageUrl + ')');
+//             currentBolaIndex = (currentBolaIndex + 1) % bolas.length;
+//             numerosEntregadosDiv.append(parrafo);
+//         });
+//     });
+// }
+
+function obtenerLosNumerosEntregados() {
+    var bolaAmarillo = "bolaAmarillo.png";
+    var bolaCeleste = "bolaCeleste.png";
+    var bolaNaranja = "bolaNaranja.png";
+    var bolaRoja = "bolaRoja.png";
+    var bolaVerde = "bolaVerde.png";
+    var bolaVioleta = "bolaVioleta.png";
+    var rutaDeLasImgDeLasBolas = "/spring/imgStatic/";
+
+    var bolas = [
         bolaAmarillo,
         bolaCeleste,
         bolaNaranja,
@@ -78,31 +116,25 @@ function obtenerLosNumerosEntregados() {
         bolaVioleta
     ];
 
-    let currentBolaIndex = 0;
-    $.get("obtenerLosNumerosEntregados", function (data) {
-        var ultimosNumeros = Array.from(data.numerosEntregadosDeLaSesion);
-        // ultimo = ultimosNumeros.lastIndexOf();
-        // console.log(ultimo);
+    $.get("obtenerUltimosNumerosEntregados", function (data) {
+        var ultimosNumeros = data.ultimosNumerosEntregados;
         ultimosNumeros.reverse();
-        var numerosParaMostrar = ultimosNumeros.slice(0, 5);
-        // console.log("Números a mostrar:", numerosParaMostrar);
         var numerosEntregadosDiv = $(".numerosEntregados");
         numerosEntregadosDiv.empty();
-        numerosParaMostrar.forEach(function (numero) {
+
+        ultimosNumeros.forEach(function (numero) {
+            if (!numeroColorMap[numero]) {
+                numeroColorMap[numero] = bolas[Object.keys(numeroColorMap).length % bolas.length];
+            }
+
             var parrafo = $("<p>").text(numero).attr("id", "numeroCantadoColeccion").addClass("numerosEntregadosContenedor");
-
-            // Agregar la imagen de fondo
-            var bola = bolas[currentBolaIndex];
-            var backgroundImageUrl = rutaDeLasImgDeLasBolas + bola;
+            var backgroundImageUrl = rutaDeLasImgDeLasBolas + numeroColorMap[numero];
             parrafo.css('background-image', 'url(' + backgroundImageUrl + ')');
-
-            // Incrementar el índice de la bola y reiniciar si alcanza el final del array
-            currentBolaIndex = (currentBolaIndex + 1) % bolas.length;
-
             numerosEntregadosDiv.append(parrafo);
         });
     });
 }
+
 
 function bingo() {
     $.post("bingo", function (data) {
@@ -128,6 +160,35 @@ function bingo() {
 
 function abrirModal() {
     document.getElementById("modalBingo").style.display = "block";
+    lanzarConfetti();
+}
+
+function lanzarConfetti() {
+    var duration = 5 * 1000;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    var interval = setInterval(function() {
+        var timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+            return clearInterval(interval);
+        }
+
+        var particleCount = 50 * (timeLeft / duration);
+        confetti(Object.assign({}, defaults, { 
+            particleCount, 
+            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } 
+        }));
+        confetti(Object.assign({}, defaults, { 
+            particleCount, 
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } 
+        }));
+    }, 250);
 }
 
 
