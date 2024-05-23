@@ -85,9 +85,13 @@ public class ControladorBingo {
 		Integer numeroCantado = (Integer) session.getAttribute("numeroAleatorioCantado");
 
 		servicioBingo.marcarCasillero(numeroCasillero, carton);
-		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-		numerosMarcadosDeLaSesion.add(numeroCasillero);
-		session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+
+		if (numeroCasillero.equals(numeroCantado)) {
+			Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+			numerosMarcadosDeLaSesion.add(numeroCasillero);
+			session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+		}
+
 	}
 
 	@RequestMapping(path = "/obtenerNuevoNumero", method = RequestMethod.GET)
@@ -135,14 +139,14 @@ public class ControladorBingo {
 		return respuesta;
 	}
 
-	@RequestMapping(path = "/obtenerNumerosMarcados", method = RequestMethod.GET)
-@ResponseBody
-public Map<String, Object> obtenerNumerosMarcados(HttpSession session) {
-    Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-    Map<String, Object> respuesta = new HashMap<>();
-    respuesta.put("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
-    return respuesta;
-}
+	@RequestMapping(path = "/obtenerLosNumerosMarcados", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> obtenerLosNumerosMarcados(HttpSession session) {
+		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+		Map<String, Object> respuesta = new HashMap<String, Object>();
+		respuesta.put("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+		return respuesta;
+	}
 
 	// obtener ultimo numero entregado
 

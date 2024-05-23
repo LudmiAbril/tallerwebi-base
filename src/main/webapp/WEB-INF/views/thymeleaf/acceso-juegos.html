@@ -29,10 +29,7 @@
 <div id="myModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <label for="nombre">USUARIO:
-
-        </label>
-        <input type="text" placeholder="Ingrese texto" id="nombre" class="custom-input">
+        <p>Usuario: <span th:text="${jugador}"></span></p>
         <div class="btn-salir">
             <a th:href="@{/home}">
                 <button><span class="material-symbols-outlined">logout</span>Salir</button>

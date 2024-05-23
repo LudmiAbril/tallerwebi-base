@@ -1,8 +1,8 @@
 package com.tallerwebi.presentacion;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,43 +16,56 @@ import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class ControladorAccesoJuegos {
-
-    @RequestMapping(path = "/acceso-juegos")
-    public ModelAndView accesoJuegos() {
-
-        return new ModelAndView("acceso-juegos");
-    }
- //MISMO CONTROLADOR PARA EL TEMA DEL RANKING
     private ServicioPlataforma servicioPlataforma;
+
     @Autowired
-     public ControladorAccesoJuegos(ServicioPlataforma servicioPlataforma) {
-      
+    public ControladorAccesoJuegos(ServicioPlataforma servicioPlataforma) {
+
         this.servicioPlataforma = servicioPlataforma;
     }
-    @RequestMapping(path = "/verRanking" )
-    public ModelAndView verRanking(@RequestParam("tipoJuego") Juego tipoJuego ) {
-     
-        
-       ModelMap mav = new ModelMap();
+
+    @RequestMapping(path = "/acceso-juegos")
+    public ModelAndView accesoJuegos(@RequestParam("nombreJugador") String nombreJugador, HttpSession session) {
+        // guardo en la session el nombre del jugador de fomra global mientras este
+        // logueado :P
+        session.setAttribute("jugadorActual", nombreJugador);
+        ModelMap model = new ModelMap();
+        model.addAttribute("jugador", nombreJugador);
+        return new ModelAndView("acceso-juegos", model);
+    }
+
+    @RequestMapping(path = "/verRanking")
+    public ModelAndView verRanking(@RequestParam("tipoJuego") Juego tipoJuego) {
+
+        ModelMap mav = new ModelMap();
 
         Juego juego = tipoJuego;
-    
-    
+
         List<Partida> partidas;
         try {
             partidas = servicioPlataforma.generarRanking(juego);
             mav.addAttribute("partidas", partidas);
         } catch (PartidasDelJuegoNoEncontradasException e) {
-            mav.addAttribute("mensajeError","todavía no hay instancias de partidas de este juego,¿por qué no las empezas?");
-           
+            mav.addAttribute("mensajeError",
+                    "todavía no hay instancias de partidas de este juego,¿por qué no las empezas?");
+
         }
-        
-        mav.addAttribute("nombreJuego",tipoJuego.toString());
-    
-        return new ModelAndView("ranking",mav);
+
+        mav.addAttribute("nombreJuego", tipoJuego.toString());
+
+        return new ModelAndView("ranking", mav);
     }
-    
+
+    @RequestMapping(path = "/volverAlMenu")
+    public ModelAndView volverAlMenuDeJuegos(HttpSession session) {
+        ModelMap model = new ModelMap();
+        String jugador = (String) session.getAttribute("jugadorActual");
+        model.addAttribute("jugador", jugador);
+        return new ModelAndView("acceso-juegos",model);
+    }
+
 }

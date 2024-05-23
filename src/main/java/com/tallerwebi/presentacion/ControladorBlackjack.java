@@ -51,7 +51,7 @@ public class ControladorBlackjack {
     }
 
     @RequestMapping(path = "/blackjack", method = RequestMethod.POST)
-    public ModelAndView comenzarBlackjack(@ModelAttribute("nuevoJugador") Jugador nuevoJugador,
+    public ModelAndView comenzarBlackjack(
             HttpSession session) {
 
         ModelMap model = new ModelMap();
@@ -60,7 +60,7 @@ public class ControladorBlackjack {
         List<Carta> cartasJugador = servicioBlackjack.entregarCartasPrincipales();
         List<Carta> cartasCasa = servicioBlackjack.entregarCartasPrincipales();
         Integer puntajeInicial = servicioBlackjack.calcularPuntuacion(cartasJugador);
-        String nombreJugador = nuevoJugador.getNombre();
+        String nombreJugador = (String) session.getAttribute("jugadorActual");
         List<Partida> partidasAnteriores = new ArrayList<Partida>();
 
         try {
@@ -77,7 +77,7 @@ public class ControladorBlackjack {
         session.setAttribute("puntaje", puntajeInicial);
         session.setAttribute("estadoPartida", servicioBlackjack.estadoPartida(cartasJugador, cartasCasa, false));
         session.setAttribute("ganador",
-                servicioBlackjack.ganador(cartasJugador, cartasCasa, nuevoJugador.getNombre(), false));
+                servicioBlackjack.ganador(cartasJugador, cartasCasa, nombreJugador, false));
 
         // si estado partida "finalizado" llamo al servicioplataforma y guardo en la
         // base
