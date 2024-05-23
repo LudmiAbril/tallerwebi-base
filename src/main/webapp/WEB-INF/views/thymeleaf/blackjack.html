@@ -15,24 +15,43 @@
       th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"
     />
     <!-- custom style -->
-    <link rel="stylesheet" th:href="@{/css/main.css}" />
     <link rel="stylesheet" th:href="@{/css/blackjack.css}" />
-    li
+    <link rel="stylesheet" th:href="@{/css/abandonarPartida.css}" />
+
     <!-- javascript-->
     <script type="module" th:src="@{/js/blackjack.js}"></script>
     <script th:src="@{/js/cronometro.js}"></script>
+    <script th:src="@{/js/customModal.js}"></script>
     <link
       rel="stylesheet"
       th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}"
     />
+    <style>
+      .container-main {
+        max-width: 800px;
+        padding-left:800px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 90px;
+      }
+
+      .container-left {
+        grid-column: 1;
+      }
+
+      .container-right {
+        grid-column: 2;
+        width:300px;
+      }
+    </style>
   </head>
 
   <body>
-    <nav class="nav-bar">
-      <a href="acceso-juegos">
-        <span class="material-symbols-outlined icono">arrow_back</span>
-      </a>
-    </nav>
+  <nav class="nav-bar">
+    <a href="javascript:void(0)" id="openCustomExitModal">
+      <span class="material-symbols-outlined icono">arrow_back</span>
+    </a>
+  </nav>
     <!-- El modal que se abre al finalizar la partida -->
     <div id="modalFinPartida" class="modal">
       <!-- Contenido del modal -->
@@ -52,26 +71,48 @@
       </div>
     </div>
 
-    <main class="container-main">
-      <h3>jugador: <span id="nombre"></span></h3>
-      <p style="color: white">
-        tiempo transcurrido: <span class="reloj">00:00:00</span>
-      </p>
-      <p>Tu mano:<span id="puntaje"></span></p>
-      <div class="partidas">
-        <h3>Tus historial de partidas</h3>
-        <p th:text="${mensajePartidas}"></p>
+  <main class="container-main">
+    <div class="container-left">
+      <div class="jugador-info">
+        <h3>Jugador: <span id="nombre"></span></h3>
+        <p style="color: white">
+          <span class="material-symbols-outlined">access_time</span>
+          Tiempo transcurrido: <span class="reloj">00:00:00</span>
+        </p>
       </div>
       <div class="container-principal">
         <div class="cartas-container" id="cartasCasa"></div>
         <br />
-
+        <p>Tu mano:<span id="puntaje"></span></p>
         <div class="cartas-container" id="cartasJugador"></div>
+        <div class="botones">
+          <button id="pedirCarta" class="boton-pedir">Pedir Carta</button>
+          <button id="plantarse" class="boton-plantarse">Plantarse</button>
+        </div>
       </div>
-      <div class="botones">
-        <button id="pedirCarta" class="boton-pedir">Pedir Carta</button>
-        <button id="plantarse" class="boton-plantarse">Plantarse</button>
+    </div>
+    <div class="container-right">
+      <div class="partidas">
+        <h3>Tu historial de partidas</h3>
+        <p th:text="${mensajePartidas}"></p>
       </div>
-    </main>
+    </div>
+  </main>
+  <!-- Modal de Confirmación -->
+    <div id="customExitModal" class="modal-custom">
+      <div class="modal-content-custom">
+        <div class="modal-header-custom">
+          <h5>Confirmar Abandono</h5>
+          <span class="close-custom" id="closeCustomExitModal">&times;</span>
+        </div>
+        <div class="modal-body-custom">
+          ¿Estás seguro de que deseas abandonar la partida?
+        </div>
+        <div class="modal-footer-custom">
+          <button id="customCancelButton" class="boton-cancelar-custom">Cancelar</button>
+          <a th:href="@{/acceso-juegos}" class="boton-abandonar-custom">Abandonar</a>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

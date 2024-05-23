@@ -13,6 +13,7 @@
 
   <!-- custom style -->
   <link rel="stylesheet" th:href="@{/css/bingo.css}" />
+  <link rel="stylesheet" th:href="@{/css/abandonarPartida.css}" />
 
   <!----link google fonts--->
   <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
@@ -27,7 +28,7 @@
   <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}">
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+  <script th:src="@{/js/customModal.js}"></script>
 </head>
 
 <body>
@@ -44,82 +45,12 @@
   <span></span>
 </section>
 <nav class="nav-bar">
-  <a href="acceso-juegos">
+  <a href="javascript:void(0)" id="openCustomExitModal">
     <span class="material-symbols-outlined icono">arrow_back</span>
   </a>
-  <!-- Botón que abre el modal
-class="btn btn-link icono" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"
-        id="icono-modal"-->
-  <button class="btn btn-link icono">
-    <span class="material-symbols-outlined">help</span>
-  </button>
 </nav>
 
-<!-- Modal
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-custom">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title" id="exampleModalLabel">Aprende a Jugar Bingo</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
 
-        <div class="step-group">
-          <div class="step">
-            <h2>Paso 1: Obtén un cartón de bingo</h2>
-            <p>Recibe un cartón de bingo. Cada cartón tiene una cuadrícula de números.</p>
-            <img th:src="@{/imgStatic/carton.png}" alt="carton" class="carton-img">
-          </div>
-          <div class="step">
-            <h2>Paso 2: Mirá los números</h2>
-            <p>Cuando salen los números. Se muestran en la pantalla.</p>
-            <img th:src="@{/imgStatic/bolas.png}" alt="bolas" class="bolas-img">
-          </div>
-        </div>
-
-
-        <div class="step-group">
-          <div class="step">
-            <h2>Paso 3: Marca los números</h2>
-            <p>Cuando veas un número que está en tu cartón, haz clic en ese número para marcarlo.</p>
-            <img th:src="@{/imgStatic/cartonMarcado.png}" alt="carton marcado" class="carton-img">
-          </div>
-          <div class="step">
-            <h2>Paso 4: Gana</h2>
-            <p>Gana completando una fila horizontal, vertical en tu cartón.</p>
-            <ul>
-              <li style="margin-left: 25px;">En ese caso de completar una <strong>fila vertical</strong>, haz click en
-                el boton de <strong>"LINEA"</strong></li>
-              <li style="margin-left: 25px;">Si tenes <strong>Carton lleno </strong>pulsa el boton
-                <strong>"BINGO"</strong>
-              </li>
-            </ul>
-
-            <div class="boton-img-group">
-              <div>
-                <img th:src="@{/imgStatic/cartonLinea.png}" alt="carton linea" class="botones-img">
-                <img th:src="@{/imgStatic/botonLinea.png}" alt="Botón Línea" class="botones-img">
-              </div>
-              <div>
-                <img th:src="@{/imgStatic/cartonBingo.png}" alt="carton bingo" class="botones-img">
-                <img th:src="@{/imgStatic/botonBingo.png}" alt="Botón Bingo" class="botones-img">
-              </div>
-            </div>
-          </div>
-
-
-        </div>
-
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
--->
 <main role="main" class="container">
 
   <div class="numeroCantadoContenedor">
@@ -154,6 +85,22 @@ class="btn btn-link icono" type="button" data-bs-toggle="modal" data-bs-target="
     <form th:action="@{/irAlBingo.html}">
       <button type="submit" class="boton-volver">Home</button>
     </form>
+  </div>
+</div>
+<!-- Modal de Confirmación -->
+<div id="customExitModal" class="modal-custom">
+  <div class="modal-content-custom">
+    <div class="modal-header-custom">
+      <h5>Confirmar Abandono</h5>
+      <span class="close-custom" id="closeCustomExitModal">&times;</span>
+    </div>
+    <div class="modal-body-custom">
+      ¿Estás seguro de que deseas abandonar la partida?
+    </div>
+    <div class="modal-footer-custom">
+      <button id="customCancelButton" class="boton-cancelar-custom">Cancelar</button>
+      <a th:href="@{/acceso-juegos}" class="boton-abandonar-custom">Abandonar</a>
+    </div>
   </div>
 </div>
 

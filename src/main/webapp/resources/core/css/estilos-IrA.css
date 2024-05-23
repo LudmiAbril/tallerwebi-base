@@ -3,7 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
-
+.material-symbols-outlined {
+    text-decoration: none;
+}
 body, html {
     max-height: 100vh;
     height: 100%;
@@ -40,6 +42,7 @@ body {
     border-radius: 10px;
     height: 40px;
     width: 300px;
+    text-decoration: none;
     color: white;
     text-transform: uppercase;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
@@ -53,6 +56,7 @@ body {
     margin-right: 8px;
     display: flex;
     align-items: center;
+    text-decoration: none;
 }
 
 .btn-primary:hover {
@@ -77,6 +81,7 @@ body {
     z-index: 1000;
     margin-left: 15px;
     padding-top: 10px;
+    text-decoration: none;
 }
 
 .icono:hover {
