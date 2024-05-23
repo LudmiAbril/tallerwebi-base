@@ -8,13 +8,15 @@
 body {
     background-color: #291033;
     background-image: url("../imgStatic/blackjack-fondo.png");
-    background-size:  100% 100vh;
-    font-family: Arial, sans-serif; /* Cambia la fuente según sea necesario */
+    background-size: 100% 100vh;
+    font-family: Arial, sans-serif;
+    /* Cambia la fuente según sea necesario */
 }
 
-h3{
+h3 {
     text-align: center;
 }
+
 .icono {
     color: black;
     font-size: 25px;
@@ -107,8 +109,8 @@ h3{
     flex-direction: column;
     align-items: center;
     padding: 1em;
-   
-    
+
+
 }
 
 .container-right {
@@ -118,11 +120,13 @@ h3{
     align-items: center;
     padding: 1em;
 
-    
+
 }
-.time{
+
+.time {
     display: flex;
 }
+
 .cartas-container {
     display: flex;
     justify-content: center;
@@ -156,7 +160,7 @@ h3{
 .botones {
     display: flex;
     gap: 40px;
-    margin: 3%;
+    margin-top: 40px;
     justify-content: center;
 }
 
@@ -189,9 +193,10 @@ button {
 
 .boton-pedir:hover,
 .boton-plantarse:hover {
-    background-color: #6c4780; 
-    transform: translateY(-3px); 
+    background-color: #6c4780;
+    transform: translateY(-3px);
 }
+
 .boton-volver-inicio {
     width: 100px;
     padding: 5px;
@@ -214,41 +219,86 @@ button {
     text-align: center;
     box-sizing: border-box;
     display: flex;
-    padding: 1%;
+    padding: 3px;
     margin: 1%;
-    background-color: #a77dcdc2;
+    background-color: #18062765;
+    color: white;
     border-radius: 1em;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    width: 380px;
+}
+
+.c-partidas {
+    height: 300px;
+    overflow-y: auto;
+    text-align: center;
+    align-items: center;
 }
 
 .titulin {
     font-size: medium;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(116, 75, 139, 0.986);
+    margin: 0;
+    margin-top: 20px;
 }
 
 .partidas p {
-    color: black;
+    color: rgb(255, 255, 255);
     font-family: 'Teko', sans-serif;
     text-align: center;
- text-transform: uppercase;
 }
+
 @keyframes brillo {
     0% {
-      background-color: rgba(255, 255, 255, 0.8);
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
     }
+
     50% {
-      background-color: rgba(255, 255, 255, 0.5);
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.5);
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
     }
+
     100% {
-      background-color: rgba(255, 255, 255, 0.8);
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
     }
-  }
-  
-  .boton-brillo {
+}
+
+.boton-brillo {
     animation: brillo 1s infinite alternate;
-  }
-  
+}
+
+.time div {
+    display: flex;
+    align-items: center;
+
+}
+
+.puntaje-mano {
+    font-size: small;
+    padding: 5px;
+    background-color: #18062765;
+    color: white;
+    border-radius: 10px;
+
+}
+
+.mensaje-partidas {
+    font-size: medium;
+}
+
+.nombre-jugador {
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: larger;
+    text-shadow: 2px 2px 4px rgba(116, 75, 139, 0.986);
+}
+
+.jugador-info{
+    text-align: center;
+}

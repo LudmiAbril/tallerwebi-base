@@ -54,31 +54,34 @@
 
     <main class="container-main">
       <div class="container-left">
-      
         <div class="container-principal">
           <div class="cartas-container" id="cartasCasa"></div>
           <br />
-          <p>Tu mano:<span id="puntaje"></span></p>
+          <p class="puntaje-mano">Tu mano: <span id="puntaje"></span></p>
           <div class="cartas-container" id="cartasJugador"></div>
           <div class="botones">
-            <button id="pedirCarta" class="boton-pedir boton-brillo">Pedir Carta</button>
-            <button id="plantarse" class="boton-plantarse boton-brillo">Plantarse</button>            
+            <button id="pedirCarta" class="boton-pedir boton-brillo">
+              Pedir Carta
+            </button>
+            <button id="plantarse" class="boton-plantarse boton-brillo">
+              Plantarse
+            </button>
           </div>
         </div>
       </div>
       <div class="container-right">
         <div class="jugador-info">
-          <h3>Jugador: <span id="nombre"></span></h3>
+          <h3 class="nombre-jugador">Jugador: <span id="nombre"></span></h3>
           <div class="time">
-          <p style="color: white">
-            <span class="material-symbols-outlined">access_time</span>
-            Tiempo transcurrido: <span class="reloj">00:00:00</span>
-          </p>
-        </div>
+            <span style="color: white" class="material-symbols-outlined">access_time </span>
+            <p style="color: white" class="tiempo">Tiempo transcurrido: <span class="reloj">00:00:00</span>
+            </p>
+          </div>
         </div>
         <div class="partidas">
           <p class="titulin">Tu historial de partidas</p>
-          <p th:text="${mensajePartidas}"></p>
+          <p th:text="${mensajePartidas}" class="mensaje-partidas"></p>
+          <div class="c-partidas"></div>
         </div>
       </div>
     </main>
@@ -93,8 +96,12 @@
           ¿Estás seguro de que deseas abandonar la partida?
         </div>
         <div class="modal-footer-custom">
-          <button id="customCancelButton" class="boton-cancelar-custom">Cancelar</button>
-          <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom">Abandonar</a>
+          <button id="customCancelButton" class="boton-cancelar-custom">
+            Cancelar
+          </button>
+          <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom"
+            >Abandonar</a
+          >
         </div>
       </div>
     </div>

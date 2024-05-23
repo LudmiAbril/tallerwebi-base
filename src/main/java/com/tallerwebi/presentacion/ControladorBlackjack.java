@@ -86,7 +86,7 @@ public class ControladorBlackjack {
             partidasAnteriores = servicioPlataforma.obtenerUltimasPartidasDelUsuario(nombreJugador,
                     Juego.BLACKJACK);
         } catch (PartidaDeUsuarioNoEncontradaException e) {
-            model.addAttribute("mensajePartidas", "aun no hay partidas registradas");
+            model.addAttribute("mensajePartidas", "aun no hay partidas registradas.");
         }
         // guardo el nombre del jugador, los masos y los estados en la sesion
         session.setAttribute("jugadorActual", nombreJugador);

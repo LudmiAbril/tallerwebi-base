@@ -33,11 +33,8 @@ $(document).ready(function () {
     // partidas anteriores
     if (data.partidas) {
       data.partidas.forEach(function (partida) {
-        $(".partidas").append(
-          "</br> fecha:" +
-            partida.fechaYhora +
-            " puntaje alcanzado:" +
-            partida.puntaje
+        $(".c-partidas").append(
+          partida.fechaYhora + " puntaje alcanzado: " + partida.puntaje + "<br>"
         );
       });
     }
