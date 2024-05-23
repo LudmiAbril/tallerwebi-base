@@ -16,14 +16,21 @@
 
     <!-- Enlace animaciones-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-
+    <!-- Enlace a Google Fonts con Thymeleaf -->
+    <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
+    <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0}" />
 </head>
 
 <body>
+<div class="text-center">
+    <img th:src="@{/imgStatic/perfil.png}">
+</div>
 <main role="main" class="container">
-    <br><br><br><br><br>
-    <div class="text-center">
-        <img th:src="@{/imgStatic/logo.png}" alt="Imagen Redonda">
+    <div class="frase">
+    <p>¡Entra al juego, jefe!</p><br>
+    <p>Primero, dime tu nombre para unirte a la pandilla de los gatos.</p>
     </div>
     <form
             th:action="@{/acceso-juegos.html}"
@@ -31,7 +38,6 @@
             class="text-center">
         <br>
         <div class="mb-3">
-            <hr class="colorgraph" /><br><br>
             <input  id="nombre" type="nombre" class="form-control" required placeholder="Ingrese tu nombre" />
          </div>
          <button id="btn-registrarme" class="btn btn-primary" type="Submit">Ingresar</button>

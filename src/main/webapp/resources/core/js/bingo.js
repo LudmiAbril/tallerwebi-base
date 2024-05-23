@@ -130,3 +130,4 @@ function abrirModal() {
     document.getElementById("modalBingo").style.display = "block";
 }
 
+
