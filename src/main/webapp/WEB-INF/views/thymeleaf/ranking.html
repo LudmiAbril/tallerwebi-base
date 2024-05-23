@@ -32,8 +32,10 @@
         </p>
         <div th:unless="${mensajeError}" th:each="partida : ${partidas}">
             <div class="cajita-partida">
+              
                 <p>Jugador: <span th:text="${partida.jugador}"></span></p>
-                <p>Puntaje: <span th:text="${partida.puntaje}"></span></p>
+                    <p>Puntaje: <span th:text="${partida.puntaje}"></span></p>
+              
             </div>
         </div>
        

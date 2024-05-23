@@ -24,34 +24,16 @@
     <script th:src="@{/js/customModal.js}"></script>
     <link
       rel="stylesheet"
-      th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
-    <style>
-      .container-main {
-        max-width: 800px;
-        padding-left:800px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 90px;
-      }
-
-      .container-left {
-        grid-column: 1;
-      }
-
-      .container-right {
-        grid-column: 2;
-        width:300px;
-      }
-    </style>
   </head>
 
   <body>
-  <nav class="nav-bar">
-    <a href="javascript:void(0)" id="openCustomExitModal">
-      <span class="material-symbols-outlined icono">arrow_back</span>
-    </a>
-  </nav>
+    <nav class="nav-bar">
+      <a href="javascript:void(0)" id="openCustomExitModal">
+        <span class="material-symbols-outlined icono">arrow_back</span>
+      </a>
+    </nav>
     <!-- El modal que se abre al finalizar la partida -->
     <div id="modalFinPartida" class="modal">
       <!-- Contenido del modal -->
@@ -70,34 +52,37 @@
       </div>
     </div>
 
-  <main class="container-main">
-    <div class="container-left">
-      <div class="jugador-info">
-        <h3>Jugador: <span id="nombre"></span></h3>
-        <p style="color: white">
-          <span class="material-symbols-outlined">access_time</span>
-          Tiempo transcurrido: <span class="reloj">00:00:00</span>
-        </p>
-      </div>
-      <div class="container-principal">
-        <div class="cartas-container" id="cartasCasa"></div>
-        <br />
-        <p>Tu mano:<span id="puntaje"></span></p>
-        <div class="cartas-container" id="cartasJugador"></div>
-        <div class="botones">
-          <button id="pedirCarta" class="boton-pedir">Pedir Carta</button>
-          <button id="plantarse" class="boton-plantarse">Plantarse</button>
+    <main class="container-main">
+      <div class="container-left">
+      
+        <div class="container-principal">
+          <div class="cartas-container" id="cartasCasa"></div>
+          <br />
+          <p>Tu mano:<span id="puntaje"></span></p>
+          <div class="cartas-container" id="cartasJugador"></div>
+          <div class="botones">
+            <button id="pedirCarta" class="boton-pedir boton-brillo">Pedir Carta</button>
+            <button id="plantarse" class="boton-plantarse boton-brillo">Plantarse</button>            
+          </div>
         </div>
       </div>
-    </div>
-    <div class="container-right">
-      <div class="partidas">
-        <h3>Tu historial de partidas</h3>
-        <p th:text="${mensajePartidas}"></p>
+      <div class="container-right">
+        <div class="jugador-info">
+          <h3>Jugador: <span id="nombre"></span></h3>
+          <div class="time">
+          <p style="color: white">
+            <span class="material-symbols-outlined">access_time</span>
+            Tiempo transcurrido: <span class="reloj">00:00:00</span>
+          </p>
+        </div>
+        </div>
+        <div class="partidas">
+          <p class="titulin">Tu historial de partidas</p>
+          <p th:text="${mensajePartidas}"></p>
+        </div>
       </div>
-    </div>
-  </main>
-  <!-- Modal de Confirmación -->
+    </main>
+    <!-- Modal de Confirmación -->
     <div id="customExitModal" class="modal-custom">
       <div class="modal-content-custom">
         <div class="modal-header-custom">

@@ -6,15 +6,15 @@
 }
 
 body {
-    background-image: url("../imgStatic/fondoBlackjack.gif");
+    background-color: #291033;
+    background-image: url("../imgStatic/blackjack-fondo.png");
     background-size: cover;
     font-family: Arial, sans-serif; /* Cambia la fuente según sea necesario */
 }
 
-.nav-bar {
-    /* Estilos para la barra de navegación si es necesario */
+h3{
+    text-align: center;
 }
-
 .icono {
     color: black;
     font-size: 25px;
@@ -84,8 +84,7 @@ body {
 .carta {
     box-shadow: 10px 10px 10px -2px rgba(0, 0, 0, 0.27);
     border-radius: 8px;
-    width: 110px;
-
+    width: 7em;
 }
 
 .nueva-carta-jugador {
@@ -98,12 +97,32 @@ body {
 
 .container-main {
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    align-items: center;
-    gap: 30px;
+    align-items: flex-start;
 }
 
+.container-left {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+   
+    
+}
+
+.container-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+
+    
+}
+.time{
+    display: flex;
+}
 .cartas-container {
     display: flex;
     justify-content: center;
@@ -115,7 +134,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 30px;
+    gap: 0.5em;
 }
 
 /* Definición de la animación de volteo */
@@ -137,6 +156,7 @@ body {
 .botones {
     display: flex;
     gap: 40px;
+    margin: 3%;
     justify-content: center;
 }
 
@@ -149,36 +169,39 @@ button {
     font: inherit;
     cursor: pointer;
     color: white;
-
     border-radius: 10px;
     font-size: small;
 }
 
 .boton-pedir {
-    background-image: linear-gradient(to bottom, #00a7ff, #0a95eb, #0e84d7, #1073c3, #0f63af);
-    border: solid 1px;
+    background-image: linear-gradient(to bottom, #d8bfe6, #c5a3d1, #b289bc, #9f70a8, #8c5894);
     padding: 10px;
-    border-color: #00a7ff;
+    border-color: #d8bfe6;
     box-shadow: 10px 10px 11px -4px rgba(0, 0, 0, 0.19);
 }
+
 .boton-plantarse {
-    background-image: linear-gradient(to bottom, #ff0000, #ec0016, #d80020, #c40527, #af0f2b);
-    border: solid 1px;
-    border-color: #ff0000;
+    background-image: linear-gradient(to bottom, #b28dd6, #a678c7, #9962b8, #8c4ca9, #7f369a);
+    border-color: #b28dd6;
     padding: 10px;
     box-shadow: 10px 10px 11px -4px rgba(0, 0, 0, 0.19);
 }
 
+.boton-pedir:hover,
+.boton-plantarse:hover {
+    background-color: #6c4780; 
+    transform: translateY(-3px); 
+}
 .boton-volver-inicio {
     width: 100px;
     padding: 5px;
-    background-color: rgb(82, 134, 194);
+    background-color: rgb(226, 97, 213);
 }
 
 .boton-reiniciar {
     width: 100px;
     padding: 5px;
-    background-color: rgb(57, 179, 67);
+    background-color: rgb(93, 32, 104);
 }
 
 .puntaje-limite {
@@ -188,11 +211,44 @@ button {
 
 /* Ajuste para el historial de partidas */
 .partidas {
-   padding-left:700px;
-
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    padding: 1%;
+    margin: 1%;
+    background-color: #a77dcdc2;
+    border-radius: 1em;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
-.partidas h3, .partidas p {
-    color: black; /* Cambia el color del texto según sea necesario */
-    text-align: right;
+.titulin {
+    font-size: medium;
 }
+
+.partidas p {
+    color: black;
+    font-family: 'Teko', sans-serif;
+    text-align: center;
+ text-transform: uppercase;
+}
+@keyframes brillo {
+    0% {
+      background-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+    50% {
+      background-color: rgba(255, 255, 255, 0.5);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    }
+    100% {
+      background-color: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+  }
+  
+  .boton-brillo {
+    animation: brillo 1s infinite alternate;
+  }
+  
