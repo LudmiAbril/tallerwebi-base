@@ -33,12 +33,12 @@
     <p>Primero, dime tu nombre para unirte a la pandilla de los gatos.</p>
     </div>
     <form
-            th:action="@{/acceso-juegos.html}"
+            th:action="@{/acceso-juegos}"
             method="POST"
             class="text-center">
         <br>
         <div class="mb-3">
-            <input  id="nombre" type="nombre" class="form-control" required placeholder="Ingrese tu nombre" />
+            <input  id="nombre" name="nombreJugador" type="nombre" class="form-control" required placeholder="Ingrese tu nombre" />
          </div>
          <button id="btn-registrarme" class="btn btn-primary" type="Submit">Ingresar</button>
      </form>

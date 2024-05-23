@@ -3,6 +3,8 @@ import { start, stop } from "./cronometro.js";
 $(document).ready(function () {
   // Variable para almacenar la última carta del crupier con el dorso
   let cartaDorsoMostrar = null;
+  let hayContrareloj = false;
+  let tiempoLimite = "";
   // Función para agregar una nueva carta a un contenedor dado
   function agregarCarta(contenedor, nombreCarta, jugador) {
     contenedor.append(
@@ -17,7 +19,16 @@ $(document).ready(function () {
   // MOSTRAR DATOS INICIALES
   $.get("comenzar", function (data) {
     // nombre y valor de la mano
+    if (data.contrareloj) {
+      hayContrareloj = true;
+      tiempoLimite = data.tiempoLimite;
+      $("#limite").text(tiempoLimite);
+    } else {
+      hayContrareloj = false;
+    }
+
     $("#nombre").text(data.jugadorActual);
+
     actualizarPuntaje(data.puntaje);
     // partidas anteriores
     if (data.partidas) {
@@ -114,7 +125,44 @@ $(document).ready(function () {
       }, 3000); // Esperar 3 segundos antes de finalizar
     });
   });
+
+  setInterval(function () {
+    if (hayContrareloj) {
+      verificarTiempo(tiempoLimite);
+      console.log(
+        "paso un min" +
+          "tiempo lim:" +
+          tiempoLimite +
+          "hora actual:" +
+          obtenerHoraActual()
+      );
+    }
+  }, 60000);
 });
+
+function obtenerHoraActual() {
+  var tiempoActual = new Date();
+  var horas = tiempoActual.getHours();
+  var minutos = tiempoActual.getMinutes();
+  var segundos = tiempoActual.getSeconds();
+
+  // Formatear los componentes de tiempo
+  horas = horas < 10 ? "0" + horas : horas;
+  minutos = minutos < 10 ? "0" + minutos : minutos;
+  segundos = segundos < 10 ? "0" + segundos : segundos;
+
+  // Crear y devolver la cadena de tiempo formateada
+  return horas + ":" + minutos;
+}
+
+function verificarTiempo(tiempoLimite) {
+  let horaActual = obtenerHoraActual();
+  if (horaActual === tiempoLimite) {
+    stop();
+    $(".reloj").addClass("puntaje-limite");
+    $("#plantarse").click();
+  }
+}
 
 function actualizarPuntaje(puntaje) {
   $("#puntaje").text(puntaje);

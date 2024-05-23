@@ -1,6 +1,8 @@
 package com.tallerwebi.presentacion;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -51,8 +54,9 @@ public class ControladorBlackjack {
     }
 
     @RequestMapping(path = "/blackjack", method = RequestMethod.POST)
-    public ModelAndView comenzarBlackjack(
-            HttpSession session) {
+    public ModelAndView comenzarBlackjack(HttpSession session,
+            @RequestParam(value = "contrareloj", defaultValue = "false") Boolean contrareloj,
+            @RequestParam(value = "tiempoLimite", required = false) Integer tiempoLimiteMinutos) {
 
         ModelMap model = new ModelMap();
 
@@ -62,6 +66,21 @@ public class ControladorBlackjack {
         Integer puntajeInicial = servicioBlackjack.calcularPuntuacion(cartasJugador);
         String nombreJugador = (String) session.getAttribute("jugadorActual");
         List<Partida> partidasAnteriores = new ArrayList<Partida>();
+
+        if (contrareloj) {
+            // calcula la hora exacta final, la formateo y la paso
+            long tiempoLimiteMilisegundos = tiempoLimiteMinutos * 60 * 1000;
+            long tiempoExpiracion = System.currentTimeMillis() + tiempoLimiteMilisegundos;
+            Date fechaExpiracion = new Date(tiempoExpiracion);
+            SimpleDateFormat formato = new SimpleDateFormat("HH:mm");
+            String tiempoExpiracionFormateado = formato.format(fechaExpiracion);
+
+            session.setAttribute("contrareloj", true);
+            session.setAttribute("tiempoLimite", tiempoExpiracionFormateado);
+            session.setAttribute("minutos", tiempoLimiteMinutos);
+        } else {
+            session.setAttribute("contrareloj", false);
+        }
 
         try {
             partidasAnteriores = servicioPlataforma.obtenerUltimasPartidasDelUsuario(nombreJugador,
@@ -96,9 +115,16 @@ public class ControladorBlackjack {
         String ganador = (String) session.getAttribute("ganador");
         Integer puntaje = (Integer) session.getAttribute("puntaje");
         List<Partida> partidasAnteriores = (List<Partida>) session.getAttribute("partidas");
+        Boolean contrareloj = (Boolean) session.getAttribute("contrareloj");
 
         // Creo la respuesta con las cartas del jugador y del crupier para pasarle al js
         Map<String, Object> response = new HashMap<>();
+        if (contrareloj) {
+            response.put("contrareloj", true);
+            response.put("tiempoLimite", session.getAttribute("tiempoLimite"));
+        } else {
+            response.put("contrareloj", false);
+        }
         response.put("cartasJugador", cartasJugador);
         response.put("partidas", partidasAnteriores);
         response.put("cartasCasa", cartasCasa);
@@ -193,7 +219,19 @@ public class ControladorBlackjack {
         List<Carta> cartasCasa = servicioBlackjack.entregarCartasPrincipales();
         Integer puntajeInicial = servicioBlackjack.calcularPuntuacion(cartasJugador);
         List<Partida> partidas = new ArrayList<Partida>();
+        Boolean contrareloj = (Boolean) session.getAttribute("contrareloj");
         ModelMap model = new ModelMap();
+
+        if (contrareloj) {
+            Integer tiempoLimiteMinutos = (Integer) session.getAttribute("minutos");
+            long tiempoLimiteMilisegundos = tiempoLimiteMinutos * 60 * 1000;
+            long tiempoExpiracion = System.currentTimeMillis() + tiempoLimiteMilisegundos;
+            Date fechaExpiracion = new Date(tiempoExpiracion);
+            SimpleDateFormat formato = new SimpleDateFormat("HH:mm");
+            String tiempoExpiracionFormateado = formato.format(fechaExpiracion);
+            session.setAttribute("tiempoLimite", tiempoExpiracionFormateado);
+
+        }
 
         try {
             partidas = servicioPlataforma.obtenerPartidasUsuario(jugador, Juego.BLACKJACK);
