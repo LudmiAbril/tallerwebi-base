@@ -28,7 +28,7 @@
   <script th:src="@{https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js}"></script>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script th:src="@{/js/customModel.js}"></script>
+  <script th:src="@{/js/customModal.js}"></script>
 </head>
 
 <body>
@@ -87,7 +87,7 @@
     </form>
   </div>
 </div>
-<!-- Modal de Confirmación-->
+<!-- Modal de Confirmación -->
 <div id="customExitModal" class="modal-custom">
   <div class="modal-content-custom">
     <div class="modal-header-custom">
@@ -98,12 +98,15 @@
       ¿Estás seguro de que deseas abandonar la partida?
     </div>
     <div class="modal-footer-custom">
-      <button id="customCancelButton" class="boton-cancelar-custom">Cancelar</button>
-      <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom">Abandonar</a>
+      <button id="customCancelButton" class="boton-cancelar-custom">
+        Cancelar
+      </button>
+      <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom"
+      >Abandonar</a
+      >
     </div>
   </div>
 </div>
-
 </body>
 
 </html>
