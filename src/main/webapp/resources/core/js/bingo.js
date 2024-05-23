@@ -160,7 +160,7 @@ function bingo() {
 
 function abrirModal() {
     document.getElementById("modalBingo").style.display = "block";
-    lanzarConfetti();
+    // lanzarConfetti();
 }
 
 function lanzarConfetti() {
