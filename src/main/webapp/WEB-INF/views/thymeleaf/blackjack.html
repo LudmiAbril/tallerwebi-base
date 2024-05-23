@@ -26,7 +26,6 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
-    
   </head>
 
   <body>
@@ -41,10 +40,14 @@
         <h2 id="resultadoPartida"></h2>
         <div class="botones-modal">
           <form th:action="@{/reiniciar}" method="post">
-            <button type="submit" class="boton-reiniciar">Jugar otra partida</button>
+            <button type="submit" class="boton-reiniciar">
+              Jugar otra partida
+            </button>
           </form>
           <form th:action="@{/finalizar}" method="post">
-            <button type="submit" class="boton-volver-inicio">Volver al inicio</button>
+            <button type="submit" class="boton-volver-inicio">
+              Volver al inicio
+            </button>
           </form>
         </div>
       </div>
@@ -70,8 +73,11 @@
         <div class="jugador-info">
           <h3 class="nombre-jugador">Jugador: <span id="nombre"></span></h3>
           <div class="time">
-            <span style="color: white" class="material-symbols-outlined">access_time </span>
-            <p style="color: white" class="tiempo">Tiempo transcurrido: <span class="reloj">00:00:00</span>
+            <span style="color: white" class="material-symbols-outlined"
+              >access_time
+            </span>
+            <p style="color: white" class="tiempo">
+              Tiempo transcurrido: <span class="reloj">00:00:00</span>
             </p>
           </div>
         </div>
@@ -97,7 +103,7 @@
             Cancelar
           </button>
           <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom"
-          >Abandonar</a
+            >Abandonar</a
           >
         </div>
       </div>
