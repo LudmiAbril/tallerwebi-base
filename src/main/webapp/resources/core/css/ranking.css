@@ -1,0 +1,247 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-image: url("../imgStatic/gatitosBingo.png");
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+
+  }
+main {
+   margin: 2%;
+  }
+  .material-symbols-outlined {
+    text-decoration: none;
+}
+
+  .sign {
+    display: flex;
+    justify-content: center;
+    background-image: radial-gradient(ellipse 50% 35% at 50% 50%, #6b1839, transparent);
+    font-family: "Clip";
+    text-transform: uppercase;
+    font-size: 4em;
+    color: #ffe6ff;
+    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+        -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+        0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+    animation: shine 2s forwards, flicker 3s infinite;
+}
+
+.fast-flicker {
+    animation: shine 2s forwards, blink 10s 1s infinite;
+}
+
+.flicker {
+    animation: shine 2s forwards, blink 3s 2s infinite;
+}
+
+.mensajeError{
+    text-align: center;
+    color: white;
+    border-radius: 2.5em;
+    padding: 1%;
+    background-color: #0000006e;
+}
+@keyframes blink {
+    0%, 22%, 36%, 75% {
+        color: #ffe6ff;
+        text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+            -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+            0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+    }
+    28%, 33% {
+        color: #ff65bd;
+        text-shadow: none;
+    }
+    82%, 97% {
+        color: #ff2483;
+        text-shadow: none;
+    }
+}
+
+@keyframes shine {
+    0% {
+        color: #6b1839;
+        text-shadow: none;
+    }
+    100% {
+        color: #ffe6ff;
+        text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+            -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+            0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+    }
+}
+@keyframes shine2 {
+    0% {
+        color: #4b0082; 
+        text-shadow: none;
+    }
+    100% {
+        color: #d8bfd8; 
+        text-shadow: 0 0 0.6rem #d8bfd8, 0 0 1.5rem #8a2be2, -0.2rem 0.1rem 1rem #8a2be2, 0.2rem 0.1rem 1rem #8a2be2, 0 -0.5rem 2rem #9400d3, 0 0.5rem 3rem #9400d3;
+    }
+}
+
+
+@keyframes flicker {
+    from {
+        opacity: 1;
+    }
+    4% {
+        opacity: 0.9;
+    }
+    6% {
+        opacity: 0.85;
+    }
+    8% {
+        opacity: 0.95;
+    }
+    10% {
+        opacity: 0.9;
+    }
+    11% {
+        opacity: 0.922;
+    }
+    12% {
+        opacity: 0.9;
+    }
+    14% {
+        opacity: 0.95;
+    }
+    16% {
+        opacity: 0.98;
+    }
+    17% {
+        opacity: 0.9;
+    }
+    19% {
+        opacity: 0.93;
+    }
+    20% {
+        opacity: 0.99;
+    }
+    24% {
+        opacity: 1;
+    }
+    26% {
+        opacity: 0.94;
+    }
+    28% {
+        opacity: 0.98;
+    }
+    37% {
+        opacity: 0.93;
+    }
+    38% {
+        opacity: 0.5;
+    }
+    39% {
+        opacity: 0.96;
+    }
+    42% {
+        opacity: 1;
+    }
+    44% {
+        opacity: 0.97;
+    }
+    46% {
+        opacity: 0.94;
+    }
+    56% {
+        opacity: 0.9;
+    }
+    58% {
+        opacity: 0.9;
+    }
+    60% {
+        opacity: 0.99;
+    }
+    68% {
+        opacity: 1;
+    }
+    70% {
+        opacity: 0.9;
+    }
+    72% {
+        opacity: 0.95;
+    }
+    93% {
+        opacity: 0.93;
+    }
+    95% {
+        opacity: 0.95;
+    }
+    97% {
+        opacity: 0.93;
+    }
+    to {
+        opacity: 1;
+    }
+
+    
+}
+
+
+.subtitulo{
+    color: white;
+    margin: 0;
+    z-index: 1;
+    font-family: 'Teko', sans-serif;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    animation: glow 2s ease-in-out infinite alternate;
+    text-align: center;
+}
+.subtitulojuego{
+    text-align: center;
+    color: rgb(176, 86, 255);
+    margin: 0;
+    z-index: 1;
+    font-family: 'Teko', sans-serif;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    background-image: radial-gradient(ellipse 50% 35% at 50% 50%, #2d186b, transparent);
+    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #834fff,
+        -0.2rem 0.1rem 1rem #4d16ce, 0.2rem 0.1rem 1rem #cc65ff,
+        0 -0.5rem 2rem #5006b8, 0 0.5rem 3rem #280071;
+    animation: shine2 2s forwards, flicker 3s infinite;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 20px #fcfcfc;
+    }
+    to {
+        text-shadow: 0 0 10px #6d2194;
+    }
+}
+.cajita-partida {
+    gap: 1em;
+    background-color: #0000009e;
+    color: white;
+    padding: 2%;
+    display: flex;
+    border-radius: 2.5em;
+    font-family: "Clip";
+    flex-direction: column;
+    margin: 2%;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cajita-partida:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.08);
+}
