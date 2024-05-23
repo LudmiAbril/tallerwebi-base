@@ -8,7 +8,7 @@
 body {
     background-color: #291033;
     background-image: url("../imgStatic/blackjack-fondo.png");
-    background-size: cover;
+    background-size:  100% 100vh;
     font-family: Arial, sans-serif; /* Cambia la fuente según sea necesario */
 }
 
