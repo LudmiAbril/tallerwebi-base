@@ -129,10 +129,10 @@
       <div class="modal-content">
         <h2 id="resultadoPartida"></h2>
         <div class="botones-modal">
-          <form action="/reiniciar">
+          <form th:action="@{/reiniciar}" method="post">
             <button type="submit" class="boton-reiniciar">Jugar otra partida</button>
           </form>
-          <form action="/finalizar">
+          <form th:action="@{/finalizar}" method="post">
             <button type="submit" class="boton-volver-inicio">Volver al inicio</button>
           </form>
         </div>
