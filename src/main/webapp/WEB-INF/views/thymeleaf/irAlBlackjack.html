@@ -15,8 +15,9 @@
   </head>
   <body>
     <nav class="nav-bar">
-        <a href="volverAlMenu">
-          <span class="material-symbols-outlined icono">arrow_back</span>
+      <a href="volverAlMenu">
+        <span class="material-symbols-outlined icono">arrow_back</span>
+      </a>
     </nav>
     <main class="container">
       <img
@@ -30,13 +31,17 @@
         th:object="${nuevoJugador}"
         class="text-center"
       >
+        <input type="hidden" name="contrareloj" value="false" />
+        <input type="hidden" name="tiempoLimite" value="2" />
         <button type="submit" class="btn btn-primary">
           <span class="material-symbols-outlined">play_circle</span>JUGAR
         </button>
       </form>
-      <button type="button" class="btn btn-primary" id="playWithTimeButton">
+
+      <button class="btn btn-primary" id="playWithTimeButton">
         <span class="material-symbols-outlined">timer</span>JUGAR CON TIEMPO
       </button>
+
       <button type="submit" class="btn btn-primary">
         <span class="material-symbols-outlined">group</span>MULTIJUGADOR
       </button>
@@ -52,8 +57,18 @@
       <div class="modal-content">
         <span class="close">&times;</span>
         <h3>Ingresa el tiempo en el que quieras jugar:</h3>
-        <input type="number" id="gameTime" placeholder="Tiempo en minutos" />
-        <button class="btn" id="startGameWithTime">JUGAR</button>
+        <form th:action="@{/blackjack}" method="post">
+          <input type="hidden" value="true" name="contrareloj" />
+          <input
+            type="number"
+            id="gameTime"
+            name="tiempoLimite"
+            placeholder="Tiempo en minutos"
+          />
+          <button class="btn" type="submit" id="startGameWithTime">
+            JUGAR
+          </button>
+        </form>
       </div>
     </div>
     <script>

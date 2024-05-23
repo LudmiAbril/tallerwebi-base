@@ -82,7 +82,7 @@ public class ControladorBlackjackTest {
                 .thenReturn(manoCrupierEsperada);
 
         // Ejecución
-        controladorBlackjack.comenzarBlackjack(session);
+        controladorBlackjack.comenzarBlackjack(session, null, null);
 
         // Verificación
         List<Carta> manoJugadorObtenida = (List<Carta>) session.getAttribute("cartasJugador");
@@ -133,7 +133,7 @@ public class ControladorBlackjackTest {
                 .thenReturn(Arrays.asList(carta, carta));
         when(servicioBlackjackMock.plantarse(mano)).thenReturn(manoFinal);
         session.setAttribute("jugadorActual", "jugador");
-        controladorBlackjack.comenzarBlackjack(session);
+        controladorBlackjack.comenzarBlackjack(session, false, 0);
 
         // ejecucion
         Map<String, Object> datosSalida = controladorBlackjack.plantarse(session);

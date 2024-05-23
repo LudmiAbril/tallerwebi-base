@@ -34,7 +34,7 @@ export function start() {
 
 export function stop() {
     clearInterval(timerInterval);
-    showButton('START');
+
 }
 
 export function reset() {
