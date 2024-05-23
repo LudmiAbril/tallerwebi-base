@@ -1,8 +1,10 @@
 package com.tallerwebi.presentacion;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -148,6 +150,28 @@ public class ControladorBingo {
 		return respuesta;
 	}
 
-	// obtener ultimo numero entregado
+	@RequestMapping(path = "/obtenerUltimoNumeroEntregado", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> obtenerUltimoNumeroEntregado(HttpSession session) {
+		Integer ultimoNumeroEntregado = (Integer) session.getAttribute("numeroAleatorioCantado");
+		Map<String, Object> respuesta = new HashMap<String, Object>();
+		respuesta.put("ultimoNumeroEntregado", ultimoNumeroEntregado);
+		return respuesta;
+	}
+
+	@RequestMapping(path = "/obtenerUltimosNumerosEntregados", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> obtenerUltimosNumerosEntregados(HttpSession session) {
+		Set<Integer> numerosEntregadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
+		List<Integer> ultimosNumeros = new ArrayList<>(numerosEntregadosDeLaSesion);
+
+		// Obtener los últimos 5 números, si hay menos de 5, devolver todos
+		int startIndex = Math.max(0, ultimosNumeros.size() - 5);
+		List<Integer> numerosParaMostrar = ultimosNumeros.subList(startIndex, ultimosNumeros.size());
+
+		Map<String, Object> respuesta = new HashMap<>();
+		respuesta.put("ultimosNumerosEntregados", numerosParaMostrar);
+		return respuesta;
+	}
 
 }
