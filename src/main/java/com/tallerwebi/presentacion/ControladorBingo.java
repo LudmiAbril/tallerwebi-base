@@ -88,11 +88,9 @@ public class ControladorBingo {
 
 		servicioBingo.marcarCasillero(numeroCasillero, carton);
 
-		if (numeroCasillero.equals(numeroCantado)) {
-			Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-			numerosMarcadosDeLaSesion.add(numeroCasillero);
-			session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
-		}
+		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+		numerosMarcadosDeLaSesion.add(numeroCasillero);
+		session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
 
 	}
 
@@ -159,10 +157,16 @@ public class ControladorBingo {
 		return respuesta;
 	}
 
-	@RequestMapping(path = "/obtenerUltimosNumerosEntregados", method = RequestMethod.GET)
+	@RequestMapping(path = "/obtenerCincoUltimosNumerosEntregados", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> obtenerUltimosNumerosEntregados(HttpSession session) {
+	public Map<String, Object> obtenerCincoUltimosNumerosEntregados(HttpSession session) {
 		Set<Integer> numerosEntregadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
+
+		if (numerosEntregadosDeLaSesion == null) {
+			numerosEntregadosDeLaSesion = new LinkedHashSet<>();
+			session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregadosDeLaSesion);
+		}
+
 		List<Integer> ultimosNumeros = new ArrayList<>(numerosEntregadosDeLaSesion);
 
 		// Obtener los últimos 5 números, si hay menos de 5, devolver todos
