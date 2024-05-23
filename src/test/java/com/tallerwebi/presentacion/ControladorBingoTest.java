@@ -2,9 +2,11 @@ package com.tallerwebi.presentacion;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -147,10 +149,12 @@ public void queAlComenzarJuegoBingoNoSeGenereUnNumeroAleatorioNiSeGuardeEnLaSesi
         Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
         // el bingo del mapa de la respuesta tiene que ser false
         Boolean seHizoBingo = (Boolean) respuesta.get("seHizoBingo");
-        // los numeros marcados de la sesion tienen que ser nulos porque no se marco ninguno
+        // los numeros marcados de la sesion tienen que ser nulos porque no se marco
+        // ninguno
         assertThat(seHizoBingo, is(false));
         assertThat(numerosMarcadosDeLaSesion, is(nullValue()));
     }
+
 
 
 
@@ -163,7 +167,7 @@ public void queAlComenzarJuegoBingoNoSeGenereUnCartonNiSeGuardeEnLaSesion() {
     assertThat(session.getAttribute("carton"), equalTo(null));
 }
 
-@Test
+    @Test
     public void queSePuedaHacerBingo() {
         Set<Integer> numerosMarcadosDeLaSesion = new HashSet<>();
         when(servicioBingoMock.bingo(numerosMarcadosDeLaSesion)).thenReturn(true);
@@ -175,30 +179,30 @@ public void queAlComenzarJuegoBingoNoSeGenereUnCartonNiSeGuardeEnLaSesion() {
         assertTrue((boolean) respuesta.get("seHizoBingo"));
     }
 
-    /*
     @Test
-public void queNoSePuedaMarcarUnNumeroQueNoEsIgualAlNumeroEntregado() {
-    // Arrange
-    CartonBingo cartonMock = mock(CartonBingo.class);
-    Integer numeroCantado = 5;
-    Integer numeroCasillero = 10;
+    public void queNoSePuedaMarcarUnNumeroQueNoEsIgualAlNumeroEntregado() {
+        // Arrange
+        CartonBingo cartonMock = mock(CartonBingo.class);
+        Integer numeroAleatorio = 5;
+        Integer numeroCasillero = 20;
 
-    // Establecer atributos en la sesión
-    session.setAttribute("carton", cartonMock);
-    session.setAttribute("numeroAleatorioCantado", numeroCantado);
+        Set<Integer> numerosEntregados = new LinkedHashSet<>();
+        when(this.servicioBingoMock.generarCarton()).thenReturn(cartonMock);
+        when(this.servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
 
-    // Act
-    controladorBingo.marcarCasillero(numeroCasillero, session);
+        Set<Integer> numerosMarcadosDeLaSesion = new HashSet<>();
+        session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+        session.getAttribute("numerosMarcadosDeLaSesion");
 
-    // Assert
-    // Verificar que el número no se haya marcado en la sesión
-    Map<String, Object> respuesta = controladorBingo.obtenerNumerosMarcados(session);
-    Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) respuesta.get("numerosMarcadosDeLaSesion");
-    assertFalse(numerosMarcadosDeLaSesion.contains(numeroCasillero));
-     */
+        // Act
+        controladorBingo.marcarCasillero(numeroCasillero, session);
+
+        // Assert
+        // Verificar que el número no se haya marcado en la sesión
+        Map<String, Object> respuesta = controladorBingo.obtenerLosNumerosMarcados(session);
+        Set<Integer> numerosMarcadosDeLaSesionRespuesta = (Set<Integer>) respuesta.get("numerosMarcadosDeLaSesion");
+
+        assertFalse(numerosMarcadosDeLaSesionRespuesta.contains(numeroCasillero));
+    }
+
 }
-
-
-
-
-
