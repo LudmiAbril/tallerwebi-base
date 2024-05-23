@@ -275,6 +275,97 @@ button {
     text-shadow: 2px 2px 4px rgba(116, 75, 139, 0.986);
 }
 
-.jugador-info{
+.jugador-info {
     text-align: center;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    animation: zoomIn 0.6s;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.botones-modal {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.boton-reiniciar {
+    background-color: #28a745;
+    /* Verde */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.botones-modal {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.boton-reiniciar,
+.boton-volver-inicio {
+    background-color: #7f369a;
+    color: white;
+    border: none;
+    padding: 10px 40px;
+    margin: 10px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    min-width: 150px;
+}
+
+.boton-reiniciar {
+    background-color: #28a745;
+    /* Verde */
+}
+
+.boton-reiniciar:hover {
+    background-color: #218838;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 8px 10px rgba(0, 0, 0, 0.3);
+
+}
+
+.boton-volver-inicio:hover {
+    background-color: #7f369a;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 8px 10px rgba(0, 0, 0, 0.3);
 }
