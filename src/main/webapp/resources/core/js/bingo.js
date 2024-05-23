@@ -116,7 +116,7 @@ function obtenerLosNumerosEntregados() {
         bolaVioleta
     ];
 
-    $.get("obtenerUltimosNumerosEntregados", function (data) {
+    $.get("obtenerCincoUltimosNumerosEntregados", function (data) {
         var ultimosNumeros = data.ultimosNumerosEntregados;
         ultimosNumeros.reverse();
         var numerosEntregadosDiv = $(".numerosEntregados");
@@ -139,11 +139,12 @@ function obtenerLosNumerosEntregados() {
 function bingo() {
     $.post("bingo", function (data) {
         if (data.seHizoBingo) {
+            console.log("hiciste bingo")
             abrirModal();
             clearInterval(intervaloRefresco); // Detener la actualización del número
             intervaloRefresco = null;
         } else {
-            console.log("apretado")
+            console.log("no hicisite bingo")
             var botonBingo = document.querySelector("#botonBingo");
             botonBingo.style.color = 'black';
             botonBingo.classList.add('animate__animated', 'animate__shakeX');
