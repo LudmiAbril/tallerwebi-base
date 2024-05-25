@@ -46,13 +46,12 @@ public class PlataformaTest {
                 .thenReturn(Arrays.asList(mock(Partida.class), mock(Partida.class)));
 
         List<Partida> obtenidas = servicio.generarRanking(Juego.BINGO);
-
         assertThat(obtenidas, notNullValue());
         assertThat(obtenidas.size(), equalTo(2));
     }
 
     @Test
-    public void QueSeAlNoHaberPartidasDeUnJuegoSeLanzeUnaExceptionAlGenerarElRanking()
+    public void QueAlNoHaberPartidasDeUnJuegoSeLanzeUnaExceptionAlGenerarElRanking()
             throws PartidasDelJuegoNoEncontradasException {
         when(repositorio.listarPartidasPorJuego(Juego.BINGO))
                 .thenThrow(PartidasDelJuegoNoEncontradasException.class);
@@ -65,7 +64,7 @@ public class PlataformaTest {
     }
 
     @Test
-    public void QueSeAlNoHaberPartidasDeUnJugadorSeLanzeUnaException() throws PartidaDeUsuarioNoEncontradaException {
+    public void QueAlNoHaberPartidasDeUnJugadorSeLanzeUnaException() throws PartidaDeUsuarioNoEncontradaException {
         when(repositorio.obtenerPartidasUsuario("usuario inexistente", Juego.BINGO))
                 .thenThrow(PartidaDeUsuarioNoEncontradaException.class);
 
@@ -77,7 +76,7 @@ public class PlataformaTest {
     }
 
     @Test
-    public void QueSeAlNoHaberPartidasAnterioresJugadorSeLanzeUnaException() throws PartidaDeUsuarioNoEncontradaException {
+    public void QueAlNoHaberPartidasAnterioresDelJugadorSeLanzeUnaException() throws PartidaDeUsuarioNoEncontradaException {
         when(repositorio.obtenerPartidasUsuarioPorFecha("usuario", Juego.BINGO))
                 .thenThrow(PartidaDeUsuarioNoEncontradaException.class);
 
