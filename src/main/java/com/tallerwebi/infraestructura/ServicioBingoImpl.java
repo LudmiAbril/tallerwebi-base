@@ -145,4 +145,14 @@ public class ServicioBingoImpl implements ServicioBingo {
 		this.numerosMarcadosEnElCarton = numerosMarcadosEnElCarton;
 	}
 
+	@Override
+	public Boolean linea(Set<Integer> numerosMarcadosEnElCarton) {
+		throw new UnsupportedOperationException("Unimplemented method 'linea'");
+	}
+
+	public Integer obtenerCantidadDeNumerosEntregados(){
+		// esta seria la tirada
+		return this.numerosEntregados.size();
+	}
+
 }
