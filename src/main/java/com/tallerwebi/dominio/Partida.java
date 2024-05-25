@@ -7,13 +7,13 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Partida {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String jugador;
-    private Integer puntaje;
+    private Long idJugador;
     private Juego juego;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime fechaYhora;
@@ -21,9 +21,8 @@ public class Partida {
     public Partida() {
     }
 
-    public Partida(String jugador, Integer puntaje, Juego juego) {
-        this.jugador = jugador;
-        this.puntaje = puntaje;
+    public Partida(Long idJugador, Juego juego) {
+        this.idJugador = idJugador;
         this.juego = juego;
         this.fechaYhora = LocalDateTime.now();
     }
@@ -36,20 +35,12 @@ public class Partida {
         this.juego = juego;
     }
 
-    public Integer getPuntaje() {
-        return puntaje;
+    public Long getJugador() {
+        return idJugador;
     }
 
-    public void setPuntaje(Integer puntaje) {
-        this.puntaje = puntaje;
-    }
-
-    public String getJugador() {
-        return jugador;
-    }
-
-    public void setJugador(String jugador) {
-        this.jugador = jugador;
+    public void setJugador(Long idJugador) {
+        this.idJugador = idJugador;
     }
 
     public void setFechaYhora(LocalDateTime fechaYhora) {

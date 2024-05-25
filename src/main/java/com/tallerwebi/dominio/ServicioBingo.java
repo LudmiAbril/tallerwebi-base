@@ -16,5 +16,7 @@ public interface ServicioBingo {
 
     CartonBingo generarCarton();
 
+    Boolean linea(Set<Integer> numerosMarcadosEnElCarton);
+
 
 }
