@@ -35,14 +35,15 @@
 
   <body>
     <main>
-      <img
-        th:src="@{/imgStatic/catsino.png}"
-        alt="imagen-bienvenida"
-        class="imagen-home"
-      />
-      <div id="btn-entrar" class="animate__animated animate__backInUp">
-        <a href="login">Entrar</a>
+      <img th:src="@{/imgStatic/catsino.png}" alt="imagen-bienvenida" class="imagen-home"/>
+<div class="botones-inicio">
+      <div id="btn-registro" class="animate__animated animate__backInUp">
+        <a href="registro">Crear perfil</a>
       </div>
+      <div id="btn-loguin" class="animate__animated animate__backInUp">
+        <a href="login">Ingresar</a>
+      </div>
+</div>
     </main>
   </body>
 </html>

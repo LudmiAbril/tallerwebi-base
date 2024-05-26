@@ -54,11 +54,12 @@ body{
     box-shadow: 0 4px 8px rgba(255, 105, 180, 0.3);
 
 }
+
 .text-center img {
     margin-top: 0;
-    width: 400px;
-
+    width: 200px;
 }
+
 .text-center {
     display: flex;
     flex-direction: column;
@@ -67,7 +68,7 @@ body{
 }
 
 .titulo-img{
-    width: 300px;
+    width: 200px;
 }
 
 
@@ -83,6 +84,23 @@ body{
     text-shadow: 0 0 30px #e140ec, 0 0 50px #e140ec, 0 0 70px #e140ec, 0 0 60px #e140ec, 0 0 80px #F9EADE, 0 0 80px #F9EADE, 0 0 90px #F9EADE;
     color:white;
 }
-input[type="text"]{
-    paddgin-left:10px;
+.boton-fijo a{
+    position: fixed;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: #28a745;
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 800;
+    border-radius: 4px 0 0 4px;
+    transition: background-color 0.3s ease;
+}
+
+.boton-fijo a:hover {
+    background-color: #218838;
 }

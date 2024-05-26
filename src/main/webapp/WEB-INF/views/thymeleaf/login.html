@@ -25,21 +25,25 @@
 </head>
 
 <body>
+<!-- Botón fijo de inicio de sesión -->
+<a href="registro" class="boton-fijo">REGISTRARSE</a>
 <div class="text-center">
-    <img th:src="@{/imgStatic/perfil.png}">
+    <img th:src="@{/imgStatic/crearCuentaImg.png}" class="img-registro">
 </div>
 <main role="main" class="container">
     <div class="frase">
-    <p>¡Entra al juego, jefe!</p><br>
-    <p>Primero, dime tu nombre para unirte a la pandilla de los gatos.</p>
+    <p>¡Bienvenido de nuevo, jefe!</p><br>
+    <p>Estás listo para continuar tu aventura con la pandilla de los gatos.</p>
+        <p>Por favor, ingresa tu correo electrónico y contraseña para continuar.</p>
     </div>
     <form
-            th:action="@{/acceso-juegos}"
+            th:action="@{/volverAlMenu}"
             method="POST"
             class="text-center">
         <br>
         <div class="mb-3">
-            <input  id="nombre" name="nombreJugador" type="nombre" class="form-control" required placeholder="Ingrese tu nombre" />
+            <input  id="email" name="emailJugador" type="email" class="form-control" required placeholder="Ingrese su email" /><br>
+            <input  id="password" name="passwordJugador" type="password" class="form-control" required placeholder="Ingrese una contraseña" />
          </div>
          <button id="btn-registrarme" class="btn btn-primary" type="Submit">Ingresar</button>
      </form>

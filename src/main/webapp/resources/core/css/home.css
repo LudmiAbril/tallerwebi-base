@@ -13,28 +13,39 @@ main {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  text-align: center; /* Para centrar el contenido */
+  text-align: center;
 }
 
-#btn-entrar a {
-  background-color: rgba(255, 255, 255, 0.54);
-  padding: 15px 65px;
+.botones-inicio {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+#btn-registro a, #btn-loguin a {
+  background-color: rgba(109, 33, 148, 0.82);
+  padding: 7px 45px;
   font-size: 40px;
-  color: #2D2A49;
+  color: white;
   border: none;
   text-decoration: none;
-  font-family: "Bebas Neue";
+  font-family: "Bebas Neue", sans-serif;
   font-weight: 800;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+#btn-loguin a{
+  background-color: rgba(207, 76, 234, 0.81);
+  color: white;
 }
 
-#btn-entrar a:hover {
-  background-color: #2D2A49;
-  color: white;
+#btn-registro a:hover, #btn-loguin a:hover {
+  background-color: rgba(255, 255, 255, 0.54);
+  color: #2D2A49;
 }
 
 .imagen-home {
   border-radius:15px;
   margin-bottom: 100px;
   width: 600px;
-
 }
