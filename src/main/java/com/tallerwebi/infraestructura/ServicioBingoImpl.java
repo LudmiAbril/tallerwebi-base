@@ -147,8 +147,63 @@ public class ServicioBingoImpl implements ServicioBingo {
 
 	@Override
 	public Boolean linea(Set<Integer> numerosMarcadosEnElCarton) {
-		throw new UnsupportedOperationException("Unimplemented method 'linea'");
+		Integer[][] numeros = cartonNuevo.getNumeros();
+
+		// Check horizontal lines
+		for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
+			boolean horizontalLine = true;
+			for (int j = 0; j < CANTIDAD_DE_COLUMNAS; j++) {
+				if (!numerosMarcadosEnElCarton.contains(numeros[i][j])) {
+					horizontalLine = false;
+					break;
+				}
+			}
+			if (horizontalLine) {
+				return true;
+			}
+		}
+
+		// Check vertical lines
+		for (int j = 0; j < CANTIDAD_DE_COLUMNAS; j++) {
+			boolean verticalLine = true;
+			for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
+				if (!numerosMarcadosEnElCarton.contains(numeros[i][j])) {
+					verticalLine = false;
+					break;
+				}
+			}
+			if (verticalLine) {
+				return true;
+			}
+		}
+
+		// Check main diagonal (top-left to bottom-right)
+		boolean mainDiagonal = true;
+		for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
+			if (!numerosMarcadosEnElCarton.contains(numeros[i][i])) {
+				mainDiagonal = false;
+				break;
+			}
+		}
+		if (mainDiagonal) {
+			return true;
+		}
+
+		// Check anti-diagonal (top-right to bottom-left)
+		boolean antiDiagonal = true;
+		for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
+			if (!numerosMarcadosEnElCarton.contains(numeros[i][CANTIDAD_DE_COLUMNAS - 1 - i])) {
+				antiDiagonal = false;
+				break;
+			}
+		}
+		if (antiDiagonal) {
+			return true;
+		}
+
+		return false;
 	}
+
 
 	public Integer obtenerCantidadDeNumerosEntregados(){
 		// esta seria la tirada

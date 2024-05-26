@@ -144,7 +144,7 @@ function bingo() {
             clearInterval(intervaloRefresco); // Detener la actualización del número
             intervaloRefresco = null;
         } else {
-            console.log("no hicisite bingo")
+            console.log("no hiciste bingo")
             var botonBingo = document.querySelector("#botonBingo");
             botonBingo.style.color = 'black';
             botonBingo.classList.add('animate__animated', 'animate__shakeX');

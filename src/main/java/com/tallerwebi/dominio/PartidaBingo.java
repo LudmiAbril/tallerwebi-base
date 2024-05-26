@@ -2,16 +2,19 @@ package com.tallerwebi.dominio;
 
 import java.util.Set;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
 public class PartidaBingo extends Partida {
-    
-private Set<Integer> casillerosMarcados;
-private Boolean seHizoLinea;
-private Boolean seHizoBingo;
-private TipoPartidaBingo tipoPartidaBingo;
-private Integer tirada;
+    @ElementCollection
+    @CollectionTable(name = "casilleros_marcados", joinColumns = @JoinColumn(name = "partida_id"))
+    @Column(name = "casillero")
+    private Set<Integer> casillerosMarcados;
+
+    private Boolean seHizoLinea;
+    private Boolean seHizoBingo;
+    private TipoPartidaBingo tipoPartidaBingo;
+    private Integer tirada;
 
 public PartidaBingo(Set<Integer> casillerosMarcados, Boolean seHizoLinea, Boolean seHizoBingo, TipoPartidaBingo tipoPartidaBingo, Integer tirada){
     this.casillerosMarcados = casillerosMarcados;
@@ -20,6 +23,7 @@ public PartidaBingo(Set<Integer> casillerosMarcados, Boolean seHizoLinea, Boolea
     this.tipoPartidaBingo = tipoPartidaBingo;
     this.tirada=tirada;
 }
+public PartidaBingo(){}
 
 public Set<Integer> getCasillerosMarcados() {
     return casillerosMarcados;

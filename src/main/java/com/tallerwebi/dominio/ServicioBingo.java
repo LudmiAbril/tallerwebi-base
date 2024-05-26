@@ -18,5 +18,6 @@ public interface ServicioBingo {
 
     Boolean linea(Set<Integer> numerosMarcadosEnElCarton);
 
+    Set<Integer> getNumerosMarcadosEnElCarton();
 
 }
