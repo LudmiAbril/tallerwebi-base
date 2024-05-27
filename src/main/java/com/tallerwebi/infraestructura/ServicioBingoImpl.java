@@ -23,6 +23,7 @@ public class ServicioBingoImpl implements ServicioBingo {
 	private CartonBingo cartonNuevo;
 	private Set<Integer> numerosMarcadosEnElCarton;
 	private Set<Integer> numerosEntregados;
+	private Boolean seHizoLinea;
 
 	public ServicioBingoImpl() {
 		this.rand = new Random();
@@ -113,12 +114,17 @@ public class ServicioBingoImpl implements ServicioBingo {
 			}
 		}
 
-		return this.cartonNuevo = new CartonBingo(carton);
+		CartonBingo cartonNuevo = new CartonBingo(carton);
+		return cartonNuevo;
 
 	}
 
 	public CartonBingo getCartonNuevo() {
 		return cartonNuevo;
+	}
+
+	public void setCartonNuevo(CartonBingo cartonNuevo) {
+		this.cartonNuevo = cartonNuevo;
 	}
 
 	public Set<Integer> getNumerosEntregados() {
@@ -137,6 +143,14 @@ public class ServicioBingoImpl implements ServicioBingo {
 		this.seHizobingo = seHizobingo;
 	}
 
+	public Boolean getSeHizoLinea() {
+		return seHizoLinea;
+	}
+
+	public void setSeHizoLinea(Boolean seHizoLinea) {
+		this.seHizoLinea = seHizoLinea;
+	}
+
 	public Set<Integer> getNumerosMarcadosEnElCarton() {
 		return numerosMarcadosEnElCarton;
 	}
@@ -147,10 +161,68 @@ public class ServicioBingoImpl implements ServicioBingo {
 
 	@Override
 	public Boolean linea(Set<Integer> numerosMarcadosEnElCarton) {
-		throw new UnsupportedOperationException("Unimplemented method 'linea'");
+		Integer[][] numeros = cartonNuevo.getNumeros();
+
+		// Check horizontal lines
+		for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
+			boolean horizontalLine = true;
+			for (int j = 0; j < CANTIDAD_DE_COLUMNAS; j++) {
+				if (!numerosMarcadosEnElCarton.contains(numeros[i][j])) {
+					horizontalLine = false;
+					break;
+				}
+			}
+			if (horizontalLine) {
+				this.setSeHizoLinea(true);
+				return this.getSeHizoLinea();
+			}
+		}
+
+		// Check vertical lines
+		for (int j = 0; j < CANTIDAD_DE_COLUMNAS; j++) {
+			boolean verticalLine = true;
+			for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
+				if (!numerosMarcadosEnElCarton.contains(numeros[i][j])) {
+					verticalLine = false;
+					break;
+				}
+			}
+			if (verticalLine) {
+				this.setSeHizoLinea(true);
+				return this.getSeHizoLinea();
+			}
+		}
+
+		// Check main diagonal (top-left to bottom-right)
+		boolean mainDiagonal = true;
+		for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
+			if (!numerosMarcadosEnElCarton.contains(numeros[i][i])) {
+				mainDiagonal = false;
+				break;
+			}
+		}
+		if (mainDiagonal) {
+			this.setSeHizoLinea(true);
+			return this.getSeHizoLinea();
+		}
+
+		// Check anti-diagonal (top-right to bottom-left)
+		boolean antiDiagonal = true;
+		for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
+			if (!numerosMarcadosEnElCarton.contains(numeros[i][CANTIDAD_DE_COLUMNAS - 1 - i])) {
+				antiDiagonal = false;
+				break;
+			}
+		}
+		if (antiDiagonal) {
+			this.setSeHizoLinea(true);
+			return this.getSeHizoLinea();
+		}
+
+		return false;
 	}
 
-	public Integer obtenerCantidadDeNumerosEntregados(){
+	public Integer obtenerCantidadDeNumerosEntregados() {
 		// esta seria la tirada
 		return this.numerosEntregados.size();
 	}

@@ -20,6 +20,7 @@ $(document).ready(function () {
         }
         $(".carton").html(tablaHtml);
         $(".numeroCantadoContenedor").addClass("w3-animate-top");
+        $(".carton").addClass("w3-animate-bottom");
     });
     intervaloRefresco = setInterval(refrescarNumero, 7000);
 });
@@ -143,7 +144,7 @@ function bingo() {
             abrirModal();
             clearInterval(intervaloRefresco); // Detener la actualización del número
             intervaloRefresco = null;
-        } else {
+        } else if(!data.seHizoBingo) {
             console.log("no hicisite bingo")
             var botonBingo = document.querySelector("#botonBingo");
             botonBingo.style.color = 'black';
@@ -190,6 +191,10 @@ function lanzarConfetti() {
             origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } 
         }));
     }, 250);
+}
+
+function mostrarModalSeleccionTipoPartidaBingo(){
+
 }
 
 

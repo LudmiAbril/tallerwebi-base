@@ -202,7 +202,7 @@ public class ControladorBlackjack {
         String jugador = (String) session.getAttribute("jugadorActual");
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
 
-        servicioPlataforma.agregarPartida(new Partida(jugador, puntajeFinal, Juego.BLACKJACK));
+        // servicioPlataforma.agregarPartida(new Partida(jugador, puntajeFinal, Juego.BLACKJACK));
 
         return new ModelAndView("redirect:/inicio-blackjack");
     }
@@ -213,7 +213,7 @@ public class ControladorBlackjack {
         String jugador = (String) session.getAttribute("jugadorActual");
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
 
-        servicioPlataforma.agregarPartida(new Partida(jugador, puntajeFinal, Juego.BLACKJACK));
+        // servicioPlataforma.agregarPartida(new Partida(jugador, puntajeFinal, Juego.BLACKJACK));
 
         List<Carta> cartasJugador = servicioBlackjack.entregarCartasPrincipales();
         List<Carta> cartasCasa = servicioBlackjack.entregarCartasPrincipales();
