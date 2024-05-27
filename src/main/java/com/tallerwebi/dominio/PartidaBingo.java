@@ -16,54 +16,56 @@ public class PartidaBingo extends Partida {
     private TipoPartidaBingo tipoPartidaBingo;
     private Integer tirada;
 
-public PartidaBingo(Set<Integer> casillerosMarcados, Boolean seHizoLinea, Boolean seHizoBingo, TipoPartidaBingo tipoPartidaBingo, Integer tirada){
-    this.casillerosMarcados = casillerosMarcados;
-    this.seHizoLinea = seHizoLinea;
-    this.seHizoBingo = seHizoBingo;
-    this.tipoPartidaBingo = tipoPartidaBingo;
-    this.tirada=tirada;
-}
-public PartidaBingo(){}
+    public PartidaBingo(Set<Integer> casillerosMarcados, Boolean seHizoLinea, Boolean seHizoBingo,
+            TipoPartidaBingo tipoPartidaBingo, Integer tirada) {
+        this.casillerosMarcados = casillerosMarcados;
+        this.seHizoLinea = seHizoLinea;
+        this.seHizoBingo = seHizoBingo;
+        this.tipoPartidaBingo = tipoPartidaBingo;
+        this.tirada = tirada;
+    }
 
-public Set<Integer> getCasillerosMarcados() {
-    return casillerosMarcados;
-}
+    public PartidaBingo() {
+    }
 
-public void setCasillerosMarcados(Set<Integer> casillerosMarcados) {
-    this.casillerosMarcados = casillerosMarcados;
-}
+    public Set<Integer> getCasillerosMarcados() {
+        return casillerosMarcados;
+    }
 
-public Boolean getSeHizoLinea() {
-    return seHizoLinea;
-}
+    public void setCasillerosMarcados(Set<Integer> casillerosMarcados) {
+        this.casillerosMarcados = casillerosMarcados;
+    }
 
-public void setSeHizoLinea(Boolean seHizoLinea) {
-    this.seHizoLinea = seHizoLinea;
-}
+    public Boolean getSeHizoLinea() {
+        return seHizoLinea;
+    }
 
-public Boolean getSeHizoBingo() {
-    return seHizoBingo;
-}
+    public void setSeHizoLinea(Boolean seHizoLinea) {
+        this.seHizoLinea = seHizoLinea;
+    }
 
-public void setSeHizoBingo(Boolean seHizoBingo) {
-    this.seHizoBingo = seHizoBingo;
-}
+    public Boolean getSeHizoBingo() {
+        return seHizoBingo;
+    }
 
-public TipoPartidaBingo getTipoPartidaBingo() {
-    return tipoPartidaBingo;
-}
+    public void setSeHizoBingo(Boolean seHizoBingo) {
+        this.seHizoBingo = seHizoBingo;
+    }
 
-public void setTipoPartidaBingo(TipoPartidaBingo tipoPartidaBingo) {
-    this.tipoPartidaBingo = tipoPartidaBingo;
-}
+    public TipoPartidaBingo getTipoPartidaBingo() {
+        return tipoPartidaBingo;
+    }
 
-public Integer getTirada() {
-    return tirada;
-}
+    public void setTipoPartidaBingo(TipoPartidaBingo tipoPartidaBingo) {
+        this.tipoPartidaBingo = tipoPartidaBingo;
+    }
 
-public void setTirada(Integer tirada) {
-    this.tirada = tirada;
-}
+    public Integer getTirada() {
+        return tirada;
+    }
 
-    
+    public void setTirada(Integer tirada) {
+        this.tirada = tirada;
+    }
+
 }

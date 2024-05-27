@@ -34,40 +34,40 @@ public class RepositorioPartidaTest {
         };
     }
 
-    // @Test
-    // public void queSeGuardeUnaPartida() {
-    //     Partida p = crearPartida("jugador", Juego.BINGO);
-    //     repositorio.guardar(p);
-    //     assertThat(session.getCurrentSession().contains(p), equalTo(true));
-    // }
+    @Test
+    public void queSeGuardeUnaPartida() {
+        Partida p = crearPartida("jugador", Juego.BINGO);
+        repositorio.guardar(p);
+        assertThat(session.getCurrentSession().contains(p), equalTo(true));
+    }
 
-    // @Test
-    // public void queSeObtengaUnRankingOrdenadoDePartidasParaUnJuegoParticular() {
-    //     Partida p1 = new Partida("a", 25, Juego.BINGO);
-    //     Partida p2 = new Partida("b", 24, Juego.BINGO);
-    //     Partida p3 = new Partida("c", 23, Juego.BINGO);
+    @Test
+    public void queSeObtengaUnRankingOrdenadoDePartidasParaUnJuegoParticular() {
+        Partida p1 = new Partida("a", 25, Juego.BINGO);
+        Partida p2 = new Partida("b", 24, Juego.BINGO);
+        Partida p3 = new Partida("c", 23, Juego.BINGO);
 
-    //     List<Partida> partidasEsperadas = new ArrayList<Partida>();
-    //     partidasEsperadas.add(p1);
-    //     partidasEsperadas.add(p2);
-    //     partidasEsperadas.add(p3);
+        List<Partida> partidasEsperadas = new ArrayList<Partida>();
+        partidasEsperadas.add(p1);
+        partidasEsperadas.add(p2);
+        partidasEsperadas.add(p3);
 
-    //     // ejec desordenada para verificar orden
-    //     repositorio.guardar(p2);
-    //     repositorio.guardar(p1);
-    //     repositorio.guardar(p3);
+        // ejec desordenada para verificar orden
+        repositorio.guardar(p2);
+        repositorio.guardar(p1);
+        repositorio.guardar(p3);
 
-    //     List<Partida> partidasObtenidas = new ArrayList<Partida>();
+        List<Partida> partidasObtenidas = new ArrayList<Partida>();
 
-    //     try {
-    //         partidasObtenidas.addAll(repositorio.listarPartidasPorJuego(Juego.BINGO));
-    //     } catch (PartidasDelJuegoNoEncontradasException e) {
+        try {
+            partidasObtenidas.addAll(repositorio.listarPartidasPorJuego(Juego.BINGO));
+        } catch (PartidasDelJuegoNoEncontradasException e) {
 
-    //     }
+        }
 
-    //     assertNotNull(partidasObtenidas);
-    //     assertThat(partidasObtenidas, equalTo(partidasEsperadas));
-    // }
+        assertNotNull(partidasObtenidas);
+        assertThat(partidasObtenidas, equalTo(partidasEsperadas));
+    }
 
     @Test
     public void queSeLanzeUnaExceptionSiNoHayPartidasDeEseJuego() {
@@ -76,19 +76,19 @@ public class RepositorioPartidaTest {
         });
     }
 
-    // @Test
-    // public void queObtenganLasPartidasDeUnJugador() {
+    @Test
+    public void queObtenganLasPartidasDeUnJugador() {
 
-    //     repositorio.guardar(crearPartida("Prueba", Juego.BLACKJACK));
-    //     repositorio.guardar(crearPartida("Prueba", Juego.BLACKJACK));
+        repositorio.guardar(crearPartida("Prueba", Juego.BLACKJACK));
+        repositorio.guardar(crearPartida("Prueba", Juego.BLACKJACK));
 
-    //     List<Partida> partidasObtenidas = new ArrayList<Partida>();
-    //     try {
-    //         partidasObtenidas = repositorio.obtenerPartidasUsuario("Prueba", Juego.BLACKJACK);
-    //     } catch (PartidaDeUsuarioNoEncontradaException e) {
-    //     }
-    //     assertThat(partidasObtenidas.size(), equalTo(2));
-    // }
+        List<Partida> partidasObtenidas = new ArrayList<Partida>();
+        try {
+            partidasObtenidas = repositorio.obtenerPartidasUsuario("Prueba", Juego.BLACKJACK);
+        } catch (PartidaDeUsuarioNoEncontradaException e) {
+        }
+        assertThat(partidasObtenidas.size(), equalTo(2));
+    }
 
     @Test
     public void queAlNoEncontrarPartidasParaUnJugadorSeLanzeUnaException() {
@@ -98,33 +98,33 @@ public class RepositorioPartidaTest {
 
     }
 
-    // @Test
-    // public void queSePuedanObtenerLasUltimasPartidasOrdenadasPorFecha() {
-    //     List<Partida> partidasEsperadas = new ArrayList<Partida>();
-    //     Partida a = crearPartida("user", Juego.BINGO);
-    //     Partida b = crearPartida("user", Juego.BINGO);
-    //     Partida c = crearPartida("user", Juego.BINGO);
+    @Test
+    public void queSePuedanObtenerLasUltimasPartidasOrdenadasPorFecha() {
+        List<Partida> partidasEsperadas = new ArrayList<Partida>();
+        Partida a = crearPartida("user", Juego.BINGO);
+        Partida b = crearPartida("user", Juego.BINGO);
+        Partida c = crearPartida("user", Juego.BINGO);
 
-    //     partidasEsperadas.add(c);
-    //     partidasEsperadas.add(b);
-    //     partidasEsperadas.add(a);
+        partidasEsperadas.add(c);
+        partidasEsperadas.add(b);
+        partidasEsperadas.add(a);
 
-    //     repositorio.guardar(a);
-    //     repositorio.guardar(b);
-    //     repositorio.guardar(c);
+        repositorio.guardar(a);
+        repositorio.guardar(b);
+        repositorio.guardar(c);
 
-    //     List<Partida> partidasObtenidas = new ArrayList<Partida>();
-    //     try {
-    //         partidasObtenidas.addAll(repositorio.obtenerPartidasUsuarioPorFecha("user", Juego.BINGO));
-    //     } catch (PartidaDeUsuarioNoEncontradaException e) {
+        List<Partida> partidasObtenidas = new ArrayList<Partida>();
+        try {
+            partidasObtenidas.addAll(repositorio.obtenerPartidasUsuarioPorFecha("user", Juego.BINGO));
+        } catch (PartidaDeUsuarioNoEncontradaException e) {
 
-    //     }
+        }
 
-    //     assertThat(partidasObtenidas, containsInAnyOrder(partidasEsperadas.toArray()));
-    // }
+        assertThat(partidasObtenidas, containsInAnyOrder(partidasEsperadas.toArray()));
+    }
 
-    // private Partida crearPartida(String nombre, Juego juego) {
-    //     Partida partida = new Partida(nombre, 23, juego);
-    //     return partida;
-    // }
+    private Partida crearPartida(String nombre, Juego juego) {
+        Partida partida = new Partida(nombre, 23, juego);
+        return partida;
+    }
 }
