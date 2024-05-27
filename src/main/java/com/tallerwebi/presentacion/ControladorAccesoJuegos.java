@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -12,6 +13,7 @@ import com.tallerwebi.dominio.Juego;
 import com.tallerwebi.dominio.Partida;
 import com.tallerwebi.dominio.ServicioBlackjack;
 import com.tallerwebi.dominio.ServicioPlataforma;
+import com.tallerwebi.dominio.ServicioUsuario;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
 
@@ -22,11 +24,13 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class ControladorAccesoJuegos {
     private ServicioPlataforma servicioPlataforma;
+    private ServicioUsuario servicioUsuario;
 
     @Autowired
-    public ControladorAccesoJuegos(ServicioPlataforma servicioPlataforma) {
+    public ControladorAccesoJuegos(ServicioPlataforma servicioPlataforma, ServicioUsuario servicioUsuario) {
 
         this.servicioPlataforma = servicioPlataforma;
+        this.servicioUsuario = servicioUsuario;
     }
 
     @RequestMapping(path = "/acceso-juegos")
@@ -64,7 +68,15 @@ public class ControladorAccesoJuegos {
         ModelMap model = new ModelMap();
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         model.addAttribute("jugador", jugador.getNombre());
-        return new ModelAndView("acceso-juegos",model);
+        return new ModelAndView("acceso-juegos", model);
+    }
+
+    @RequestMapping(path = "/guardarCambios", method = RequestMethod.POST)
+    public ModelAndView guardarCambios(@RequestParam("duracionBlackjack") Integer duracionBlackjack,
+            @RequestParam("valorAs") Integer valorAs, @RequestParam("cantidadPelotas") Integer cantidadPelotas,
+            @RequestParam("dimensionCarton") Integer dimensionCarton) {
+        // setearle al user del ususario lo que viene por campos y modificar en el repo
+        return new ModelAndView("acceso-juegos");
     }
 
 }
