@@ -21,6 +21,26 @@ $(document).ready(function () {
         $(".carton").html(tablaHtml);
         $(".numeroCantadoContenedor").addClass("w3-animate-top");
         $(".carton").addClass("w3-animate-bottom");
+
+        if (data.error) {
+            alert(data.error)
+        } else {
+            tipoPartidaBingo = data.tipoPartidaBingo;
+            if (tipoPartidaBingo === "LINEA") {
+                console.log("linea")
+                document.getElementById("botonLinea").style.display = "block";
+                document.getElementById("botonBingo").style.display = "none";
+            } else if (tipoPartidaBingo === "BINGO") {
+                console.log("bingo")
+                document.getElementById("botonLinea").style.display = "none";
+                document.getElementById("botonBingo").style.display = "block";
+            } else if (tipoPartidaBingo === "AMBAS") {
+                console.log("ambas")
+                document.getElementById("botonLinea").style.display = "block";
+                document.getElementById("botonBingo").style.display = "block";
+            }
+        }
+
     });
     intervaloRefresco = setInterval(refrescarNumero, 7000);
 });
@@ -62,42 +82,6 @@ function casilleroEsIgualANumeroEntregado(numeroCasillero, callback) {
 
     });
 }
-
-// function obtenerLosNumerosEntregados() {
-//     bolaAmarillo = "bolaAmarillo.png";
-//     bolaCeleste = "bolaCeleste.png"
-//     bolaNaranja = "bolaNaranja.png";
-//     bolaRoja = "bolaRoja.png";
-//     bolaVerde = "bolaVerde.png"
-//     bolaVioleta = "bolaVioleta.png"
-//     rutaDeLasImgDeLasBolas = "/spring/imgStatic/";
-
-//     let bolas = [
-//         bolaAmarillo,
-//         bolaCeleste,
-//         bolaNaranja,
-//         bolaRoja,
-//         bolaVerde,
-//         bolaVioleta
-//     ];
-
-//     let currentBolaIndex = 0;
-//     $.get("obtenerLosNumerosEntregados", function (data) {
-//         var ultimosNumeros = Array.from(data.numerosEntregadosDeLaSesion);
-//         ultimosNumeros.reverse();
-//         var numerosParaMostrar = ultimosNumeros.slice(0, 5);
-//         var numerosEntregadosDiv = $(".numerosEntregados");
-//         numerosEntregadosDiv.empty();
-//         numerosParaMostrar.forEach(function (numero) {
-//             var parrafo = $("<p>").text(numero).attr("id", "numeroCantadoColeccion").addClass("numerosEntregadosContenedor");
-//             var bola = bolas[currentBolaIndex];
-//             var backgroundImageUrl = rutaDeLasImgDeLasBolas + bola;
-//             parrafo.css('background-image', 'url(' + backgroundImageUrl + ')');
-//             currentBolaIndex = (currentBolaIndex + 1) % bolas.length;
-//             numerosEntregadosDiv.append(parrafo);
-//         });
-//     });
-// }
 
 function obtenerLosNumerosEntregados() {
     var bolaAmarillo = "bolaAmarillo.png";
@@ -196,24 +180,7 @@ function lanzarConfetti() {
 function mostrarModalSeleccionTipoPartidaBingo(event) {
     event.preventDefault();
     document.getElementById("modalTipoPartida").style.display = "block";
-    $.get("obtenerDatosIniciales", function (data) {
-        if (data.error) {
-            alert(data.error)
-        } else {
-            tipoPartidaBingo = data.tipoPartidaBingo;
-
-            if (tipoPartidaBingo === "LINEA") {
-                document.getElementById("botonLinea").style.display="block";
-                document.getElementById("botonBingo").style.display="none";
-            } else if (tipoPartidaBingo === "BINGO") {
-                document.getElementById("botonLinea").style.display="none";
-                document.getElementById("botonBingo").style.display="block";
-            } else if (tipoPartidaBingo === "AMBOS") {
-                document.getElementById("botonLinea").style.display="block";
-                document.getElementById("botonBingo").style.display="block";
-            }
-        }
-    });
 }
+
 
 
