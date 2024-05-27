@@ -47,12 +47,12 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
     }
 
     @Override
-    public List<Partida> obtenerPartidasUsuario(String user, Juego juego) throws PartidaDeUsuarioNoEncontradaException {
+    public List<Partida> obtenerPartidasUsuario(Long id, Juego juego) throws PartidaDeUsuarioNoEncontradaException {
 
-        String hql = "FROM Partida WHERE juego = :juego AND jugador = :user ORDER BY puntaje DESC";
+        String hql = "FROM Partida WHERE juego = :juego AND idJugador = :user ORDER BY puntaje DESC";
         Query query = this.sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter("juego", juego);
-        query.setParameter("user", user);
+        query.setParameter("user", id);
 
         List<Partida> partidas = query.getResultList();
 
@@ -64,12 +64,12 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
     }
 
     @Override
-    public List<Partida> obtenerPartidasUsuarioPorFecha(String nombreJugador, Juego juego)
+    public List<Partida> obtenerPartidasUsuarioPorFecha(Long id, Juego juego)
             throws PartidaDeUsuarioNoEncontradaException {
-        String hql = "FROM Partida WHERE juego = :juego AND jugador = :user ORDER BY fechaYhora DESC";
+        String hql = "FROM Partida WHERE juego = :juego AND idJugador = :user ORDER BY fechaYhora DESC";
         Query query = this.sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter("juego", juego);
-        query.setParameter("user", nombreJugador);
+        query.setParameter("user", id);
 
         List<Partida> partidas = query.getResultList();
 

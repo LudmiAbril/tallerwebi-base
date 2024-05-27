@@ -33,14 +33,13 @@ public class ServicioPlataformaImpl implements ServicioPlataforma {
     }
 
     @Override
-    public List<Partida> obtenerPartidasUsuario(String nombre, Juego juego) throws PartidaDeUsuarioNoEncontradaException {
-        return repositorioPartida.obtenerPartidasUsuario(nombre, juego);
+    public List<Partida> obtenerPartidasUsuario(Long id, Juego juego) throws PartidaDeUsuarioNoEncontradaException {
+        return repositorioPartida.obtenerPartidasUsuario(id, juego);
     }
 
     @Override
-    public List<Partida> obtenerUltimasPartidasDelUsuario(String nombre, Juego juego) throws PartidaDeUsuarioNoEncontradaException {
-        return repositorioPartida.obtenerPartidasUsuarioPorFecha(nombre, juego);
+    public List<Partida> obtenerUltimasPartidasDelUsuario(Long id, Juego juego) throws PartidaDeUsuarioNoEncontradaException {
+        return repositorioPartida.obtenerPartidasUsuarioPorFecha(id, juego);
     }
 
-    
 }
