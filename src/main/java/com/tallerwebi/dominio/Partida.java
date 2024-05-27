@@ -7,12 +7,15 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Partida {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "partida_seq")
+    @SequenceGenerator(name = "partida_seq", sequenceName = "partida_sequence", allocationSize = 1)
     private long id;
+    private String jugador;
+    private Integer puntaje;
     private Long idJugador;
     private Juego juego;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -26,7 +29,11 @@ public class Partida {
         this.juego = juego;
         this.fechaYhora = LocalDateTime.now();
     }
-
+    public Partida(String jugador, Integer puntaje, Juego juego){
+        this.jugador = jugador;
+        this.puntaje = puntaje;
+        this.juego = juego;
+    }
     public Juego getJuego() {
         return juego;
     }

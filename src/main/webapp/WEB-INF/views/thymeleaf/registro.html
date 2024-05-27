@@ -1,14 +1,8 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
   <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-
-    <title>Inicio</title>
-
+    <meta charset="UTF-8" />
+    <title>Registro</title>
     <!-- custom style -->
     <link rel="stylesheet" th:href="@{/css/loguin.css}" />
     <!-- Favicon -->
@@ -41,29 +35,36 @@
 
   <body>
     <!-- Botón fijo de inicio de sesión -->
-    <a href="registro" class="boton-fijo">REGISTRARSE</a>
+    <a href="login" class="boton-fijo">INICIAR SESIÓN</a>
+
     <div class="text-center">
       <img th:src="@{/imgStatic/crearCuentaImg.png}" class="img-registro" />
     </div>
     <main role="main" class="container">
       <div class="frase">
-        <p>¡Bienvenido de nuevo, jefe!</p>
+        <p>¡Entra al juego, jefe!</p>
         <br />
         <p>
-          Estás listo para continuar tu aventura con la pandilla de los gatos.
-        </p>
-        <p>
-          Por favor, ingresa tu correo electrónico y contraseña para continuar.
+          Primero, ingresa tus datos para unirte a la pandilla de los gatos.
         </p>
       </div>
       <form
-        th:action="@{/validar-login}"
+        th:action="@{/registrarme}"
         method="POST"
         class="text-center"
-        th:object="${datosLogin}"
+        th:object="${usuario}"
       >
         <br />
         <div class="mb-3">
+          <input
+            th:field="*{nombre}"
+            id="nombre"
+            name="nombreJugador"
+            type="text"
+            class="form-control"
+            required
+            placeholder="Ingresa tu NOMBRE"
+          /><br />
           <input
             th:field="*{email}"
             id="email"
@@ -71,7 +72,7 @@
             type="email"
             class="form-control"
             required
-            placeholder="Ingrese su email"
+            placeholder="Ingrese su EMAIL"
           /><br />
           <input
             th:field="*{password}"
@@ -80,36 +81,15 @@
             type="password"
             class="form-control"
             required
-            placeholder="Ingrese una contraseña"
+            placeholder="Ingrese una CONTRASEÑA"
           />
         </div>
         <button id="btn-registrarme" class="btn btn-primary" type="Submit">
-          Ingresar
+          REGISTRARME
         </button>
       </form>
       <p th:text="${error}"></p>
     </main>
-    <!-- <main role="main" class="container">
-     <div class = "container">
-         <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-             <form action="#" th:action="@{/validar-login}" method="POST" th:object="${datosLogin}">
-                 <h3 class="form-signin-heading">Taller Web I</h3>
-                 <hr class="colorgraph"><br>
-
-                 <input th:field="*{email}" id="email" type="email" class="form-control" required/>
-                 <input th:field="*{password}" type="password" id="password" class="form-control" required/>
-
-                 <button id="btn-login" class="btn btn-lg btn-primary btn-block" Type="Submit">Login</button>
-
-                 <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
-                 </p>
-             </form>
-             <a id="ir-a-registrarme" href="nuevo-usuario">Registrarme</a>
-         </div>
-     </div>
- </main>
- /.container -->
-
     <!-- Boostrap core js -->
     <script
       type="text/javascript"

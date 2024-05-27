@@ -12,7 +12,8 @@
 
 
     <link th:href="@{https://fonts.googleapis.com/css?family=Teko:700&display=swap}" rel="stylesheet">
-
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
     <!-- Enlace a Google Fonts con Thymeleaf -->
     <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
     <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
@@ -31,7 +32,7 @@
         <span class="close" onclick="closeModal()">&times;</span>
         <p>Usuario: <span th:text="${jugador}"></span></p>
         <div class="btn-salir">
-            <a th:href="@{/home}">
+            <a th:href="@{/salir}">
                 <button><span class="material-symbols-outlined">logout</span>Salir</button>
             </a>
         </div>

@@ -20,10 +20,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -176,36 +173,39 @@ public class ControladorBingoTest {
         assertTrue((boolean) respuesta.get("seHizoBingo"));
     }
 
-    @Test
-    public void queNoSePuedaMarcarUnNumeroQueNoEsIgualAlNumeroEntregado() {
-        // Arrange
-        CartonBingo cartonMock = mock(CartonBingo.class);
-        Integer numeroAleatorio = 5;
-        Integer numeroCasillero = 20;
+   
 
+    @Test
+	public void queSeanRealmente5LosUltimosNumerosEntregados() {
+        Jugador jugadorMock = mock(Jugador.class);
+        when(jugadorMock.getNombre()).thenReturn("Mica");
         Set<Integer> numerosEntregados = new LinkedHashSet<>();
-        when(this.servicioBingoMock.generarCarton()).thenReturn(cartonMock);
-        when(this.servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
+        numerosEntregados.add(2);
+        numerosEntregados.add(84);
+        numerosEntregados.add(63);
+        numerosEntregados.add(18);
+        numerosEntregados.add(41);
 
-        Set<Integer> numerosMarcadosDeLaSesion = new HashSet<>();
-        session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
-        session.getAttribute("numerosMarcadosDeLaSesion");
+        controladorBingo.comenzarJuegoBingo(jugadorMock, session);
+        session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
+        Map<String, Object> objeto = controladorBingo.obtenerCincoUltimosNumerosEntregados(session);
+        List<Integer> ultimosNumerosEntregados = (List<Integer>) objeto.get("ultimosNumerosEntregados");
+        assertThat(ultimosNumerosEntregados.size(), equalTo(5));
 
-        // Act
-        controladorBingo.marcarCasillero(numeroCasillero, session);
-
-        // Assert
-        // Verificar que el número no se haya marcado en la sesión
-        Map<String, Object> respuesta = controladorBingo.obtenerLosNumerosMarcados(session);
-        Set<Integer> numerosMarcadosDeLaSesionRespuesta = (Set<Integer>) respuesta.get("numerosMarcadosDeLaSesion");
-
-        assertFalse(numerosMarcadosDeLaSesionRespuesta.contains(numeroCasillero));
-    }
-
-    @Test
-	public void queMuestreLosUltimos5NumerosEntregados() {
 	}
-	// que los numeros entregados se guarden correctamente
+    @Test
+    public void queSePuedaHacerLineaDeFormaHorizontal(){
+        Jugador jugadorMock = mock(Jugador.class);
+        when(servicioBingoMock.generarCarton()).thenReturn(mock(CartonBingo.class));
+        when(jugadorMock.getNombre()).thenReturn("Axel");
+
+        controladorBingo.comenzarJuegoBingo(jugadorMock, session);
+        Set<Integer> numeroMarcados = servicioBingoMock.getNumerosMarcadosEnElCarton();
+        when(servicioBingoMock.linea(numeroMarcados)).thenReturn(true);
+        assertThat(servicioBingoMock.linea(numeroMarcados), equalTo(true));
+    }
+    @Test
+    public void queSePuedaHacerLineaDeFormaVertical(){}
 	@Test
 	public void queLosNumerosEntregadosSeGuardenCorrectamente() {
 

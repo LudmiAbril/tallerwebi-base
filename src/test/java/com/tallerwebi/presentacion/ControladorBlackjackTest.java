@@ -56,7 +56,7 @@ public class ControladorBlackjackTest {
         ModelAndView modelAndView = controladorBlackjack.inicioBlackjack();
         String viewname = modelAndView.getViewName();
 
-        assertThat(viewname, equalToIgnoringCase("inicio-blackjack"));
+        assertThat(viewname, equalToIgnoringCase("irAlBlackjack"));
         assertThat(modelAndView.getModel().get("nuevoJugador"), instanceOf(Jugador.class));
         assertThat(((Jugador) modelAndView.getModel().get("nuevoJugador")).getNombre(), nullValue());
     }
@@ -82,7 +82,7 @@ public class ControladorBlackjackTest {
                 .thenReturn(manoCrupierEsperada);
 
         // Ejecución
-        controladorBlackjack.comenzarBlackjack(session, null, null);
+        controladorBlackjack.comenzarBlackjack(session, false, 0);
 
         // Verificación
         List<Carta> manoJugadorObtenida = (List<Carta>) session.getAttribute("cartasJugador");

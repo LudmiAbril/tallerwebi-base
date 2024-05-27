@@ -2,32 +2,28 @@ package com.tallerwebi.dominio;
 
 import java.util.Set;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 
 @Entity
 public class PartidaBingo extends Partida {
-
     @ElementCollection
     @CollectionTable(name = "casilleros_marcados", joinColumns = @JoinColumn(name = "partida_id"))
     @Column(name = "casillero")
     private Set<Integer> casillerosMarcados;
+
     private Boolean seHizoLinea;
     private Boolean seHizoBingo;
     private TipoPartidaBingo tipoPartidaBingo;
     private Integer tirada;
 
-    public PartidaBingo(Set<Integer> casillerosMarcados, Boolean seHizoLinea, Boolean seHizoBingo,
-            TipoPartidaBingo tipoPartidaBingo, Integer tirada) {
-        this.casillerosMarcados = casillerosMarcados;
-        this.seHizoLinea = seHizoLinea;
-        this.seHizoBingo = seHizoBingo;
-        this.tipoPartidaBingo = tipoPartidaBingo;
-        this.tirada = tirada;
-    }
+public PartidaBingo(Set<Integer> casillerosMarcados, Boolean seHizoLinea, Boolean seHizoBingo, TipoPartidaBingo tipoPartidaBingo, Integer tirada){
+    this.casillerosMarcados = casillerosMarcados;
+    this.seHizoLinea = seHizoLinea;
+    this.seHizoBingo = seHizoBingo;
+    this.tipoPartidaBingo = tipoPartidaBingo;
+    this.tirada=tirada;
+}
+public PartidaBingo(){}
 
     public Set<Integer> getCasillerosMarcados() {
         return casillerosMarcados;

@@ -10,7 +10,8 @@
     <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}">
 
     <link th:href="@{https://fonts.googleapis.com/css?family=Teko:700&display=swap}" rel="stylesheet">
-
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
     <!-- Enlace a Google Fonts con Thymeleaf -->
     <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
     <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
@@ -18,11 +19,11 @@
     <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0}" />
 </head>
 <body>
-    <nav class="nav-bar">
-        <a href="acceso-juegos">
-          <span class="material-symbols-outlined icono"> volver </span>
-        </a>
-      </nav>
+<nav class="nav-bar">
+    <a href="volverAlMenu">
+        <span class="material-symbols-outlined icono">arrow_back</span>
+    </a>
+</nav>
     <main>
         <h1 class="sign"><span class="fast-flicker">R</span>A<span class="fast-flicker">N</span>K<span class="fast-flicker">I</span>N<span class="fast-flicker">G</span></h1>
         <h2 class="subtitulo">¡los verdaderos gatos en la ciudad! </h2>

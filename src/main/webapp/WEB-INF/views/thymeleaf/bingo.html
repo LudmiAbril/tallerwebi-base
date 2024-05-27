@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <title>Bingo</title>
-
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
   <!-- Boostrap core css -->
   <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}" />
   <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}" />
@@ -98,12 +99,15 @@
       ¿Estás seguro de que deseas abandonar la partida?
     </div>
     <div class="modal-footer-custom">
-      <button id="customCancelButton" class="boton-cancelar-custom">Cancelar</button>
-      <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom">Abandonar</a>
+      <button id="customCancelButton" class="boton-cancelar-custom">
+        Cancelar
+      </button>
+      <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom"
+      >Abandonar</a
+      >
     </div>
   </div>
 </div>
-
 </body>
 
 </html>

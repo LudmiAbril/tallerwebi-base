@@ -10,27 +10,42 @@ import java.util.List;
 @Service("servicioChin")
 public class ServicioChinImpl implements ServicioChin {
     private Baraja baraja;
-    private ArrayList<Carta> descarte1 = new ArrayList<>();
-    private ArrayList<Carta> descarte2 = new ArrayList<>();
-    private ArrayList<Carta> mazoJugador1 = new ArrayList<>();
-    private ArrayList<Carta> mazoJugador2 = new ArrayList<>();
-    private ArrayList<Carta> manoJugador1 = new ArrayList<>();
-    private ArrayList<Carta> manoJugador2 = new ArrayList<>();
+    private ArrayList<Carta> descarte1;
+    private ArrayList<Carta> descarte2;
+    private ArrayList<Carta> mazoJugador1;
+    private ArrayList<Carta> mazoJugador2;
+    private ArrayList<Carta> manoJugador1;
+    private ArrayList<Carta> manoJugador2;
+    private boolean hayChin;
 
     @Autowired
     public ServicioChinImpl(){
         this.baraja= new Baraja();
+        descarte1 = new ArrayList<>();
+        descarte2 = new ArrayList<>();
+        mazoJugador1 = new ArrayList<>();
+        mazoJugador2 = new ArrayList<>();
+        manoJugador1 = new ArrayList<>();
+        manoJugador2 = new ArrayList<>();
+        hayChin = false;
     }
 
     @Override
     public void repartirTodasLasCartas(ArrayList<Carta> mazoJugador1, ArrayList<Carta> mazoJugador2) {
-
         for(int i =0; i< (26); i++){
             mazoJugador1.add(baraja.sacarCarta());
         }
         for(int i =0; i< 26; i++){
             mazoJugador2.add(baraja.sacarCarta());
         }
+//        for(int i =0; i< this.baraja.getSize(); i++){
+//            if(i % 2 ==0){
+//                mazoJugador1.add(baraja.sacarCarta());
+//            }else{
+//                mazoJugador2.add(baraja.sacarCarta());
+//            }
+//        }
+//        }
     }
 
     @Override
@@ -43,15 +58,13 @@ public class ServicioChinImpl implements ServicioChin {
 
     @Override
     public boolean hayChin(ArrayList<Carta> descarte1, ArrayList<Carta> descarte2) {
-
-        boolean iguales = false;
         Integer cantidadUno= descarte1.size();
         Integer cantidadDos = descarte2.size();
         Integer ultimoValorUno = descarte1.get(cantidadUno-1).getValor();
         Integer ultimoValorDos = descarte2.get(cantidadDos-1).getValor();
         if(ultimoValorUno.equals(ultimoValorDos))
-            iguales=true;
-        return iguales;
+            this.hayChin=true;
+        return hayChin;
     }
 
     @Override

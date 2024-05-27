@@ -245,3 +245,19 @@ main {
     transform: translateY(-10px);
     box-shadow: 0 12px 16px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.08);
 }
+.icono {
+    color: white;
+    font-size: 20px;
+    z-index: 1000;
+    margin-left: 15px;
+    padding-top: 10px;
+    text-decoration: none;
+}
+
+.icono:hover {
+    text-shadow: 0 0 30px #e140ec, 0 0 50px #e140ec, 0 0 70px #e140ec, 0 0 60px #e140ec, 0 0 80px #F9EADE, 0 0 80px #F9EADE, 0 0 90px #F9EADE;
+    color: white;
+}
+.nav-bar{
+    height:15px;
+}

@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Carta;
+import com.tallerwebi.dominio.CartonBingo;
 import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.ServicioChin;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class ControladorChin {
@@ -33,10 +36,9 @@ public class ControladorChin {
 
     public ModelAndView irAlChin() {
         String viewName = "chin";
-
         ModelMap model = new ModelMap();
         model.put("message", "Bienvenido al Chin");
-
+        model.put("nuevoJugador", new Jugador());
         return new ModelAndView(viewName, model);
     }
     //public ModelAndView repartirCartas(){
@@ -63,5 +65,21 @@ public class ControladorChin {
         // base
         return new ModelAndView("chin");
 
+    }
+    @RequestMapping(path = "/comenzarJuegoChin", method = RequestMethod.POST)
+    public ModelAndView comenzarJuegoChin(@ModelAttribute("nuevoJugador") Jugador nuevoJugador, HttpSession session) {
+        //CartonBingo carton = servicioChin.generarCarton();
+        Set<Integer> numerosEntregados = new LinkedHashSet<Integer>();
+        //Integer numeroNuevo = this.servicioChin.entregarNumeroAleatorio(numerosEntregados);
+        //Integer numeroCantadoAleatorio = numeroNuevo;
+        //numerosEntregados.add(numeroNuevo);
+        //session.setAttribute("carton", carton);
+        session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
+        //session.setAttribute("numeroAleatorioCantado", numeroCantadoAleatorio);
+        ModelMap model = new ModelMap();
+        String nombreJugador = nuevoJugador.getNombre();
+        model.put("nombreJugador", nombreJugador);
+        session.setAttribute("nombreJugador", nombreJugador);
+        return new ModelAndView("chin", model);
     }
 }

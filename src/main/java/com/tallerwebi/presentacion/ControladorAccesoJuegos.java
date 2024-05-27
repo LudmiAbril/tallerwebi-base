@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -12,6 +13,8 @@ import com.tallerwebi.dominio.Juego;
 import com.tallerwebi.dominio.Partida;
 import com.tallerwebi.dominio.ServicioBlackjack;
 import com.tallerwebi.dominio.ServicioPlataforma;
+import com.tallerwebi.dominio.ServicioUsuario;
+import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
 
 import java.util.List;
@@ -21,20 +24,20 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class ControladorAccesoJuegos {
     private ServicioPlataforma servicioPlataforma;
+    private ServicioUsuario servicioUsuario;
 
     @Autowired
-    public ControladorAccesoJuegos(ServicioPlataforma servicioPlataforma) {
+    public ControladorAccesoJuegos(ServicioPlataforma servicioPlataforma, ServicioUsuario servicioUsuario) {
 
         this.servicioPlataforma = servicioPlataforma;
+        this.servicioUsuario = servicioUsuario;
     }
 
     @RequestMapping(path = "/acceso-juegos")
-    public ModelAndView accesoJuegos(@RequestParam("nombreJugador") String nombreJugador, HttpSession session) {
-        // guardo en la session el nombre del jugador de fomra global mientras este
-        // logueado :P
-        session.setAttribute("jugadorActual", nombreJugador);
+    public ModelAndView accesoJuegos(HttpSession session) {
         ModelMap model = new ModelMap();
-        model.addAttribute("jugador", nombreJugador);
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        model.addAttribute("jugador", jugador.getNombre());
         return new ModelAndView("acceso-juegos", model);
     }
 
@@ -63,9 +66,17 @@ public class ControladorAccesoJuegos {
     @RequestMapping(path = "/volverAlMenu")
     public ModelAndView volverAlMenuDeJuegos(HttpSession session) {
         ModelMap model = new ModelMap();
-        String jugador = (String) session.getAttribute("jugadorActual");
-        model.addAttribute("jugador", jugador);
-        return new ModelAndView("acceso-juegos",model);
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        model.addAttribute("jugador", jugador.getNombre());
+        return new ModelAndView("acceso-juegos", model);
+    }
+
+    @RequestMapping(path = "/guardarCambios", method = RequestMethod.POST)
+    public ModelAndView guardarCambios(@RequestParam("duracionBlackjack") Integer duracionBlackjack,
+            @RequestParam("valorAs") Integer valorAs, @RequestParam("cantidadPelotas") Integer cantidadPelotas,
+            @RequestParam("dimensionCarton") Integer dimensionCarton) {
+        // setearle al user del ususario lo que viene por campos y modificar en el repo
+        return new ModelAndView("acceso-juegos");
     }
 
 }

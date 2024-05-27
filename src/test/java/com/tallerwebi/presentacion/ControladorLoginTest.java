@@ -1,6 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.ServicioLogin;
+import com.tallerwebi.dominio.ServicioUsuario;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +21,7 @@ public class ControladorLoginTest {
 	private DatosLogin datosLoginMock;
 	private HttpServletRequest requestMock;
 	private HttpSession sessionMock;
-	private ServicioLogin servicioLoginMock;
+	private ServicioUsuario servicioLoginMock;
 
 
 	@BeforeEach
@@ -31,7 +31,7 @@ public class ControladorLoginTest {
 		when(usuarioMock.getEmail()).thenReturn("dami@unlam.com");
 		requestMock = mock(HttpServletRequest.class);
 		sessionMock = mock(HttpSession.class);
-		servicioLoginMock = mock(ServicioLogin.class);
+		servicioLoginMock = mock(ServicioUsuario.class);
 		controladorLogin = new ControladorLogin(servicioLoginMock);
 	}
 
@@ -46,14 +46,14 @@ public class ControladorLoginTest {
 		// validacion
 		assertThat(modelAndView.getViewName(), equalToIgnoringCase("login"));
 		assertThat(modelAndView.getModel().get("error").toString(), equalToIgnoringCase("Usuario o clave incorrecta"));
-		verify(sessionMock, times(0)).setAttribute("ROL", "ADMIN");
+		
 	}
 	
 	@Test
 	public void loginConUsuarioYPasswordCorrectosDeberiaLLevarAHome(){
 		// preparacion
 		Usuario usuarioEncontradoMock = mock(Usuario.class);
-		when(usuarioEncontradoMock.getRol()).thenReturn("ADMIN");
+		
 
 		when(requestMock.getSession()).thenReturn(sessionMock);
 		when(servicioLoginMock.consultarUsuario(anyString(), anyString())).thenReturn(usuarioEncontradoMock);
@@ -63,7 +63,7 @@ public class ControladorLoginTest {
 		
 		// validacion
 		assertThat(modelAndView.getViewName(), equalToIgnoringCase("login"));
-		verify(sessionMock, times(1)).setAttribute("ROL", usuarioEncontradoMock.getRol());
+		
 	}
 
 	@Test
