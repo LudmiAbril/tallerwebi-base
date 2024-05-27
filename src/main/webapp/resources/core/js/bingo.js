@@ -144,7 +144,7 @@ function bingo() {
             abrirModal();
             clearInterval(intervaloRefresco); // Detener la actualización del número
             intervaloRefresco = null;
-        } else if(!data.seHizoBingo) {
+        } else if (!data.seHizoBingo) {
             console.log("no hicisite bingo")
             var botonBingo = document.querySelector("#botonBingo");
             botonBingo.style.color = 'black';
@@ -174,7 +174,7 @@ function lanzarConfetti() {
         return Math.random() * (max - min) + min;
     }
 
-    var interval = setInterval(function() {
+    var interval = setInterval(function () {
         var timeLeft = animationEnd - Date.now();
 
         if (timeLeft <= 0) {
@@ -182,21 +182,38 @@ function lanzarConfetti() {
         }
 
         var particleCount = 50 * (timeLeft / duration);
-        confetti(Object.assign({}, defaults, { 
-            particleCount, 
-            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } 
+        confetti(Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
         }));
-        confetti(Object.assign({}, defaults, { 
-            particleCount, 
-            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } 
+        confetti(Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
         }));
     }, 250);
 }
 
-function mostrarModalSeleccionTipoPartidaBingo(){
-$.get("elegirTipoPartidaBingo", function(data){
-    
-});
+function mostrarModalSeleccionTipoPartidaBingo(event) {
+    event.preventDefault();
+    document.getElementById("modalTipoPartida").style.display = "block";
+    $.get("obtenerDatosIniciales", function (data) {
+        if (data.error) {
+            alert(data.error)
+        } else {
+            tipoPartidaBingo = data.tipoPartidaBingo;
+
+            if (tipoPartidaBingo === "LINEA") {
+                document.getElementById("botonLinea").style.display="block";
+                document.getElementById("botonBingo").style.display="none";
+            } else if (tipoPartidaBingo === "BINGO") {
+                document.getElementById("botonLinea").style.display="none";
+                document.getElementById("botonBingo").style.display="block";
+            } else if (tipoPartidaBingo === "AMBOS") {
+                document.getElementById("botonLinea").style.display="block";
+                document.getElementById("botonBingo").style.display="block";
+            }
+        }
+    });
 }
 
 
