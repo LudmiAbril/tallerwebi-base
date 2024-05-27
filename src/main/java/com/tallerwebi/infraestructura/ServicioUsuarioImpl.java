@@ -1,7 +1,7 @@
 package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.RepositorioUsuario;
-import com.tallerwebi.dominio.ServicioLogin;
+import com.tallerwebi.dominio.ServicioUsuario;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
-@Service("servicioLogin")
+@Service("servicioUsuario")
 @Transactional
-public class ServicioLoginImpl implements ServicioLogin {
+public class ServicioUsuarioImpl implements ServicioUsuario {
 
     private RepositorioUsuario repositorioUsuario;
 
     @Autowired
-    public ServicioLoginImpl(RepositorioUsuario repositorioUsuario){
+    public ServicioUsuarioImpl(RepositorioUsuario repositorioUsuario){
         this.repositorioUsuario = repositorioUsuario;
     }
 
@@ -32,6 +32,11 @@ public class ServicioLoginImpl implements ServicioLogin {
             throw new UsuarioExistente();
         }
         repositorioUsuario.guardar(usuario);
+    }
+
+    @Override
+    public void actualizarConfiguracionesDePartida(Usuario user) {
+       repositorioUsuario.modificar(user);
     }
 
 }

@@ -12,6 +12,7 @@ import com.tallerwebi.dominio.Juego;
 import com.tallerwebi.dominio.Partida;
 import com.tallerwebi.dominio.ServicioBlackjack;
 import com.tallerwebi.dominio.ServicioPlataforma;
+import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
 
 import java.util.List;
@@ -29,12 +30,10 @@ public class ControladorAccesoJuegos {
     }
 
     @RequestMapping(path = "/acceso-juegos")
-    public ModelAndView accesoJuegos(@RequestParam("nombreJugador") String nombreJugador, HttpSession session) {
-        // guardo en la session el nombre del jugador de fomra global mientras este
-        // logueado :P
-        session.setAttribute("jugadorActual", nombreJugador);
+    public ModelAndView accesoJuegos(HttpSession session) {
         ModelMap model = new ModelMap();
-        model.addAttribute("jugador", nombreJugador);
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        model.addAttribute("jugador", jugador.getNombre());
         return new ModelAndView("acceso-juegos", model);
     }
 
@@ -63,8 +62,8 @@ public class ControladorAccesoJuegos {
     @RequestMapping(path = "/volverAlMenu")
     public ModelAndView volverAlMenuDeJuegos(HttpSession session) {
         ModelMap model = new ModelMap();
-        String jugador = (String) session.getAttribute("jugadorActual");
-        model.addAttribute("jugador", jugador);
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        model.addAttribute("jugador", jugador.getNombre());
         return new ModelAndView("acceso-juegos",model);
     }
 
