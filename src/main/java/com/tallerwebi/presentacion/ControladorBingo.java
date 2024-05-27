@@ -178,4 +178,12 @@ public class ControladorBingo {
 		return respuesta;
 	}
 
+// 	@RequestMapping(path = "/elegirTipoPartidaBingo", method = RequestMethod.GET)
+// 	@ResponseBody
+// 	public Map<String, Object> elegirTipoPartidaBingo(HttpSession session){
+// cuando haces click en jugar, te sale un pop up que te dice linea, bingo, ambas.
+// eso va a ser un form, y lo que recibo por request param, lo guardo en el map
+// en el js, recupero esa data, es decir, lo q llega por el form. Ahi, segun lo q llega, muestro el boton de linea, el boton de bingo o ambos botones.
+// 	}
+
 }
