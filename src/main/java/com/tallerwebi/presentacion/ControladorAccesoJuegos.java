@@ -74,8 +74,14 @@ public class ControladorAccesoJuegos {
     @RequestMapping(path = "/guardarCambios", method = RequestMethod.POST)
     public ModelAndView guardarCambios(@RequestParam("duracionBlackjack") Integer duracionBlackjack,
             @RequestParam("valorAs") Integer valorAs, @RequestParam("cantidadPelotas") Integer cantidadPelotas,
-            @RequestParam("dimensionCarton") Integer dimensionCarton) {
+            @RequestParam("dimensionCarton") Integer dimensionCarton, HttpSession session) {
         // setearle al user del ususario lo que viene por campos y modificar en el repo
+        Usuario userActual = (Usuario) session.getAttribute("jugadorActual");
+        userActual.getConfig().setDuracionBlackjack(duracionBlackjack);
+        userActual.getConfig().setValorDelAs(valorAs);
+        userActual.getConfig().setCantidadDePelotas(cantidadPelotas);
+        userActual.getConfig().setDimensionCarton(dimensionCarton);
+        servicioUsuario.actualizarConfiguracionesDePartida(userActual);
         return new ModelAndView("acceso-juegos");
     }
 
