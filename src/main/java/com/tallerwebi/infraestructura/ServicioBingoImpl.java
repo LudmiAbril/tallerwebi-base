@@ -23,6 +23,7 @@ public class ServicioBingoImpl implements ServicioBingo {
 	private CartonBingo cartonNuevo;
 	private Set<Integer> numerosMarcadosEnElCarton;
 	private Set<Integer> numerosEntregados;
+	private Boolean seHizoLinea;
 
 	public ServicioBingoImpl() {
 		this.rand = new Random();
@@ -113,12 +114,17 @@ public class ServicioBingoImpl implements ServicioBingo {
 			}
 		}
 
-		return this.cartonNuevo = new CartonBingo(carton);
+		CartonBingo cartonNuevo = new CartonBingo(carton);
+		return cartonNuevo;
 
 	}
 
 	public CartonBingo getCartonNuevo() {
 		return cartonNuevo;
+	}
+
+	public void setCartonNuevo(CartonBingo cartonNuevo) {
+		this.cartonNuevo = cartonNuevo;
 	}
 
 	public Set<Integer> getNumerosEntregados() {
@@ -135,6 +141,14 @@ public class ServicioBingoImpl implements ServicioBingo {
 
 	public void setSeHizobingo(Boolean seHizobingo) {
 		this.seHizobingo = seHizobingo;
+	}
+
+	public Boolean getSeHizoLinea() {
+		return seHizoLinea;
+	}
+
+	public void setSeHizoLinea(Boolean seHizoLinea) {
+		this.seHizoLinea = seHizoLinea;
 	}
 
 	public Set<Integer> getNumerosMarcadosEnElCarton() {
@@ -159,7 +173,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 				}
 			}
 			if (horizontalLine) {
-				return true;
+				this.setSeHizoLinea(true);
+				return this.getSeHizoLinea();
 			}
 		}
 
@@ -173,7 +188,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 				}
 			}
 			if (verticalLine) {
-				return true;
+				this.setSeHizoLinea(true);
+				return this.getSeHizoLinea();
 			}
 		}
 
@@ -186,7 +202,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 			}
 		}
 		if (mainDiagonal) {
-			return true;
+			this.setSeHizoLinea(true);
+			return this.getSeHizoLinea();
 		}
 
 		// Check anti-diagonal (top-right to bottom-left)
@@ -198,14 +215,14 @@ public class ServicioBingoImpl implements ServicioBingo {
 			}
 		}
 		if (antiDiagonal) {
-			return true;
+			this.setSeHizoLinea(true);
+			return this.getSeHizoLinea();
 		}
 
 		return false;
 	}
 
-
-	public Integer obtenerCantidadDeNumerosEntregados(){
+	public Integer obtenerCantidadDeNumerosEntregados() {
 		// esta seria la tirada
 		return this.numerosEntregados.size();
 	}
