@@ -215,4 +215,11 @@ public class ControladorBingoTest {
 	@Test
 	public void queLosNumerosMarcadosSeGuarden() {
 	}
+
+    @Test
+    public void queSePuedaElegirElTipoPartidaBingoYSeGuardeSuEleccionEnLaSesion(){
+        // necesito tipo partida
+        // tiene que llegar la eleccion por el form 
+        // 
+    }
 }
