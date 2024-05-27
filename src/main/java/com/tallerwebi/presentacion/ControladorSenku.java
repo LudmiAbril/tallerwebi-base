@@ -36,7 +36,7 @@ public class ControladorSenku {
 
     private ServicioSenku servicioSenku;
     private ServicioPlataforma servicioPlataforma;
-
+/* 
     @Autowired
     public ControladorSenku(ServicioSenku servicioSenku, ServicioPlataforma servicioPlataforma) {
         this.servicioSenku = servicioSenku;
@@ -182,7 +182,7 @@ public class ControladorSenku {
         response.put("jugadorActual", nombre);
         response.put("partidas", partidasAnteriores);
         return response;
-    }
+    }*/
 }
 
     
