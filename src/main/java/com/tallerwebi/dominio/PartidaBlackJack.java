@@ -2,8 +2,11 @@ package com.tallerwebi.dominio;
 
 import java.time.LocalTime;
 
+import javax.persistence.Entity;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+@Entity
 public class PartidaBlackJack extends Partida {
     private Integer puntaje;
     private Boolean blackJack;
