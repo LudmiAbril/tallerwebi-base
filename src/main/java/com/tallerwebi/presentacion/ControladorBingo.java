@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tallerwebi.dominio.ServicioBingo;
+import com.tallerwebi.dominio.TipoPartidaBingo;
 import com.tallerwebi.dominio.CartonBingo;
 import com.tallerwebi.dominio.Jugador;
 
@@ -178,12 +180,25 @@ public class ControladorBingo {
 		return respuesta;
 	}
 
-// 	@RequestMapping(path = "/elegirTipoPartidaBingo", method = RequestMethod.GET)
-// 	@ResponseBody
-// 	public Map<String, Object> elegirTipoPartidaBingo(HttpSession session){
-// // cuando haces click en jugar, te sale un pop up que te dice linea, bingo, ambos.
-// // eso va a ser un form, y lo que recibo por request param, lo guardo en el map
-// // en el js, recupero esa data, es decir, lo q llega por el form. Ahi, segun lo q llega, muestro el boton de linea, el boton de bingo o ambos botones.
-// 	}
+	@RequestMapping(path = "/elegirTipoPartidaBingo", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> elegirTipoPartidaBingo(
+			@RequestParam("tipo") String tipo,
+			HttpSession session) {
+		// cuando haces click en jugar, te sale un pop up que te dice linea, bingo,
+		// ambos.
+		// eso va a ser un form, y lo que recibo por request param, lo guardo en el map
+		// en el js, recupero esa data, es decir, lo q llega por el form. Ahi, segun lo
+		// q llega, muestro el boton de linea, el boton de bingo o ambos botones.
+		Map<String, Object> respuesta = new HashMap<String, Object>();
+		try {
+			TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.valueOf(tipo.toUpperCase());
+			session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
+			respuesta.put("tipoPartidaBingo", tipoPartidaBingo);
+		} catch (Exception e) {
+			respuesta.put("error", "Tipo de partida no válido");
+		}
+		return respuesta;
+	}
 
 }

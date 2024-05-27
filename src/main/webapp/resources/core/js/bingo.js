@@ -194,7 +194,9 @@ function lanzarConfetti() {
 }
 
 function mostrarModalSeleccionTipoPartidaBingo(){
-
+$.get("elegirTipoPartidaBingo", function(data){
+    
+});
 }
 
 

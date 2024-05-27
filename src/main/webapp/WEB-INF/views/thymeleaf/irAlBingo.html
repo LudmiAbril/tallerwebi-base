@@ -38,15 +38,16 @@
   <div id="modalTipoPartida" class="modal w3-animate-top">
     <div class="modal-content">
       <h3>Seleccioná el tipo de partida</h3>
-      <form th:action="@{/elegirTipoPartidaBingo}" method="get">
+      <form th:action="@{/elegirTipoPartidaBingo}" method="get" class="text-center">
         <!-- linea -->
-        <label for=""></label>
-        <input type="button" value="linea">
+        <label for="linea"></label>
+        <input type="submit" value="linea" name="tipo">
         <!-- bingo -->
-        <label for=""></label>
-        <input type="button" value="bingo">
+        <label for="bingo"></label>
+        <input type="submit" value="bingo" name="tipo">
         <!-- ambas -->
-        <input type="button" value="ambos">
+        <label for="ambos"></label>
+        <input type="submit" value="ambos" name="tipo">
       </form>
     </div>
   </div>
