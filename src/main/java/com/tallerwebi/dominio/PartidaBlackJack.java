@@ -4,6 +4,9 @@ import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.persistence.Entity;
+
+@Entity
 public class PartidaBlackJack extends Partida {
     private Integer puntaje;
     private Boolean blackJack;
