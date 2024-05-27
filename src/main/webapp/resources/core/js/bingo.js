@@ -21,6 +21,26 @@ $(document).ready(function () {
         $(".carton").html(tablaHtml);
         $(".numeroCantadoContenedor").addClass("w3-animate-top");
         $(".carton").addClass("w3-animate-bottom");
+
+        if (data.error) {
+            alert(data.error)
+        } else {
+            tipoPartidaBingo = data.tipoPartidaBingo;
+            if (tipoPartidaBingo === "LINEA") {
+                console.log("linea")
+                document.getElementById("botonLinea").style.display = "block";
+                document.getElementById("botonBingo").style.display = "none";
+            } else if (tipoPartidaBingo === "BINGO") {
+                console.log("bingo")
+                document.getElementById("botonLinea").style.display = "none";
+                document.getElementById("botonBingo").style.display = "block";
+            } else if (tipoPartidaBingo === "AMBAS") {
+                console.log("ambas")
+                document.getElementById("botonLinea").style.display = "block";
+                document.getElementById("botonBingo").style.display = "block";
+            }
+        }
+
     });
     intervaloRefresco = setInterval(refrescarNumero, 7000);
 });
@@ -62,42 +82,6 @@ function casilleroEsIgualANumeroEntregado(numeroCasillero, callback) {
 
     });
 }
-
-// function obtenerLosNumerosEntregados() {
-//     bolaAmarillo = "bolaAmarillo.png";
-//     bolaCeleste = "bolaCeleste.png"
-//     bolaNaranja = "bolaNaranja.png";
-//     bolaRoja = "bolaRoja.png";
-//     bolaVerde = "bolaVerde.png"
-//     bolaVioleta = "bolaVioleta.png"
-//     rutaDeLasImgDeLasBolas = "/spring/imgStatic/";
-
-//     let bolas = [
-//         bolaAmarillo,
-//         bolaCeleste,
-//         bolaNaranja,
-//         bolaRoja,
-//         bolaVerde,
-//         bolaVioleta
-//     ];
-
-//     let currentBolaIndex = 0;
-//     $.get("obtenerLosNumerosEntregados", function (data) {
-//         var ultimosNumeros = Array.from(data.numerosEntregadosDeLaSesion);
-//         ultimosNumeros.reverse();
-//         var numerosParaMostrar = ultimosNumeros.slice(0, 5);
-//         var numerosEntregadosDiv = $(".numerosEntregados");
-//         numerosEntregadosDiv.empty();
-//         numerosParaMostrar.forEach(function (numero) {
-//             var parrafo = $("<p>").text(numero).attr("id", "numeroCantadoColeccion").addClass("numerosEntregadosContenedor");
-//             var bola = bolas[currentBolaIndex];
-//             var backgroundImageUrl = rutaDeLasImgDeLasBolas + bola;
-//             parrafo.css('background-image', 'url(' + backgroundImageUrl + ')');
-//             currentBolaIndex = (currentBolaIndex + 1) % bolas.length;
-//             numerosEntregadosDiv.append(parrafo);
-//         });
-//     });
-// }
 
 function obtenerLosNumerosEntregados() {
     var bolaAmarillo = "bolaAmarillo.png";
@@ -144,7 +128,7 @@ function bingo() {
             abrirModal();
             clearInterval(intervaloRefresco); // Detener la actualización del número
             intervaloRefresco = null;
-        } else if(!data.seHizoBingo) {
+        } else if (!data.seHizoBingo) {
             console.log("no hicisite bingo")
             var botonBingo = document.querySelector("#botonBingo");
             botonBingo.style.color = 'black';
@@ -174,7 +158,7 @@ function lanzarConfetti() {
         return Math.random() * (max - min) + min;
     }
 
-    var interval = setInterval(function() {
+    var interval = setInterval(function () {
         var timeLeft = animationEnd - Date.now();
 
         if (timeLeft <= 0) {
@@ -182,19 +166,21 @@ function lanzarConfetti() {
         }
 
         var particleCount = 50 * (timeLeft / duration);
-        confetti(Object.assign({}, defaults, { 
-            particleCount, 
-            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } 
+        confetti(Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
         }));
-        confetti(Object.assign({}, defaults, { 
-            particleCount, 
-            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } 
+        confetti(Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
         }));
     }, 250);
 }
 
-function mostrarModalSeleccionTipoPartidaBingo(){
-
+function mostrarModalSeleccionTipoPartidaBingo(event) {
+    event.preventDefault();
+    document.getElementById("modalTipoPartida").style.display = "block";
 }
+
 
 

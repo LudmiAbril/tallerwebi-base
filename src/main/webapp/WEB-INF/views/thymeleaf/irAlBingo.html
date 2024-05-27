@@ -19,8 +19,8 @@
   </nav>
   <main class="container">
     <img th:src="@{/imgStatic/bingoTitulo.png}" alt="titulo" class="imagen-home" />
-    <form th:action="@{/comenzarJuegoBingo}" method="post" th:object="${nuevoJugador}" class="text-center">
-      <button type="submit" class="btn btn-primary" onclick="mostrarModalSeleccionTipoPartidaBingo()">
+    <form method="get" class="text-center">
+      <button type="submit" class="btn btn-primary" onclick="mostrarModalSeleccionTipoPartidaBingo(event)">
         <span class="material-symbols-outlined">play_circle</span>JUGAR
       </button>
     </form>
@@ -38,15 +38,21 @@
   <div id="modalTipoPartida" class="modal w3-animate-top">
     <div class="modal-content">
       <h3>Seleccioná el tipo de partida</h3>
-      <form th:action="@{/elegirTipoPartidaBingo}" method="get">
+      <form th:action="@{/comenzarJuegoBingo}" method="get" class="text-center" id="tipoPartidaForm">
         <!-- linea -->
-        <label for=""></label>
-        <input type="button" value="linea">
+        <label for="linea">Linea</label>
+        <input type="radio" name="tipo" value="LINEA" id="linea">
+    
         <!-- bingo -->
-        <label for=""></label>
-        <input type="button" value="bingo">
+        <label for="bingo">Bingo</label>
+        <input type="radio" name="tipo" value="BINGO" id="bingo">
+
         <!-- ambas -->
-        <input type="button" value="ambos">
+        <label for="ambas">Ambas</label>
+        <input type="radio" name="tipo" value="AMBAS" id="ambas">
+
+        <label for="enviar"></label>
+        <input type="submit" name="enviar" id="enviar" value="Enviar">
       </form>
     </div>
   </div>

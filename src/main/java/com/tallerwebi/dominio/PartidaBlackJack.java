@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.persistence.Entity;
+
 @Entity
 public class PartidaBlackJack extends Partida {
     private Integer puntaje;

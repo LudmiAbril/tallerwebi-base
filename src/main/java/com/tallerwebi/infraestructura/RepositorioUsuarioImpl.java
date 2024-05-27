@@ -33,6 +33,7 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
         sessionFactory.getCurrentSession().save(usuario);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public Usuario buscar(String email) {
         return (Usuario) sessionFactory.getCurrentSession().createCriteria(Usuario.class)
