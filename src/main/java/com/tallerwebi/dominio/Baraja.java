@@ -4,21 +4,30 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder.In;
+
+import net.bytebuddy.implementation.bind.annotation.This;
+
 public class Baraja {
     private List<Carta> cartas;
     private Integer size;
+    private Integer valorAs;
 
     public Integer getSize() {
         return size;
     }
 
-    public Baraja() {
+    public Baraja(Integer valorAs) {
         this.cartas = new ArrayList<>();
-        inicializarBaraja();
+        this.valorAs = valorAs;
+        inicializarBaraja(valorAs);
         this.size = cartas.size();
     }
 
-    private void inicializarBaraja() {
+    public Baraja() {
+    }
+
+    private void inicializarBaraja(Integer valorAs) {
         for (Palo palo : Palo.values()) {
             for (int valor = 1; valor <= 13; valor++) {
                 String nombreCarta;
@@ -26,7 +35,7 @@ public class Baraja {
                 switch (valor) {
                     case 1:
                         nombreCarta = "A";
-                        valorCarta = 11; // Valor inicial del as
+                        valorCarta = valorAs;
                         break;
                     case 11:
                         nombreCarta = "J";
@@ -58,6 +67,26 @@ public class Baraja {
         Carta carta = cartas.remove(0);
         size = cartas.size();
         return carta;
+    }
+
+    public List<Carta> getCartas() {
+        return cartas;
+    }
+
+    public void setCartas(List<Carta> cartas) {
+        this.cartas = cartas;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
+    }
+
+    public Integer getValorAs() {
+        return valorAs;
+    }
+
+    public void setValorAs(Integer valorAs) {
+        this.valorAs = valorAs;
     }
 
 }

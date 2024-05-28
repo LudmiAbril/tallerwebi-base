@@ -11,9 +11,8 @@ public interface ServicioPlataforma {
 
     void agregarPartida(Partida partida);
 
-    List<Partida> obtenerPartidasUsuario(String nombre, Juego juego) throws PartidaDeUsuarioNoEncontradaException;
+    List<Partida> obtenerPartidasUsuario(Long id, Juego juego) throws PartidaDeUsuarioNoEncontradaException;
 
-    List<Partida> obtenerUltimasPartidasDelUsuario(String nombre, Juego juego)
-            throws PartidaDeUsuarioNoEncontradaException;
+    List<Partida> obtenerUltimasPartidasDelUsuario(Long id, Juego bingo) throws PartidaDeUsuarioNoEncontradaException;
 
 }

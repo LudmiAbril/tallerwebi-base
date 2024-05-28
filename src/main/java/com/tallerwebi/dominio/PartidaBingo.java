@@ -16,14 +16,17 @@ public class PartidaBingo extends Partida {
     private TipoPartidaBingo tipoPartidaBingo;
     private Integer tirada;
 
-public PartidaBingo(Set<Integer> casillerosMarcados, Boolean seHizoLinea, Boolean seHizoBingo, TipoPartidaBingo tipoPartidaBingo, Integer tirada){
-    this.casillerosMarcados = casillerosMarcados;
-    this.seHizoLinea = seHizoLinea;
-    this.seHizoBingo = seHizoBingo;
-    this.tipoPartidaBingo = tipoPartidaBingo;
-    this.tirada=tirada;
-}
-public PartidaBingo(){}
+    public PartidaBingo(Set<Integer> casillerosMarcados, Boolean seHizoLinea, Boolean seHizoBingo,
+            TipoPartidaBingo tipoPartidaBingo, Integer tirada) {
+        this.casillerosMarcados = casillerosMarcados;
+        this.seHizoLinea = seHizoLinea;
+        this.seHizoBingo = seHizoBingo;
+        this.tipoPartidaBingo = tipoPartidaBingo;
+        this.tirada = tirada;
+    }
+
+    public PartidaBingo() {
+    }
 
     public Set<Integer> getCasillerosMarcados() {
         return casillerosMarcados;

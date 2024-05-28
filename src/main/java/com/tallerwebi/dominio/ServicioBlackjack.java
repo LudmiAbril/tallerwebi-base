@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface ServicioBlackjack {
 
+    void inicializarBaraja(Integer valorAs);
+
     List<Carta> entregarCartasPrincipales();
 
     boolean hayBlackjack(List<Carta> cartasJugador);

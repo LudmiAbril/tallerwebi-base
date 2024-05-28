@@ -46,7 +46,6 @@ public class BlackjackTest {
     public void queAlPlantarseSeActualizeElMazoDelCrupier() {
         cartasCrupier.add(new Carta("3", 3, Palo.CORAZON));
         cartasCrupier.add(new Carta("3", 3, Palo.DIAMANTE));
-        Integer valorMano1 = servicio.calcularPuntuacion(cartasCrupier);
         cartasCrupier.addAll(servicio.plantarse(cartasCrupier));
         Integer valorMano = servicio.calcularPuntuacion(cartasCrupier);
         assertThat(valorMano, greaterThanOrEqualTo(17));
@@ -69,6 +68,17 @@ public class BlackjackTest {
         EstadoPartida estado = servicio.estadoPartida(cartasJugador, cartasCrupier, false);
         assertThat(estado, equalTo(EstadoPartida.FINALIZADA));
     }
+
+    @Test
+    public void queGaneElCrupierSiSePasaElPuntajeDelJugador() {
+        cartasJugador.add(new Carta("J", 11, Palo.CORAZON));
+        cartasJugador.add(new Carta("A", 11, Palo.PICA));
+        cartasCrupier.add(new Carta("5", 5, Palo.CORAZON));
+        cartasCrupier.add(new Carta("3", 3, Palo.DIAMANTE));
+        String ganador = servicio.ganador(cartasJugador,cartasCrupier,"jugador", false);
+        assertThat(ganador, equalTo("casa"));
+    }
+    
 
     @Test
     public void queFinalizeLaPartidaAlPlantarse() {

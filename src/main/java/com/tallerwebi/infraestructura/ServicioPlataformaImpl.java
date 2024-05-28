@@ -23,9 +23,14 @@ public class ServicioPlataformaImpl implements ServicioPlataforma {
     }
 
     @Override
-    public List<Partida> generarRanking(Juego juego) throws PartidasDelJuegoNoEncontradasException {
-        return repositorioPartida.listarPartidasPorJuego(juego);
+public List<Partida> generarRanking(Juego juego) throws PartidasDelJuegoNoEncontradasException {
+    List<Partida> partidas = repositorioPartida.listarPartidasPorJuego(juego);
+    if (partidas.isEmpty()) {
+        throw new PartidasDelJuegoNoEncontradasException();
     }
+    return partidas;
+}
+
 
     @Override
     public void agregarPartida(Partida partida) {
@@ -33,14 +38,13 @@ public class ServicioPlataformaImpl implements ServicioPlataforma {
     }
 
     @Override
-    public List<Partida> obtenerPartidasUsuario(String nombre, Juego juego) throws PartidaDeUsuarioNoEncontradaException {
-        return repositorioPartida.obtenerPartidasUsuario(nombre, juego);
+    public List<Partida> obtenerPartidasUsuario(Long id, Juego juego) throws PartidaDeUsuarioNoEncontradaException {
+        return repositorioPartida.obtenerPartidasUsuario(id, juego);
     }
 
     @Override
-    public List<Partida> obtenerUltimasPartidasDelUsuario(String nombre, Juego juego) throws PartidaDeUsuarioNoEncontradaException {
-        return repositorioPartida.obtenerPartidasUsuarioPorFecha(nombre, juego);
+    public List<Partida> obtenerUltimasPartidasDelUsuario(Long id, Juego juego) throws PartidaDeUsuarioNoEncontradaException {
+        return repositorioPartida.obtenerPartidasUsuarioPorFecha(id, juego);
     }
 
-    
 }
