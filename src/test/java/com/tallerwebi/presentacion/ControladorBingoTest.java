@@ -57,8 +57,8 @@ public class ControladorBingoTest {
     @Test
     public void queAlSolicitarIrAlBingoSeGuardeElModeloCorrespondiente() {
         ModelAndView mav = this.controladorBingo.irAlBingo();
-        Jugador MODELO_ACTUAL = ((Jugador) mav.getModel().get("nuevoJugador"));
-        assertThat(MODELO_ACTUAL, instanceOf(Jugador.class));
+        Usuario MODELO_ACTUAL = ((Usuario) mav.getModel().get("nuevoJugador"));
+        assertThat(MODELO_ACTUAL, instanceOf(Usuario.class));
     }
 
     // @Test
