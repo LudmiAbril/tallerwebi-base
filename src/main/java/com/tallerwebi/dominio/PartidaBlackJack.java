@@ -16,7 +16,9 @@ public class PartidaBlackJack extends Partida {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "mm:ss")
     private LocalTime duracion;
 
-    public PartidaBlackJack(Integer puntaje, Boolean blackJack, Boolean gano, LocalTime duracion) {
+
+    public PartidaBlackJack(Long idJugador, Integer puntaje, Juego juego, Boolean blackJack, Boolean gano, LocalTime duracion) {
+        super(idJugador, juego);  // Llama al constructor de la clase base
         this.puntaje = puntaje;
         this.blackJack = blackJack;
         this.gano = gano;
