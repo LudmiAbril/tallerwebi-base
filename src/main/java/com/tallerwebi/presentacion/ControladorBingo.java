@@ -46,20 +46,26 @@ public class ControladorBingo {
 
 	@RequestMapping(path = "/comenzarJuegoBingo", method = RequestMethod.GET)
 	public ModelAndView comenzarJuegoBingo(@RequestParam("tipo") String tipo, HttpSession session) {
-		CartonBingo carton = servicioBingo.generarCarton();
+
+		ModelMap model = new ModelMap();
+		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+		session.setAttribute("tiradaLimiteDeLaSesion", jugador.getConfig().getCantidadDePelotas());
+		session.setAttribute("dimensionDelCartonDeLaSesion", jugador.getConfig().getDimensionCarton());
+
+		Integer dimensionDelCartonDeLaSesion = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
+		CartonBingo carton = servicioBingo.generarCarton(dimensionDelCartonDeLaSesion);
+
 		Set<Integer> numerosEntregados = new LinkedHashSet<Integer>();
 		Integer numeroNuevo = this.servicioBingo.entregarNumeroAleatorio(numerosEntregados);
 		Integer numeroCantadoAleatorio = numeroNuevo;
 		numerosEntregados.add(numeroNuevo);
-
-		session.setAttribute("carton", carton);
 		session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
 		session.setAttribute("numeroAleatorioCantado", numeroCantadoAleatorio);
 
-		ModelMap model = new ModelMap();
-		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+		session.setAttribute("carton", carton);
+
 		String nombreJugador = jugador.getNombre();
-		model.put("nombreJugador",nombreJugador);
+		model.put("nombreJugador", nombreJugador);
 
 		session.setAttribute("nombreJugador", nombreJugador);
 
@@ -67,7 +73,7 @@ public class ControladorBingo {
 		session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
 
 		return new ModelAndView("bingo", model);
-		// get config. get cantidad de bolas. guardar en la sesion. 
+		// get config. get cantidad de bolas. guardar en la sesion.
 	}
 
 	@RequestMapping(path = "/obtenerDatosIniciales", method = RequestMethod.GET)
@@ -110,18 +116,26 @@ public class ControladorBingo {
 
 	@RequestMapping(path = "/obtenerNuevoNumero", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Integer> obtenerNuevoNumero(HttpSession session) {
+	public Map<String, Object> obtenerNuevoNumero(HttpSession session) {
 		Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
+		Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
+		Boolean limiteAlcanzado = false;
+		Map<String, Object> respuesta = new HashMap<>();
 		if (numerosEntregados == null) {
 			numerosEntregados = new LinkedHashSet<>();
 			session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
 		}
-		Integer nuevoNumero = servicioBingo.entregarNumeroAleatorio(numerosEntregados);
-		numerosEntregados.add(nuevoNumero);
-		session.setAttribute("numeroAleatorioCantado", nuevoNumero);
-		session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
-		Map<String, Integer> respuesta = new HashMap<>();
-		respuesta.put("nuevoNumero", nuevoNumero);
+		if (numerosEntregados.size()==tiradaLimiteDeLaSesion) {
+			limiteAlcanzado = true;
+			respuesta.put("limiteAlcanzado", limiteAlcanzado);
+		} else {
+			Integer nuevoNumero = servicioBingo.entregarNumeroAleatorio(numerosEntregados);
+			numerosEntregados.add(nuevoNumero);
+			session.setAttribute("numeroAleatorioCantado", nuevoNumero);
+			session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
+			respuesta.put("nuevoNumero", nuevoNumero);
+			respuesta.put("limiteAlcanzado", false);
+		}
 		return respuesta;
 	}
 

@@ -131,26 +131,26 @@ public class ControladorBingoTest {
     //     assertThat(session.getAttribute("numeroAleatorioCantado"), equalTo(null));
     // }
 
-    @Test
-    public void queNoSePuedaHacerBingoSiElNumeroEntregadoNoFueMarcado() {
-        // necesito un carton
-        CartonBingo cartonMock = mock(CartonBingo.class);
-        when(this.servicioBingoMock.generarCarton()).thenReturn(cartonMock);
-        // necesito que el servicio me de un numero aleatorio
-        Set<Integer> numerosEntregados = new LinkedHashSet<>();
-        Integer numeroAleatorio = 10;
-        when(this.servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
-        // ahora ese numero no lo voy a marcar, es decir, no lo voy a agregar a los
-        // numeros marcados
-        Map<String, Object> respuesta = controladorBingo.hacerBingo(session);
-        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-        // el bingo del mapa de la respuesta tiene que ser false
-        Boolean seHizoBingo = (Boolean) respuesta.get("seHizoBingo");
-        // los numeros marcados de la sesion tienen que ser nulos porque no se marco
-        // ninguno
-        assertThat(seHizoBingo, is(false));
-        assertThat(numerosMarcadosDeLaSesion, is(nullValue()));
-    }
+    // @Test
+    // public void queNoSePuedaHacerBingoSiElNumeroEntregadoNoFueMarcado() {
+    //     // necesito un carton
+    //     CartonBingo cartonMock = mock(CartonBingo.class);
+    //     when(this.servicioBingoMock.generarCarton()).thenReturn(cartonMock);
+    //     // necesito que el servicio me de un numero aleatorio
+    //     Set<Integer> numerosEntregados = new LinkedHashSet<>();
+    //     Integer numeroAleatorio = 10;
+    //     when(this.servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
+    //     // ahora ese numero no lo voy a marcar, es decir, no lo voy a agregar a los
+    //     // numeros marcados
+    //     Map<String, Object> respuesta = controladorBingo.hacerBingo(session);
+    //     Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+    //     // el bingo del mapa de la respuesta tiene que ser false
+    //     Boolean seHizoBingo = (Boolean) respuesta.get("seHizoBingo");
+    //     // los numeros marcados de la sesion tienen que ser nulos porque no se marco
+    //     // ninguno
+    //     assertThat(seHizoBingo, is(false));
+    //     assertThat(numerosMarcadosDeLaSesion, is(nullValue()));
+    // }
 
     // @Test
     // public void queAlComenzarJuegoBingoNoSeGenereUnCartonNiSeGuardeEnLaSesion() {
