@@ -53,7 +53,7 @@ public class ControladorBlackjackTest {
     @Test
     public void queSeDevuelvaLaVistaInicialBlackjackYObjetoJugadorVacio() {
 
-        ModelAndView modelAndView = controladorBlackjack.inicioBlackjack();
+        ModelAndView modelAndView = controladorBlackjack.inicioBlackjack(session);
         String viewname = modelAndView.getViewName();
 
         assertThat(viewname, equalToIgnoringCase("irAlBlackjack"));

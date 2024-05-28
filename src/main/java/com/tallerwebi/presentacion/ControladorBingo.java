@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tallerwebi.dominio.ServicioBingo;
+import com.tallerwebi.dominio.TipoPartidaBingo;
+import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.CartonBingo;
 import com.tallerwebi.dominio.Jugador;
 
@@ -37,24 +40,32 @@ public class ControladorBingo {
 	@RequestMapping(path = "/irAlBingo", method = RequestMethod.GET)
 	public ModelAndView irAlBingo() {
 		ModelMap model = new ModelMap();
-		model.put("nuevoJugador", new Jugador());
+		model.put("nuevoJugador", new Usuario());
 		return new ModelAndView("irAlBingo", model);
 	}
 
-	@RequestMapping(path = "/comenzarJuegoBingo", method = RequestMethod.POST)
-	public ModelAndView comenzarJuegoBingo(@ModelAttribute("nuevoJugador") Jugador nuevoJugador, HttpSession session) {
+	@RequestMapping(path = "/comenzarJuegoBingo", method = RequestMethod.GET)
+	public ModelAndView comenzarJuegoBingo(@RequestParam("tipo") String tipo, HttpSession session) {
 		CartonBingo carton = servicioBingo.generarCarton();
 		Set<Integer> numerosEntregados = new LinkedHashSet<Integer>();
 		Integer numeroNuevo = this.servicioBingo.entregarNumeroAleatorio(numerosEntregados);
 		Integer numeroCantadoAleatorio = numeroNuevo;
 		numerosEntregados.add(numeroNuevo);
+
 		session.setAttribute("carton", carton);
 		session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
 		session.setAttribute("numeroAleatorioCantado", numeroCantadoAleatorio);
+
 		ModelMap model = new ModelMap();
-		String nombreJugador = nuevoJugador.getNombre();
-		model.put("nombreJugador", nombreJugador);
+		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+		String nombreJugador = jugador.getNombre();
+		model.put("nombreJugador",nombreJugador);
+
 		session.setAttribute("nombreJugador", nombreJugador);
+
+		TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.valueOf(tipo.toUpperCase());
+		session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
+
 		return new ModelAndView("bingo", model);
 	}
 
@@ -73,10 +84,12 @@ public class ControladorBingo {
 
 		HashSet<Integer> numerosMarcadosDeLaSesion = new HashSet<Integer>();
 		session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+		TipoPartidaBingo tipoPartidaBingo = (TipoPartidaBingo) session.getAttribute("tipoPartidaBingo");
 
 		Map<String, Object> respuesta = new HashMap<>();
 		respuesta.put("carton", carton);
 		respuesta.put("numeroAleatorioCantado", numeroCantadoAleatorio);
+		respuesta.put("tipoPartidaBingo", tipoPartidaBingo);
 		return respuesta;
 	}
 
@@ -177,13 +190,4 @@ public class ControladorBingo {
 		respuesta.put("ultimosNumerosEntregados", numerosParaMostrar);
 		return respuesta;
 	}
-
-// 	@RequestMapping(path = "/elegirTipoPartidaBingo", method = RequestMethod.GET)
-// 	@ResponseBody
-// 	public Map<String, Object> elegirTipoPartidaBingo(HttpSession session){
-// // cuando haces click en jugar, te sale un pop up que te dice linea, bingo, ambos.
-// // eso va a ser un form, y lo que recibo por request param, lo guardo en el map
-// // en el js, recupero esa data, es decir, lo q llega por el form. Ahi, segun lo q llega, muestro el boton de linea, el boton de bingo o ambos botones.
-// 	}
-
 }
