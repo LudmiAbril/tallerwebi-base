@@ -190,4 +190,14 @@ public class ControladorBingo {
 		respuesta.put("ultimosNumerosEntregados", numerosParaMostrar);
 		return respuesta;
 	}
+
+	@RequestMapping(path = "/linea", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> hacerlinea(HttpSession session) {
+		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+		Boolean seHizoLinea = this.servicioBingo.linea(numerosMarcadosDeLaSesion);
+		Map<String, Object> respuesta = new HashMap<String, Object>();
+		respuesta.put("seHizoLinea", seHizoLinea);
+		return respuesta;
+	}
 }
