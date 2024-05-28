@@ -16,7 +16,7 @@ public interface ServicioBingo {
 
     CartonBingo generarCarton();
 
-    Boolean linea(Set<Integer> numerosMarcadosEnElCarton);
+    Boolean linea(Set<Integer> numerosMarcadosEnElCarton, CartonBingo cartonDeLaSesion);
 
     Set<Integer> getNumerosMarcadosEnElCarton();
 

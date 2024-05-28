@@ -181,7 +181,7 @@ function mostrarModalSeleccionTipoPartidaBingo(event) {
 }
 
 function linea() {
-    $.post("linea", function (data) {
+    $.get("linea", function (data) {
         if (data.seHizoLinea) {
             console.log("hiciste linea")
             clearInterval(intervaloRefresco); // Detener la actualización del número

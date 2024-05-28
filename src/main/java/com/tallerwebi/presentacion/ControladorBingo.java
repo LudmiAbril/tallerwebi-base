@@ -67,6 +67,7 @@ public class ControladorBingo {
 		session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
 
 		return new ModelAndView("bingo", model);
+		// get config. get cantidad de bolas. guardar en la sesion. 
 	}
 
 	@RequestMapping(path = "/obtenerDatosIniciales", method = RequestMethod.GET)
@@ -191,11 +192,12 @@ public class ControladorBingo {
 		return respuesta;
 	}
 
-	@RequestMapping(path = "/linea", method = RequestMethod.POST)
+	@RequestMapping(path = "/linea", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> hacerlinea(HttpSession session) {
 		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-		Boolean seHizoLinea = this.servicioBingo.linea(numerosMarcadosDeLaSesion);
+		CartonBingo cartonDeLaSesion = (CartonBingo) session.getAttribute("carton");
+		Boolean seHizoLinea = this.servicioBingo.linea(numerosMarcadosDeLaSesion, cartonDeLaSesion);
 		Map<String, Object> respuesta = new HashMap<String, Object>();
 		respuesta.put("seHizoLinea", seHizoLinea);
 		return respuesta;
