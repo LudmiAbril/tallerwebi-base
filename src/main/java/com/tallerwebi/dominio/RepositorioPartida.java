@@ -10,8 +10,8 @@ public interface RepositorioPartida {
 
     List<Partida> listarPartidasPorJuego(Juego juego) throws PartidasDelJuegoNoEncontradasException;
 
-    List<Partida> obtenerPartidasUsuario(String nombreJugador, Juego juego)
+    List<Partida> obtenerPartidasUsuario(Long id, Juego juego)
             throws PartidaDeUsuarioNoEncontradaException;
 
-    List<Partida> obtenerPartidasUsuarioPorFecha(String nombreJugador, Juego juego) throws PartidaDeUsuarioNoEncontradaException;
+    List<Partida> obtenerPartidasUsuarioPorFecha(Long id, Juego juego) throws PartidaDeUsuarioNoEncontradaException;
 }

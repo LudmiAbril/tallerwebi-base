@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.ServicioLogin;
+import com.tallerwebi.dominio.ConfiguracionesJuego;
+import com.tallerwebi.dominio.ServicioUsuario;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,10 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ControladorLogin {
 
-    private ServicioLogin servicioLogin;
+    private ServicioUsuario servicioLogin;
 
     @Autowired
-    public ControladorLogin(ServicioLogin servicioLogin){
+    public ControladorLogin(ServicioUsuario servicioLogin) {
         this.servicioLogin = servicioLogin;
     }
 
@@ -34,49 +35,42 @@ public class ControladorLogin {
     @RequestMapping(path = "/validar-login", method = RequestMethod.POST)
     public ModelAndView validarLogin(@ModelAttribute("datosLogin") DatosLogin datosLogin, HttpServletRequest request) {
         ModelMap model = new ModelMap();
-
         Usuario usuarioBuscado = servicioLogin.consultarUsuario(datosLogin.getEmail(), datosLogin.getPassword());
-        if (usuarioBuscado != null) {
-            request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
-//            return new ModelAndView("redirect:/home");
-        } else {
+        if (usuarioBuscado == null) {
             model.put("error", "Usuario o clave incorrecta");
+            return new ModelAndView("login", model);
+        } else {
+            request.getSession().setAttribute("jugadorActual", usuarioBuscado);
         }
-        return new ModelAndView("login", model);
+        return new ModelAndView("redirect:/acceso-juegos");
     }
 
     @RequestMapping(path = "/registrarme", method = RequestMethod.POST)
     public ModelAndView registrarme(@ModelAttribute("usuario") Usuario usuario) {
         ModelMap model = new ModelMap();
-        try{
+        usuario.setConfig(new ConfiguracionesJuego());
+        try {
             servicioLogin.registrar(usuario);
-        } catch (UsuarioExistente e){
-            model.put("error", "El usuario ya existe");
-            return new ModelAndView("nuevo-usuario", model);
-        } catch (Exception e){
+        } catch (UsuarioExistente e) {
+            model.put("error", "Ya existe un usuario con ese email");
+            return new ModelAndView("registro", model);
+        } catch (Exception e) {
             model.put("error", "Error al registrar el nuevo usuario");
-            return new ModelAndView("nuevo-usuario", model);
+            return new ModelAndView("registro", model);
         }
         return new ModelAndView("redirect:/login");
     }
 
-    @RequestMapping(path = "/nuevo-usuario", method = RequestMethod.GET)
+    @RequestMapping(path = "/registro", method = RequestMethod.GET)
     public ModelAndView nuevoUsuario() {
         ModelMap model = new ModelMap();
         model.put("usuario", new Usuario());
-        return new ModelAndView("nuevo-usuario", model);
+        return new ModelAndView("registro", model);
     }
 
-   /* @RequestMapping(path = "/home", method = RequestMethod.GET)
-    public ModelAndView irAHome() {
+    @RequestMapping(path = "/salir", method = RequestMethod.GET)
+    public ModelAndView nuevoUsuario(HttpServletRequest request) {
+        request.getSession().removeAttribute("jugadorActual");
         return new ModelAndView("home");
     }
-
-    @RequestMapping(path = "/", method = RequestMethod.GET)
-    public ModelAndView inicio() {
-        return new ModelAndView("redirect:/login");
-    }
-
-    */
 }
-

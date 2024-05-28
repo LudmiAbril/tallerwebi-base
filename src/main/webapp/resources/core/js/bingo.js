@@ -4,8 +4,6 @@ var numeroColorMap = {};
 $(document).ready(function () {
     // una vez que se realiza la peticion /obtenerDatosIniciales se ejecuta la funcion siguiente, que es la respuesta a esa peticion. Es decir, cuando se pide /obtenerDatosIniciales se responde de esa forma
     $.get("obtenerDatosIniciales", function (data) {
-        // en el elemento HTML con la id numeroCantado guarda el numeroAleatorioCantado que llega por data
-        //Establece el número cantado en el elemento HTML con el id numeroCantado, utilizando el número aleatorio devueltpor el servidor.
         $("#numeroCantado").text(data.numeroAleatorioCantado);
         //para construir la estructura de la tabla del cartón.
         var tablaHtml = "";
@@ -20,6 +18,27 @@ $(document).ready(function () {
         }
         $(".carton").html(tablaHtml);
         $(".numeroCantadoContenedor").addClass("w3-animate-top");
+        $(".carton").addClass("w3-animate-bottom");
+
+        if (data.error) {
+            alert(data.error)
+        } else {
+            tipoPartidaBingo = data.tipoPartidaBingo;
+            if (tipoPartidaBingo === "LINEA") {
+                console.log("linea")
+                document.getElementById("botonLinea").style.display = "block";
+                document.getElementById("botonBingo").style.display = "none";
+            } else if (tipoPartidaBingo === "BINGO") {
+                console.log("bingo")
+                document.getElementById("botonLinea").style.display = "none";
+                document.getElementById("botonBingo").style.display = "block";
+            } else if (tipoPartidaBingo === "AMBAS") {
+                console.log("ambas")
+                document.getElementById("botonLinea").style.display = "block";
+                document.getElementById("botonBingo").style.display = "block";
+            }
+        }
+
     });
     intervaloRefresco = setInterval(refrescarNumero, 7000);
 });
@@ -28,8 +47,12 @@ function refrescarNumero() {
     $(".numeroCantadoContenedor").removeClass("w3-animate-top");
     setTimeout(function () {
         $.get("obtenerNuevoNumero", function (data) {
-            $("#numeroCantado").text(data.nuevoNumero);
-            $(".numeroCantadoContenedor").addClass("w3-animate-top");
+            if (data.limiteAlcanzado) {
+                abrirModalDeLimiteAlcanzado();
+            } else {
+                $("#numeroCantado").text(data.nuevoNumero);
+                $(".numeroCantadoContenedor").addClass("w3-animate-top");
+            }
         });
     }, 100); // Espera 100 milisegundos antes de solicitar el nuevo número
 }
@@ -37,8 +60,8 @@ function marcarCasillero(numeroCasillero) {
     $.get("obtenerNumeroActual", function (data) {
         numeroActual = data.numeroActual;
         casilleroEsIgualANumeroEntregado(numeroCasillero, function (result) {
-            console.log("marcado")
             if (numeroCasillero == numeroActual || result) {
+                console.log("marcado")
                 $.post("marcarCasillero/" + numeroCasillero, function () {
                     $("#botonCasillero" + numeroCasillero).css("background-color", "purple");
                 })
@@ -61,42 +84,6 @@ function casilleroEsIgualANumeroEntregado(numeroCasillero, callback) {
 
     });
 }
-
-// function obtenerLosNumerosEntregados() {
-//     bolaAmarillo = "bolaAmarillo.png";
-//     bolaCeleste = "bolaCeleste.png"
-//     bolaNaranja = "bolaNaranja.png";
-//     bolaRoja = "bolaRoja.png";
-//     bolaVerde = "bolaVerde.png"
-//     bolaVioleta = "bolaVioleta.png"
-//     rutaDeLasImgDeLasBolas = "/spring/imgStatic/";
-
-//     let bolas = [
-//         bolaAmarillo,
-//         bolaCeleste,
-//         bolaNaranja,
-//         bolaRoja,
-//         bolaVerde,
-//         bolaVioleta
-//     ];
-
-//     let currentBolaIndex = 0;
-//     $.get("obtenerLosNumerosEntregados", function (data) {
-//         var ultimosNumeros = Array.from(data.numerosEntregadosDeLaSesion);
-//         ultimosNumeros.reverse();
-//         var numerosParaMostrar = ultimosNumeros.slice(0, 5);
-//         var numerosEntregadosDiv = $(".numerosEntregados");
-//         numerosEntregadosDiv.empty();
-//         numerosParaMostrar.forEach(function (numero) {
-//             var parrafo = $("<p>").text(numero).attr("id", "numeroCantadoColeccion").addClass("numerosEntregadosContenedor");
-//             var bola = bolas[currentBolaIndex];
-//             var backgroundImageUrl = rutaDeLasImgDeLasBolas + bola;
-//             parrafo.css('background-image', 'url(' + backgroundImageUrl + ')');
-//             currentBolaIndex = (currentBolaIndex + 1) % bolas.length;
-//             numerosEntregadosDiv.append(parrafo);
-//         });
-//     });
-// }
 
 function obtenerLosNumerosEntregados() {
     var bolaAmarillo = "bolaAmarillo.png";
@@ -143,8 +130,8 @@ function bingo() {
             abrirModal();
             clearInterval(intervaloRefresco); // Detener la actualización del número
             intervaloRefresco = null;
-        } else {
-            console.log("no hiciste bingo")
+        } else if (!data.seHizoBingo) {
+            console.log("no hicisite bingo")
             var botonBingo = document.querySelector("#botonBingo");
             botonBingo.style.color = 'black';
             botonBingo.classList.add('animate__animated', 'animate__shakeX');
@@ -161,7 +148,7 @@ function bingo() {
 
 function abrirModal() {
     document.getElementById("modalBingo").style.display = "block";
-    // lanzarConfetti();
+    lanzarConfetti();
 }
 
 function lanzarConfetti() {
@@ -173,7 +160,7 @@ function lanzarConfetti() {
         return Math.random() * (max - min) + min;
     }
 
-    var interval = setInterval(function() {
+    var interval = setInterval(function () {
         var timeLeft = animationEnd - Date.now();
 
         if (timeLeft <= 0) {
@@ -181,15 +168,40 @@ function lanzarConfetti() {
         }
 
         var particleCount = 50 * (timeLeft / duration);
-        confetti(Object.assign({}, defaults, { 
-            particleCount, 
-            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } 
+        confetti(Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
         }));
-        confetti(Object.assign({}, defaults, { 
-            particleCount, 
-            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } 
+        confetti(Object.assign({}, defaults, {
+            particleCount,
+            origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
         }));
     }, 250);
 }
+
+function mostrarModalSeleccionTipoPartidaBingo(event) {
+    event.preventDefault();
+    document.getElementById("modalTipoPartida").style.display = "block";
+}
+
+function linea() {
+    $.get("linea", function (data) {
+        if (data.seHizoLinea) {
+            console.log("hiciste linea")
+            clearInterval(intervaloRefresco); // Detener la actualización del número
+            intervaloRefresco = null;
+        } else if (!data.seHizoLinea) {
+            console.log("no hicisite linea")
+        }
+    }
+    );
+}
+
+function abrirModalDeLimiteAlcanzado(){
+    console.log("alcanzaste el limite!!!!")
+}
+
+
+
 
 

@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Blackjack</title>
+    <title>Senku</title>
     <link rel="stylesheet" th:href="@{/css/estilos-IrA.css}" />
     <link
       rel="stylesheet"
@@ -42,11 +42,8 @@
         <span class="material-symbols-outlined">timer</span>JUGAR CON TIEMPO
       </button>
 
-      <button type="submit" class="btn btn-primary">
-        <span class="material-symbols-outlined">group</span>MULTIJUGADOR
-      </button>
       <form th:action="@{/verRanking}" method="post">
-        <input type="hidden" name="tipoJuego" value="BLACKJACK" />
+        <input type="hidden" name="tipoJuego" value="SENKU" />
         <button type="submit" class="btn btn-primary">
           <span class="material-symbols-outlined">bar_chart</span>RANKING
         </button>
@@ -57,14 +54,13 @@
       <div class="modal-content">
         <span class="close">&times;</span>
         <h3>Ingresa el tiempo en el que quieras jugar:</h3>
-        <form th:action="@{/blackjack}" method="post">
+        <form th:action="@{/comenzarJuegoSenku}" method="post">
           <input type="hidden" value="true" name="contrareloj" />
           <input
             type="number"
             id="gameTime"
             name="tiempoLimite"
             placeholder="Tiempo en minutos"
-            th:value="${tiempoDefault}"
           />
           <button class="btn" type="submit" id="startGameWithTime">
             JUGAR
@@ -100,7 +96,7 @@
       startGameBtn.onclick = function () {
         const time = document.getElementById("gameTime").value;
         if (time) {
-          window.location.href = `/blackjack?time=${time}`; // Ajusta la URL según sea necesario
+          window.location.href = `/senku?time=${time}`; // Ajusta la URL según sea necesario
         } else {
           alert("Por favor, ingresa un tiempo válido.");
         }
