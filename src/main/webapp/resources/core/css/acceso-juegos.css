@@ -267,27 +267,34 @@ body {
 }
 
 /*-------------ESTILO PARA EL ICONO DEL MODAL DE SALIDA------------*/
+/* Contenedor de iconos */
 .icon-container {
-    width: 40px;
-    height: 40px;
+    display: flex;
+    gap: 10px;
     color: white;
     position: absolute;
     top: 20px;
     left: 20px;
     font-size: 40px;
     border-radius: 50%;
+}
+
+/* Estilo común para los iconos */
+.home-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     border: 1px solid white;
     background-color: black;
 }
-.icon-container:hover{
-    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd
+
+.icon-container:hover .home-icon {
+    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd;
 }
-.home-icon{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin-top:6px;
-}
+
 /*ESTILO PARA EL MODAL DE SALIDA*/
 .modal {
     display: none;
@@ -299,48 +306,121 @@ body {
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 60px;
+
+}
+.modal h2{
+    font-family: "Bebas Neue";
+    font-size: 40px;
     text-align: center;
-    justify-items: center;
+    padding-top: 55px;
 }
-.modal-content {
-    max-height:150px;
-    border-radius: 10px;
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 400px;
-    position: relative;
-}
-.modal-content label{
+
+.modal-content label {
     font-family: 'Teko', sans-serif;
     font-size: 20px;
 }
-.modal-content input{
-    font-size:14px;
+
+.modal-content input {
+    font-size: 14px;
     padding: 4px 8px;
     border-radius: 10px;
     border: 1px solid #888;
 }
-.material-symbols-outlined{
-    text-decoration:none;
+
+.material-symbols-outlined {
+    text-decoration: none;
 }
+
 .close {
     color: #aaa;
     float: right;
     font-size: 28px;
+    padding-top: 40px;
     font-weight: bold;
 }
+
 .close:hover,
 .close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
-.btn-salir{
+
+.btn-salir {
     padding-left: 130px;
+}
+
+.modal-content1 {
+    width: 30%;
+    max-height: none;
+    overflow-y: hidden;
+    border-radius: 10px;
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    position: relative;
+}
+
+.modal-content2 {
+    width: 70%;
+    height: 770px;
+    max-height: none;
+    overflow-y: hidden;
+    border-radius: 10px;
+    background-image: url(../imgStatic/cartelLuminoso.png);
+    margin: 3% auto;
+    padding: 20px 130px;
+    position: relative;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    text-align: left;
+}
+
+
+.section {
+    margin: 20px 0;
+}
+
+.section h3 {
+    margin-bottom: 10px;
+    font-family: "Clip";
+
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.input-group label {
+    flex: 1;
+    font-weight: bold;
+}
+#blackjack-duracion, #blackjack-as-valor, #tipoDeBingo option, #cant-numeros{
+    padding: 10px;
+    font-size:16px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #888;
+}
+
+#blackjack-duracion:hover, #blackjack-as-valor:hover, #tipoDeBingo option:hover, #cant-numeros:hover{
+    border: 1px solid #ad108b;
+}
+
+select{
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #888;
+}
+
+.btn-salir {
+    text-align: center;
+    margin-top: 20px;
 }
 
 .btn-salir button {
@@ -351,17 +431,101 @@ body {
     background-color: red;
     border-radius: 10px;
     padding: 10px;
-    width: 100px;
+    width: 120px;
     height: 40px;
     border: none;
     cursor: pointer;
-    margin-top: 20px;
-
 }
+
 .btn-salir .material-symbols-outlined {
     margin-right: 5px;
 }
 
-.btn-salir button:hover{
+.btn-salir button:hover {
     text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000, 0 0 60px #ff0000, 0 0 70px #ff0000;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.save-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: green;
+    border-radius: 10px;
+    padding: 10px;
+    width: 150px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.save-button:hover {
+    background-color: rgb(3, 68, 3);
+
+}
+
+.cancel-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: red;
+    border-radius: 10px;
+    padding: 10px;
+    width: 150px;
+    border: none;
+    cursor: pointer;
+}
+
+.cancel-button:hover {
+    background-color: rgb(100, 6, 6);
+
+}
+hr {
+    border: 1px solid rgba(0, 0, 0, 0.534);
+    margin: 10px 0;
+}
+/* ------------ESTILOS DIMENSION DEL CARTON----------*/
+.radio-group {
+    display: flex;
+    gap: 90px;
+}
+
+.radio-group input[type="radio"] {
+    display: none;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 45px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    background-color: white;
+    transition: background-color 0.3s, border-color 0.3s;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.radio-group input[type="radio"]:checked + label {
+    background-color: #B367A9;
+    color: white;
+}
+
+.radio-group label:hover {
+    background-color: #b367a9a2;
+}
+input:focus , select:focus{
+    border-color: #B367A9;
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+    outline: none;
 }
