@@ -23,9 +23,16 @@ public class ServicioPlataformaImpl implements ServicioPlataforma {
     }
 
     @Override
-    public List<Partida> generarRanking(Juego juego) throws PartidasDelJuegoNoEncontradasException {
-        return repositorioPartida.listarPartidasPorJuego(juego);
+public List<Partida> generarRanking(Juego juego) throws PartidasDelJuegoNoEncontradasException {
+    List<Partida> partidas = repositorioPartida.listarPartidasPorJuego(juego);
+    for (Partida partida : partidas) {
     }
+    if (partidas.isEmpty()) {
+        throw new PartidasDelJuegoNoEncontradasException();
+    }
+    return partidas;
+}
+
 
     @Override
     public void agregarPartida(Partida partida) {

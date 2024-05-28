@@ -36,6 +36,8 @@
             <p>Jugador: <span th:text="${partida.jugador}"></span></p>
             <p>Fecha: <span th:text="${partida.fechaYhora}"></span></p>
             <div th:switch="${partida.getClass().simpleName}">
+                
+
                 <div th:case="'PartidaBingo'">
                     <p>Bingo: <span th:text="${partida.seHizoBingo ? 'Sí' : 'No'}"></span></p>
                     <p>Línea: <span th:text="${partida.seHizoLinea ? 'Sí' : 'No'}"></span></p>
