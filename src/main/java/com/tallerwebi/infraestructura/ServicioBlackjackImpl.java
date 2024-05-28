@@ -17,7 +17,7 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
 
     @Autowired
     public ServicioBlackjackImpl() {
-        this.baraja = new Baraja();
+        // this.baraja = new Baraja();
     }
 
     @Override
@@ -136,8 +136,13 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
 
     @Override
     public void reponerBaraja() {
-        this.baraja = new Baraja();
+        this.baraja = new Baraja(this.baraja.getValorAs());
 
     }
 
+    @Override
+    public void inicializarBaraja(Integer valorAs) {
+        this.baraja = new Baraja(valorAs);
+
+    }
 }

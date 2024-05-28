@@ -174,6 +174,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 			}
 			if (horizontalLine) {
 				this.setSeHizoLinea(true);
+				this.numerosMarcadosEnElCarton.clear();
+				this.numerosEntregados.clear();
 				return this.getSeHizoLinea();
 			}
 		}
@@ -189,6 +191,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 			}
 			if (verticalLine) {
 				this.setSeHizoLinea(true);
+				this.numerosMarcadosEnElCarton.clear();
+				this.numerosEntregados.clear();
 				return this.getSeHizoLinea();
 			}
 		}
@@ -203,6 +207,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 		}
 		if (mainDiagonal) {
 			this.setSeHizoLinea(true);
+			this.numerosMarcadosEnElCarton.clear();
+			this.numerosEntregados.clear();
 			return this.getSeHizoLinea();
 		}
 
@@ -216,6 +222,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 		}
 		if (antiDiagonal) {
 			this.setSeHizoLinea(true);
+			this.numerosMarcadosEnElCarton.clear();
+			this.numerosEntregados.clear();
 			return this.getSeHizoLinea();
 		}
 
