@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ import com.tallerwebi.dominio.EstadoPartida;
 import com.tallerwebi.dominio.Juego;
 import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.Partida;
+import com.tallerwebi.dominio.PartidaBlackJack;
 import com.tallerwebi.dominio.ServicioBlackjack;
 import com.tallerwebi.dominio.ServicioPlataforma;
 import com.tallerwebi.dominio.Usuario;
@@ -210,18 +212,29 @@ public class ControladorBlackjack {
         // guardo la partida
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
-        servicioPlataforma.agregarPartida(new Partida(jugador.getId(), Juego.BLACKJACK));
+        Boolean hayBlackjack = servicioBlackjack.hayBlackjack((List<Carta>) session.getAttribute("cartasJugador"));
+        String ganador = (String) session.getAttribute("ganador");
+        Boolean gano = false;
+        LocalTime duracion = LocalTime.of(3, 00);
+        if (ganador.equals(jugador.getNombre()) || ganador.equals("empate")) {
+            gano = true;
+        }
+        servicioPlataforma.agregarPartida(new PartidaBlackJack(puntajeFinal, hayBlackjack, gano, duracion));
         return new ModelAndView("redirect:/inicio-blackjack");
     }
 
     @RequestMapping(path = "/reiniciar")
     public ModelAndView reiniciar(HttpSession session) {
-        // guardo la partida y reinicio los datos de la session
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
-
-        servicioPlataforma.agregarPartida(new Partida(jugador.getId(),
-                Juego.BLACKJACK));
+        Boolean hayBlackjack = servicioBlackjack.hayBlackjack((List<Carta>) session.getAttribute("cartasJugador"));
+        String ganador = (String) session.getAttribute("ganador");
+        Boolean gano = false;
+        LocalTime duracion = LocalTime.of(3, 00);
+        if (ganador.equals(jugador.getNombre()) || ganador.equals("empate")) {
+            gano = true;
+        }
+        servicioPlataforma.agregarPartida(new PartidaBlackJack(puntajeFinal, hayBlackjack, gano, duracion));
 
         List<Carta> cartasJugador = servicioBlackjack.entregarCartasPrincipales();
         List<Carta> cartasCasa = servicioBlackjack.entregarCartasPrincipales();
