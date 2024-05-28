@@ -83,7 +83,7 @@ public class ControladorBlackjack {
         } else {
             session.setAttribute("contrareloj", false);
         }
-
+    
         try {
             partidasAnteriores = servicioPlataforma.obtenerUltimasPartidasDelUsuario(jugador.getId(),
                     Juego.BLACKJACK);
