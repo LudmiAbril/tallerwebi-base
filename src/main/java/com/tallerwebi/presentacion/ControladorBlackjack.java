@@ -61,14 +61,18 @@ public class ControladorBlackjack {
 
         ModelMap model = new ModelMap();
 
-        // establesco lo valores de los masos y el puntaje inicial
+        // establesco lo valores iniciales e invoco metodos de servicio para comenzar el
+        // juego
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        String nombreJugador = jugador.getNombre();
+        Integer valorAs = jugador.getConfig().getValorDelAs();
+        servicioBlackjack.inicializarBaraja(valorAs);
         List<Carta> cartasJugador = servicioBlackjack.entregarCartasPrincipales();
         List<Carta> cartasCasa = servicioBlackjack.entregarCartasPrincipales();
         Integer puntajeInicial = servicioBlackjack.calcularPuntuacion(cartasJugador);
-        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-        String nombreJugador = jugador.getNombre();
         List<Partida> partidasAnteriores = new ArrayList<Partida>();
 
+        // guardo estos datos en la sesion para entregarlos luego
         if (contrareloj) {
             // calcula la hora exacta final, la formateo y la paso
             long tiempoLimiteMilisegundos = tiempoLimiteMinutos * 60 * 1000;
@@ -90,7 +94,7 @@ public class ControladorBlackjack {
         } catch (PartidaDeUsuarioNoEncontradaException e) {
             model.addAttribute("mensajePartidas", "aun no hay partidas registradas.");
         }
-        // guardo el nombre del jugador, los masos y los estados en la sesion
+
         session.setAttribute("nombre", nombreJugador);
         session.setAttribute("partidas", partidasAnteriores);
         session.setAttribute("cartasJugador", cartasJugador);
@@ -100,8 +104,7 @@ public class ControladorBlackjack {
         session.setAttribute("ganador",
                 servicioBlackjack.ganador(cartasJugador, cartasCasa, nombreJugador, false));
 
-        // si estado partida "finalizado" llamo al servicioplataforma y guardo en la
-        // base
+        // retorno la vista con el modelo de mensaje con respecto a las partidas
         return new ModelAndView("blackjack", model);
 
     }
@@ -119,7 +122,7 @@ public class ControladorBlackjack {
         List<Partida> partidasAnteriores = (List<Partida>) session.getAttribute("partidas");
         Boolean contrareloj = (Boolean) session.getAttribute("contrareloj");
 
-        // Creo la respuesta con las cartas del jugador y del crupier para pasarle al js
+        // Creo la respuesta con los datos que recupero de la sesion
         Map<String, Object> response = new HashMap<>();
         if (contrareloj) {
             response.put("contrareloj", true);
@@ -134,6 +137,8 @@ public class ControladorBlackjack {
         response.put("estadoPartida", estado);
         response.put("puntaje", puntaje);
         response.put("ganador", ganador);
+
+        // devuelvo los datos para javascript
         return response;
     }
 
@@ -183,14 +188,14 @@ public class ControladorBlackjack {
         List<Carta> cartasJugador = new ArrayList<>((List<Carta>) session.getAttribute("cartasJugador"));
         List<Carta> cartasCasaActualizadas = new ArrayList<>((List<Carta>) session.getAttribute("cartasCasa"));
         String jugador = (String) session.getAttribute("nombre");
-        List<Carta> cartasNuevasCrupier = servicioBlackjack.plantarse(cartasCasaActualizadas);
 
         // actualizo al crupier
+        List<Carta> cartasNuevasCrupier = servicioBlackjack.plantarse(cartasCasaActualizadas);
         cartasCasaActualizadas.addAll(cartasNuevasCrupier);
         // actualizo el estado y ganador
         String ganador = servicioBlackjack.ganador(cartasJugador, cartasCasaActualizadas, jugador, true);
 
-        // guardo en el map
+        // guardo estos datos en la respuesta
         Map<String, Object> response = new HashMap<String, Object>();
         response.put("manoFinalCrupier", cartasNuevasCrupier);
         response.put("ganador", ganador);
@@ -202,18 +207,16 @@ public class ControladorBlackjack {
 
     @RequestMapping("/finalizar")
     public ModelAndView finalizar(HttpSession session) {
-        // guardo la partida con todo lo que hay en la session y luego la limpio
+        // guardo la partida
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
-
         servicioPlataforma.agregarPartida(new Partida(jugador.getId(), Juego.BLACKJACK));
-
         return new ModelAndView("redirect:/inicio-blackjack");
     }
 
     @RequestMapping(path = "/reiniciar")
     public ModelAndView reiniciar(HttpSession session) {
-        // reinicio los datos de la session
+        // guardo la partida y reinicio los datos de la session
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
 
