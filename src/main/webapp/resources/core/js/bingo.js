@@ -47,8 +47,12 @@ function refrescarNumero() {
     $(".numeroCantadoContenedor").removeClass("w3-animate-top");
     setTimeout(function () {
         $.get("obtenerNuevoNumero", function (data) {
-            $("#numeroCantado").text(data.nuevoNumero);
-            $(".numeroCantadoContenedor").addClass("w3-animate-top");
+            if (data.limiteAlcanzado) {
+                abrirModalDeLimiteAlcanzado();
+            } else {
+                $("#numeroCantado").text(data.nuevoNumero);
+                $(".numeroCantadoContenedor").addClass("w3-animate-top");
+            }
         });
     }, 100); // Espera 100 milisegundos antes de solicitar el nuevo número
 }
@@ -189,9 +193,12 @@ function linea() {
         } else if (!data.seHizoLinea) {
             console.log("no hicisite linea")
         }
-
     }
     );
+}
+
+function abrirModalDeLimiteAlcanzado(){
+    console.log("alcanzaste el limite!!!!")
 }
 
 

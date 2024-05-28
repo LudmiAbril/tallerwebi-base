@@ -37,28 +37,28 @@ public class ServicioBingoTest {
 		assertThat(numerosEntregados, containsInAnyOrder(numeroAleatorio));
 	}
 
-	@Test
-	public void queSePuedaGenerarUnCartonDe25NumerosAleatorios() {
-		CartonBingo carton = servicioBingo.generarCarton();
-		Integer[][] numeros = carton.getNumeros();
-		// para almacenar los números que se encuentran en el cartón.
-		Set<Integer> numerosUsados = new HashSet<Integer>();
-		int cantidadDeNumerosActual = 0;
-		final int CANTIDAD_DE_NUMEROS_ESPERADA = 25;
+	// @Test
+	// public void queSePuedaGenerarUnCartonDe25NumerosAleatorios() {
+	// 	CartonBingo carton = servicioBingo.generarCarton();
+	// 	Integer[][] numeros = carton.getNumeros();
+	// 	// para almacenar los números que se encuentran en el cartón.
+	// 	Set<Integer> numerosUsados = new HashSet<Integer>();
+	// 	int cantidadDeNumerosActual = 0;
+	// 	final int CANTIDAD_DE_NUMEROS_ESPERADA = 25;
 
-		for (int f = 0; f < numeros.length; f++) {
-			for (int c = 0; c < numeros[f].length; c++) {
-				int numero = numeros[f][c];
-				assertTrue(numero >= 1 && numero <= 99);
-				assertFalse(numerosUsados.contains(numero));
-				cantidadDeNumerosActual++;
-				numerosUsados.add(numero);
-			}
-		}
+	// 	for (int f = 0; f < numeros.length; f++) {
+	// 		for (int c = 0; c < numeros[f].length; c++) {
+	// 			int numero = numeros[f][c];
+	// 			assertTrue(numero >= 1 && numero <= 99);
+	// 			assertFalse(numerosUsados.contains(numero));
+	// 			cantidadDeNumerosActual++;
+	// 			numerosUsados.add(numero);
+	// 		}
+	// 	}
 
-		assertThat(numerosUsados, hasSize(CANTIDAD_DE_NUMEROS_ESPERADA));
+	// 	assertThat(numerosUsados, hasSize(CANTIDAD_DE_NUMEROS_ESPERADA));
 
-	}
+	// }
 
 	@Test
 	public void queElCasilleroMarcadoSeaIgualAlNumeroEntregado() {

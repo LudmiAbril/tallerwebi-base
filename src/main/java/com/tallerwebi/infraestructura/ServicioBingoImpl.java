@@ -24,6 +24,7 @@ public class ServicioBingoImpl implements ServicioBingo {
 	private Set<Integer> numerosMarcadosEnElCarton;
 	private Set<Integer> numerosEntregados;
 	private Boolean seHizoLinea;
+	private Integer dimension;
 
 	public ServicioBingoImpl() {
 		this.rand = new Random();
@@ -80,12 +81,13 @@ public class ServicioBingoImpl implements ServicioBingo {
 	}
 
 	@Override
-	public CartonBingo generarCarton() {
-		Integer[][] carton = new Integer[CANTIDAD_DE_FILAS][CANTIDAD_DE_COLUMNAS];
+	public CartonBingo generarCarton(Integer dimension) {
+		this.setDimension(dimension);
+		Integer[][] carton = new Integer[dimension][dimension];
 		Set<Integer> numerosUsados = new HashSet<Integer>();
 
-		for (int f = 0; f < CANTIDAD_DE_FILAS; f++) {
-			for (int c = 0; c < CANTIDAD_DE_COLUMNAS; c++) {
+		for (int f = 0; f < dimension; f++) {
+			for (int c = 0; c < dimension; c++) {
 				int numero;
 				do {
 					numero = rand.nextInt(MAX_NUMERO) + 1;
@@ -97,8 +99,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 		}
 
 		List<Integer> numerosOrdenados = new ArrayList<Integer>();
-		for (int f = 0; f < CANTIDAD_DE_FILAS; f++) {
-			for (int c = 0; c < CANTIDAD_DE_COLUMNAS; c++) {
+		for (int f = 0; f < dimension; f++) {
+			for (int c = 0; c < dimension; c++) {
 				numerosOrdenados.add(carton[c][f]);
 
 			}
@@ -108,8 +110,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 
 		int index = 0;
 
-		for (int f = 0; f < CANTIDAD_DE_FILAS; f++) {
-			for (int c = 0; c < CANTIDAD_DE_COLUMNAS; c++) {
+		for (int f = 0; f < dimension; f++) {
+			for (int c = 0; c < dimension; c++) {
 				carton[c][f] = numerosOrdenados.get(index++);
 			}
 		}
@@ -117,6 +119,14 @@ public class ServicioBingoImpl implements ServicioBingo {
 		CartonBingo cartonNuevo = new CartonBingo(carton);
 		return cartonNuevo;
 
+	}
+
+	public Integer setDimension(Integer dimension) {
+		return this.dimension = dimension;
+	}
+
+	public Integer getDimension() {
+		return dimension;
 	}
 
 	public CartonBingo getCartonNuevo() {
@@ -166,10 +176,10 @@ public class ServicioBingoImpl implements ServicioBingo {
 		boolean seHizoLinea = false;
 
 		// HORIZONTAL
-		for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
-			for (int j = 0; j < CANTIDAD_DE_COLUMNAS; j++) {
+		for (int i = 0; i < dimension; i++) {
+			for (int j = 0; j < dimension; j++) {
 				numerosEnFila.add(numeros[i][j]);
-				if (numerosEnFila.size() == CANTIDAD_DE_COLUMNAS) {
+				if (numerosEnFila.size() == dimension) {
 					if (numerosMarcadosEnElCarton.containsAll(numerosEnFila)) {
 						seHizoLinea = true;
 						return seHizoLinea;
@@ -183,10 +193,10 @@ public class ServicioBingoImpl implements ServicioBingo {
 		}
 
 		// VERTICAL
-		for (int j = 0; j < CANTIDAD_DE_COLUMNAS; j++) {
-			for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
+		for (int j = 0; j < dimension; j++) {
+			for (int i = 0; i < dimension; i++) {
 				numerosEnFila.add(numeros[i][j]);
-				if (numerosEnFila.size() == CANTIDAD_DE_FILAS) {
+				if (numerosEnFila.size() == dimension) {
 					if (numerosMarcadosEnElCarton.containsAll(numerosEnFila)) {
 						seHizoLinea = true;
 						return seHizoLinea;
@@ -200,7 +210,7 @@ public class ServicioBingoImpl implements ServicioBingo {
 		}
 
 		// DIAGONAL PRINCIPAL
-		for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
+		for (int i = 0; i < dimension; i++) {
 			numerosEnFila.add(numeros[i][i]);
 		}
 		if (numerosMarcadosEnElCarton.containsAll(numerosEnFila)) {
@@ -211,8 +221,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 		}
 	
 		// DIAGONAL SECUNDARIA
-		for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
-			numerosEnFila.add(numeros[i][CANTIDAD_DE_COLUMNAS - 1 - i]);
+		for (int i = 0; i < dimension; i++) {
+			numerosEnFila.add(numeros[i][dimension - 1 - i]);
 		}
 		if (numerosMarcadosEnElCarton.containsAll(numerosEnFila)) {
 			seHizoLinea = true;
