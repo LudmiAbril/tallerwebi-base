@@ -5,26 +5,24 @@
 //import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 //import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 //import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
-//public class WebSocketConfig {
 //
-//    @Configuration
-//    @EnableWebSocketMessageBroker
-//    public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
+//@Configuration
+//@EnableWebSocketMessageBroker
+//public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 //
-//        /**
-//         * Registers the "/ws" endpoint, allowing clients to connect to the WebSocket message broker.
-//         *
-//         * @param registry the registry for registering STOMP endpoints
-//         */
-//        //@Override
-//        public void registerStompEndpoints(StompEndpointRegistry registry) {
-//            registry.addEndpoint("/ws").setAllowedOriginPatterns("*").withSockJS();
-//        }
-//        //@Override
-//        public void configureMessageBroker(MessageBrokerRegistry registry) {
-//            registry.setApplicationDestinationPrefixes("/app");
-//            registry.enableSimpleBroker("/queue", "/topic", "/user");
-//            registry.setUserDestinationPrefix("/user");
-//        }
+//    @Override
+//    public void configureMessageBroker(MessageBrokerRegistry registry) {
+//        // Prefijos para destinos del lado del cliente
+//        registry.setApplicationDestinationPrefixes("/app");
+//        // Prefijos para el broker de mensajes
+//        registry.enableSimpleBroker("/topic", "/queue");
+//        // Prefijo para las rutas de usuario
+//        registry.setUserDestinationPrefix("/user");
+//    }
+//
+//    @Override
+//    public void registerStompEndpoints(StompEndpointRegistry registry) {
+//        // Registro del endpoint WebSocket
+//        registry.addEndpoint("/ws").setAllowedOrigins("*").withSockJS();
 //    }
 //}
