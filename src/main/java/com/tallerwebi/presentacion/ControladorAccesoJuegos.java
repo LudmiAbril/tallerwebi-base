@@ -39,25 +39,24 @@ public class ControladorAccesoJuegos {
     }
 
     @RequestMapping(path = "/verRanking")
-    public ModelAndView verRanking(@RequestParam("tipoJuego") Juego tipoJuego) {
+public ModelAndView verRanking(@RequestParam("tipoJuego") Juego tipoJuego) {
 
-        ModelMap mav = new ModelMap();
+    ModelMap mav = new ModelMap();
 
-        Juego juego = tipoJuego;
-
-        List<Partida> partidas;
-        try {
-            partidas = servicioPlataforma.generarRanking(juego);
-            mav.addAttribute("partidas", partidas);
-        } catch (PartidasDelJuegoNoEncontradasException e) {
-            mav.addAttribute("mensajeError",
-                    "todavía no hay instancias de partidas de este juego,¿por qué no las empezas?");
-
-        }
-        mav.addAttribute("nombreJuego", tipoJuego.toString());
-
-        return new ModelAndView("ranking", mav);
+    List<Partida> partidas;
+    try {
+        partidas = servicioPlataforma.generarRanking(tipoJuego);
+        mav.addAttribute("partidas", partidas);
+    } catch (PartidasDelJuegoNoEncontradasException e) {
+        mav.addAttribute("mensajeError",
+                "todavía no hay instancias de partidas de este juego, ¿por qué no las empezás?");
     }
+    mav.addAttribute("nombreJuego", tipoJuego.toString());
+    mav.addAttribute("tipoJuego", tipoJuego);
+
+    return new ModelAndView("ranking", mav);
+}
+
 
     @RequestMapping(path = "/volverAlMenu")
     public ModelAndView volverAlMenuDeJuegos(HttpSession session) {
