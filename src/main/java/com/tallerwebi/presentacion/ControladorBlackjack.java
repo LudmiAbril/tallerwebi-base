@@ -47,10 +47,10 @@ public class ControladorBlackjack {
     }
 
     @RequestMapping(path = "/inicio-blackjack")
-    public ModelAndView inicioBlackjack() {
-
+    public ModelAndView inicioBlackjack(HttpSession session) {
         ModelMap modelo = new ModelMap();
-        modelo.put("nuevoJugador", new Jugador());
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        modelo.put("tiempoDefault", jugador.getConfig().getDuracionBlackjack());
         return new ModelAndView("irAlBlackjack", modelo);
     }
 
