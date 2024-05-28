@@ -4,8 +4,6 @@ var numeroColorMap = {};
 $(document).ready(function () {
     // una vez que se realiza la peticion /obtenerDatosIniciales se ejecuta la funcion siguiente, que es la respuesta a esa peticion. Es decir, cuando se pide /obtenerDatosIniciales se responde de esa forma
     $.get("obtenerDatosIniciales", function (data) {
-        // en el elemento HTML con la id numeroCantado guarda el numeroAleatorioCantado que llega por data
-        //Establece el número cantado en el elemento HTML con el id numeroCantado, utilizando el número aleatorio devueltpor el servidor.
         $("#numeroCantado").text(data.numeroAleatorioCantado);
         //para construir la estructura de la tabla del cartón.
         var tablaHtml = "";
@@ -58,8 +56,8 @@ function marcarCasillero(numeroCasillero) {
     $.get("obtenerNumeroActual", function (data) {
         numeroActual = data.numeroActual;
         casilleroEsIgualANumeroEntregado(numeroCasillero, function (result) {
-            console.log("marcado")
             if (numeroCasillero == numeroActual || result) {
+                console.log("marcado")
                 $.post("marcarCasillero/" + numeroCasillero, function () {
                     $("#botonCasillero" + numeroCasillero).css("background-color", "purple");
                 })
@@ -146,7 +144,7 @@ function bingo() {
 
 function abrirModal() {
     document.getElementById("modalBingo").style.display = "block";
-    // lanzarConfetti();
+    lanzarConfetti();
 }
 
 function lanzarConfetti() {
@@ -181,6 +179,22 @@ function mostrarModalSeleccionTipoPartidaBingo(event) {
     event.preventDefault();
     document.getElementById("modalTipoPartida").style.display = "block";
 }
+
+function linea() {
+    $.post("linea", function (data) {
+        if (data.seHizoLinea) {
+            console.log("hiciste linea")
+            clearInterval(intervaloRefresco); // Detener la actualización del número
+            intervaloRefresco = null;
+        } else if (!data.seHizoLinea) {
+            console.log("no hicisite linea")
+        }
+
+    }
+    );
+}
+
+
 
 
 

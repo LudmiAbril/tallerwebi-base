@@ -219,7 +219,7 @@ public class ControladorBlackjack {
         if (ganador.equals(jugador.getNombre()) || ganador.equals("empate")) {
             gano = true;
         }
-        servicioPlataforma.agregarPartida(new PartidaBlackJack(puntajeFinal, hayBlackjack, gano, duracion));
+        servicioPlataforma.agregarPartida(new PartidaBlackJack(jugador.getId(), puntajeFinal, Juego.BLACKJACK, hayBlackjack, gano, duracion));
         return new ModelAndView("redirect:/inicio-blackjack");
     }
 
@@ -234,7 +234,7 @@ public class ControladorBlackjack {
         if (ganador.equals(jugador.getNombre()) || ganador.equals("empate")) {
             gano = true;
         }
-        servicioPlataforma.agregarPartida(new PartidaBlackJack(puntajeFinal, hayBlackjack, gano, duracion));
+        servicioPlataforma.agregarPartida(new PartidaBlackJack(jugador.getId(), puntajeFinal, Juego.BLACKJACK, hayBlackjack, gano, duracion));
 
         List<Carta> cartasJugador = servicioBlackjack.entregarCartasPrincipales();
         List<Carta> cartasCasa = servicioBlackjack.entregarCartasPrincipales();
