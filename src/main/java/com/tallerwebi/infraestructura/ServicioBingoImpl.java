@@ -144,7 +144,7 @@ public class ServicioBingoImpl implements ServicioBingo {
 	}
 
 	public Boolean getSeHizoLinea() {
-		return seHizoLinea;
+		return this.seHizoLinea;
 	}
 
 	public void setSeHizoLinea(Boolean seHizoLinea) {
@@ -160,74 +160,66 @@ public class ServicioBingoImpl implements ServicioBingo {
 	}
 
 	@Override
-	public Boolean linea(Set<Integer> numerosMarcadosEnElCarton) {
-		Integer[][] numeros = cartonNuevo.getNumeros();
+	public Boolean linea(Set<Integer> numerosMarcadosEnElCarton, CartonBingo carton) {
+		Integer[][] numeros = carton.getNumeros();
+		List<Integer> numerosEnFila = new ArrayList<Integer>();
+		boolean seHizoLinea = false;
 
-		// Check horizontal lines
+		// HORIZONTAL
 		for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
-			boolean horizontalLine = true;
 			for (int j = 0; j < CANTIDAD_DE_COLUMNAS; j++) {
-				if (!numerosMarcadosEnElCarton.contains(numeros[i][j])) {
-					horizontalLine = false;
-					break;
+				numerosEnFila.add(numeros[i][j]);
+				if (numerosEnFila.size() == CANTIDAD_DE_COLUMNAS) {
+					if (numerosMarcadosEnElCarton.containsAll(numerosEnFila)) {
+						seHizoLinea = true;
+						return seHizoLinea;
+					} else {
+						numerosEnFila.clear();
+					}
 				}
+
 			}
-			if (horizontalLine) {
-				this.setSeHizoLinea(true);
-				this.numerosMarcadosEnElCarton.clear();
-				this.numerosEntregados.clear();
-				return this.getSeHizoLinea();
-			}
+
 		}
 
-		// Check vertical lines
+		// VERTICAL
 		for (int j = 0; j < CANTIDAD_DE_COLUMNAS; j++) {
-			boolean verticalLine = true;
 			for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
-				if (!numerosMarcadosEnElCarton.contains(numeros[i][j])) {
-					verticalLine = false;
-					break;
+				numerosEnFila.add(numeros[j][i]);
+				if (numerosEnFila.size() == CANTIDAD_DE_FILAS) {
+					if (numerosMarcadosEnElCarton.containsAll(numerosEnFila)) {
+						seHizoLinea = true;
+						return seHizoLinea;
+					} else {
+						numerosEnFila.clear();
+					}
 				}
+
 			}
-			if (verticalLine) {
-				this.setSeHizoLinea(true);
-				this.numerosMarcadosEnElCarton.clear();
-				this.numerosEntregados.clear();
-				return this.getSeHizoLinea();
-			}
+
 		}
 
-		// Check main diagonal (top-left to bottom-right)
-		boolean mainDiagonal = true;
+		// DIAGONAL PRINCIPAL
 		for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
-			if (!numerosMarcadosEnElCarton.contains(numeros[i][i])) {
-				mainDiagonal = false;
-				break;
-			}
+			numerosEnFila.add(numeros[i][i]);
 		}
-		if (mainDiagonal) {
-			this.setSeHizoLinea(true);
-			this.numerosMarcadosEnElCarton.clear();
-			this.numerosEntregados.clear();
-			return this.getSeHizoLinea();
+		if (numerosMarcadosEnElCarton.containsAll(numerosEnFila)) {
+			seHizoLinea = true;
+			return seHizoLinea;
+		} else {
+			numerosEnFila.clear();
 		}
-
-		// Check anti-diagonal (top-right to bottom-left)
-		boolean antiDiagonal = true;
+	
+		// DIAGONAL SECUNDARIA
 		for (int i = 0; i < CANTIDAD_DE_FILAS; i++) {
-			if (!numerosMarcadosEnElCarton.contains(numeros[i][CANTIDAD_DE_COLUMNAS - 1 - i])) {
-				antiDiagonal = false;
-				break;
-			}
+			numerosEnFila.add(numeros[i][CANTIDAD_DE_COLUMNAS - 1 - i]);
 		}
-		if (antiDiagonal) {
-			this.setSeHizoLinea(true);
-			this.numerosMarcadosEnElCarton.clear();
-			this.numerosEntregados.clear();
-			return this.getSeHizoLinea();
+		if (numerosMarcadosEnElCarton.containsAll(numerosEnFila)) {
+			seHizoLinea = true;
+			return seHizoLinea;
 		}
-
-		return false;
+	
+		return seHizoLinea;
 	}
 
 	public Integer obtenerCantidadDeNumerosEntregados() {
