@@ -184,11 +184,17 @@ function linea() {
     $.post("linea", function (data) {
         if (data.seHizoLinea) {
             console.log("hiciste linea")
+            clearInterval(intervaloRefresco); // Detener la actualización del número
+            intervaloRefresco = null;
         } else if (!data.seHizoLinea) {
-            console.log("no hiciste linea")
+            console.log("no hicisite linea")
         }
-    });
+
+    }
+    );
 }
+
+
 
 
 
