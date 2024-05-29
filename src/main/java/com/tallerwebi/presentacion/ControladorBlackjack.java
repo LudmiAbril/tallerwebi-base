@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.tallerwebi.dominio.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tallerwebi.dominio.Carta;
-import com.tallerwebi.dominio.EstadoPartida;
-import com.tallerwebi.dominio.Juego;
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.Partida;
-import com.tallerwebi.dominio.PartidaBlackJack;
-import com.tallerwebi.dominio.ServicioBlackjack;
-import com.tallerwebi.dominio.ServicioPlataforma;
-import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
 
 @Controller
@@ -52,13 +44,16 @@ public class ControladorBlackjack {
     public ModelAndView inicioBlackjack(HttpSession session) {
         ModelMap modelo = new ModelMap();
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        if(jugador.getConfig()==null){
+            jugador.setConfig(new ConfiguracionesJuego());
+        }
         modelo.put("tiempoDefault", jugador.getConfig().getDuracionBlackjack());
         return new ModelAndView("irAlBlackjack", modelo);
     }
 
     @RequestMapping(path = "/blackjack", method = RequestMethod.POST)
     public ModelAndView comenzarBlackjack(HttpSession session,
-            @RequestParam(value = "contrareloj", defaultValue = "false") Boolean contrareloj,
+            @RequestParam(value = "contrareloj", defaultValue = "false") boolean contrareloj,
             @RequestParam(value = "tiempoLimite", required = false) Integer tiempoLimiteMinutos) {
 
         ModelMap model = new ModelMap();
@@ -219,7 +214,8 @@ public class ControladorBlackjack {
         if (ganador.equals(jugador.getNombre()) || ganador.equals("empate")) {
             gano = true;
         }
-        servicioPlataforma.agregarPartida(new PartidaBlackJack(jugador.getId(), puntajeFinal, Juego.BLACKJACK, hayBlackjack, gano, duracion));
+        servicioPlataforma.agregarPartida(
+                new PartidaBlackJack(jugador.getId(), puntajeFinal, Juego.BLACKJACK, hayBlackjack, gano, duracion));
         return new ModelAndView("redirect:/inicio-blackjack");
     }
 
@@ -234,7 +230,8 @@ public class ControladorBlackjack {
         if (ganador.equals(jugador.getNombre()) || ganador.equals("empate")) {
             gano = true;
         }
-        servicioPlataforma.agregarPartida(new PartidaBlackJack(jugador.getId(), puntajeFinal, Juego.BLACKJACK, hayBlackjack, gano, duracion));
+        servicioPlataforma.agregarPartida(
+                new PartidaBlackJack(jugador.getId(), puntajeFinal, Juego.BLACKJACK, hayBlackjack, gano, duracion));
 
         List<Carta> cartasJugador = servicioBlackjack.entregarCartasPrincipales();
         List<Carta> cartasCasa = servicioBlackjack.entregarCartasPrincipales();

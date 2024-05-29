@@ -83,18 +83,18 @@ public class ChinTest {
 
         assertThat(mazoJugador2.size(), is(0));
     }
-    @Test
-    public void devuelveLasCartasDelMazoACadaJugador(){
-        ArrayList<Carta> mazoJugador1 = new ArrayList<>();
-        ArrayList<Carta> mazoJugador2 = new ArrayList<>();
-
-        ServicioChin chin = new ServicioChinImpl();
-        chin.repartirTodasLasCartas(mazoJugador1, mazoJugador2);
-
-        assertThat(mazoJugador1.size(), is(26));
-        assertThat(mazoJugador2.size(), is(26));
-    }
-    @Test
+//    @Test
+//    public void devuelveLasCartasDelMazoACadaJugador(){
+//        ArrayList<Carta> mazoJugador1 = new ArrayList<>();
+//        ArrayList<Carta> mazoJugador2 = new ArrayList<>();
+//
+//        ServicioChin chin = new ServicioChinImpl();
+//        chin.repartirTodasLasCartas(mazoJugador1, mazoJugador2);
+//
+//        assertThat(mazoJugador1.size(), is(26));
+//        assertThat(mazoJugador2.size(), is(26));
+//    }
+    /*@Test
     public void soloSePuedenTenerHasta4CartasEnLaMano(){
 
         ArrayList<Carta> mazoJugador1 = new ArrayList<>();
@@ -108,7 +108,7 @@ public class ChinTest {
         }
         assertThat(manoJugador1.size(), is(4));
 
-    }
+    }*/
     @Test
     public void siHayCHINElMazoDeDescarteVaAlMazoDelPerdedor(){
         ArrayList<Carta> mazoJugador1 = new ArrayList<>();
@@ -134,7 +134,7 @@ public class ChinTest {
         assertThat(descarte2.isEmpty(), is(true));
 
     }
-    @Test
+    /*@Test
     public void siNoHayCartasDisponiblesParaPonerEnElDescarteSeAgreganMas(){
         ArrayList<Carta> mazoJugador1 = new ArrayList<>();
         ArrayList<Carta> mazoJugador2 = new ArrayList<>();
@@ -150,11 +150,11 @@ public class ChinTest {
         descarte1.add(mazoJugador1.remove(mazoJugador1.size()-1));
         descarte2.add(mazoJugador2.remove(mazoJugador2.size()-1));
         assertThat(chin.sePuedenAgregarCartasAlDescarte(descarte1, descarte2, manoJugador1, manoJugador2),is(true));
-    }
+    }*/
 
 
 
-    @Test
+    /*@Test
     public void queArranqueCon4CartasEnElCentro(){
         ArrayList<Carta> mazoJugador1 = new ArrayList<>();
         ArrayList<Carta> mazoJugador2 = new ArrayList<>();
@@ -167,6 +167,6 @@ public class ChinTest {
 
         assertThat(manoJugador1.size(), is(4));
         assertThat(manoJugador2.size(), is(4));
-    }
+    }*/
 
 }

@@ -20,6 +20,8 @@
         <hibernate.version>5.4.24.Final</hibernate.version>
         <playwright.version>1.36.0</playwright.version>
         <hsqldb.version>2.3.2</hsqldb.version>
+        <jackson.version>2.13.0</jackson.version> <!-- Añadido para unificar versiones de Jackson -->
+        <jetty.version>9.4.45.v20220203</jetty.version> <!-- Añadido para unificar versiones de Jetty -->
     </properties>
 
     <dependencies>

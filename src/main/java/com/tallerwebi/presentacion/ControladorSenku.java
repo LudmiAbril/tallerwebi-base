@@ -27,6 +27,7 @@ import com.tallerwebi.dominio.Senku;
 import com.tallerwebi.dominio.ServicioPlataforma;
 import com.tallerwebi.dominio.ServicioSenku;
 import com.tallerwebi.dominio.Tablero;
+import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.CasilleroInexistenteException;
 import com.tallerwebi.dominio.excepcion.CasilleroVacio;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
@@ -36,64 +37,37 @@ public class ControladorSenku {
 
     private ServicioSenku servicioSenku;
     private ServicioPlataforma servicioPlataforma;
-/* 
     @Autowired
     public ControladorSenku(ServicioSenku servicioSenku, ServicioPlataforma servicioPlataforma) {
         this.servicioSenku = servicioSenku;
         this.servicioPlataforma = servicioPlataforma;
     }
-
+    
     @RequestMapping(path = "/irAlSenku", method = RequestMethod.GET)
     public ModelAndView inicioSenku() {
         ModelMap modelo = new ModelMap();
         modelo.put("nuevoJugador", new Jugador());
         return new ModelAndView("irAlSenku", modelo);
     }
+    @RequestMapping(path = "/comenzarJuegoSenku", method = RequestMethod.GET)
+	public ModelAndView comenzarJuegoBingo(@RequestParam("tipo") String tipo, HttpSession session) {
 
-    @RequestMapping(path = "/comenzarJuegoSenku", method = RequestMethod.POST)
-    public ModelAndView comenzarJuegoSenku(@ModelAttribute("nuevoJugador") Jugador nuevoJugador, HttpSession session,
-                                           @RequestParam(value = "contrareloj", defaultValue = "false") Boolean contrareloj,
-                                           @RequestParam(value = "tiempoLimite", required = false) Integer tiempoLimiteMinutos) {
-        Senku senku = new Senku(5);
-        Tablero tablero = senku.getTablero();
-    
-        // Guardando datos de sesión
-        session.setAttribute("senku", senku);
-        session.setAttribute("tablero", tablero);
-        session.setAttribute("jugadorActual", nuevoJugador.getNombre());
-    
-        if (contrareloj) {
-            // Establecer un valor por defecto si tiempoLimiteMinutos es null
-            tiempoLimiteMinutos = (tiempoLimiteMinutos != null) ? tiempoLimiteMinutos : 0;
-            long tiempoLimiteMilisegundos = tiempoLimiteMinutos * 60 * 1000;
-            long tiempoExpiracion = System.currentTimeMillis() + tiempoLimiteMilisegundos;
-            Date fechaExpiracion = new Date(tiempoExpiracion);
-            SimpleDateFormat formato = new SimpleDateFormat("HH:mm");
-            String tiempoExpiracionFormateado = formato.format(fechaExpiracion);
-    
-            session.setAttribute("contrareloj", true);
-            session.setAttribute("tiempoLimite", tiempoExpiracionFormateado);
-            session.setAttribute("minutos", tiempoLimiteMinutos);
-        } else {
-            session.setAttribute("contrareloj", false);
-        }
-    
-        List<Partida> partidasAnteriores = new ArrayList<>();
-        ModelMap model = new ModelMap();
-    
-        try {
-            partidasAnteriores = servicioPlataforma.obtenerPartidasUsuario(nuevoJugador.getNombre(), Juego.SENKU);
-            session.setAttribute("partidas", partidasAnteriores);
-            model.addAttribute("partidas", partidasAnteriores);
-        } catch (PartidaDeUsuarioNoEncontradaException e) {
-            model.addAttribute("mensajePartidas", "aun no hay partidas registradas");
-        }
-    
+		ModelMap model = new ModelMap();
+		Usuario usuario;
+		if (session.getAttribute("jugadorActual") == null || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
+			// Si no está o no es un Usuario, crea un nuevo Usuario y ponlo en la sesión
+			usuario = new Usuario();
+			usuario.setNombre("user");
+			session.setAttribute("jugadorActual", usuario);
+		}
+		else {
+			// Si está, recupéralo de la sesión
+			usuario = (Usuario) session.getAttribute("jugadorActual");
+		}
         return new ModelAndView("senku", model);
-    }
-    
-
-    @RequestMapping(path = "/obtenerTablero", method = RequestMethod.GET)
+         }
+        
+        @RequestMapping(path = "/obtenerTablero", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> obtenerTablero(HttpSession session) {
         Tablero tablero = (Tablero) session.getAttribute("tablero");
@@ -101,7 +75,7 @@ public class ControladorSenku {
         respuesta.put("tablero", tablero);
         return respuesta;
     }
-
+    
     @RequestMapping(path = "/marcarCasillero/{x}/{y}", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> marcarCasillero(@PathVariable Integer x, @PathVariable Integer y, HttpSession session) {
@@ -120,6 +94,7 @@ public class ControladorSenku {
         }
         return respuesta;
     }
+    /*
 
     @RequestMapping("/finalizar")
     public ModelAndView finalizar(HttpSession session) {

@@ -1,9 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Carta;
-import com.tallerwebi.dominio.CartonBingo;
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.ServicioChin;
+import com.tallerwebi.dominio.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,7 +27,7 @@ public class ControladorChin {
     public ModelAndView inicioChin() {
 
         ModelMap modelo = new ModelMap();
-        modelo.put("nuevoJugador", new Jugador());
+        modelo.put("nuevoJugador", new Usuario());
         return new ModelAndView("inicio-chin", modelo);
     }
 
@@ -38,7 +35,7 @@ public class ControladorChin {
         String viewName = "chin";
         ModelMap model = new ModelMap();
         model.put("message", "Bienvenido al Chin");
-        model.put("nuevoJugador", new Jugador());
+        model.put("nuevoJugador", new Usuario());
         return new ModelAndView(viewName, model);
     }
     //public ModelAndView repartirCartas(){

@@ -62,7 +62,7 @@ public class ControladorLoginTest {
 		ModelAndView modelAndView = controladorLogin.validarLogin(datosLoginMock, requestMock);
 		
 		// validacion
-		assertThat(modelAndView.getViewName(), equalToIgnoringCase("login"));
+		assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/acceso-juegos"));
 		
 	}
 
@@ -86,8 +86,8 @@ public class ControladorLoginTest {
 		ModelAndView modelAndView = controladorLogin.registrarme(usuarioMock);
 
 		// validacion
-		assertThat(modelAndView.getViewName(), equalToIgnoringCase("nuevo-usuario"));
-		assertThat(modelAndView.getModel().get("error").toString(), equalToIgnoringCase("El usuario ya existe"));
+		assertThat(modelAndView.getViewName(), equalToIgnoringCase("registro"));
+		assertThat(modelAndView.getModel().get("error").toString(), equalToIgnoringCase("Ya existe un usuario con ese email"));
 	}
 
 	@Test
@@ -99,7 +99,7 @@ public class ControladorLoginTest {
 		ModelAndView modelAndView = controladorLogin.registrarme(usuarioMock);
 
 		// validacion
-		assertThat(modelAndView.getViewName(), equalToIgnoringCase("nuevo-usuario"));
+		assertThat(modelAndView.getViewName(), equalToIgnoringCase("registro"));
 		assertThat(modelAndView.getModel().get("error").toString(), equalToIgnoringCase("Error al registrar el nuevo usuario"));
 	}
 }

@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
+import com.tallerwebi.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -52,9 +53,22 @@ public class ControladorBingo {
 	public ModelAndView comenzarJuegoBingo(@RequestParam("tipo") String tipo, HttpSession session) {
 
 		ModelMap model = new ModelMap();
-		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-		session.setAttribute("tiradaLimiteDeLaSesion", jugador.getConfig().getCantidadDePelotas());
-		session.setAttribute("dimensionDelCartonDeLaSesion", jugador.getConfig().getDimensionCarton());
+		Usuario usuario;
+		if (session.getAttribute("jugadorActual") == null || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
+			// Si no está o no es un Usuario, crea un nuevo Usuario y ponlo en la sesión
+			usuario = new Usuario();
+			usuario.setNombre("user");
+			session.setAttribute("jugadorActual", usuario);
+		}
+		else {
+			// Si está, recupéralo de la sesión
+			usuario = (Usuario) session.getAttribute("jugadorActual");
+		}
+
+		//Aca llamo al set con constructor vacio si se rompe algo puede ser por esto
+		usuario.setConfig(new ConfiguracionesJuego());
+		session.setAttribute("tiradaLimiteDeLaSesion", usuario.getConfig().getCantidadDePelotas());
+		session.setAttribute("dimensionDelCartonDeLaSesion", usuario.getConfig().getDimensionCarton());
 
 		Integer dimensionDelCartonDeLaSesion = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
 		CartonBingo carton = servicioBingo.generarCarton(dimensionDelCartonDeLaSesion);
@@ -68,7 +82,7 @@ public class ControladorBingo {
 
 		session.setAttribute("carton", carton);
 
-		String nombreJugador = jugador.getNombre();
+		String nombreJugador = usuario.getNombre();
 		model.put("nombreJugador", nombreJugador);
 
 		session.setAttribute("nombreJugador", nombreJugador);

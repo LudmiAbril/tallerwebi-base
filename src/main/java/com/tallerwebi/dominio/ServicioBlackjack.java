@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface ServicioBlackjack {
 
-    void inicializarBaraja(Integer valorAs);
+    Baraja inicializarBaraja(Integer valorAs);
 
     List<Carta> entregarCartasPrincipales();
 
@@ -23,5 +23,6 @@ public interface ServicioBlackjack {
     List<Carta> plantarse(List<Carta> cartasCasa);
 
     void reponerBaraja();
+
 
 }
