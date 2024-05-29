@@ -43,14 +43,7 @@ public class ControladorBlackjack {
     @RequestMapping(path = "/inicio-blackjack")
     public ModelAndView inicioBlackjack(HttpSession session) {
         ModelMap modelo = new ModelMap();
-        if(session.getAttribute("jugadorActual")==null){
-            session.setAttribute("jugadorActual", new Usuario());
-        }
-        Usuario jugador = new Usuario();
-        //jugador.setNombre((String) session.getAttribute("jugadorActual"));
-        if(jugador.getConfig()==null){
-            jugador.setConfig(new ConfiguracionesJuego());
-        }
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         modelo.put("tiempoDefault", jugador.getConfig().getDuracionBlackjack());
         return new ModelAndView("irAlBlackjack", modelo);
     }
@@ -64,14 +57,8 @@ public class ControladorBlackjack {
 
         // establesco lo valores iniciales e invoco metodos de servicio para comenzar el
         // juego
-        Usuario jugador = new Usuario();
-        session.setAttribute("jugadorActual", "Usuario");
-        //jugador = (Usuario) session.getAttribute("jugadorActual");
-        jugador.setNombre((String) session.getAttribute("jugadorActual"));
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         String nombreJugador = jugador.getNombre();
-        if(jugador.getConfig()==null){
-            jugador.setConfig(new ConfiguracionesJuego());
-        }
         Integer valorAs = jugador.getConfig().getValorDelAs();
         servicioBlackjack.inicializarBaraja(valorAs);
         List<Carta> cartasJugador = servicioBlackjack.entregarCartasPrincipales();
@@ -94,7 +81,7 @@ public class ControladorBlackjack {
         } else {
             session.setAttribute("contrareloj", false);
         }
-    
+
         try {
             partidasAnteriores = servicioPlataforma.obtenerUltimasPartidasDelUsuario(jugador.getId(),
                     Juego.BLACKJACK);
@@ -215,9 +202,7 @@ public class ControladorBlackjack {
     @RequestMapping("/finalizar")
     public ModelAndView finalizar(HttpSession session) {
         // guardo la partida
-        //Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-        Usuario jugador = new Usuario();
-        jugador.setNombre((String) session.getAttribute("jugadorActual"));
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
         Boolean hayBlackjack = servicioBlackjack.hayBlackjack((List<Carta>) session.getAttribute("cartasJugador"));
         String ganador = (String) session.getAttribute("ganador");
@@ -226,15 +211,14 @@ public class ControladorBlackjack {
         if (ganador.equals(jugador.getNombre()) || ganador.equals("empate")) {
             gano = true;
         }
-        servicioPlataforma.agregarPartida(new PartidaBlackJack(jugador.getId(), puntajeFinal, Juego.BLACKJACK, hayBlackjack, gano, duracion));
+        servicioPlataforma.agregarPartida(
+                new PartidaBlackJack(jugador.getId(), puntajeFinal, Juego.BLACKJACK, hayBlackjack, gano, duracion));
         return new ModelAndView("redirect:/inicio-blackjack");
     }
 
     @RequestMapping(path = "/reiniciar")
     public ModelAndView reiniciar(HttpSession session) {
-        //Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-        Usuario jugador = new Usuario();
-        jugador.setNombre((String) session.getAttribute("jugadorActual"));
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
         Boolean hayBlackjack = servicioBlackjack.hayBlackjack((List<Carta>) session.getAttribute("cartasJugador"));
         String ganador = (String) session.getAttribute("ganador");
@@ -243,7 +227,8 @@ public class ControladorBlackjack {
         if (ganador.equals(jugador.getNombre()) || ganador.equals("empate")) {
             gano = true;
         }
-        servicioPlataforma.agregarPartida(new PartidaBlackJack(jugador.getId(), puntajeFinal, Juego.BLACKJACK, hayBlackjack, gano, duracion));
+        servicioPlataforma.agregarPartida(
+                new PartidaBlackJack(jugador.getId(), puntajeFinal, Juego.BLACKJACK, hayBlackjack, gano, duracion));
 
         List<Carta> cartasJugador = servicioBlackjack.entregarCartasPrincipales();
         List<Carta> cartasCasa = servicioBlackjack.entregarCartasPrincipales();
