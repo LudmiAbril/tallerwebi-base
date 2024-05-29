@@ -54,19 +54,17 @@ public class ControladorBingo {
 
 		ModelMap model = new ModelMap();
 		Usuario usuario;
-		if (session.getAttribute("jugadorActual") == null || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
+		if (session.getAttribute("jugadorActual") == null
+				|| !(session.getAttribute("jugadorActual") instanceof Usuario)) {
 			// Si no está o no es un Usuario, crea un nuevo Usuario y ponlo en la sesión
 			usuario = new Usuario();
 			usuario.setNombre("user");
 			session.setAttribute("jugadorActual", usuario);
-		}
-		else {
+		} else {
 			// Si está, recupéralo de la sesión
 			usuario = (Usuario) session.getAttribute("jugadorActual");
 		}
 
-		//Aca llamo al set con constructor vacio si se rompe algo puede ser por esto
-		usuario.setConfig(new ConfiguracionesJuego());
 		session.setAttribute("tiradaLimiteDeLaSesion", usuario.getConfig().getCantidadDePelotas());
 		session.setAttribute("dimensionDelCartonDeLaSesion", usuario.getConfig().getDimensionCarton());
 
@@ -245,11 +243,13 @@ public class ControladorBingo {
 		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
 		Boolean seHizoLinea = (Boolean) session.getAttribute("seHizoLinea");
 		Boolean seHizoBingo = (Boolean) session.getAttribute("seHizoBingo");
-		TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session.getAttribute("tipoPartidaBingoDeLaSesion");
+		TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session
+				.getAttribute("tipoPartidaBingoDeLaSesion");
 		Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
 
 		servicioPlataforma
-				.agregarPartida(new PartidaBingo(numerosMarcadosDeLaSesion, seHizoLinea, seHizoBingo, tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion));
+				.agregarPartida(new PartidaBingo(numerosMarcadosDeLaSesion, seHizoLinea, seHizoBingo,
+						tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion));
 
 		return new ModelAndView("redirect: /irAlBingo");
 	}
