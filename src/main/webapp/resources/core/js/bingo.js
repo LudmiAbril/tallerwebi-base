@@ -25,15 +25,15 @@ $(document).ready(function () {
         } else {
             tipoPartidaBingo = data.tipoPartidaBingo;
             if (tipoPartidaBingo === "LINEA") {
-                console.log("linea")
+                console.log("msotrando el boton de linea")
                 document.getElementById("botonLinea").style.display = "block";
                 document.getElementById("botonBingo").style.display = "none";
             } else if (tipoPartidaBingo === "BINGO") {
-                console.log("bingo")
+                console.log("mostrando el boton de bingo")
                 document.getElementById("botonLinea").style.display = "none";
                 document.getElementById("botonBingo").style.display = "block";
             } else if (tipoPartidaBingo === "AMBAS") {
-                console.log("ambas")
+                console.log("mostrando ambos botones")
                 document.getElementById("botonLinea").style.display = "block";
                 document.getElementById("botonBingo").style.display = "block";
             }
@@ -197,11 +197,6 @@ function linea() {
     );
 }
 
-function abrirModalDeLimiteAlcanzado(){
-    console.log("alcanzaste el limite!!!!")
+function abrirModalDeLimiteAlcanzado() {
+   document.getElementById("modalLimite").style.display="block";
 }
-
-
-
-
-

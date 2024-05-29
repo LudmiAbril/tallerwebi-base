@@ -195,7 +195,7 @@ public class ServicioBingoImpl implements ServicioBingo {
 		// VERTICAL
 		for (int j = 0; j < dimension; j++) {
 			for (int i = 0; i < dimension; i++) {
-				numerosEnFila.add(numeros[j][i]);
+				numerosEnFila.add(numeros[i][j]);
 				if (numerosEnFila.size() == dimension) {
 					if (numerosMarcadosEnElCarton.containsAll(numerosEnFila)) {
 						seHizoLinea = true;
