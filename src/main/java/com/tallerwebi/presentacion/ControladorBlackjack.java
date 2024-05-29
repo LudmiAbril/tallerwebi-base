@@ -44,10 +44,10 @@ public class ControladorBlackjack {
     public ModelAndView inicioBlackjack(HttpSession session) {
         ModelMap modelo = new ModelMap();
         if(session.getAttribute("jugadorActual")==null){
-            session.setAttribute("jugadorActual", "usuario");
+            session.setAttribute("jugadorActual", new Usuario());
         }
         Usuario jugador = new Usuario();
-        jugador.setNombre((String) session.getAttribute("jugadorActual"));
+        //jugador.setNombre((String) session.getAttribute("jugadorActual"));
         if(jugador.getConfig()==null){
             jugador.setConfig(new ConfiguracionesJuego());
         }
@@ -215,7 +215,9 @@ public class ControladorBlackjack {
     @RequestMapping("/finalizar")
     public ModelAndView finalizar(HttpSession session) {
         // guardo la partida
-        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        //Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        Usuario jugador = new Usuario();
+        jugador.setNombre((String) session.getAttribute("jugadorActual"));
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
         Boolean hayBlackjack = servicioBlackjack.hayBlackjack((List<Carta>) session.getAttribute("cartasJugador"));
         String ganador = (String) session.getAttribute("ganador");
@@ -230,7 +232,9 @@ public class ControladorBlackjack {
 
     @RequestMapping(path = "/reiniciar")
     public ModelAndView reiniciar(HttpSession session) {
-        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        //Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        Usuario jugador = new Usuario();
+        jugador.setNombre((String) session.getAttribute("jugadorActual"));
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
         Boolean hayBlackjack = servicioBlackjack.hayBlackjack((List<Carta>) session.getAttribute("cartasJugador"));
         String ganador = (String) session.getAttribute("ganador");

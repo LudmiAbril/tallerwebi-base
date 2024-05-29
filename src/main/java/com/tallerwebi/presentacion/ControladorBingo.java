@@ -43,8 +43,17 @@ public class ControladorBingo {
 	public ModelAndView comenzarJuegoBingo(@RequestParam("tipo") String tipo, HttpSession session) {
 
 		ModelMap model = new ModelMap();
-		Usuario usuario = new Usuario();
-		usuario.setNombre((String) session.getAttribute("jugadorActual"));
+		Usuario usuario;
+		if (session.getAttribute("jugadorActual") == null || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
+			// Si no está o no es un Usuario, crea un nuevo Usuario y ponlo en la sesión
+			usuario = new Usuario();
+			usuario.setNombre("user");
+			session.setAttribute("jugadorActual", usuario);
+		}
+		else {
+			// Si está, recupéralo de la sesión
+			usuario = (Usuario) session.getAttribute("jugadorActual");
+		}
 
 		//Aca llamo al set con constructor vacio si se rompe algo puede ser por esto
 		usuario.setConfig(new ConfiguracionesJuego());
