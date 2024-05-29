@@ -158,7 +158,8 @@ public class ControladorBingo {
 	@ResponseBody
 	public Map<String, Object> hacerBingo(HttpSession session) {
 		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-		Boolean seHizoBingo = this.servicioBingo.bingo(numerosMarcadosDeLaSesion);
+		Integer dimension = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
+		Boolean seHizoBingo = this.servicioBingo.bingo(numerosMarcadosDeLaSesion, dimension);
 		session.setAttribute("seHizoBingo", seHizoBingo);
 		Map<String, Object> respuesta = new HashMap<String, Object>();
 		respuesta.put("seHizoBingo", seHizoBingo);

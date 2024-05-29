@@ -10,7 +10,7 @@ public interface ServicioBingo {
 
     void marcarCasillero(Integer numeroCasillero, CartonBingo carton);
 
-    Boolean bingo(Set<Integer> numerosMarcadosEnElCarton);
+    Boolean bingo(Set<Integer> numerosMarcadosEnElCarton, Integer dimension);
 
     CartonBingo generarCarton(Integer dimensionDelCartonDeLaSesion);
 
