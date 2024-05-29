@@ -1,45 +1,45 @@
-// package com.tallerwebi.dominio;
+ package com.tallerwebi.dominio;
 
-// import static org.hamcrest.MatcherAssert.assertThat;
-// import static org.hamcrest.Matchers.*;
-// import static org.junit.jupiter.api.Assertions.assertNotNull;
-// import static org.junit.jupiter.api.Assertions.assertThrows;
-// import java.util.ArrayList;
-// import java.util.List;
+ import static org.hamcrest.MatcherAssert.assertThat;
+ import static org.hamcrest.Matchers.*;
+ import static org.junit.jupiter.api.Assertions.assertNotNull;
+ import static org.junit.jupiter.api.Assertions.assertThrows;
+ import java.util.ArrayList;
+ import java.util.List;
 
-// import javax.transaction.Transactional;
-// import org.hibernate.SessionFactory;
-// import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.Test;
-// import org.junit.jupiter.api.extension.ExtendWith;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.test.context.ContextConfiguration;
-// import org.springframework.test.context.junit.jupiter.SpringExtension;
-// import com.tallerwebi.config.HibernateTestConfig;
-// import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
-// import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
-// import com.tallerwebi.infraestructura.RepositorioPartidaImpl;
+ import javax.transaction.Transactional;
+ import org.hibernate.SessionFactory;
+ import org.junit.jupiter.api.BeforeEach;
+ import org.junit.jupiter.api.Test;
+ import org.junit.jupiter.api.extension.ExtendWith;
+ import org.springframework.beans.factory.annotation.Autowired;
+ import org.springframework.test.context.ContextConfiguration;
+ import org.springframework.test.context.junit.jupiter.SpringExtension;
+ import com.tallerwebi.config.HibernateTestConfig;
+ import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
+ import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
+ import com.tallerwebi.infraestructura.RepositorioPartidaImpl;
 
-// @Transactional
-// @ExtendWith(SpringExtension.class)
-// @ContextConfiguration(classes = { HibernateTestConfig.class })
-// public class RepositorioPartidaTest {
-//     private RepositorioPartida repositorio;
-//     @Autowired
-//     SessionFactory session;
+ @Transactional
+ @ExtendWith(SpringExtension.class)
+ @ContextConfiguration(classes = { HibernateTestConfig.class })
+ public class RepositorioPartidaTest {
+     private RepositorioPartida repositorio;
+     @Autowired
+     SessionFactory session;
 
-//     @BeforeEach
-//     public void init() {
-//         this.repositorio = new RepositorioPartidaImpl(session) {
-//         };
-//     }
+     @BeforeEach
+     public void init() {
+         this.repositorio = new RepositorioPartidaImpl(session) {
+         };
+     }
 
-//     @Test
-//     public void queSeGuardeUnaPartida() {
-//         Partida p = crearPartida("jugador", Juego.BINGO);
-//         repositorio.guardar(p);
-//         assertThat(session.getCurrentSession().contains(p), equalTo(true));
-//     }
+     /*@Test
+     public void queSeGuardeUnaPartida() {
+         Partida p = crearPartida("jugador", Juego.BINGO);
+         repositorio.guardar(p);
+         assertThat(session.getCurrentSession().contains(p), equalTo(true));
+     }*/
 
 //     @Test
 //     public void queSeObtengaUnRankingOrdenadoDePartidasParaUnJuegoParticular() {
@@ -127,4 +127,4 @@
 //         Partida partida = new Partida(nombre, 23, juego);
 //         return partida;
 //     }
-// }
+ }
