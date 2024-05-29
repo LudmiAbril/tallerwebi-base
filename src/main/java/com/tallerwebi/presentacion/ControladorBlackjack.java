@@ -44,6 +44,9 @@ public class ControladorBlackjack {
     public ModelAndView inicioBlackjack(HttpSession session) {
         ModelMap modelo = new ModelMap();
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        if(jugador.getConfig()==null){
+            jugador.setConfig(new ConfiguracionesJuego());
+        }
         modelo.put("tiempoDefault", jugador.getConfig().getDuracionBlackjack());
         return new ModelAndView("irAlBlackjack", modelo);
     }
