@@ -109,6 +109,7 @@ public class ServicioBingoTest {
 	 			{ 21, 22, 23, 24, 25 }
 	 	};
 	 	CartonBingo carton = new CartonBingo(numeros);
+		 ((ServicioBingoImpl) this.servicioBingo).setDimension(5);
 	 	((ServicioBingoImpl) this.servicioBingo).setCartonNuevo(carton);
 
 	 	Integer numeroAleatorio1 = 1;
@@ -150,6 +151,7 @@ public class ServicioBingoTest {
 	 			{ 21, 22, 23, 24, 25 }
 	 	};
 	 	CartonBingo carton = new CartonBingo(numeros);
+		((ServicioBingoImpl) this.servicioBingo).setDimension(5);
 	 	((ServicioBingoImpl) this.servicioBingo).setCartonNuevo(carton);
 	 	Integer numeroAleatorio1 = 1;
 	 	Integer numeroAleatorio2 = 2;
@@ -186,6 +188,7 @@ public class ServicioBingoTest {
 	 		{ 21, 22, 23, 24, 25 }
 	 };
 	 CartonBingo carton = new CartonBingo(numeros);
+	 ((ServicioBingoImpl) this.servicioBingo).setDimension(5);
 	 ((ServicioBingoImpl) this.servicioBingo).setCartonNuevo(carton);
 
 	 Integer numeroAleatorio1 = 1;
@@ -228,6 +231,7 @@ public class ServicioBingoTest {
 	 		{ 21, 22, 23, 24, 25 }
 	 };
 	 CartonBingo carton = new CartonBingo(numeros);
+		 ((ServicioBingoImpl) this.servicioBingo).setDimension(5);
 	 ((ServicioBingoImpl) this.servicioBingo).setCartonNuevo(carton);
 
 	 Integer numeroAleatorio5 = 5;
