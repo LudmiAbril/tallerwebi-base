@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seccion-juegos</title>
-    <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}">
-    <link rel="stylesheet" th:href="@{/css/seccion2.css}">
     <link rel="stylesheet" th:href="@{/css/acceso-juegos.css}">
     <script th:src="@{/js/modal.js}"></script>
 
@@ -19,23 +17,77 @@
     <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
     <link th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}" rel="stylesheet">
     <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0}" />
+<style>
+     input, label {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+</style>
 </head>
 <body>
-<div class="icon-container" onclick="openModal()">
-    <div class="home-icon">
+<!-- Icon Container -->
+<div class="icon-container">
+    <div class="home-icon" onclick="openModal('homeModal')">
         <span class="material-symbols-outlined">home</span>
+    </div>
+    <div class="home-icon" onclick="openModal('configuracionModal')">
+        <span class="material-symbols-outlined">manufacturing</span>
     </div>
 </div>
 
-<div id="myModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <p>Usuario: <span th:text="${jugador}"></span></p>
+<!-- Home Modal -->
+<div id="homeModal" class="modal">
+    <div class="modal-content1">
+        <span class="close" onclick="closeModal('homeModal')">&times;</span>
+        <p>Estas seguro que deseas abandonar la plataforma?</p>
         <div class="btn-salir">
             <a th:href="@{/salir}">
                 <button><span class="material-symbols-outlined">logout</span>Salir</button>
             </a>
         </div>
+    </div>
+</div>
+
+<!-- configuracion Modal -->
+<div id="configuracionModal" class="modal">
+
+    <div class="modal-content2">
+        <span class="close" onclick="closeModal('configuracionModal')">&times;</span>
+        <h2>CONFIGURACIÓN</h2>
+
+        <!-- Primera Sección -->
+        <div class="section">
+            <h3>BLACKJACK</h3>
+            <label for="blackjack-duracion">Duración del Blackjack:</label>
+            <input type="number" id="blackjack-duracion" name="blackjack-duracion" value="5" min="1">
+            <br><br>
+            <label for="blackjack-as-valor">Valor del As:</label>
+            <input type="number" id="blackjack-as-valor" name="blackjack-as-valor" value="10" min="1">
+        </div>
+
+        <hr>
+
+        <!-- Segunda Sección -->
+        <div class="section">
+            <h3>BINGO</h3>
+            <label>Dimensión del Cartón:</label>
+            <div class="radio-group">
+                <input type="radio" id="dimension-3x3" name="carton-dimension" value="3x3">
+                <label for="dimension-3x3">3x3</label>
+                <input type="radio" id="dimension-4x4" name="carton-dimension" value="4x4" checked>
+                <label for="dimension-4x4">4x4</label>
+                <input type="radio" id="dimension-5x5" name="carton-dimension" value="5x5" >
+                <label for="dimension-5x5">5x5</label>
+            </div>
+            <br><br>
+            <label for="cant-numeros">Ingresar tirada:</label>
+            <input type="number" id="cant-numeros" name="cant-numeros" value="99" min="1">
+        </div>
+
+        <div class="button-container">
+            <button class="save-button" onclick="closeModal('configuracionModal')"><span class="material-symbols-outlined">check</span>GUARDAR</button>
+            <button class="cancel-button" onclick="closeModal('configuracionModal')"><span class="material-symbols-outlined">close</span>CANCELAR</button>
+        </div>
+
     </div>
 </div>
 <section class="container">
