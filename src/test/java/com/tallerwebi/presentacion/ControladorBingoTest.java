@@ -33,18 +33,21 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tallerwebi.dominio.CartonBingo;
 import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.ServicioBingo;
+import com.tallerwebi.dominio.ServicioPlataforma;
 
 public class ControladorBingoTest {
 
     private ControladorBingo controladorBingo;
     private ServicioBingo servicioBingoMock;
     private HttpSession session;
+    private ServicioPlataforma servicioPlataformaMock;
 
     @BeforeEach
     public void init() {
         this.servicioBingoMock = mock(ServicioBingo.class);
-        this.controladorBingo = new ControladorBingo(servicioBingoMock);
+        this.controladorBingo = new ControladorBingo(servicioBingoMock, servicioPlataformaMock);
         this.session = new MockHttpSession();
+        this.servicioPlataformaMock = mock(ServicioPlataforma.class);
     }
 
     @Test
