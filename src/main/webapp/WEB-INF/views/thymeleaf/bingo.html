@@ -82,10 +82,13 @@
   <!-- Modal de Bingo -->
   <div id="modalBingo" class="modal w3-animate-top">
     <div class="modal-content">
-      <h3>Hiciste BINGO</h3>
+      <h3>Hiciste <span th:text="${tipoPartidaBingoDeLaSesion}"></span></h3>
       <p>¡Felicidades, <span th:text="${nombreJugador}"></span>!</p>
       <form th:action="@{/irAlBingo.html}">
         <button type="submit" class="boton-volver">Volver</button>
+      </form>
+      <form action="/spring/finalizar" method="post">
+        <button type="submit">Volver al inicio</button>
       </form>
     </div>
   </div>
