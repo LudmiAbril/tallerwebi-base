@@ -35,34 +35,36 @@ public class ControladorAccesoJuegos {
         ModelMap model = new ModelMap();
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         model.addAttribute("jugador", jugador.getNombre());
+        model.addAttribute("usuarioConfig", jugador.getConfig());
         return new ModelAndView("acceso-juegos", model);
     }
 
     @RequestMapping(path = "/verRanking")
-public ModelAndView verRanking(@RequestParam("tipoJuego") Juego tipoJuego) {
+    public ModelAndView verRanking(@RequestParam("tipoJuego") Juego tipoJuego) {
 
-    ModelMap mav = new ModelMap();
+        ModelMap mav = new ModelMap();
 
-    List<Partida> partidas;
-    try {
-        partidas = servicioPlataforma.generarRanking(tipoJuego);
-        mav.addAttribute("partidas", partidas);
-    } catch (PartidasDelJuegoNoEncontradasException e) {
-        mav.addAttribute("mensajeError",
-                "todavía no hay instancias de partidas de este juego, ¿por qué no las empezás?");
+        List<Partida> partidas;
+        try {
+            partidas = servicioPlataforma.generarRanking(tipoJuego);
+            mav.addAttribute("partidas", partidas);
+        } catch (PartidasDelJuegoNoEncontradasException e) {
+            mav.addAttribute("mensajeError",
+                    "todavía no hay instancias de partidas de este juego, ¿por qué no las empezás?");
+        }
+        mav.addAttribute("nombreJuego", tipoJuego.toString());
+        mav.addAttribute("tipoJuego", tipoJuego);
+
+        return new ModelAndView("ranking", mav);
     }
-    mav.addAttribute("nombreJuego", tipoJuego.toString());
-    mav.addAttribute("tipoJuego", tipoJuego);
-
-    return new ModelAndView("ranking", mav);
-}
-
 
     @RequestMapping(path = "/volverAlMenu")
     public ModelAndView volverAlMenuDeJuegos(HttpSession session) {
         ModelMap model = new ModelMap();
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         model.addAttribute("jugador", jugador.getNombre());
+        model.addAttribute("usuarioConfig", jugador.getConfig());
+
         return new ModelAndView("acceso-juegos", model);
     }
 
@@ -82,6 +84,7 @@ public ModelAndView verRanking(@RequestParam("tipoJuego") Juego tipoJuego) {
         } catch (Exception e) {
             model.addAttribute("mensaje", "no se pudieron actualizar los datos");
         }
+        model.addAttribute("usuarioConfig", userActual.getConfig());
         return new ModelAndView("acceso-juegos", model);
     }
 
