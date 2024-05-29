@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.tallerwebi.dominio.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tallerwebi.dominio.Carta;
-import com.tallerwebi.dominio.EstadoPartida;
-import com.tallerwebi.dominio.Juego;
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.Partida;
-import com.tallerwebi.dominio.PartidaBlackJack;
-import com.tallerwebi.dominio.ServicioBlackjack;
-import com.tallerwebi.dominio.ServicioPlataforma;
-import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
 
 @Controller
@@ -51,22 +43,35 @@ public class ControladorBlackjack {
     @RequestMapping(path = "/inicio-blackjack")
     public ModelAndView inicioBlackjack(HttpSession session) {
         ModelMap modelo = new ModelMap();
-        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        if(session.getAttribute("jugadorActual")==null){
+            session.setAttribute("jugadorActual", "usuario");
+        }
+        Usuario jugador = new Usuario();
+        jugador.setNombre((String) session.getAttribute("jugadorActual"));
+        if(jugador.getConfig()==null){
+            jugador.setConfig(new ConfiguracionesJuego());
+        }
         modelo.put("tiempoDefault", jugador.getConfig().getDuracionBlackjack());
         return new ModelAndView("irAlBlackjack", modelo);
     }
 
     @RequestMapping(path = "/blackjack", method = RequestMethod.POST)
     public ModelAndView comenzarBlackjack(HttpSession session,
-            @RequestParam(value = "contrareloj", defaultValue = "false") Boolean contrareloj,
+            @RequestParam(value = "contrareloj", defaultValue = "false") boolean contrareloj,
             @RequestParam(value = "tiempoLimite", required = false) Integer tiempoLimiteMinutos) {
 
         ModelMap model = new ModelMap();
 
         // establesco lo valores iniciales e invoco metodos de servicio para comenzar el
         // juego
-        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        Usuario jugador = new Usuario();
+        session.setAttribute("jugadorActual", "Usuario");
+        //jugador = (Usuario) session.getAttribute("jugadorActual");
+        jugador.setNombre((String) session.getAttribute("jugadorActual"));
         String nombreJugador = jugador.getNombre();
+        if(jugador.getConfig()==null){
+            jugador.setConfig(new ConfiguracionesJuego());
+        }
         Integer valorAs = jugador.getConfig().getValorDelAs();
         servicioBlackjack.inicializarBaraja(valorAs);
         List<Carta> cartasJugador = servicioBlackjack.entregarCartasPrincipales();

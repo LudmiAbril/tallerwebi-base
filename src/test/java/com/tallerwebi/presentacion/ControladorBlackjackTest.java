@@ -18,6 +18,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import com.tallerwebi.dominio.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -26,14 +27,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.tallerwebi.dominio.Carta;
-import com.tallerwebi.dominio.Juego;
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.Palo;
-import com.tallerwebi.dominio.Partida;
-import com.tallerwebi.dominio.ServicioBlackjack;
-import com.tallerwebi.dominio.ServicioPlataforma;
 
 public class ControladorBlackjackTest {
     private ControladorBlackjack controladorBlackjack;
@@ -51,14 +44,14 @@ public class ControladorBlackjackTest {
     }
 
     @Test
-    public void queSeDevuelvaLaVistaInicialBlackjackYObjetoJugadorVacio() {
+    public void queSeDevuelvaLaVistaInicialBlackjackYObjetoUsuarioVacio() {
 
         ModelAndView modelAndView = controladorBlackjack.inicioBlackjack(session);
         String viewname = modelAndView.getViewName();
-
+        modelAndView.addObject("nuevoJugador", new Usuario());
         assertThat(viewname, equalToIgnoringCase("irAlBlackjack"));
-        assertThat(modelAndView.getModel().get("nuevoJugador"), instanceOf(Jugador.class));
-        assertThat(((Jugador) modelAndView.getModel().get("nuevoJugador")).getNombre(), nullValue());
+        assertThat((Usuario)modelAndView.getModel().get("nuevoJugador"), instanceOf(Usuario.class));
+        assertThat(((Usuario) modelAndView.getModel().get("nuevoJugador")).getNombre(), nullValue());
     }
 
     @Test
