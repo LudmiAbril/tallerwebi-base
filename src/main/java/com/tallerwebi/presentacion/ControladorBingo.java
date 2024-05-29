@@ -22,14 +22,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.tallerwebi.dominio.ServicioBingo;
+import com.tallerwebi.dominio.ServicioPlataforma;
+import com.tallerwebi.dominio.TipoPartidaBingo;
+import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.CartonBingo;
+import com.tallerwebi.dominio.Jugador;
+import com.tallerwebi.dominio.PartidaBingo;
+
 @Controller
 public class ControladorBingo {
 
 	private ServicioBingo servicioBingo;
+	private ServicioPlataforma servicioPlataforma;
 
 	@Autowired
-	public ControladorBingo(ServicioBingo servicioBingo) {
+	public ControladorBingo(ServicioBingo servicioBingo, ServicioPlataforma servicioPlataforma) {
 		this.servicioBingo = servicioBingo;
+		this.servicioPlataforma = servicioPlataforma;
 	}
 
 	@RequestMapping(path = "/irAlBingo", method = RequestMethod.GET)
@@ -80,6 +90,8 @@ public class ControladorBingo {
 		TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.valueOf(tipo.toUpperCase());
 		session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
 
+		TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session.getAttribute("tipoPartidaBingo");
+		model.put("tipoPartidaBingoDeLaSesion", tipoPartidaBingoDeLaSesion);
 		return new ModelAndView("bingo", model);
 		// get config. get cantidad de bolas. guardar en la sesion.
 	}
@@ -133,7 +145,7 @@ public class ControladorBingo {
 			numerosEntregados = new LinkedHashSet<>();
 			session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
 		}
-		if (numerosEntregados.size()==tiradaLimiteDeLaSesion) {
+		if (numerosEntregados.size() == tiradaLimiteDeLaSesion) {
 			limiteAlcanzado = true;
 			respuesta.put("limiteAlcanzado", limiteAlcanzado);
 		} else {
@@ -161,6 +173,7 @@ public class ControladorBingo {
 	public Map<String, Object> hacerBingo(HttpSession session) {
 		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
 		Boolean seHizoBingo = this.servicioBingo.bingo(numerosMarcadosDeLaSesion);
+		session.setAttribute("seHizoBingo", seHizoBingo);
 		Map<String, Object> respuesta = new HashMap<String, Object>();
 		respuesta.put("seHizoBingo", seHizoBingo);
 		return respuesta;
@@ -220,8 +233,25 @@ public class ControladorBingo {
 		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
 		CartonBingo cartonDeLaSesion = (CartonBingo) session.getAttribute("carton");
 		Boolean seHizoLinea = this.servicioBingo.linea(numerosMarcadosDeLaSesion, cartonDeLaSesion);
+		session.setAttribute("seHizoLinea", seHizoLinea);
 		Map<String, Object> respuesta = new HashMap<String, Object>();
 		respuesta.put("seHizoLinea", seHizoLinea);
 		return respuesta;
 	}
+
+	@RequestMapping(path = "/finalizar", method = RequestMethod.POST)
+	public ModelAndView finalizar(HttpSession session) {
+
+		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+		Boolean seHizoLinea = (Boolean) session.getAttribute("seHizoLinea");
+		Boolean seHizoBingo = (Boolean) session.getAttribute("seHizoBingo");
+		TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session.getAttribute("tipoPartidaBingoDeLaSesion");
+		Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
+
+		servicioPlataforma
+				.agregarPartida(new PartidaBingo(numerosMarcadosDeLaSesion, seHizoLinea, seHizoBingo, tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion));
+
+		return new ModelAndView("redirect: /irAlBingo");
+	}
+
 }
