@@ -24,16 +24,12 @@ import java.util.*;
 
 import javax.servlet.http.HttpSession;
 
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.tallerwebi.dominio.CartonBingo;
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.ServicioBingo;
 
 public class ControladorBingoTest {
 
@@ -61,20 +57,20 @@ public class ControladorBingoTest {
         assertThat(MODELO_ACTUAL, instanceOf(Usuario.class));
     }
 
-    // @Test
-    // public void queAlComenzarJuegoBingoSeGenereUnNumeroAleatorioYSeGuardeEnLaSesion() {
-    //     Jugador jugadorMock = mock(Jugador.class);
-    //     when(jugadorMock.getNombre()).thenReturn("Mica");
+     @Test
+     public void queAlComenzarJuegoBingoSeGenereUnNumeroAleatorioYSeGuardeEnLaSesion() {
+         Usuario jugadorMock = mock(Usuario.class);
+         when(jugadorMock.getNombre()).thenReturn("Mica");
+         TipoPartidaBingo tipo = TipoPartidaBingo.BINGO;
+         Set<Integer> numerosEntregados = new LinkedHashSet<>();
+         Integer numeroAleatorio = 10;
 
-    //     Set<Integer> numerosEntregados = new LinkedHashSet<>();
-    //     Integer numeroAleatorio = 10;
+         when(servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
 
-    //     when(servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
+         controladorBingo.comenzarJuegoBingo(String.valueOf(tipo), session);
 
-    //     controladorBingo.comenzarJuegoBingo(jugadorMock, session);
-
-    //     assertThat(session.getAttribute("numeroAleatorioCantado"), equalTo(numeroAleatorio));
-    // }
+         assertThat(session.getAttribute("numeroAleatorioCantado"), equalTo(numeroAleatorio));
+    }
 
     // @Test
     // public void queAlComenzarJuegoBingoSeGenereUnCartonYSeGuardeEnLaSesion() {

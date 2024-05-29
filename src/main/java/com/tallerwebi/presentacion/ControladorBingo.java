@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
+import com.tallerwebi.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,12 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.tallerwebi.dominio.ServicioBingo;
-import com.tallerwebi.dominio.TipoPartidaBingo;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.CartonBingo;
-import com.tallerwebi.dominio.Jugador;
 
 @Controller
 public class ControladorBingo {
@@ -48,9 +43,13 @@ public class ControladorBingo {
 	public ModelAndView comenzarJuegoBingo(@RequestParam("tipo") String tipo, HttpSession session) {
 
 		ModelMap model = new ModelMap();
-		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-		session.setAttribute("tiradaLimiteDeLaSesion", jugador.getConfig().getCantidadDePelotas());
-		session.setAttribute("dimensionDelCartonDeLaSesion", jugador.getConfig().getDimensionCarton());
+		Usuario usuario = new Usuario();
+		usuario.setNombre((String) session.getAttribute("jugadorActual"));
+
+		//Aca llamo al set con constructor vacio si se rompe algo puede ser por esto
+		usuario.setConfig(new ConfiguracionesJuego());
+		session.setAttribute("tiradaLimiteDeLaSesion", usuario.getConfig().getCantidadDePelotas());
+		session.setAttribute("dimensionDelCartonDeLaSesion", usuario.getConfig().getDimensionCarton());
 
 		Integer dimensionDelCartonDeLaSesion = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
 		CartonBingo carton = servicioBingo.generarCarton(dimensionDelCartonDeLaSesion);
@@ -64,7 +63,7 @@ public class ControladorBingo {
 
 		session.setAttribute("carton", carton);
 
-		String nombreJugador = jugador.getNombre();
+		String nombreJugador = usuario.getNombre();
 		model.put("nombreJugador", nombreJugador);
 
 		session.setAttribute("nombreJugador", nombreJugador);
