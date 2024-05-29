@@ -43,7 +43,7 @@
 openModal('configuracionModal')"
       >
         <span class="material-symbols-outlined">manufacturing</span>
-    </div>
+      </div>
     </div>
 
     <!-- Home Modal -->
@@ -87,6 +87,7 @@ openModal('configuracionModal')"
               type="number"
               id="blackjack-as-valor"
               name="valorAs"
+              th:value="${usuarioConfig.valorDelAs}"
               min="1"
             />
           </div>
@@ -102,6 +103,7 @@ openModal('configuracionModal')"
                 type="radio"
                 id="dimension-3x3"
                 name="dimensionCarton"
+                th:checked="${usuarioConfig.dimensionCarton == 3}"
                 value="3"
               />
               <label for="dimension-3x3">3x3</label>
@@ -109,6 +111,7 @@ openModal('configuracionModal')"
                 type="radio"
                 id="dimension-4x4"
                 name="dimensionCarton"
+                th:checked="${usuarioConfig.dimensionCarton == 4}"
                 value="4"
                 checked
               />
@@ -117,6 +120,7 @@ openModal('configuracionModal')"
                 type="radio"
                 id="dimension-5x5"
                 name="dimensionCarton"
+                th:checked="${usuarioConfig.dimensionCarton == 5}"
                 value="5"
               />
               <label for="dimension-5x5">5x5</label>
@@ -127,7 +131,7 @@ openModal('configuracionModal')"
               type="number"
               id="cant-numeros"
               name="cantidadPelotas"
-              value="20"
+              th:value="${usuarioConfig.cantidadDePelotas}"
               min="1"
             />
           </div>
@@ -137,7 +141,8 @@ openModal('configuracionModal')"
               <span class="material-symbols-outlined">check</span>GUARDAR
             </button>
 
-            <button type="button"
+            <button
+              type="button"
               class="cancel-button"
               onclick="closeModal('configuracionModal')"
             >
