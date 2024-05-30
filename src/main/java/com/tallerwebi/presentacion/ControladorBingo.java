@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -238,7 +239,7 @@ public class ControladorBingo {
 	}
 
 	@RequestMapping(path = "/finalizar", method = RequestMethod.POST)
-	public ModelAndView finalizar(HttpSession session) {
+	public ModelAndView finalizar(HttpSession session) throws PartidaConPuntajeNegativoException {
 
 		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
 		Boolean seHizoLinea = (Boolean) session.getAttribute("seHizoLinea");

@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -381,7 +382,7 @@ public class ControladorBlackjackTest {
     }
 
     @Test
-    public void queAlFinalizarSeGuardeLaPartidaYseVuelvaALaVistaInicial() {
+    public void queAlFinalizarSeGuardeLaPartidaYseVuelvaALaVistaInicial() throws PartidaConPuntajeNegativoException {
         // simulamos datos de jugada
         List<Carta> mano = new ArrayList<>();
         mano.add(mock(Carta.class));
@@ -412,7 +413,7 @@ public class ControladorBlackjackTest {
 
     @Test
     public void queAlReiniciarSeSeRestablescanLosValoresInicialesYSeReinicieLaVista()
-            throws PartidaDeUsuarioNoEncontradaException {
+            throws PartidaDeUsuarioNoEncontradaException, PartidaConPuntajeNegativoException {
         // datos en sesion
         List<Carta> mano = new ArrayList<>();
         mano.add(mock(Carta.class));

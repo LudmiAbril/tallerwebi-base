@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -200,7 +201,7 @@ public class ControladorBlackjack {
     }
 
     @RequestMapping("/finalizarBlackjack")
-    public ModelAndView finalizar(HttpSession session) {
+    public ModelAndView finalizar(HttpSession session) throws PartidaConPuntajeNegativoException {
         // guardo la partida
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
@@ -217,7 +218,7 @@ public class ControladorBlackjack {
     }
 
     @RequestMapping(path = "/reiniciar")
-    public ModelAndView reiniciar(HttpSession session) {
+    public ModelAndView reiniciar(HttpSession session) throws PartidaConPuntajeNegativoException {
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
         Boolean hayBlackjack = servicioBlackjack.hayBlackjack((List<Carta>) session.getAttribute("cartasJugador"));

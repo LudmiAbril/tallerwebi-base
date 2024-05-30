@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -27,8 +28,15 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
     }
 
     @Override
-    public void guardar(Partida partida) {
-        this.sessionFactory.getCurrentSession().save(partida);
+    public void guardar(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException {
+        if (partida == null || partida.getJuego() == null) {
+            throw new IllegalArgumentException();
+        }
+        else if(partida.getPuntaje() < 0 ){
+            throw new PartidaConPuntajeNegativoException();
+        }else{
+            this.sessionFactory.getCurrentSession().save(partida);
+        }
     }
 
     @Override
@@ -59,8 +67,16 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
         if (partidas.isEmpty()) {
             throw new PartidaDeUsuarioNoEncontradaException();
         }
+        else if(id == null){
+            throw new PartidaDeUsuarioNoEncontradaException();
+        }
+        else if(juego == null){
+            throw new PartidaDeUsuarioNoEncontradaException();
+        }
+        else{
+            return partidas;
+        }
 
-        return partidas;
     }
 
     @Override

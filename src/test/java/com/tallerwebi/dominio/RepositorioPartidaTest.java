@@ -11,6 +11,8 @@
  import java.util.List;
 
  import javax.transaction.Transactional;
+
+ import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
  import org.hibernate.SessionFactory;
  import org.junit.jupiter.api.BeforeEach;
  import org.junit.jupiter.api.Test;
@@ -38,14 +40,15 @@
      }
 
      @Test
-     public void queSeGuardeUnaPartida() {
+     public void queSeGuardeUnaPartida() throws PartidaConPuntajeNegativoException {
          Partida p = crearPartida("jugador", Juego.BINGO);
+         p.setPuntaje(2);
          repositorio.guardar(p);
          assertThat(session.getCurrentSession().contains(p), equalTo(true));
      }
 
      @Test
-     public void queSeObtengaUnRankingOrdenadoDePartidasParaUnJuegoParticular() {
+     public void queSeObtengaUnRankingOrdenadoDePartidasParaUnJuegoParticular() throws PartidasDelJuegoNoEncontradasException, PartidaConPuntajeNegativoException {
          Partida p1 = new Partida("a", 25, Juego.BINGO);
          Partida p2 = new Partida("b", 24, Juego.BINGO);
          Partida p3 = new Partida("c", 23, Juego.BINGO);
@@ -64,23 +67,23 @@
 
          try {
              partidasObtenidas.addAll(repositorio.listarPartidasPorJuego(Juego.BINGO));
-         } catch (PartidasDelJuegoNoEncontradasException e) {
+         } catch (PartidasDelJuegoNoEncontradasException e ) {
 
          }
-
          assertNotNull(partidasObtenidas);
          assertThat(partidasObtenidas, equalTo(partidasEsperadas));
      }
 
      @Test
      public void queSeLanzeUnaExceptionSiNoHayPartidasDeEseJuego() {
+         //PartidaDeUsuarioNoEncontradaException
          assertThrows(PartidasDelJuegoNoEncontradasException.class, () -> {
              repositorio.listarPartidasPorJuego(Juego.BINGO);
          });
      }
 
      @Test
-     public void queObtenganLasPartidasDeUnJugador() {
+     public void queObtenganLasPartidasDeUnJugador() throws PartidaConPuntajeNegativoException {
          Long usuarioId = 000L;
 //         repositorio.guardar(crearPartida("Prueba", Juego.BLACKJACK));
 //         repositorio.guardar(crearPartida("Prueba", Juego.BLACKJACK));
@@ -109,7 +112,7 @@
      }
 
      @Test
-     public void queSePuedanObtenerLasUltimasPartidasOrdenadasPorFecha() {
+     public void queSePuedanObtenerLasUltimasPartidasOrdenadasPorFecha() throws PartidaConPuntajeNegativoException {
          Long usuarioId = 000L;
          List<Partida> partidasEsperadas = new ArrayList<Partida>();
          Partida a = crearPartida("user", Juego.BINGO);
@@ -137,9 +140,55 @@
 
          assertThat(partidasObtenidas, containsInAnyOrder(partidasEsperadas.toArray()));
      }
-
+     @Test
+     public void queLanceUnaExceptionAlObtenerPartidasDeUsuarioConIdNulo() {
+         //PartidaDeUsuarioNoEncontradaException
+         assertThrows(PartidaDeUsuarioNoEncontradaException.class, () -> {
+             repositorio.obtenerPartidasUsuario(null, Juego.BINGO);
+         });
+     }
      private Partida crearPartida(String nombre, Juego juego) {
          Partida partida = new Partida(nombre, 23, juego);
          return partida;
+     }
+     @Test
+     public void queLanceUnaExceptionAlObtenerPartidasDeUsuarioConJuegoNulo() {
+         assertThrows(PartidaDeUsuarioNoEncontradaException.class, () -> {
+             repositorio.obtenerPartidasUsuario(000L, null);
+         });
+     }
+     @Test
+     public void queLanceUnaExceptionAlObtenerRankingParaJuegoSinPartidas() {
+         assertThrows(PartidasDelJuegoNoEncontradasException.class, () -> {
+             repositorio.listarPartidasPorJuego(Juego.BLACKJACK);
+         });
+     }
+     @Test
+     public void queLanceUnaExceptionAlGuardarPartidaConJuegoNulo() {
+         Partida partida = new Partida("jugador", 23, null);
+         assertThrows(IllegalArgumentException.class, () -> {
+             repositorio.guardar(partida);
+         });
+     }
+     @Test
+     public void queLanceExceptionAlObtenerPartidasDeUsuarioInexistente() {
+         assertThrows(PartidaDeUsuarioNoEncontradaException.class, () -> {
+             repositorio.obtenerPartidasUsuario(999L, Juego.BINGO);
+         });
+     }
+
+     @Test
+     public void queLanceUnaExceptionAlGuardarPartidaConPuntuacionNegativa() {
+         Partida partida = new Partida("jugador", -5, Juego.BINGO);
+         assertThrows(PartidaConPuntajeNegativoException.class, () -> {
+             repositorio.guardar(partida);
+         });
+     }
+
+     @Test
+     public void queLanceExceptionAlGuardarPartidaNula() {
+         assertThrows(IllegalArgumentException.class, () -> {
+             repositorio.guardar(null);
+         });
      }
  }
