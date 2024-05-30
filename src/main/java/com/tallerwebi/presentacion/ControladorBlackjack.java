@@ -249,7 +249,7 @@ public class ControladorBlackjack {
         }
 
         try {
-            partidas = servicioPlataforma.obtenerPartidasUsuario(jugador.getId(), Juego.BLACKJACK);
+            partidas = servicioPlataforma.obtenerUltimasPartidasDelUsuario(jugador.getId(), Juego.BLACKJACK);
             session.setAttribute("partidas", partidas);
 
         } catch (PartidaDeUsuarioNoEncontradaException e) {

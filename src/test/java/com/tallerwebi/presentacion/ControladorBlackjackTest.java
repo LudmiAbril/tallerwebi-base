@@ -11,19 +11,19 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.Part;
-
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpSession;
@@ -44,6 +44,7 @@ public class ControladorBlackjackTest {
         this.session = new MockHttpSession();
         Usuario jugador = new Usuario();
         jugador.setNombre("nombre");
+        jugador.setId((long) 1);
         session.setAttribute("jugadorActual", jugador);
     }
 
@@ -63,6 +64,12 @@ public class ControladorBlackjackTest {
         // comprobamos la vista y el valor del tiempo
         assertThat(viewname, equalToIgnoringCase("irAlBlackjack"));
         assertThat(duracionPartida, equalTo(5));
+    }
+
+    @Test
+    public void queSeDevuelvaLaVistaDelJuego() {
+        ModelAndView mav = controladorBlackjack.comenzarBlackjack(session, false, 3);
+        assertThat(mav.getViewName(), equalTo("blackjack"));
     }
 
     @Test
@@ -214,7 +221,6 @@ public class ControladorBlackjackTest {
     public void queAlIniciarseElJuegoSeInicializeLaBarajaConElValorDelAsConfiguradoEnElUsuario() {
         // valores esperados
         Integer valorAs = 1;
-        Baraja barajaEsperada = new Baraja(valorAs);
 
         // simulo un jugador en la sesion con el valor del as en 1
         Usuario jugador = new Usuario();
@@ -253,7 +259,77 @@ public class ControladorBlackjackTest {
 
     }
 
-    // otro si no hay en el modelo verificar mensaje de error
+    @Test
+    public void queSeGuardeUnMensajeDeErrorEnElModeloSiAunNoHayPartidasAnterioresDelUsuario()
+            throws PartidaDeUsuarioNoEncontradaException {
+        String mensajeEsperado = "aun no hay partidas registradas.";
+
+        when(servicioPlataformaMock.obtenerUltimasPartidasDelUsuario((long) 1, Juego.BLACKJACK))
+                .thenThrow(PartidaDeUsuarioNoEncontradaException.class);
+
+        ModelAndView mav = controladorBlackjack.comenzarBlackjack(session, false, 3);
+        String mensajeObtenido = (String) mav.getModel().get("mensajePartidas");
+
+        assertNotNull(mensajeObtenido);
+        assertThat(mensajeObtenido, equalTo(mensajeEsperado));
+
+    }
+
+    @Test
+    public void queSePuedaObtenerUnaRespuestaConTodosLosDatosIniciales() throws PartidaDeUsuarioNoEncontradaException {
+        // datos esperados
+        List<Carta> cartasJugadorEsperadas = new ArrayList<>();
+        cartasJugadorEsperadas.add(new Carta("A", 11, Palo.CORAZON));
+        cartasJugadorEsperadas.add(new Carta("2", 2, Palo.DIAMANTE));
+        List<Carta> cartasCrupierEsperadas = new ArrayList<>();
+        cartasCrupierEsperadas.add(new Carta("A", 11, Palo.TREBOL));
+        cartasCrupierEsperadas.add(new Carta("7", 7, Palo.DIAMANTE));
+        List<Partida> partidasEsperadas = new ArrayList<>();
+        partidasEsperadas.add(mock(Partida.class));
+        Integer puntajeEsperado = 13;
+        EstadoPartida estadoEsperado = EstadoPartida.EN_CURSO;
+        String ganadorEsperado = "ninguno";
+        Integer minutosConfigurados = 3;
+        long tiempoLimiteMilisegundos = minutosConfigurados * 60 * 1000;
+        long tiempoExpiracion = System.currentTimeMillis() + tiempoLimiteMilisegundos;
+        Date fechaExpiracion = new Date(tiempoExpiracion);
+        SimpleDateFormat formato = new SimpleDateFormat("HH:mm");
+        String tiempoEsperado = formato.format(fechaExpiracion);
+        Boolean contrarelojEsperado = true;
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+
+        when(servicioBlackjackMock.entregarCartasPrincipales()).thenReturn(cartasJugadorEsperadas)
+                .thenReturn(cartasCrupierEsperadas);
+        when(servicioBlackjackMock.calcularPuntuacion(cartasJugadorEsperadas)).thenReturn(puntajeEsperado);
+        when(servicioPlataformaMock.obtenerUltimasPartidasDelUsuario((long) 1, Juego.BLACKJACK))
+                .thenReturn(partidasEsperadas);
+        when(servicioBlackjackMock.estadoPartida(cartasJugadorEsperadas, cartasCrupierEsperadas, false))
+                .thenReturn(estadoEsperado);
+        when(servicioBlackjackMock.ganador(cartasJugadorEsperadas, cartasCrupierEsperadas, jugador.getNombre(), false))
+                .thenReturn(ganadorEsperado);
+
+        controladorBlackjack.comenzarBlackjack(session, contrarelojEsperado, minutosConfigurados);
+        // invoco el metodo recupera y devuelve los datos en una respuesta
+        Map<String, Object> respuesta = controladorBlackjack.comenzarJuego(session);
+        List<Carta> masoInicialJugador = (List<Carta>) respuesta.get("cartasJugador");
+        List<Carta> masoInicialCrupier = (List<Carta>) respuesta.get("cartasCasa");
+        List<Partida> partidas = (List<Partida>) respuesta.get("partidas");
+        Boolean contrareloj = (Boolean) respuesta.get("contrareloj");
+        String tiempoLimite = (String) respuesta.get("tiempoLimite");
+        Integer puntaje = (Integer) respuesta.get("puntaje");
+        String ganador = (String) respuesta.get("ganador");
+        EstadoPartida estado = (EstadoPartida) respuesta.get("estadoPartida");
+
+        assertNotNull(respuesta);
+        assertThat(masoInicialJugador, equalTo(cartasJugadorEsperadas));
+        assertThat(masoInicialCrupier, equalTo(cartasCrupierEsperadas));
+        assertThat(partidas, equalTo(partidasEsperadas));
+        assertThat(contrareloj, equalTo(contrarelojEsperado));
+        assertThat(tiempoLimite, equalTo(tiempoEsperado));
+        assertThat(puntaje, equalTo(puntajeEsperado));
+        assertThat(ganador, equalTo(ganadorEsperado));
+        assertThat(estado, equalTo(estadoEsperado));
+    }
 
     @Test
     public void queSePuedaPedirUnaCarta() {
@@ -280,7 +356,7 @@ public class ControladorBlackjackTest {
     }
 
     @Test
-    public void QueAlPlantarseSeActualizeElMazoDelCrupier() {
+    public void QueAlPlantarseSeActualizeElMazoDelCrupierYloEnvieEnLaRespuesta() {
         // preparacion
         Carta carta = new Carta("2", 2, Palo.CORAZON);
         List<Carta> mano = new ArrayList<>();
@@ -302,6 +378,85 @@ public class ControladorBlackjackTest {
 
         assertThat(manoFinalCRupier.size(), greaterThan(2));
 
+    }
+
+    @Test
+    public void queAlFinalizarSeGuardeLaPartidaYseVuelvaALaVistaInicial() {
+        // simulamos datos de jugada
+        List<Carta> mano = new ArrayList<>();
+        mano.add(mock(Carta.class));
+        session.setAttribute("cartasJugador", mano);
+        session.setAttribute("puntaje", 12);
+        session.setAttribute("ganador", "empate");
+        when(servicioBlackjackMock.hayBlackjack(mano)).thenReturn(false);
+
+        // Creamos un ArgumentCaptor para capturar la partida que se pasa al método
+        // agregarPartida()
+        ArgumentCaptor<PartidaBlackJack> partidaCaptor = ArgumentCaptor.forClass(PartidaBlackJack.class);
+
+        PartidaBlackJack partidaEsperada = new PartidaBlackJack((long) 1, 12, Juego.BLACKJACK, false, true,
+                LocalTime.of(3, 0));
+
+        // Hacemos la verificación utilizando el captor
+        ModelAndView mav = controladorBlackjack.finalizar(session);
+
+        verify(servicioPlataformaMock, times(1)).agregarPartida(partidaCaptor.capture());
+
+        PartidaBlackJack partidaCapturada = partidaCaptor.getValue();
+
+        assertThat(partidaCapturada.getPuntaje(), equalTo(partidaEsperada.getPuntaje()));
+        assertThat(partidaCapturada.getIdJugador(), equalTo((long) 1));
+        assertThat(partidaCapturada.getGano(), equalTo(true));
+        assertThat(mav.getViewName(), equalTo("redirect:/inicio-blackjack"));
+    }
+
+    @Test
+    public void queAlReiniciarSeSeRestablescanLosValoresInicialesYSeReinicieLaVista()
+            throws PartidaDeUsuarioNoEncontradaException {
+        // datos en sesion
+        List<Carta> mano = new ArrayList<>();
+        mano.add(mock(Carta.class));
+        Integer minutos = 3;
+        session.setAttribute("cartasJugador", mano);
+        session.setAttribute("puntaje", 12);
+        session.setAttribute("ganador", "empate");
+        session.setAttribute("contrareloj", true);
+        session.setAttribute("minutos", minutos);
+        when(servicioBlackjackMock.hayBlackjack(mano)).thenReturn(false);
+
+        // datos reiniciados esperados
+        List<Partida> partidas = new ArrayList<>();
+        partidas.add(mock(Partida.class));
+        List<Carta> manoReiniciada = new ArrayList<>();
+        manoReiniciada.add(mock(Carta.class));
+        manoReiniciada.add(mock(Carta.class));
+        Integer puntajeReiniciado = 12;
+        EstadoPartida estadoReiniciado = EstadoPartida.EN_CURSO;
+        String ganadorReiniciado = "ninguno";
+        long tiempoLimiteMilisegundos = minutos * 60 * 1000;
+        long tiempoExpiracion = System.currentTimeMillis() + tiempoLimiteMilisegundos;
+        Date fechaExpiracion = new Date(tiempoExpiracion);
+        SimpleDateFormat formato = new SimpleDateFormat("HH:mm");
+        String tiempoExpiracionReiniciado = formato.format(fechaExpiracion);
+
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        when(servicioBlackjackMock.hayBlackjack(mano)).thenReturn(false);
+        when(servicioBlackjackMock.entregarCartasPrincipales()).thenReturn(manoReiniciada);
+        when(servicioBlackjackMock.calcularPuntuacion(manoReiniciada)).thenReturn(puntajeReiniciado);
+        when(servicioPlataformaMock.obtenerUltimasPartidasDelUsuario((long) 1, Juego.BLACKJACK)).thenReturn(partidas);
+        when(servicioBlackjackMock.estadoPartida(manoReiniciada, manoReiniciada, false)).thenReturn(estadoReiniciado);
+        when(servicioBlackjackMock.ganador(manoReiniciada, manoReiniciada, jugador.getNombre(), false)).thenReturn("ninguno");
+
+        ModelAndView mav = controladorBlackjack.reiniciar(session);
+        assertThat(mav.getViewName(), equalTo("blackjack"));
+        assertThat(session.getAttribute("cartasJugador"), equalTo(manoReiniciada));
+        assertThat(session.getAttribute("cartasCasa"), equalTo(manoReiniciada));
+        assertThat(session.getAttribute("puntaje"), equalTo(puntajeReiniciado));
+        assertThat(session.getAttribute("partidas"), equalTo(partidas));
+        assertThat(session.getAttribute("estadoPartida"), equalTo(estadoReiniciado));
+        assertThat(session.getAttribute("ganador"), equalTo(ganadorReiniciado));
+        assertThat(session.getAttribute("partidas"), equalTo(partidas));
+        assertThat(session.getAttribute("tiempoLimite"), equalTo(tiempoExpiracionReiniciado));
     }
 
 }
