@@ -141,10 +141,16 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
     }
 
     @Override
-    public Baraja inicializarBaraja(Integer valorAs) {
+    public void inicializarBaraja(Integer valorAs) {
         this.baraja = new Baraja(valorAs);
-        return this.baraja;
 
     }
+
+    @Override
+    public Baraja getBaraja() {
+        return this.baraja;
+    }
+
+    
 
 }

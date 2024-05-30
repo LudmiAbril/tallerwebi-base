@@ -21,6 +21,10 @@ public class Usuario {
     @JoinColumn(name = "config_id", referencedColumnName = "id")
     private ConfiguracionesJuego config;
 
+    public Usuario() {
+        this.config = new ConfiguracionesJuego();
+    }
+
     public Long getId() {
         return id;
     }

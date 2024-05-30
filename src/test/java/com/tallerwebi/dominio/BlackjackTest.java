@@ -26,8 +26,8 @@ public class BlackjackTest {
     @Test
     public void queSePuedaInicializarLaBarajaConUnValorDeAsDeterminado() {
         Integer valorAs = 11;
-        Baraja baraja = servicio.inicializarBaraja(valorAs);
-        assertThat(baraja.getValorAs(), equalTo(valorAs));
+        servicio.inicializarBaraja(valorAs);
+        assertThat(servicio.getBaraja().getValorAs(), equalTo(valorAs));
     }
 
     @Test
