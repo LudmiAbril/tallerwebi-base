@@ -126,12 +126,10 @@ function obtenerLosNumerosEntregados() {
 function bingo() {
     $.post("bingo", function (data) {
         if (data.seHizoBingo) {
-            console.log("hiciste bingo")
             abrirModal();
             clearInterval(intervaloRefresco); // Detener la actualización del número
             intervaloRefresco = null;
         } else if (!data.seHizoBingo) {
-            console.log("no hicisite bingo")
             var botonBingo = document.querySelector("#botonBingo");
             botonBingo.style.color = 'black';
             botonBingo.classList.add('animate__animated', 'animate__shakeX');
@@ -189,11 +187,18 @@ function mostrarModalSeleccionTipoPartidaBingo(event) {
 function linea() {
     $.get("linea", function (data) {
         if (data.seHizoLinea) {
-            console.log("hiciste linea")
-            clearInterval(intervaloRefresco); // Detener la actualización del número
+            abrirModal();
+            clearInterval(intervaloRefresco);
             intervaloRefresco = null;
         } else if (!data.seHizoLinea) {
-            console.log("no hicisite linea")
+            var botonLinea = document.querySelector("#botonLinea");
+            botonLinea.style.color = 'black';
+            botonLinea.classList.add('animate__animated', 'animate__shakeX');
+            botonLinea.style.backgroundColor = 'gray';
+            setTimeout(function () {
+                botonLinea.classList.remove('animate__animated', 'animate__shakeX');
+                botonLinea.style.backgroundColor = '#8a2be2';
+            }, 1000);
         }
     }
     );

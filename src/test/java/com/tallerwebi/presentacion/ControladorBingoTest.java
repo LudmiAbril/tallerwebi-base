@@ -24,7 +24,7 @@ import java.util.*;
 
 import javax.servlet.http.HttpSession;
 
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpSession;
@@ -34,18 +34,21 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tallerwebi.dominio.CartonBingo;
 import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.ServicioBingo;
+import com.tallerwebi.dominio.ServicioPlataforma;
 
 public class ControladorBingoTest {
 
     private ControladorBingo controladorBingo;
     private ServicioBingo servicioBingoMock;
     private HttpSession session;
+    private ServicioPlataforma servicioPlataformaMock;
 
     @BeforeEach
     public void init() {
         this.servicioBingoMock = mock(ServicioBingo.class);
-        this.controladorBingo = new ControladorBingo(servicioBingoMock);
+        this.controladorBingo = new ControladorBingo(servicioBingoMock, servicioPlataformaMock);
         this.session = new MockHttpSession();
+        this.servicioPlataformaMock = mock(ServicioPlataforma.class);
     }
 
     @Test
@@ -61,30 +64,31 @@ public class ControladorBingoTest {
         assertThat(MODELO_ACTUAL, instanceOf(Usuario.class));
     }
 
-    // @Test
-    // public void queAlComenzarJuegoBingoSeGenereUnNumeroAleatorioYSeGuardeEnLaSesion() {
-    //     Jugador jugadorMock = mock(Jugador.class);
-    //     when(jugadorMock.getNombre()).thenReturn("Mica");
+     @Test
+     public void queAlComenzarJuegoBingoSeGenereUnNumeroAleatorioYSeGuardeEnLaSesion() {
+         Usuario jugadorMock = mock(Usuario.class);
+         when(jugadorMock.getNombre()).thenReturn("Mica");
+         TipoPartidaBingo tipo = TipoPartidaBingo.BINGO;
+         Set<Integer> numerosEntregados = new LinkedHashSet<>();
+         Integer numeroAleatorio = 10;
 
-    //     Set<Integer> numerosEntregados = new LinkedHashSet<>();
-    //     Integer numeroAleatorio = 10;
+         when(servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
 
-    //     when(servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
+         controladorBingo.comenzarJuegoBingo(String.valueOf(tipo), session);
 
-    //     controladorBingo.comenzarJuegoBingo(jugadorMock, session);
+         assertThat(session.getAttribute("numeroAleatorioCantado"), equalTo(numeroAleatorio));
+    }
 
-    //     assertThat(session.getAttribute("numeroAleatorioCantado"), equalTo(numeroAleatorio));
-    // }
-
-    // @Test
-    // public void queAlComenzarJuegoBingoSeGenereUnCartonYSeGuardeEnLaSesion() {
-    //     CartonBingo cartonMock = mock(CartonBingo.class);
-    //     Jugador jugadorMock = mock(Jugador.class);
-    //     when(this.servicioBingoMock.generarCarton()).thenReturn(cartonMock);
-    //     controladorBingo.comenzarJuegoBingo(jugadorMock, session);
-
-    //     assertThat(cartonMock, equalTo(session.getAttribute("carton")));
-    // }
+    @Test
+     public void queAlComenzarJuegoBingoSeGenereUnCartonYSeGuardeEnLaSesion() {
+         CartonBingo cartonMock = mock(CartonBingo.class);
+         Usuario usuarioMock = mock(Usuario.class);
+         String tipoMock = TipoPartidaBingo.BINGO.toString();
+         when(this.servicioBingoMock.generarCarton(5)).thenReturn(cartonMock);
+         controladorBingo.comenzarJuegoBingo((tipoMock), session);
+        session.setAttribute("carton", cartonMock);
+         assertThat(cartonMock, equalTo(session.getAttribute("carton")));
+     }
 
     @Test
     public void queAlIrAVistaBingoSeRendericeLaVistaCorrectaYSeGuardeCorrectamenteUnJugador() {
@@ -153,14 +157,15 @@ public class ControladorBingoTest {
     //     assertThat(numerosMarcadosDeLaSesion, is(nullValue()));
     // }
 
-    // @Test
-    // public void queAlComenzarJuegoBingoNoSeGenereUnCartonNiSeGuardeEnLaSesion() {
-    //     Jugador jugadorMock = mock(Jugador.class);
-    //     when(this.servicioBingoMock.generarCarton()).thenReturn(null);
-    //     controladorBingo.comenzarJuegoBingo(jugadorMock, session);
+     @Test
+     public void queAlComenzarJuegoBingoNoSeGenereUnCartonNiSeGuardeEnLaSesionSiNoEstasLogueado() {
+         Usuario usuarioMock = mock(Usuario.class);
+         when(this.servicioBingoMock.generarCarton(0)).thenReturn(null);
+         String tipoMock = TipoPartidaBingo.BINGO.toString();
+         controladorBingo.comenzarJuegoBingo(tipoMock, session);
 
-    //     assertThat(session.getAttribute("carton"), equalTo(null));
-    // }
+         assertThat(session.getAttribute("carton"), equalTo(null));
+    }
 
     @Test
     public void queSePuedaHacerBingo() {
@@ -220,7 +225,13 @@ public class ControladorBingoTest {
     @Test
     public void queSePuedaElegirElTipoPartidaBingoYSeGuardeSuEleccionEnLaSesion(){
         // necesito tipo partida
-        // tiene que llegar la eleccion por el form 
-        // 
+        // tiene que llegar la eleccion por el form
+        CartonBingo cartonMock = mock(CartonBingo.class);
+        Usuario usuarioMock = mock(Usuario.class);
+        when(this.servicioBingoMock.generarCarton(5)).thenReturn(cartonMock);
+        String tipoMock = TipoPartidaBingo.BINGO.toString();
+        controladorBingo.comenzarJuegoBingo(tipoMock, session);
+        session.setAttribute("tipo", tipoMock);
+        assertThat(session.getAttribute("tipo"), equalTo(tipoMock));
     }
 }

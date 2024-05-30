@@ -97,7 +97,7 @@ public class ServicioChinImpl implements ServicioChin {
 
     @Override
     public void sacarDelMazoYPonerEnMano(ArrayList<Carta> mazoJugador1, ArrayList<Carta> manoJugador1) {
-        manoJugador1.add(mazoJugador1.remove(mazoJugador1.size()-1));
+        manoJugador1.add(pedirUnaCartaExtra());
     }
 
     @Override

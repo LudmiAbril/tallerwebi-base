@@ -24,4 +24,6 @@ public interface ServicioBlackjack {
 
     void reponerBaraja();
 
+    Baraja getBaraja();
+
 }

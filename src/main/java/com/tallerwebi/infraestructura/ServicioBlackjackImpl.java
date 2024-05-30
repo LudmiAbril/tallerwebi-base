@@ -145,4 +145,12 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
         this.baraja = new Baraja(valorAs);
 
     }
+
+    @Override
+    public Baraja getBaraja() {
+        return this.baraja;
+    }
+
+    
+
 }

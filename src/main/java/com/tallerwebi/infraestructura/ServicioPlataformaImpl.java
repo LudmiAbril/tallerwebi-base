@@ -5,6 +5,7 @@ import com.tallerwebi.dominio.Partida;
 import com.tallerwebi.dominio.RepositorioPartida;
 import com.tallerwebi.dominio.RepositorioUsuario;
 import com.tallerwebi.dominio.ServicioPlataforma;
+import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
 import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
 
@@ -33,7 +34,7 @@ public List<Partida> generarRanking(Juego juego) throws PartidasDelJuegoNoEncont
 
 
     @Override
-    public void agregarPartida(Partida partida) {
+    public void agregarPartida(Partida partida) throws PartidaConPuntajeNegativoException {
         this.repositorioPartida.guardar(partida);
     }
 

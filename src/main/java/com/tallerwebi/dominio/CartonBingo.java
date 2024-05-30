@@ -16,13 +16,6 @@ public class CartonBingo {
         this.numeros = numeros;
     }
 
-    // public void imprimirCarton() {
-    // for (int f = 0; f < numeros.length; f++) {
-    // for (int c = 0; c < numeros.length; c++) {
-    // System.out.println(numeros[f][c]+"\t");
-    // }
-    // System.out.println();
-    // }
-    // }
+
 
 }

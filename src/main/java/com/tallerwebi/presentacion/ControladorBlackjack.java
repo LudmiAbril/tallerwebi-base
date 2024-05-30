@@ -11,6 +11,8 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +28,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tallerwebi.dominio.Carta;
-import com.tallerwebi.dominio.EstadoPartida;
-import com.tallerwebi.dominio.Juego;
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.Partida;
-import com.tallerwebi.dominio.PartidaBlackJack;
-import com.tallerwebi.dominio.ServicioBlackjack;
-import com.tallerwebi.dominio.ServicioPlataforma;
-import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
 
 @Controller
@@ -58,7 +51,7 @@ public class ControladorBlackjack {
 
     @RequestMapping(path = "/blackjack", method = RequestMethod.POST)
     public ModelAndView comenzarBlackjack(HttpSession session,
-            @RequestParam(value = "contrareloj", defaultValue = "false") Boolean contrareloj,
+            @RequestParam(value = "contrareloj", defaultValue = "false") boolean contrareloj,
             @RequestParam(value = "tiempoLimite", required = false) Integer tiempoLimiteMinutos) {
 
         ModelMap model = new ModelMap();
@@ -89,7 +82,7 @@ public class ControladorBlackjack {
         } else {
             session.setAttribute("contrareloj", false);
         }
-    
+
         try {
             partidasAnteriores = servicioPlataforma.obtenerUltimasPartidasDelUsuario(jugador.getId(),
                     Juego.BLACKJACK);
@@ -207,8 +200,8 @@ public class ControladorBlackjack {
         return response;
     }
 
-    @RequestMapping("/finalizar")
-    public ModelAndView finalizar(HttpSession session) {
+    @RequestMapping("/finalizarBlackjack")
+    public ModelAndView finalizar(HttpSession session) throws PartidaConPuntajeNegativoException {
         // guardo la partida
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
@@ -219,12 +212,13 @@ public class ControladorBlackjack {
         if (ganador.equals(jugador.getNombre()) || ganador.equals("empate")) {
             gano = true;
         }
-        servicioPlataforma.agregarPartida(new PartidaBlackJack(jugador.getId(), puntajeFinal, Juego.BLACKJACK, hayBlackjack, gano, duracion));
+        servicioPlataforma.agregarPartida(
+                new PartidaBlackJack(jugador.getId(), puntajeFinal, Juego.BLACKJACK, hayBlackjack, gano, duracion));
         return new ModelAndView("redirect:/inicio-blackjack");
     }
 
     @RequestMapping(path = "/reiniciar")
-    public ModelAndView reiniciar(HttpSession session) {
+    public ModelAndView reiniciar(HttpSession session) throws PartidaConPuntajeNegativoException {
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
         Boolean hayBlackjack = servicioBlackjack.hayBlackjack((List<Carta>) session.getAttribute("cartasJugador"));
@@ -234,7 +228,8 @@ public class ControladorBlackjack {
         if (ganador.equals(jugador.getNombre()) || ganador.equals("empate")) {
             gano = true;
         }
-        servicioPlataforma.agregarPartida(new PartidaBlackJack(jugador.getId(), puntajeFinal, Juego.BLACKJACK, hayBlackjack, gano, duracion));
+        servicioPlataforma.agregarPartida(
+                new PartidaBlackJack(jugador.getId(), puntajeFinal, Juego.BLACKJACK, hayBlackjack, gano, duracion));
 
         List<Carta> cartasJugador = servicioBlackjack.entregarCartasPrincipales();
         List<Carta> cartasCasa = servicioBlackjack.entregarCartasPrincipales();
@@ -255,7 +250,7 @@ public class ControladorBlackjack {
         }
 
         try {
-            partidas = servicioPlataforma.obtenerPartidasUsuario(jugador.getId(), Juego.BLACKJACK);
+            partidas = servicioPlataforma.obtenerUltimasPartidasDelUsuario(jugador.getId(), Juego.BLACKJACK);
             session.setAttribute("partidas", partidas);
 
         } catch (PartidaDeUsuarioNoEncontradaException e) {

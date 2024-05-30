@@ -1,9 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Carta;
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.ServicioBingo;
-import com.tallerwebi.dominio.ServicioChin;
+import com.tallerwebi.dominio.*;
 import com.tallerwebi.infraestructura.ServicioChinImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.mockito.Mockito.mock;
@@ -25,18 +23,15 @@ public class ControladorChinTest {
     private ControladorChin controladorChin;
     private ServicioChin servicioChinMock;
     private HttpSession session;
+    private ServicioPlataforma servicioPlataforma;
 
     @BeforeEach
     public void init(){
         //<>
+        this.servicioPlataforma = servicioPlataforma;
         this.servicioChinMock = mock(ServicioChin.class);
-        this.controladorChin = new ControladorChin(servicioChinMock);
+        this.controladorChin = new ControladorChin(servicioChinMock, servicioPlataforma);
         this.session = new MockHttpSession();
-//        ArrayList<Carta> mazoJugador1 = new ArrayList<Carta>();
-//        ArrayList<Carta> mazoJugador2 = new ArrayList<Carta>();
-//        servicioChin.repartirTodasLasCartas(mazoJugador1, mazoJugador2);
-//        servicioChin.repartirCuatroCartasDeFrente(mazoJugador1, new ArrayList<Carta>());
-//        servicioChin.repartirCuatroCartasDeFrente(mazoJugador2, new ArrayList<Carta>());
 
     }
     @Test
@@ -50,8 +45,8 @@ public class ControladorChinTest {
     @Test
     public void queAlSolicitarIrAlCHINSeGuardeElModeloCorrespondiente() {
         ModelAndView mav = this.controladorChin.irAlChin();
-        Jugador MODELO_ACTUAL = ((Jugador) mav.getModel().get("nuevoJugador"));
-        assertThat(MODELO_ACTUAL, instanceOf(Jugador.class));
+        Usuario MODELO_ACTUAL = ((Usuario) mav.getModel().get("nuevoJugador"));
+        assertThat(MODELO_ACTUAL, instanceOf(Usuario.class));
     }
     @Test
     public void queSeMuestrenLasCartasDelMazoRepartidas(){
@@ -61,19 +56,13 @@ public class ControladorChinTest {
     }
     @Test
     public void queSeGuardeLaCantidadDeChinsEnLaPartida(){
-        //        Set<Integer> numerosEntregados = new LinkedHashSet<>();
-        //        Integer numeroAleatorio = 10;
-        //
-        //        when(servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
-        //
-        //        controladorBingo.comenzarJuegoBingo(jugadorMock, session);
-        //
-        //        assertThat(session.getAttribute("numeroAleatorioCantado"), equalTo(numeroAleatorio));
         Jugador jugadorMock = mock(Jugador.class);
         when(jugadorMock.getNombre()).thenReturn("Axel");
         List<Integer> puntajesDePartidas = new ArrayList<>();
+        Integer cantidadChins =0;
         //when(servicioChinMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
         controladorChin.comenzarJuegoChin(jugadorMock, session);
-        //assertThat(session.getAttribute("cantidadDeChinsEnPartida"), equalTo(numeroAleatorio));
+        //controlador.ch
+        //assertThat(session.getAttribute("cantidadDeChinsEnPartida"), equalTo(cantidadChins));
     }
 }

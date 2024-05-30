@@ -58,4 +58,23 @@ public class Partida {
         return this.fechaYhora;
     }
 
+    public Long getIdJugador() {
+        return idJugador;
+    }
+
+    public void setIdJugador(Long idJugador) {
+        this.idJugador = idJugador;
+    }
+
+    public Integer getPuntaje() {
+        return puntaje;
+    }
+
+    public void setPuntaje(Integer puntaje) {
+        this.puntaje = puntaje;
+    }
+
+    public void setJugador(String jugador) {
+        this.jugador = jugador;
+    }
 }
