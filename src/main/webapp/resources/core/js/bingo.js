@@ -32,10 +32,10 @@ $(document).ready(function () {
                 console.log("mostrando el boton de bingo")
                 document.getElementById("botonLinea").style.display = "none";
                 document.getElementById("botonBingo").style.display = "block";
-            } else if (tipoPartidaBingo === "AMBAS") {
-                console.log("mostrando ambos botones")
-                document.getElementById("botonLinea").style.display = "block";
-                document.getElementById("botonBingo").style.display = "block";
+                // } else if (tipoPartidaBingo === "AMBAS") {
+                //     console.log("mostrando ambos botones")
+                //     document.getElementById("botonLinea").style.display = "block";
+                //     document.getElementById("botonBingo").style.display = "block";
             }
         }
 
@@ -205,5 +205,5 @@ function linea() {
 }
 
 function abrirModalDeLimiteAlcanzado() {
-   document.getElementById("modalLimite").style.display="block";
+    document.getElementById("modalLimite").style.display = "block";
 }

@@ -15,7 +15,7 @@ public class Partida {
     @SequenceGenerator(name = "partida_seq", sequenceName = "partida_sequence", allocationSize = 1)
     private long id;
     private String jugador;
-    private Integer puntaje;
+    // private Integer puntaje;
     private Long idJugador;
     private Juego juego;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -29,9 +29,9 @@ public class Partida {
         this.juego = juego;
         this.fechaYhora = LocalDateTime.now();
     }
-    public Partida(String jugador, Integer puntaje, Juego juego){
+    public Partida(String jugador, Juego juego){
         this.jugador = jugador;
-        this.puntaje = puntaje;
+        // this.puntaje = puntaje;
         this.juego = juego;
     }
     public Juego getJuego() {
@@ -66,13 +66,13 @@ public class Partida {
         this.idJugador = idJugador;
     }
 
-    public Integer getPuntaje() {
-        return puntaje;
-    }
+    // public Integer getPuntaje() {
+    //     return puntaje;
+    // }
 
-    public void setPuntaje(Integer puntaje) {
-        this.puntaje = puntaje;
-    }
+    // public void setPuntaje(Integer puntaje) {
+    //     this.puntaje = puntaje;
+    // }
 
     public void setJugador(String jugador) {
         this.jugador = jugador;

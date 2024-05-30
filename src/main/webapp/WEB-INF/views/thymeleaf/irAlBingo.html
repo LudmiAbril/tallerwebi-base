@@ -27,7 +27,7 @@
     <button type="submit" class="btn btn-primary">
       <span class="material-symbols-outlined">group</span>MULTIJUGADOR
     </button>
-    <form th:action="@{/verRanking}" method="post">
+    <form th:action="@{/verRankingBingo}" method="post">
       <input type="hidden" name="tipoJuego" value="BINGO" />
       <button type="submit" class="btn btn-primary">
         <span class="material-symbols-outlined">bar_chart</span>RANKING
@@ -48,8 +48,8 @@
         <input type="radio" name="tipo" value="BINGO" id="bingo">
 
         <!-- ambas -->
-        <label for="ambas">Ambas</label>
-        <input type="radio" name="tipo" value="AMBAS" id="ambas">
+        <!-- <label for="ambas">Ambas</label>
+        <input type="radio" name="tipo" value="AMBAS" id="ambas"> -->
 
         <label for="enviar"></label>
         <input type="submit" name="enviar" id="enviar" value="Enviar">

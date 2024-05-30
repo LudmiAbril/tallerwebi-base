@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import com.tallerwebi.dominio.Juego;
 import com.tallerwebi.dominio.Partida;
+import com.tallerwebi.dominio.PartidaBingo;
 import com.tallerwebi.dominio.ServicioPlataforma;
 import com.tallerwebi.dominio.ServicioUsuario;
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
 
 import java.util.List;
@@ -49,6 +51,27 @@ public class ControladorAccesoJuegos {
             partidas = servicioPlataforma.generarRanking(tipoJuego);
             mav.addAttribute("partidas", partidas);
         } catch (PartidasDelJuegoNoEncontradasException e) {
+            mav.addAttribute("mensajeError",
+                    "todavía no hay instancias de partidas de este juego, ¿por qué no las empezás?");
+        }
+        mav.addAttribute("nombreJuego", tipoJuego.toString());
+        mav.addAttribute("tipoJuego", tipoJuego);
+
+        return new ModelAndView("ranking", mav);
+    }
+
+    @RequestMapping(path = "/verRankingBingo")
+    public ModelAndView verRankingBingo(@RequestParam("tipoJuego") Juego tipoJuego, HttpSession session) {
+
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        Long idUsuario = jugador.getId();
+        ModelMap mav = new ModelMap();
+
+        List<PartidaBingo> partidas;
+        try {
+            partidas = servicioPlataforma.generarRankingDePartidasDeBingo(idUsuario);
+            mav.addAttribute("partidas", partidas);
+        } catch (NoHayPartidasDeBingoException e) {
             mav.addAttribute("mensajeError",
                     "todavía no hay instancias de partidas de este juego, ¿por qué no las empezás?");
         }

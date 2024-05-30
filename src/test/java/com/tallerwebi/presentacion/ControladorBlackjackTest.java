@@ -74,7 +74,7 @@ public class ControladorBlackjackTest {
     }
 
     @Test
-    public void queSeAlIniciarseElJuegoSeGuardenEnLaSesionLasManosInicialesDelJugadorYelCrupier() {
+    public void queAlIniciarseElJuegoSeGuardenEnLaSesionLasManosInicialesDelJugadorYelCrupier() {
         // Preparación de los datos esperados
         Carta ca = new Carta("A", 11, Palo.CORAZON);
         Carta cb = new Carta("3", 3, Palo.CORAZON);

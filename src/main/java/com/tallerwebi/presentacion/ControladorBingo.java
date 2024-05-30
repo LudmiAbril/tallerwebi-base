@@ -135,7 +135,7 @@ public class ControladorBingo {
 
 	@RequestMapping(path = "/obtenerNuevoNumero", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> obtenerNuevoNumero(HttpSession session) {
+	public Map<String, Object> obtenerNuevoNumero(HttpSession session) throws PartidaConPuntajeNegativoException {
 		Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
 		Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
 		Boolean limiteAlcanzado = false;
@@ -145,6 +145,8 @@ public class ControladorBingo {
 			session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
 		}
 		if (numerosEntregados.size() == tiradaLimiteDeLaSesion) {
+			session.setAttribute("seHizoLinea", false);
+			session.setAttribute("seHizoBingo", false);
 			limiteAlcanzado = true;
 			respuesta.put("limiteAlcanzado", limiteAlcanzado);
 		} else {
@@ -174,6 +176,7 @@ public class ControladorBingo {
 		Integer dimension = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
 		Boolean seHizoBingo = this.servicioBingo.bingo(numerosMarcadosDeLaSesion, dimension);
 		session.setAttribute("seHizoBingo", seHizoBingo);
+		session.setAttribute("seHizoLinea", false);
 		Map<String, Object> respuesta = new HashMap<String, Object>();
 		respuesta.put("seHizoBingo", seHizoBingo);
 		return respuesta;
@@ -234,12 +237,13 @@ public class ControladorBingo {
 		CartonBingo cartonDeLaSesion = (CartonBingo) session.getAttribute("carton");
 		Boolean seHizoLinea = this.servicioBingo.linea(numerosMarcadosDeLaSesion, cartonDeLaSesion);
 		session.setAttribute("seHizoLinea", seHizoLinea);
+		session.setAttribute("seHizoBingo", false);
 		Map<String, Object> respuesta = new HashMap<String, Object>();
 		respuesta.put("seHizoLinea", seHizoLinea);
 		return respuesta;
 	}
 
-	@RequestMapping(path = "/finalizar", method = RequestMethod.POST)
+	@RequestMapping(path = "/finalizarPartida", method = RequestMethod.POST)
 	public ModelAndView finalizar(HttpSession session) throws PartidaConPuntajeNegativoException {
 
 		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
@@ -248,12 +252,14 @@ public class ControladorBingo {
 		TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session
 				.getAttribute("tipoPartidaBingoDeLaSesion");
 		Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
+		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
 
 		servicioPlataforma
-				.agregarPartida(new PartidaBingo(numerosMarcadosDeLaSesion, seHizoLinea, seHizoBingo,
+				.agregarPartida(new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, seHizoLinea,
+						seHizoBingo,
 						tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion));
 
-		return new ModelAndView("redirect: /irAlBingo");
+		return new ModelAndView("redirect:/acceso-juegos");
 	}
 
 }
