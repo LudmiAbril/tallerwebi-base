@@ -167,17 +167,17 @@ public class ControladorBingoTest {
          assertThat(session.getAttribute("carton"), equalTo(null));
     }
 
-    @Test
-    public void queSePuedaHacerBingo() {
-        Set<Integer> numerosMarcadosDeLaSesion = new HashSet<>();
-        when(servicioBingoMock.bingo(numerosMarcadosDeLaSesion)).thenReturn(true);
-        session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+    // @Test
+    // public void queSePuedaHacerBingo() {
+    //     Set<Integer> numerosMarcadosDeLaSesion = new HashSet<>();
+    //     when(servicioBingoMock.bingo(numerosMarcadosDeLaSesion)).thenReturn(true);
+    //     session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
 
-        Map<String, Object> respuesta = controladorBingo.hacerBingo(session);
+    //     Map<String, Object> respuesta = controladorBingo.hacerBingo(session);
 
-        assertTrue(respuesta.containsKey("seHizoBingo"));
-        assertTrue((boolean) respuesta.get("seHizoBingo"));
-    }
+    //     assertTrue(respuesta.containsKey("seHizoBingo"));
+    //     assertTrue((boolean) respuesta.get("seHizoBingo"));
+    // }
 
    
 

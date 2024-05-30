@@ -185,10 +185,12 @@ function mostrarModalSeleccionTipoPartidaBingo(event) {
 function linea() {
     $.get("linea", function (data) {
         if (data.seHizoLinea) {
+            console.log("hiciste linea")
             abrirModal();
             clearInterval(intervaloRefresco);
             intervaloRefresco = null;
         } else if (!data.seHizoLinea) {
+            console.log("no hiciste linea")
             var botonLinea = document.querySelector("#botonLinea");
             botonLinea.style.color = 'black';
             botonLinea.classList.add('animate__animated', 'animate__shakeX');
