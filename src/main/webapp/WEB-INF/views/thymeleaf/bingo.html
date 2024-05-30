@@ -8,15 +8,14 @@
   <title>Bingo</title>
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
-  <!-- Boostrap core css -->
-  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}" />
+  <!-- W3.CSS core css -->
   <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}" />
 
   <!-- custom style -->
   <link rel="stylesheet" th:href="@{/css/bingo.css}" />
   <link rel="stylesheet" th:href="@{/css/abandonarPartida.css}" />
 
-  <!----link google fonts--->
+  <!-- Link Google Fonts -->
   <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
   <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
 
@@ -33,6 +32,47 @@
 </head>
 
 <body>
+    <!-- Modal de historial -->
+    <div id="historialModal" class="w3-modal">
+      <div class="w3-modal-content w3-card-4 w3-animate-zoom">
+        <header class="w3-container w3-purple">
+          <span onclick="document.getElementById('historialModal').style.display='none'"
+            class="w3-button w3-purple w3-xlarge w3-display-topright">×</span>
+          <h2>Historial de Partidas</h2>
+        </header>
+        <div class="w3-container">
+          <!-- Contenido del modal -->
+          <div class="jugador-info">
+            <h3 class="nombre-jugador">Jugador: <span th:text="${nombreJugador}"></span></h3>
+          </div>
+          <div class="partidas">
+            <p class="titulin">Tu historial de partidas</p>
+            <p th:text="${mensajePartidas}" class="mensaje-partidas"></p>
+            <div class="c-partidas">
+              <table class="w3-table w3-bordered">
+                <thead>
+                  <tr>
+                    <th>Tipo de Partida</th>
+                    <th>Se hizo Línea</th>
+                    <th>Se hizo Bingo</th>
+                    <th>Tiradas</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Aquí se iterará sobre las partidasAnteriores -->
+                  <tr th:each="partida : ${partidas}">
+                    <td th:text="${partida.tipoPartidaBingo}"></td>
+                    <td th:text="${partida.seHizoLinea}"></td>
+                    <td th:text="${partida.seHizoBingo}"></td>
+                    <td th:text="${partida.tirada}"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   <section id="fondoBingo">
     <span></span>
     <span></span>
@@ -51,7 +91,6 @@
     </a>
   </nav>
 
-
   <main role="main" class="container">
 
     <div class="numeroCantadoContenedor">
@@ -68,57 +107,13 @@
     </table>
 
     <div class="w3-container">
-      <button id="botonBingo" type="submit" class="w3-button w3-xlarge w3-wide w3-purple w3-cel"
-        onclick="bingo()">BINGO</button>
+      <button id="botonBingo" type="submit" class="w3-button w3-xlarge w3-wide w3-purple w3-cel" onclick="bingo()">BINGO</button>
       <button id="botonLinea" class="w3-button w3-xlarge w3-wide w3-purple w3-cel" onclick="linea()">LINEA</button>
     </div>
 
+  
   </main>
-
-  <!-- /.container -->
-
-  <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
-  <script th:src="@{/js/bingo.js}"></script>
-  <!-- Modal de Bingo -->
-  <div id="modalBingo" class="modal w3-animate-top">
-    <div class="modal-content">
-      <h3>Hiciste <span th:text="${tipoPartidaBingoDeLaSesion}"></span></h3>
-      <p>¡Felicidades, <span th:text="${nombreJugador}"></span>!</p>
-      <form th:action="@{/irAlBingo.html}">
-        <button type="submit" class="boton-volver">Volver</button>
-      </form>
-      <form action="/spring/finalizar" method="post">
-        <button type="submit">Volver al inicio</button>
-      </form>
-    </div>
-  </div>
-  <!-- Modal de Confirmación -->
-  <div id="customExitModal" class="modal-custom">
-    <div class="modal-content-custom">
-      <div class="modal-header-custom">
-        <h5>Confirmar Abandono</h5>
-        <span class="close-custom" id="closeCustomExitModal">&times;</span>
-      </div>
-      <div class="modal-body-custom">
-        ¿Estás seguro de que deseas abandonar la partida?
-      </div>
-      <div class="modal-footer-custom">
-        <button id="customCancelButton" class="boton-cancelar-custom">
-          Cancelar
-        </button>
-        <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom">Abandonar</a>
-      </div>
-    </div>
-  </div>
-  <!-- Modal de limite alcanzado de bolas -->
-  <div id="modalLimite" class="modal w3-animate-top">
-    <div class="modal-content">
-      <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el límite de numeros cantados!</h3>
-      <form th:action="@{/irAlBingo.html}">
-        <button type="submit" class="boton-volver">Volver</button>
-      </form>
-    </div>
-  </div>
+  <script th:src="@{/js/bingo.js}" ></script>
 </body>
 
 </html>
