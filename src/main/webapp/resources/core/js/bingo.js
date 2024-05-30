@@ -32,10 +32,10 @@ $(document).ready(function () {
                 console.log("mostrando el boton de bingo")
                 document.getElementById("botonLinea").style.display = "none";
                 document.getElementById("botonBingo").style.display = "block";
-            } else if (tipoPartidaBingo === "AMBAS") {
-                console.log("mostrando ambos botones")
-                document.getElementById("botonLinea").style.display = "block";
-                document.getElementById("botonBingo").style.display = "block";
+                // } else if (tipoPartidaBingo === "AMBAS") {
+                //     console.log("mostrando ambos botones")
+                //     document.getElementById("botonLinea").style.display = "block";
+                //     document.getElementById("botonBingo").style.display = "block";
             }
         }
 
@@ -182,13 +182,17 @@ function mostrarModalSeleccionTipoPartidaBingo(event) {
     document.getElementById("modalTipoPartida").style.display = "block";
 }
 
+
+
 function linea() {
     $.get("linea", function (data) {
         if (data.seHizoLinea) {
+            console.log("hiciste linea")
             abrirModal();
             clearInterval(intervaloRefresco);
             intervaloRefresco = null;
         } else if (!data.seHizoLinea) {
+            console.log("no hiciste linea")
             var botonLinea = document.querySelector("#botonLinea");
             botonLinea.style.color = 'black';
             botonLinea.classList.add('animate__animated', 'animate__shakeX');
@@ -203,5 +207,5 @@ function linea() {
 }
 
 function abrirModalDeLimiteAlcanzado() {
-   document.getElementById("modalLimite").style.display="block";
+    document.getElementById("modalLimite").style.display = "block";
 }

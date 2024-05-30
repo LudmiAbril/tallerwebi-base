@@ -9,6 +9,70 @@
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+
+  #modalTipoPartida .radio-group input[type="radio"] {
+    display: none;
+  }
+
+  #modalTipoPartida .radio-group label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 50px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    background-color: white;
+    transition: background-color 0.3s, border-color 0.3s;
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  #modalTipoPartida .radio-group input[type="radio"]:checked + label {
+    background-color: #B367A9;
+    color: white;
+  }
+
+  #modalTipoPartida .radio-group label:hover {
+    background-color: #b367a9a2;
+  }
+
+  #modalTipoPartida .radio-group {
+    justify-content:center;
+    display: flex;
+    margin:10px;
+    align-items: center;
+    gap:40px;
+  }
+
+  /* Estilos CSS para el botón de enviar */
+  #modalTipoPartida .btn-enviar{
+    font-family: 'Teko', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 15px;
+    width: 100%;
+    color: white;
+    border-radius: 10px;
+    border: 1px solid #6d2194;
+    padding: 10px 25px;
+    background-color: #7f369a;
+    display: block;
+    margin: 0 auto;
+    transition: background-color 0.3s, box-shadow 0.3s;
+  }
+  #modalTipoPartida .btn-enviar:hover{
+    background-color:#2D2A49;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  }
+  #modalTipoPartida .modal-content h3{
+    text-align:center;
+  }
+</style>
+
 </head>
 
 <body>
@@ -27,36 +91,36 @@
     <button type="submit" class="btn btn-primary">
       <span class="material-symbols-outlined">group</span>MULTIJUGADOR
     </button>
-    <form th:action="@{/verRanking}" method="post">
+    <form th:action="@{/verRankingBingo}" method="post">
       <input type="hidden" name="tipoJuego" value="BINGO" />
       <button type="submit" class="btn btn-primary">
         <span class="material-symbols-outlined">bar_chart</span>RANKING
       </button>
     </form>
   </main>
-  <!-- Modal de seleccion de tipo de partida -->
+  <!-- Modal de selección de tipo de partida -->
   <div id="modalTipoPartida" class="modal w3-animate-top">
     <div class="modal-content">
+      <span class="close" onclick="closeModal('modalTipoPartida')">&times;</span>
       <h3>Seleccioná el tipo de partida</h3>
       <form th:action="@{/comenzarJuegoBingo}" method="get" class="text-center" id="tipoPartidaForm">
-        <!-- linea -->
-        <label for="linea">Linea</label>
-        <input type="radio" name="tipo" value="LINEA" id="linea">
-    
-        <!-- bingo -->
-        <label for="bingo">Bingo</label>
-        <input type="radio" name="tipo" value="BINGO" id="bingo">
+        <div class="radio-group">
+          <input type="radio" id="linea" name="tipo" value="linea">
+          <label for="linea">linea</label>
 
-        <!-- ambas -->
-        <label for="ambas">Ambas</label>
-        <input type="radio" name="tipo" value="AMBAS" id="ambas">
+          <input type="radio" id="bingo" name="tipo" value="bingo" checked>
+          <label for="bingo">Bingo</label>
 
-        <label for="enviar"></label>
-        <input type="submit" name="enviar" id="enviar" value="Enviar">
+          <!-- <input type="radio" id="ambas" name="tipo" value="ambas">
+          <label for="ambas">ambas</label> -->
+        </div>
+        <br>
+        <input type="submit" name="enviar" id="enviar" value="Enviar" class="btn-enviar">
       </form>
     </div>
   </div>
   <script th:src="@{/js/bingo.js}"></script>
+  <script th:src="@{/js/modal.js}"></script>
 </body>
 
 </html>

@@ -16,8 +16,9 @@ public class PartidaBingo extends Partida {
     private TipoPartidaBingo tipoPartidaBingo;
     private Integer tirada;
 
-    public PartidaBingo(Set<Integer> casillerosMarcados, Boolean seHizoLinea, Boolean seHizoBingo,
+    public PartidaBingo(Long idJugador, Juego juego, Set<Integer> casillerosMarcados, Boolean seHizoLinea, Boolean seHizoBingo,
             TipoPartidaBingo tipoPartidaBingo, Integer tirada) {
+                super(idJugador, juego);
         this.casillerosMarcados = casillerosMarcados;
         this.seHizoLinea = seHizoLinea;
         this.seHizoBingo = seHizoBingo;

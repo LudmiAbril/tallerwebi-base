@@ -2,9 +2,11 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.Juego;
 import com.tallerwebi.dominio.Partida;
+import com.tallerwebi.dominio.PartidaBingo;
 import com.tallerwebi.dominio.RepositorioPartida;
 import com.tallerwebi.dominio.RepositorioUsuario;
 import com.tallerwebi.dominio.ServicioPlataforma;
+import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
 import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
@@ -24,14 +26,13 @@ public class ServicioPlataformaImpl implements ServicioPlataforma {
     }
 
     @Override
-public List<Partida> generarRanking(Juego juego) throws PartidasDelJuegoNoEncontradasException {
-    List<Partida> partidas = repositorioPartida.listarPartidasPorJuego(juego);
-    if (partidas.isEmpty()) {
-        throw new PartidasDelJuegoNoEncontradasException();
+    public List<Partida> generarRanking(Juego juego) throws PartidasDelJuegoNoEncontradasException {
+        List<Partida> partidas = repositorioPartida.listarPartidasPorJuego(juego);
+        if (partidas.isEmpty()) {
+            throw new PartidasDelJuegoNoEncontradasException();
+        }
+        return partidas;
     }
-    return partidas;
-}
-
 
     @Override
     public void agregarPartida(Partida partida) throws PartidaConPuntajeNegativoException {
@@ -44,8 +45,14 @@ public List<Partida> generarRanking(Juego juego) throws PartidasDelJuegoNoEncont
     }
 
     @Override
-    public List<Partida> obtenerUltimasPartidasDelUsuario(Long id, Juego juego) throws PartidaDeUsuarioNoEncontradaException {
+    public List<Partida> obtenerUltimasPartidasDelUsuario(Long id, Juego juego)
+            throws PartidaDeUsuarioNoEncontradaException {
         return repositorioPartida.obtenerPartidasUsuarioPorFecha(id, juego);
+    }
+
+    @Override
+    public List<PartidaBingo> generarRankingDePartidasDeBingo(Long userId) throws NoHayPartidasDeBingoException {
+        return this.repositorioPartida.generarRankingDePartidasDeBingo(userId);
     }
 
 }

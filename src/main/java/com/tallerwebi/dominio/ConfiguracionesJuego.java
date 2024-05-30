@@ -19,7 +19,7 @@ public class ConfiguracionesJuego {
         this.duracionBlackjack = 5;
         this.valorDelAs = 11;
         this.cantidadDePelotas = 90;
-        this.dimensionCarton = 5;
+        this.dimensionCarton = 6;
     }
 
     public Integer getDuracionBlackjack() {

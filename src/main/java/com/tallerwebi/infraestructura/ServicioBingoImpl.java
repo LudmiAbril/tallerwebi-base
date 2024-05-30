@@ -67,8 +67,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 	}
 
 	@Override
-	public Boolean bingo(Set<Integer> numerosMarcadosEnElCarton) {
-		if (numerosMarcadosEnElCarton.size() == 25) {
+	public Boolean bingo(Set<Integer> numerosMarcadosEnElCarton, Integer dimension) {
+		if (numerosMarcadosEnElCarton.size() == dimension*dimension) {
 			this.setSeHizobingo(true);
 			this.numerosMarcadosEnElCarton.clear();
 			this.numerosEntregados.clear();
@@ -182,6 +182,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 				if (numerosEnFila.size() == dimension) {
 					if (numerosMarcadosEnElCarton.containsAll(numerosEnFila)) {
 						seHizoLinea = true;
+						this.numerosMarcadosEnElCarton.clear();
+						this.numerosEntregados.clear();
 						return seHizoLinea;
 					} else {
 						numerosEnFila.clear();
@@ -199,6 +201,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 				if (numerosEnFila.size() == dimension) {
 					if (numerosMarcadosEnElCarton.containsAll(numerosEnFila)) {
 						seHizoLinea = true;
+						this.numerosMarcadosEnElCarton.clear();
+						this.numerosEntregados.clear();
 						return seHizoLinea;
 					} else {
 						numerosEnFila.clear();
@@ -215,6 +219,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 		}
 		if (numerosMarcadosEnElCarton.containsAll(numerosEnFila)) {
 			seHizoLinea = true;
+			this.numerosMarcadosEnElCarton.clear();
+			this.numerosEntregados.clear();
 			return seHizoLinea;
 		} else {
 			numerosEnFila.clear();
@@ -226,6 +232,8 @@ public class ServicioBingoImpl implements ServicioBingo {
 		}
 		if (numerosMarcadosEnElCarton.containsAll(numerosEnFila)) {
 			seHizoLinea = true;
+			this.numerosMarcadosEnElCarton.clear();
+			this.numerosEntregados.clear();
 			return seHizoLinea;
 		}
 	

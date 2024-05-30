@@ -5,20 +5,20 @@
 }
 
 body{
-  background-color: #2D2A49;
+    background-color: #2D2A49;
 }
 .login{
     background-image: url(../imgStatic/gatos-bienvenida.png);
     background-size: cover;
-    background-color: rgba(0, 0, 0, 0.5); /* color negro con 50% de opacidad */
-    background-blend-mode: darken; /* mezcla el color de fondo con la imagen */
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: darken;
 }
 .nuevo{
     background-image: url(../imgStatic/gatos-crear-perfil.png);
     background-size: cover;
-    background-color: rgba(0, 0, 0, 0.5); /* color negro con 50% de opacidad */
-    background-blend-mode: darken; /* mezcla el color de fondo con la imagen */
-} 
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: darken;
+}
 
 .frase {
     width: 500px;
@@ -96,23 +96,22 @@ body{
     text-shadow: 0 0 30px #e140ec, 0 0 50px #e140ec, 0 0 70px #e140ec, 0 0 60px #e140ec, 0 0 80px #F9EADE, 0 0 80px #F9EADE, 0 0 90px #F9EADE;
     color:white;
 }
-.boton-fijo a{
-    position: fixed;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    background-color: #28a745;
-    color: white;
-    padding: 15px 20px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 18px;
-    font-family: "Bebas Neue", sans-serif;
-    font-weight: 800;
-    border-radius: 4px 0 0 4px;
-    transition: background-color 0.3s ease;
+.boton-margen {
+    background-color:#895BB0;
+    text-decoration:none;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    padding: 10px 20px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
+.boton-margen:hover {
+    background-color: #2D2A49;
+    text-shadow: 0 0 30px rgba(0, 0, 0, 0.51), 0 0 50px rgba(0, 0, 0, 0.51), 0 0 70px rgba(0, 0, 0, 0.51), 0 0 60px rgba(0, 0, 0, 0.51), 0 0 80px #F9EADE, 0 0 80px #F9EADE, 0 0 90px #F9EADE;
 
-.boton-fijo a:hover {
-    background-color: #218838;
 }

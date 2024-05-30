@@ -51,7 +51,6 @@
     </a>
   </nav>
 
-
   <main role="main" class="container">
 
     <div class="numeroCantadoContenedor">
@@ -84,10 +83,7 @@
     <div class="modal-content">
       <h3>Hiciste <span th:text="${tipoPartidaBingoDeLaSesion}"></span></h3>
       <p>¡Felicidades, <span th:text="${nombreJugador}"></span>!</p>
-      <form th:action="@{/irAlBingo.html}">
-        <button type="submit" class="boton-volver">Volver</button>
-      </form>
-      <form action="/spring/finalizar" method="post">
+      <form th:action="@{/finalizarPartida}" method="post">
         <button type="submit">Volver al inicio</button>
       </form>
     </div>
@@ -114,8 +110,8 @@
   <div id="modalLimite" class="modal w3-animate-top">
     <div class="modal-content">
       <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el límite de numeros cantados!</h3>
-      <form th:action="@{/irAlBingo.html}">
-        <button type="submit" class="boton-volver">Volver</button>
+      <form th:action="@{/finalizarPartida}" method="post">
+        <button type="submit" class="boton-volver">Finalizar</button>
       </form>
     </div>
   </div>
