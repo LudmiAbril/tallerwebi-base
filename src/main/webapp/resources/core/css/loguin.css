@@ -4,9 +4,7 @@
     box-sizing: border-box;
 }
 
-body{
-    background-color: #2D2A49;
-}
+
 .login{
     background-image: url(../imgStatic/gatos-bienvenida.png);
     background-size: cover;
