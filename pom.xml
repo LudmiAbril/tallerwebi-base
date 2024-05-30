@@ -118,6 +118,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <!--            Dependencias de websocket-->
             <groupId>org.springframework</groupId>
             <artifactId>spring-messaging</artifactId>
             <version>${spring.version}</version>
