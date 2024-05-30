@@ -182,6 +182,8 @@ function mostrarModalSeleccionTipoPartidaBingo(event) {
     document.getElementById("modalTipoPartida").style.display = "block";
 }
 
+
+
 function linea() {
     $.get("linea", function (data) {
         if (data.seHizoLinea) {

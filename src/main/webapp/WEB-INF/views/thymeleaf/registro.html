@@ -34,8 +34,6 @@
   </head>
 
   <body class="nuevo">
-    <!-- Botón fijo de inicio de sesión -->
-    <a href="login" class="boton-fijo">INICIAR SESIÓN</a>
 
     <div class="text-center">
       <img th:src="@{/imgStatic/crearCuentaImg.png}" class="img-registro" />
@@ -88,6 +86,8 @@
           REGISTRARME
         </button>
       </form>
+      <!-- Botón fijo de inicio de sesión -->
+      <a href="login" class="boton-margen">INICIAR SESIÓN</a>
       <p th:text="${error}"></p>
     </main>
     <!-- Boostrap core js -->
