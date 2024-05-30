@@ -5,20 +5,20 @@
 }
 
 body{
-  background-color: #2D2A49;
+    background-color: #2D2A49;
 }
 .login{
     background-image: url(../imgStatic/gatos-bienvenida.png);
     background-size: cover;
-    background-color: rgba(0, 0, 0, 0.5); /* color negro con 50% de opacidad */
-    background-blend-mode: darken; /* mezcla el color de fondo con la imagen */
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: darken;
 }
 .nuevo{
     background-image: url(../imgStatic/gatos-crear-perfil.png);
     background-size: cover;
-    background-color: rgba(0, 0, 0, 0.5); /* color negro con 50% de opacidad */
-    background-blend-mode: darken; /* mezcla el color de fondo con la imagen */
-} 
+    background-color: rgba(0, 0, 0, 0.5);
+    background-blend-mode: darken;
+}
 
 .frase {
     width: 500px;
