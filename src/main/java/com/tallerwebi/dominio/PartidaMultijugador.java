@@ -9,7 +9,7 @@
      private String ganador;
      private String turno;
      private EstadoJuego gameState;
-
+/* 
      public PartidaMultijugador(Juego juego, String nombreJugador, String nombreJugador2) {
          //super(juego);
          //Crea un id unico
@@ -74,4 +74,5 @@
      public void setGameState(EstadoJuego gameState) {
          this.gameState = gameState;
      }
+     */
  }
