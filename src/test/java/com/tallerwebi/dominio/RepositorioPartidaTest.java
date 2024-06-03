@@ -77,7 +77,7 @@ public class RepositorioPartidaTest {
         partidasEsperadas.add(p2);
         partidasEsperadas.add(p1);
 
-        // ejec desordenada para verificar orden
+
         repositorio.guardar(p2);
         repositorio.guardar(p1);
 
@@ -94,7 +94,7 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queSeLanzeUnaExceptionSiNoHayPartidasDeEseJuego() {
-        // PartidaDeUsuarioNoEncontradaException
+
         assertThrows(PartidasDelJuegoNoEncontradasException.class, () -> {
             repositorio.listarPartidasPorJuego(Juego.BINGO);
         });
@@ -103,8 +103,6 @@ public class RepositorioPartidaTest {
     @Test
     public void queObtenganLasPartidasDeUnJugador() throws PartidaConPuntajeNegativoException {
         Long usuarioId = 000L;
-        // repositorio.guardar(crearPartida("Prueba", Juego.BLACKJACK));
-        // repositorio.guardar(crearPartida("Prueba", Juego.BLACKJACK));
         Partida partida1 = crearPartida("Prueba", Juego.BLACKJACK);
         partida1.setIdJugador(usuarioId);
         repositorio.guardar(partida1);
@@ -161,7 +159,7 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queLanceUnaExceptionAlObtenerPartidasDeUsuarioConIdNulo() {
-        // PartidaDeUsuarioNoEncontradaException
+
         assertThrows(PartidaDeUsuarioNoEncontradaException.class, () -> {
             repositorio.obtenerPartidasUsuario(null, Juego.BINGO);
         });

@@ -3,17 +3,23 @@ package com.tallerwebi.dominio;
 import com.tallerwebi.infraestructura.ServicioChinImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
 
+//@ExtendWith(MockitoExtension.class)
 public class ChinTest {
-
+    //@Mock
+    //@InjectMocks
     @BeforeEach
     public void init(){
-
+        //UsuarioRepositorio mock = Mockito.mock(UsuarioRepositorio.class);
 
     }
     @Test
@@ -24,7 +30,7 @@ public class ChinTest {
         ArrayList<Carta> descarte2 = new ArrayList<>();
         descarte1.add(carta1);
         descarte2.add(carta2);
-
+        //Mockito.verify();
         ServicioChin chin = new ServicioChinImpl();
         assertThat(chin.hayChin(descarte1, descarte2), is(true));
     }
