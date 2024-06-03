@@ -103,8 +103,7 @@ public class RepositorioPartidaTest {
     @Test
     public void queObtenganLasPartidasDeUnJugador() throws PartidaConPuntajeNegativoException {
         Long usuarioId = 000L;
-        // repositorio.guardar(crearPartida("Prueba", Juego.BLACKJACK));
-        // repositorio.guardar(crearPartida("Prueba", Juego.BLACKJACK));
+
         Partida partida1 = crearPartida("Prueba", Juego.BLACKJACK);
         partida1.setIdJugador(usuarioId);
         repositorio.guardar(partida1);
