@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.tallerwebi.dominio.Usuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.web.context.request.RequestAttributes;
@@ -47,8 +48,22 @@ public class ControladorAhorcadoTest {
         String viewname = modelAndView.getViewName();
 
         assertThat(viewname, equalToIgnoringCase("ahorcado"));
-        assertThat(modelAndView.getModel().get("jugador"), instanceOf(Jugador.class));
-        assertThat(((Jugador) modelAndView.getModel().get("jugador")).getNombre(), nullValue());
+        assertThat(modelAndView.getModel().get("jugador"), instanceOf(Usuario.class));
+        assertThat(((Usuario) modelAndView.getModel().get("jugador")).getNombre(), nullValue());
+    }
+    @Test
+    public void queSeDevuelvaUnaPalabraTapada(){
+
+    }
+    @Test
+    public void queDevuelvaUnaExceptionSiNoHayPalabrasParaDevolver(){}
+    @Test
+    public void queDevuelvaLaLetraAcertadaEnLaPalabra(){
+
+    }
+    @Test
+    public void queElJugadorGaneSiAdivinaLaPalabra(){
+
     }
 
 }

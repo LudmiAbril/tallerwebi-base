@@ -9,6 +9,18 @@
      private String turno;
      private EstadoJuego gameState;
 
+     public PartidaMultijugador(Juego juego, String jugador1, String jugador2){
+         this.juego = juego;
+         this.nombreJugador = jugador1;
+         this.nombreJugador2 = jugador2;
+     }
+     public PartidaMultijugador(String jugador, String jugador2){
+         this.nombreJugador = jugador;
+         this.nombreJugador2= jugador2;
+     }
+     public PartidaMultijugador(String jugador){
+         this.nombreJugador = jugador;
+     }
      public String getJugador() {
          return nombreJugador;
      }
