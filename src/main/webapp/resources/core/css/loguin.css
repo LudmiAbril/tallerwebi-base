@@ -113,3 +113,7 @@
     text-shadow: 0 0 30px rgba(0, 0, 0, 0.51), 0 0 50px rgba(0, 0, 0, 0.51), 0 0 70px rgba(0, 0, 0, 0.51), 0 0 60px rgba(0, 0, 0, 0.51), 0 0 80px #F9EADE, 0 0 80px #F9EADE, 0 0 90px #F9EADE;
 
 }
+.error p{
+    padding-top:10px;
+    color:white;
+}
