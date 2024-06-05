@@ -31,7 +31,7 @@ public class Partida {
     }
     public Partida(String jugador, Juego juego){
         this.jugador = jugador;
-        // this.puntaje = puntaje;
+        // this.puntaje = puntaje;--AHORA ESTO ESTA EN CADA HIJO
         this.juego = juego;
     }
     public Juego getJuego() {
@@ -66,15 +66,17 @@ public class Partida {
         this.idJugador = idJugador;
     }
 
-    // public Integer getPuntaje() {
-    //     return puntaje;
-    // }
-
-    // public void setPuntaje(Integer puntaje) {
-    //     this.puntaje = puntaje;
-    // }
+   
 
     public void setJugador(String jugador) {
         this.jugador = jugador;
+    }
+
+    public void setNombre(String jugador) {
+       this.jugador=jugador;
+    }
+
+    public String getNombre() {
+        return this.jugador;
     }
 }

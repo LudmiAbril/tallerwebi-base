@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -8,16 +9,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.hibernate.SessionFactory;
 
 import javax.transaction.Transactional;
 
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
-import org.hibernate.SessionFactory;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,15 +37,27 @@ import com.tallerwebi.infraestructura.RepositorioPartidaImpl;
 @ContextConfiguration(classes = { HibernateTestConfig.class })
 public class RepositorioPartidaTest {
     private RepositorioPartida repositorio;
+
+    
     @Autowired
     SessionFactory session;
-
+    
+   
     @BeforeEach
     public void init() {
         this.repositorio = new RepositorioPartidaImpl(session) {
         };
     }
-
+    
+    //crear instancias de la clase Partida
+    private Partida crearPartida(String nombre, Juego juego) {
+        Partida partida = new Partida(nombre, juego);
+        return partida;
+    }
+    private Partida crearPartida(long idJugador, Juego juego) {
+        Partida partida = new Partida(idJugador, juego);
+        return partida;
+    }
     @Test
     public void queSeGuardeUnaPartida() throws PartidaConPuntajeNegativoException {
         Partida p = crearPartida("jugador", Juego.BINGO);
@@ -166,10 +181,6 @@ public class RepositorioPartidaTest {
         });
     }
 
-    private Partida crearPartida(String nombre, Juego juego) {
-        Partida partida = new Partida(nombre, juego);
-        return partida;
-    }
 
     @Test
     public void queLanceUnaExceptionAlObtenerPartidasDeUsuarioConJuegoNulo() {
@@ -215,4 +226,37 @@ public class RepositorioPartidaTest {
             repositorio.guardar(null);
         });
     }
+
+    @Test
+    public void queLanceExceptionDePartidasNoEncontradasAlListarPartidasPorJuegoConJuegoNulo() {
+        assertThrows(PartidasDelJuegoNoEncontradasException.class, () -> {
+            repositorio.listarPartidasPorJuego(null);
+        });
+    }
+
+@Test
+public void queSeObtenganPartidasPorRangoDeFechas() throws PartidaConPuntajeNegativoException, PartidaDeUsuarioNoEncontradaException {
+    Long usuarioId = 000L;
+    Juego juego = Juego.BINGO;
+    Partida partida1 = crearPartida("jugador1", juego);
+    partida1.setFechaYhora(LocalDateTime.of(2022, 1, 1, 0, 0));
+    partida1.setIdJugador(usuarioId);
+    repositorio.guardar(partida1);
+    
+    Partida partida2 = crearPartida("jugador2", juego);
+    partida2.setFechaYhora(LocalDateTime.of(2023, 1, 1, 0, 0));
+    partida2.setIdJugador(usuarioId);
+    repositorio.guardar(partida2);
+    
+    // Supón que se añade un método en el repositorio para obtener partidas por rango de fechas
+    List<Partida> partidas = repositorio.obtenerPartidasPorFechaRango(usuarioId, juego, LocalDateTime.of(2021, 1, 1, 0, 0), LocalDateTime.of(2022, 12, 31, 23, 59));
+    assertThat(partidas.size(), equalTo(1));
+    assertThat(partidas.get(0).getIdJugador(), equalTo(usuarioId));
+    assertThat(partidas.get(0).getFechaYhora(), equalTo(LocalDateTime.of(2022, 1, 1, 0, 0)));
+}
+
+
+    
+
+
 }
