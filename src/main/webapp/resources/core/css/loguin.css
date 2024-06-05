@@ -4,7 +4,10 @@
     box-sizing: border-box;
 }
 
-
+body{
+    height: 100vh;
+    overflow: hidden; /* Evita el scroll */
+}
 .loguin{
     background-image: url(../imgStatic/gatos-bienvenida.png);
     background-size: cover;
