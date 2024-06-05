@@ -229,7 +229,6 @@ main {
 .partida-contenedor {
     display: flex;
     column-count: 30em;
-    column-gap: 1.5em;
     margin: 0 auto;
     margin-bottom: 7em;
     max-width: 75em;
