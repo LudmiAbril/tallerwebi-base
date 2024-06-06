@@ -1,206 +1,118 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Seccion-juegos</title>
-    <link rel="stylesheet" th:href="@{/css/acceso-juegos.css}" />
-    <script th:src="@{/js/modal.js}"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seccion-juegos</title>
+  <link rel="stylesheet" th:href="@{/css/acceso-juegos.css}" />
+  <script th:src="@{/js/modal.js}"></script>
+  <link th:href="@{https://fonts.googleapis.com/css?family=Teko:700&display=swap}" rel="stylesheet" />
+  <link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
+  <link rel="preconnect" th:href="@{https://fonts.googleapis.com}" />
+  <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin />
+  <link th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0}" />
+  <style>
+    input, label { font-family: Arial, Helvetica, sans-serif; }
+  </style>
+</head>
+<body>
+<div class="icon-container">
+  <div class="home-icon" onclick="openModal('homeModal')"><span class="material-symbols-outlined">home</span></div>
+  <div class="home-icon" onclick="openModal('configuracionModal')"><span class="material-symbols-outlined">manufacturing</span></div>
+</div>
 
-    <link
-      th:href="@{https://fonts.googleapis.com/css?family=Teko:700&display=swap}"
-      rel="stylesheet"
-    />
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
-    <!-- Enlace a Google Fonts con Thymeleaf -->
-    <link rel="preconnect" th:href="@{https://fonts.googleapis.com}" />
-    <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin />
-    <link
-      th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0}"
-    />
-    <style>
-      input,
-      label {
-        font-family: Arial, Helvetica, sans-serif;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Icon Container -->
-    <div class="icon-container">
-      <div class="home-icon" onclick="openModal('homeModal')">
-        <span class="material-symbols-outlined">home</span>
-      </div>
-      <div
-        class="home-icon"
-        onclick="
-openModal('configuracionModal')"
-      >
-        <span class="material-symbols-outlined">manufacturing</span>
-      </div>
+<div id="homeModal" class="modal">
+  <div class="modal-content1">
+    <span class="close" onclick="closeModal('homeModal')">&times;</span>
+    <p>Estas seguro que deseas abandonar la plataforma?</p>
+    <div class="btn-salir">
+      <a th:href="@{/salir}">
+        <button><span class="material-symbols-outlined">logout</span>Salir</button>
+      </a>
     </div>
+  </div>
+</div>
 
-    <!-- Home Modal -->
-    <div id="homeModal" class="modal">
-      <div class="modal-content1">
-        <span class="close" onclick="closeModal('homeModal')">&times;</span>
-        <p>Estas seguro que deseas abandonar la plataforma?</p>
-        <div class="btn-salir">
-          <a th:href="@{/salir}">
-            <button>
-              <span class="material-symbols-outlined">logout</span>Salir
-            </button>
-          </a>
-        </div>
+<div id="configuracionModal" class="modal">
+  <div class="modal-content2">
+    <span class="close" onclick="closeModal('configuracionModal')">&times;</span>
+    <h2>CONFIGURACIÓN</h2>
+    <form th:action="@{/guardarCambios}" method="post">
+      <div class="section">
+        <h3>BLACKJACK</h3>
+        <label for="blackjack-duracion">Duración del Blackjack:</label>
+        <input type="number" id="blackjack-duracion" name="duracionBlackjack" th:value="${usuarioConfig.duracionBlackjack}" min="1" />
+        <br /><br />
+        <label for="blackjack-as-valor">Valor del As:</label>
+        <input type="number" id="blackjack-as-valor" name="valorAs" th:value="${usuarioConfig.valorDelAs}" min="1" />
       </div>
+      <hr />
+      <div class="section">
+        <h3>BINGO</h3>
+        <label>Dimensión del Cartón:</label>
+        <div class="radio-group">
+          <input type="radio" id="dimension-3x3" name="dimensionCarton" th:checked="${usuarioConfig.dimensionCarton == 3}" value="3" />
+          <label for="dimension-3x3">3x3</label>
+          <input type="radio" id="dimension-4x4" name="dimensionCarton" th:checked="${usuarioConfig.dimensionCarton == 4}" value="4" />
+          <label for="dimension-4x4">4x4</label>
+          <input type="radio" id="dimension-5x5" name="dimensionCarton" th:checked="${usuarioConfig.dimensionCarton == 5}" value="5" />
+          <label for="dimension-5x5">5x5</label>
+        </div>
+        <br /><br />
+        <label for="cant-numeros">Ingresar tirada:</label>
+        <input type="number" id="cant-numeros" name="cantidadPelotas" th:value="${usuarioConfig.cantidadDePelotas}" min="1" />
+      </div>
+      <div class="button-container">
+        <button class="save-button" type="submit"><span class="material-symbols-outlined">check</span>GUARDAR</button>
+        <button type="button" class="cancel-button" onclick="closeModal('configuracionModal')"><span class="material-symbols-outlined">close</span>CANCELAR</button>
+      </div>
+    </form>
+  </div>
+</div>
+<section class="container">
+  <div class="columna">
+    <br /><br /><br /><br />
+    <div class="sign"><span class="fast-flicker">C</span>ats<span class="flicker">i</span>no</div>
+    <img th:src="@{/imgStatic/imagenAcesso.png}" class="imagen-acceso" alt="imagen-bienvenida" />
+  </div>
+  <div class="columna">
+    <div class="item border-left">
+      <a th:href="@{/irAlBingo}" class="link-juego">
+        <h2 class="h2">
+          <span class="one">B</span><span class="two">I</span><span class="three">N</span><span class="four">G</span><span class="five">O</span>
+        </h2>
+      </a>
+      <img th:src="@{/imgStatic/fondoCarton1.png}" alt="Imagen al hover" class="hover-image"/>
     </div>
-
-    <!-- configuracion Modal -->
-    <div id="configuracionModal" class="modal">
-      <div class="modal-content2">
-        <span class="close" onclick="closeModal('configuracionModal')"
-          >&times;</span
-        >
-        <h2>CONFIGURACIÓN</h2>
-
-        <!-- Primera Sección -->
-        <form th:action="@{/guardarCambios}" method="post">
-          <div class="section">
-            <h3>BLACKJACK</h3>
-            <label for="blackjack-duracion">Duración del Blackjack:</label>
-            <input
-              type="number"
-              id="blackjack-duracion"
-              name="duracionBlackjack"
-              th:value="${usuarioConfig.duracionBlackjack}"
-              min="1"
-            />
-            <br /><br />
-            <label for="blackjack-as-valor">Valor del As:</label>
-            <input
-              type="number"
-              id="blackjack-as-valor"
-              name="valorAs"
-              th:value="${usuarioConfig.valorDelAs}"
-              min="1"
-            />
-          </div>
-
-          <hr />
-
-          <!-- Segunda Sección -->
-          <div class="section">
-            <h3>BINGO</h3>
-            <label>Dimensión del Cartón:</label>
-            <div class="radio-group">
-              <input
-                type="radio"
-                id="dimension-3x3"
-                name="dimensionCarton"
-                th:checked="${usuarioConfig.dimensionCarton == 3}"
-                value="3"
-              />
-              <label for="dimension-3x3">3x3</label>
-              <input
-                type="radio"
-                id="dimension-4x4"
-                name="dimensionCarton"
-                th:checked="${usuarioConfig.dimensionCarton == 4}"
-                value="4"
-
-              />
-              <label for="dimension-4x4">4x4</label>
-
-              <input
-                type="radio"
-                id="dimension-5x5"
-                name="dimensionCarton"
-                th:checked="${usuarioConfig.dimensionCarton == 5}"
-                value="5"
-                checked
-              />
-              <label for="dimension-5x5">5x5</label>
-            </div>
-            <br /><br />
-            <label for="cant-numeros">Ingresar tirada:</label>
-            <input
-              type="number"
-              id="cant-numeros"
-              name="cantidadPelotas"
-              th:value="${usuarioConfig.cantidadDePelotas}"
-              min="1"
-            />
-          </div>
-
-          <div class="button-container">
-            <button class="save-button" type="submit">
-              <span class="material-symbols-outlined">check</span>GUARDAR
-            </button>
-
-            <button
-              type="button"
-              class="cancel-button"
-              onclick="closeModal('configuracionModal')"
-            >
-              <span class="material-symbols-outlined">close</span>CANCELAR
-            </button>
-          </div>
-        </form>
-      </div>
+    <div class="item border-left">
+      <a th:href="@{/inicio-blackjack}" class="link-juego">
+        <h2 class="h2">
+          <span class="one">B</span><span class="two">L</span><span class="three">A</span><span class="four">C</span><span class="five">K</span><span class="six">J</span><span class="seven">A</span><span class="eight">C</span><span class="nine">K</span>
+        </h2>
+      </a>
+      <img th:src="@{/imgStatic/fondoCartas1.png}" alt="Imagen al hover" class="hover-image"/>
     </div>
-    <section class="container">
-      <div class="columna">
-        <br /><br /><br /><br />
-        <div class="sign">
-          <span class="fast-flicker">C</span>ats<span class="flicker">i</span>no
-        </div>
-        <!--        <img th:src="@{/imgStatic/imagenAcesso.png}"  class="imagen-acceso" alt="imagen-bienvenida">-->
-        <img
-          th:src="@{/imgStatic/imagenAcesso.png}"
-          class="imagen-acceso"
-          alt="imagen-bienvenida"
-        />
-      </div>
-
-      <div class="columna">
-        <div class="item">
-          <a th:href="@{/irAlBingo}" class="link-juego">
-            <h2 class="h2">
-              <span class="one">B</span><span class="two">I</span
-              ><span class="three">N</span><span class="four">G</span
-              ><span class="five">O</span>
-            </h2>
-          </a>
-          <img
-            th:src="@{/imgStatic/fondoCarton.png}"
-            alt="Imagen al hover"
-            class="hover-image"
-          />
-        </div>
-        <div class="item">
-          <a th:href="@{/inicio-blackjack}" class="link-juego">
-            <h2 class="h2">
-              <span class="one">B</span><span class="two">L</span
-              ><span class="three">A</span><span class="four">C</span
-              ><span class="five">K</span><span class="six">J</span
-              ><span class="seven">A</span><span class="eight">C</span
-              ><span class="nine">K</span>
-            </h2>
-          </a>
-          <img
-            th:src="@{/imgStatic/fondoCartas.png}"
-            alt="Imagen al hover"
-            class="hover-image"
-          />
-        </div>
-      </div>
-    </section>
-    <script th:src="@{/js/modal.js}"></script>
-  </body>
+  </div>
+  <div class="columna">
+    <div class="item border-left">
+      <a th:href="@{/irAlSenku}" class="link-juego">
+        <h2 class="h2">
+          <span class="one">S</span><span class="two">E</span><span class="three">N</span><span class="four">K</span><span class="five">U</span>
+        </h2>
+      </a>
+      <img th:src="@{/imgStatic/fondoOtro.png}" alt="Imagen al hover" class="hover-image"/>
+    </div>
+    <div class="item border-left">
+      <a th:href="@{/ahorcado}" class="link-juego">
+        <h2 class="h2">
+          <span class="one">A</span><span class="two">H</span><span class="three">O</span><span class="four">R</span><span class="five">C</span><span class="six">A</span><span class="seven">D</span><span class="eight">O</span>
+        </h2>
+      </a>
+      <img th:src="@{/imgStatic/fondoUltimo.png}" alt="Imagen al hover" class="hover-image"/>
+    </div>
+  </div>
+</section>
+<script th:src="@{/js/modal.js}"></script>
+</body>
 </html>
