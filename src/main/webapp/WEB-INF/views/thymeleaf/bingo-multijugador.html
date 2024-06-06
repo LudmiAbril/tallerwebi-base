@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bingo Multijugador</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
+    <!-- Boostrap core css -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}" />
+
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/bingo.css}" />
+    <link rel="stylesheet" th:href="@{/css/abandonarPartida.css}" />
+
+    <!----link google fonts--->
+    <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
+    <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
+
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Honk&family=Rammetto+One&display=swap}" rel="stylesheet">
+
+    <link rel="stylesheet"
+          th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
+
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}">
+    <script th:src="@{https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/customModal.js}"></script>
+    <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+</head>
+<body>
+<h1>Bingo multijugador</h1>
+<section id="fondoBingo">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+</section>
+<nav class="nav-bar">
+    <a href="javascript:void(0)" id="openCustomExitModal">
+        <span class="material-symbols-outlined icono">arrow_back</span>
+    </a>
+</nav>
+
+<main role="main" class="container">
+
+    <div class="numeroCantadoContenedor">
+        <p id="numeroCantado"></p>
+    </div>
+
+    <div class="numerosEntregados">
+        <p id="numeroCantadoColeccion"></p>
+    </div>
+
+    <table>
+        <tbody class="carton">
+        </tbody>
+    </table>
+
+    <div class="w3-container">
+        <button id="botonBingo" type="submit" class="w3-button w3-xlarge w3-wide w3-purple w3-cel"
+                onclick="bingo()">BINGO</button>
+        <button id="botonLinea" class="w3-button w3-xlarge w3-wide w3-purple w3-cel" onclick="linea()">LINEA</button>
+    </div>
+
+</main>
+
+<!-- /.container -->
+
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/bingo.js}"></script>
+<!-- Modal de Bingo -->
+<div id="modalBingo" class="modal w3-animate-top">
+    <div class="modal-content">
+        <h3>Hiciste <span th:text="${tipoPartidaBingoDeLaSesion}"></span></h3>
+        <p>¡Felicidades, <span th:text="${nombreJugador}"></span>!</p>
+        <form th:action="@{/finalizarPartida}" method="post">
+            <button type="submit">Volver al inicio</button>
+        </form>
+    </div>
+</div>
+<!-- Modal de Confirmación -->
+<div id="customExitModal" class="modal-custom">
+    <div class="modal-content-custom">
+        <div class="modal-header-custom">
+            <h5>Confirmar Abandono</h5>
+            <span class="close-custom" id="closeCustomExitModal">&times;</span>
+        </div>
+        <div class="modal-body-custom">
+            ¿Estás seguro de que deseas abandonar la partida?
+        </div>
+        <div class="modal-footer-custom">
+            <button id="customCancelButton" class="boton-cancelar-custom">
+                Cancelar
+            </button>
+            <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom">Abandonar</a>
+        </div>
+    </div>
+</div>
+<!-- Modal de limite alcanzado de bolas -->
+<div id="modalLimite" class="modal w3-animate-top">
+    <div class="modal-content">
+        <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el límite de numeros cantados!</h3>
+        <form th:action="@{/finalizarPartida}" method="post">
+            <button type="submit" class="boton-volver">Finalizar</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

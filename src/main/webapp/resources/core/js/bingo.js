@@ -236,10 +236,10 @@ const messageHandlers = {
     "bingo.winner": (message) => {
         updateGame(message);
         showWinner(message.winner);
-    },
+    }/*,
     "error": (message) => {
         toastr.error(message.content);
-    }
+    }*/
 }
 
 /**

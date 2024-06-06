@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,7 +26,7 @@ public class ControladorAhorcado {
     public ModelAndView irAlAhorcado() {
         ModelMap model = new ModelMap();
         try {
-            model.put("jugador", new Jugador());
+            model.put("jugador", new Usuario());
             String palabra = servicioAhorcado.entregarPalabra();
             model.put("palabra", palabra);
             int partesAhorcado = 6; // Número de partes del muñeco del ahorcado

@@ -1,4 +1,7 @@
 package com.tallerwebi.presentacion;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,12 +18,7 @@ import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tallerwebi.dominio.ServicioBingo;
@@ -36,6 +34,7 @@ public class ControladorBingo {
 
 	private ServicioBingo servicioBingo;
 	private ServicioPlataforma servicioPlataforma;
+    private SimpMessagingTemplate template;
 
 	@Autowired
 	public ControladorBingo(ServicioBingo servicioBingo, ServicioPlataforma servicioPlataforma) {
@@ -48,6 +47,12 @@ public class ControladorBingo {
 		ModelMap model = new ModelMap();
 		model.put("nuevoJugador", new Usuario());
 		return new ModelAndView("irAlBingo", model);
+	}
+	@RequestMapping(path = "/bingo-multijugador", method = RequestMethod.GET)
+	public ModelAndView jugarMultijugador() {
+		ModelMap model = new ModelMap();
+		model.put("nuevoJugador", new Usuario());
+		return new ModelAndView("bingo-multijugador", model);
 	}
 
 	@RequestMapping(path = "/comenzarJuegoBingo", method = RequestMethod.GET)
@@ -94,7 +99,27 @@ public class ControladorBingo {
 		return new ModelAndView("bingo", model);
 		// get config. get cantidad de bolas. guardar en la sesion.
 	}
+	@RequestMapping(path = "/comenzarJuegoBingoMultijugador", method = RequestMethod.POST)
+	public ModelAndView comenzarJuegoBingoMultijugador(@RequestParam("tipo") String tipo, @RequestParam("jugador2") String nombreJugador2, HttpSession session) {
+		ModelMap model = new ModelMap();
+		Usuario usuario = (Usuario) session.getAttribute("jugadorActual");
 
+		if (usuario == null) {
+			usuario = new Usuario();
+			usuario.setNombre("user");
+			session.setAttribute("jugadorActual", usuario);
+		}
+
+		Integer dimension = usuario.getConfig().getDimensionCarton();
+		PartidaBingoMultijugador partida = new PartidaBingoMultijugador(usuario.getNombre(), nombreJugador2);
+
+		session.setAttribute("partidaMultijugador", partida);
+		model.put("dimension", usuario.getConfig().getDimensionCarton());
+		model.put("nombreJugador", usuario.getNombre());
+		model.put("nombreJugador2", nombreJugador2);
+
+		return new ModelAndView("bingo-multijugador", model);
+	}
 	@RequestMapping(path = "/obtenerDatosIniciales", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> obtenerDatosIniciales(HttpSession session) {
@@ -261,5 +286,44 @@ public class ControladorBingo {
 
 		return new ModelAndView("redirect:/acceso-juegos");
 	}
+	@MessageMapping("/bingo/movimiento")
+	@SendTo("/topic/updates")
+	public Map<String, Object> realizarMovimiento(@RequestBody MovimientoRequest movimientoRequest, HttpSession session) {
+		PartidaBingoMultijugador partida = (PartidaBingoMultijugador) session.getAttribute("partidaMultijugador");
+		partida.realizarMovimiento(movimientoRequest.getJugador(), movimientoRequest.getMovimiento());
 
+		// Obtener los números entregados
+		Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
+
+		// Crear la respuesta con el estado de la partida y los números entregados
+		Map<String, Object> response = new HashMap<>();
+		response.put("estadoPartida", partida);
+		response.put("numerosEntregados", numerosEntregados);
+
+		// Enviar el mensaje con los números entregados
+		template.convertAndSend("/topic/numeros", numerosEntregados);
+
+		return response;
+	}
+	public static class MovimientoRequest {
+		private String jugador;
+		private Object movimiento;
+		// getters y setters
+
+		public String getJugador() {
+			return jugador;
+		}
+
+		public void setJugador(String jugador) {
+			this.jugador = jugador;
+		}
+
+		public Object getMovimiento() {
+			return movimiento;
+		}
+
+		public void setMovimiento(Object movimiento) {
+			this.movimiento = movimiento;
+		}
+	}
 }
