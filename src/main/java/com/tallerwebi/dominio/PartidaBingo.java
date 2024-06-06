@@ -16,15 +16,17 @@ public class PartidaBingo extends Partida {
     @Enumerated(EnumType.STRING)
     private TipoPartidaBingo tipoPartidaBingo;
     private Integer tirada;
+    private Integer cantidadDeCasillerosMarcados;
 
     public PartidaBingo(Long idJugador, Juego juego, Set<Integer> casillerosMarcados, Boolean seHizoLinea, Boolean seHizoBingo,
-            TipoPartidaBingo tipoPartidaBingo, Integer tirada) {
+            TipoPartidaBingo tipoPartidaBingo, Integer tirada, Integer cantidadDeCasillerosMarcados) {
                 super(idJugador, juego);
         this.casillerosMarcados = casillerosMarcados;
         this.seHizoLinea = seHizoLinea;
         this.seHizoBingo = seHizoBingo;
         this.tipoPartidaBingo = tipoPartidaBingo;
         this.tirada = tirada;
+        this.cantidadDeCasillerosMarcados = cantidadDeCasillerosMarcados;
     }
 
     public PartidaBingo() {
@@ -69,5 +71,15 @@ public class PartidaBingo extends Partida {
     public void setTirada(Integer tirada) {
         this.tirada = tirada;
     }
+
+    public Integer getCantidadDeCasillerosMarcados() {
+        return cantidadDeCasillerosMarcados;
+    }
+
+    public void setCantidadDeCasillerosMarcados(Integer cantidadDeCasillerosMarcados) {
+        this.cantidadDeCasillerosMarcados = cantidadDeCasillerosMarcados;
+    }
+
+    
 
 }
