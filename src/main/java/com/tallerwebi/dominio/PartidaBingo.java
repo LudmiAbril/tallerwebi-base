@@ -13,6 +13,7 @@ public class PartidaBingo extends Partida {
 
     private Boolean seHizoLinea;
     private Boolean seHizoBingo;
+    @Enumerated(EnumType.STRING)
     private TipoPartidaBingo tipoPartidaBingo;
     private Integer tirada;
 
