@@ -250,7 +250,7 @@ public class ControladorBingo {
 		Boolean seHizoLinea = (Boolean) session.getAttribute("seHizoLinea");
 		Boolean seHizoBingo = (Boolean) session.getAttribute("seHizoBingo");
 		TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session
-				.getAttribute("tipoPartidaBingoDeLaSesion");
+				.getAttribute("tipoPartidaBingo");
 		Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
 		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
 
