@@ -11,19 +11,17 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 @Repository("repositorioUsuario")
 public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
     private SessionFactory sessionFactory;
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RepositorioUsuarioImpl(SessionFactory sessionFactory, PasswordEncoder passwordEncoder) {
+    public RepositorioUsuarioImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-        this.passwordEncoder = passwordEncoder;
+
     }
 
     @Override
@@ -33,7 +31,7 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
                 .add(Restrictions.eq("email", email))
                 .uniqueResult();
 
-        if (usuario != null && passwordEncoder.matches(rawPassword, usuario.getPassword())) {
+        if (usuario != null && usuario.getPassword().equals(rawPassword)) {
             return usuario;
         }
         return null;
@@ -41,7 +39,6 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
     @Override
     public void guardar(Usuario usuario) {
-        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         sessionFactory.getCurrentSession().save(usuario);
     }
 
@@ -55,9 +52,6 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
     @Override
     public void modificar(Usuario usuario) {
-        if (usuario.getPassword() != null) {
-            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-        }
         sessionFactory.getCurrentSession().update(usuario);
     }
 }
