@@ -250,14 +250,15 @@ public class ControladorBingo {
 		Boolean seHizoLinea = (Boolean) session.getAttribute("seHizoLinea");
 		Boolean seHizoBingo = (Boolean) session.getAttribute("seHizoBingo");
 		TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session
-				.getAttribute("tipoPartidaBingoDeLaSesion");
+				.getAttribute("tipoPartidaBingo");
 		Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
 		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+		Integer cantidadDeCasillerosMarcados = numerosMarcadosDeLaSesion.size();
 
 		servicioPlataforma
 				.agregarPartida(new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, seHizoLinea,
 						seHizoBingo,
-						tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion));
+						tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados));
 
 		return new ModelAndView("redirect:/acceso-juegos");
 	}
