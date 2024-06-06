@@ -225,25 +225,59 @@ main {
         text-shadow: 0 0 10px #6d2194;
     }
 }
-.cajita-partida {
-    gap: 1em;
-    background-color: #0000009e;
-    color: white;
-    padding: 2%;
+
+.partida-contenedor {
     display: flex;
-    border-radius: 2.5em;
-    font-family: "Clip";
-    flex-direction: column;
-    margin: 4%;
-    justify-content: center;
+    column-count: 30em;
+    column-gap: 1.5em;
+    margin: 0 auto;
+    margin-bottom: 7em;
+    max-width: 75em;
+    flex-wrap: wrap;
     align-items: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    justify-content: center;
+}
+
+.cajita-partida {
+    margin: 0.625em;
+    width: 18.75em;
+    border-radius: 0.3125em;
+    background-color: #0a0106d9;
+    box-shadow: rgba(240, 46, 170, 0.4) 0px 5px, rgba(240, 46, 170, 0.3) 0px 10px, rgba(240, 46, 170, 0.2) 0px 15px,
+     rgba(240, 46, 170, 0.1) 0px 20px, rgba(240, 46, 170, 0.05) 0px 25px;
+    transition: 0.3s;
 }
 
 .cajita-partida:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.08);
+    background-color: #330885d8;
+    box-shadow: 0 0.5em 1em 0 rgba(0, 0, 0, 0.2);
+}
+.hidden {
+    display: none;
+}
+
+.margin {
+    margin-bottom: 2em;
+
+}
+#mostrar-mas-btn{
+    background-color: #280071;
+    box-shadow: rgba(12, 1, 19, 0.733) 0px 0px 0px 2px inset, rgba(0, 0, 0, 0.856) 10px -10px 0px -3px,
+     #e92ac0d5 10px -10px, rgba(0, 0, 0, 0.781) 20px -20px 0px -3px,
+      rgba(200, 19, 255, 0.863) 20px -20px, rgba(0, 0, 0, 0.87) 30px -30px 0px -3px, rgba(113, 5, 255, 0.849) 30px -30px,
+       rgba(0, 0, 0, 0.904) 40px -40px 0px -3px, rgba(45, 1, 167, 0.815) 40px -40px;
+    border-radius: 0.5em;
+}
+#mostrar-menos-btn{
+    background-color: #e92ac0d5; 
+    box-shadow: rgba(12, 1, 19, 0.733) 0px 0px 0px 2px inset, rgba(0, 0, 0, 0.856) 10px -10px 0px -3px,
+     #e92ac0d5 10px -10px, rgba(0, 0, 0, 0.781) 20px -20px 0px -3px,
+      rgba(200, 19, 255, 0.863) 20px -20px, rgba(0, 0, 0, 0.87) 30px -30px 0px -3px, rgba(113, 5, 255, 0.849) 30px -30px,
+       rgba(0, 0, 0, 0.904) 40px -40px 0px -3px, rgba(45, 1, 167, 0.815) 40px -40px;
+    border-radius: 0.5em;
+}
+.btn-container {
+    text-align: center;
 }
 .icono {
     color: white;

@@ -114,7 +114,6 @@ public class ControladorBingoTest {
         assertEquals(cartonMock, cartonObtenido);
         assertEquals(numeroCantadoAleatorio, respuesta.get("numeroAleatorioCantado"));
     }
-    // Test Negativos
 
     @Test
     public void queAlComenzarJuegoBingoNoSeGenereUnNumeroAleatorioNiSeGuardeEnLaSesion() {
@@ -238,7 +237,6 @@ public class ControladorBingoTest {
         assertThat(numeroAleatorioDeLaSesion, equalTo(numeroAleatorio));
     }
 
-    // gue los num marcados se guarda
     @Test
     public void queLosNumerosMarcadosSeGuarden() {
         // necesito un carton
@@ -268,4 +266,29 @@ public class ControladorBingoTest {
         session.setAttribute("tipo", tipoMock);
         assertThat(session.getAttribute("tipo"), equalTo(tipoMock));
     }
+
+    @Test
+    public void queNoSePuedaHacerLineaSiNoSeMarcoUnaLinea() {
+        Integer dimension = 5;
+        Integer numeroCasillero = 3;
+        CartonBingo cartonMock = mock(CartonBingo.class);
+        Set<Integer> numerosMarcados;
+        numerosMarcados = new HashSet<Integer>();
+        
+        session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcados);
+        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+        
+        when(this.servicioBingoMock.generarCarton(dimension)).thenReturn(cartonMock);
+        session.setAttribute("carton", cartonMock);
+        CartonBingo carton = (CartonBingo) session.getAttribute("carton");
+        
+        servicioBingoMock.marcarCasillero(numeroCasillero, cartonMock);
+        numerosMarcados.add(numeroCasillero);
+        when(this.servicioBingoMock.linea(numerosMarcados, cartonMock)).thenReturn(false);
+
+        Map<String, Object> linea = this.controladorBingo.hacerlinea(session);
+        Boolean lineaController = (Boolean) linea.get("seHizoLinea");
+        assertThat(lineaController, is(false));
+    }
+
 }
