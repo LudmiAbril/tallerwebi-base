@@ -7,29 +7,41 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Repository;
 
 @Repository("repositorioUsuario")
 public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
     private SessionFactory sessionFactory;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public RepositorioUsuarioImpl(SessionFactory sessionFactory){
+    public RepositorioUsuarioImpl(SessionFactory sessionFactory, PasswordEncoder passwordEncoder) {
         this.sessionFactory = sessionFactory;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public Usuario buscarUsuario(String email, String password) {
-
+    public Usuario buscarUsuario(String email, String rawPassword) {
         final Session session = sessionFactory.getCurrentSession();
-        return (Usuario) session.createCriteria(Usuario.class)
+        Usuario usuario = (Usuario) session.createCriteria(Usuario.class)
                 .add(Restrictions.eq("email", email))
-                .add(Restrictions.eq("password", password))
                 .uniqueResult();
+
+        if (usuario != null && passwordEncoder.matches(rawPassword, usuario.getPassword())) {
+            return usuario;
+        }
+        return null;
     }
 
     @Override
     public void guardar(Usuario usuario) {
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         sessionFactory.getCurrentSession().save(usuario);
     }
 
@@ -43,7 +55,9 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
     @Override
     public void modificar(Usuario usuario) {
+        if (usuario.getPassword() != null) {
+            usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        }
         sessionFactory.getCurrentSession().update(usuario);
     }
-
 }
