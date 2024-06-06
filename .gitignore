@@ -18,3 +18,8 @@ hs_err_pid*
 /.classpath
 /.idea/
 /.settings/
+
+
+# Ignorar el archivo application.properties
+application.properties
+

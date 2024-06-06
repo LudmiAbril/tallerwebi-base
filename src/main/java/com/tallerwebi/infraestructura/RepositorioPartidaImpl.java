@@ -1,5 +1,6 @@
 package com.tallerwebi.infraestructura;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -31,6 +32,7 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
     }
 
     @Override
+
     public void guardar(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException {
         if (partida == null || partida.getJuego() == null) {
             throw new IllegalArgumentException();
@@ -66,9 +68,6 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
 
         List<Partida> partidas = query.getResultList();
 
-
-
-
         if (partidas.isEmpty()) {
             throw new PartidaDeUsuarioNoEncontradaException();
         } else if (id == null) {
@@ -97,6 +96,23 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
 
         return partidas;
 
+    }
+
+    @Override
+    public List<Partida> obtenerPartidasPorFechaRango(Long usuarioId, Juego juego, LocalDateTime of,
+            LocalDateTime of2) throws PartidaDeUsuarioNoEncontradaException {
+        String hql = "FROM Partida WHERE juego = :juego AND idJugador = :userId AND fechaYhora BETWEEN :fechaInicio AND :fechaFin ORDER BY fechaYhora DESC";
+        Query query = this.sessionFactory.getCurrentSession().createQuery(hql);
+        query.setParameter("juego", juego);
+        query.setParameter("userId", usuarioId);
+        LocalDateTime fechaInicio = of;
+        query.setParameter("fechaInicio", fechaInicio);
+        LocalDateTime fechaFin = of2;
+        query.setParameter("fechaFin", fechaFin);
+
+        List<Partida> partidas = query.getResultList();
+
+        return partidas;
     }
 
     @Override
