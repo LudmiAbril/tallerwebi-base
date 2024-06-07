@@ -23,7 +23,7 @@ public class HibernateConfig {
         dataSource.setUsername("root");
         dataSource.setPassword("SoloTuVoz-01");
         return dataSource;
-    }
+    }/*"SoloTuVoz-01"*/
 
     @Bean
     public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {
