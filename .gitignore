@@ -21,7 +21,7 @@ hs_err_pid*
 
 
 # Ignorar el archivo application.properties
-application.properties
+/.application.properties
 
 # ignoro la config de la base
 .HibernateConfig
