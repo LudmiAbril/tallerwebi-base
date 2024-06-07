@@ -2,6 +2,8 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.RepositorioUsuario;
 import com.tallerwebi.dominio.Usuario;
+
+import org.apache.commons.codec.digest.DigestUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -31,7 +33,7 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
                 .add(Restrictions.eq("email", email))
                 .uniqueResult();
 
-        if (usuario != null && usuario.getPassword().equals(rawPassword)) {
+        if (usuario != null && usuario.getPassword().equals(DigestUtils.sha512Hex(rawPassword))) {
             return usuario;
         }
         return null;
@@ -39,6 +41,8 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
     @Override
     public void guardar(Usuario usuario) {
+        String passwordEncriptada = DigestUtils.sha512Hex(usuario.getPassword());
+        usuario.setPassword(passwordEncriptada);
         sessionFactory.getCurrentSession().save(usuario);
     }
 
