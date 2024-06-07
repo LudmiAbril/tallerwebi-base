@@ -4,34 +4,96 @@ import com.tallerwebi.infraestructura.ServicioBingoImpl;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.UUID;
 
-public class PartidaBingoMultijugador extends PartidaMultijugador{
-    Integer dimension;
+//extends PartidaMultijugador
+public class BingoMultijugador {
+    public final ServicioBingo servicioBingo;
+    private String gameId;
     private CartonBingo cartonJugador1;
     private CartonBingo cartonJugador2;
-    ServicioBingo servicioBingo = new ServicioBingoImpl();
+    private String nombreJugador;
+    private String nombreJugador2;
+    private String winner;
+    private String turn;
+    private EstadoJuego gameState;
+    private Integer dimension;
     private Set<Integer> numerosEntregados;
 
-    public PartidaBingoMultijugador(String nombreJugador, String nombreJugador2) {
-        super(nombreJugador, nombreJugador2);
-        this.numerosEntregados = new LinkedHashSet<>();
-        this.cartonJugador1 = servicioBingo.generarCarton(dimension);
-        this.cartonJugador2 = servicioBingo.generarCarton(dimension);
+    public BingoMultijugador(String player1, String player2) {
+        servicioBingo = new ServicioBingoImpl();
+        this.gameId = UUID.randomUUID().toString();
+        this.nombreJugador = player1;
+        this.nombreJugador2 = player2;
+        this.turn = player1;
+        this.cartonJugador1 = servicioBingo.generarCarton(5);
+        this.cartonJugador2 = servicioBingo.generarCarton(5);
+        gameState = EstadoJuego.WAITING_FOR_PLAYER;
     }
-    @Override
-    public void iniciarPartida() {
-        // Lógica para iniciar una partida de bingo
+    private void checkWinner() {
+
+        if(servicioBingo.linea(servicioBingo.getNumerosMarcadosEnElCarton(), cartonJugador1)){
+            setWinner(nombreJugador);
+            return;
+        }
+        if(servicioBingo.linea(servicioBingo.getNumerosMarcadosEnElCarton(), cartonJugador2)){
+            setWinner(nombreJugador2);
+            return;
+        }
     }
-    @Override
-    public void realizarMovimiento(String jugador, Object movimiento) {
-        // Lógica para realizar un movimiento en una partida de bingo
+    public boolean isGameOver() {
+        return winner != null || servicioBingo.getSeHizobingo() == true;
     }
 
-    @Override
-    public boolean verificarGanador() {
-        // Lógica para verificar si hay un ganador en una partida de bingo
-        return false;
+
+    public String getGameId() {
+        return gameId;
     }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
+    }
+
+    public String getNombreJugador() {
+        return nombreJugador;
+    }
+
+    public void setNombreJugador(String player1) {
+        this.nombreJugador = player1;
+    }
+
+    public String getNombreJugador2() {
+        return nombreJugador2;
+    }
+
+    public void setNombreJugador2(String player2) {
+        this.nombreJugador2 = player2;
+    }
+
+    public String getWinner() {
+        return winner;
+    }
+
+    public void setWinner(String winner) {
+        this.winner = winner;
+    }
+
+    public String getTurn() {
+        return turn;
+    }
+
+    public void setTurn(String turn) {
+        this.turn = turn;
+    }
+
+    public EstadoJuego getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(EstadoJuego gameState) {
+        this.gameState = gameState;
+    }
+
 
     public Integer getDimension() {
         return dimension;

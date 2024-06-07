@@ -26,7 +26,6 @@ import com.tallerwebi.dominio.ServicioPlataforma;
 import com.tallerwebi.dominio.TipoPartidaBingo;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.CartonBingo;
-import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.PartidaBingo;
 
 @Controller
@@ -111,7 +110,7 @@ public class ControladorBingo {
 		}
 
 		Integer dimension = usuario.getConfig().getDimensionCarton();
-		PartidaBingoMultijugador partida = new PartidaBingoMultijugador(usuario.getNombre(), nombreJugador2);
+		BingoMultijugador partida = new BingoMultijugador(usuario.getNombre(), nombreJugador2);
 
 		session.setAttribute("partidaMultijugador", partida);
 		model.put("dimension", usuario.getConfig().getDimensionCarton());
@@ -289,7 +288,7 @@ public class ControladorBingo {
 	@MessageMapping("/bingo/movimiento")
 	@SendTo("/topic/updates")
 	public Map<String, Object> realizarMovimiento(@RequestBody MovimientoRequest movimientoRequest, HttpSession session) {
-		PartidaBingoMultijugador partida = (PartidaBingoMultijugador) session.getAttribute("partidaMultijugador");
+		BingoMultijugador partida = (BingoMultijugador) session.getAttribute("partidaMultijugador");
 		partida.realizarMovimiento(movimientoRequest.getJugador(), movimientoRequest.getMovimiento());
 
 		// Obtener los números entregados

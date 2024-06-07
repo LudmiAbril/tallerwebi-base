@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio.dto;
 
+import com.tallerwebi.dominio.BingoMultijugador;
 import com.tallerwebi.dominio.EstadoJuego;
 
 public class MensajeBingo implements Mensaje{
@@ -10,7 +11,6 @@ public class MensajeBingo implements Mensaje{
     private String winner;
     private String turn;
     private String content;
-    private String[][] board;
     private int move;
     private EstadoJuego gameState;
     private String sender;
@@ -18,15 +18,14 @@ public class MensajeBingo implements Mensaje{
     public MensajeBingo() {
     }
 
-    /*public MensajeBingo(TicTacToe game) {
+    public MensajeBingo(BingoMultijugador game) {
         this.gameId = game.getGameId();
-        this.player1 = game.getPlayer1();
-        this.player2 = game.getPlayer2();
+        this.player1 = game.getNombreJugador();
+        this.player2 = game.getNombreJugador2();
         this.winner = game.getWinner();
         this.turn = game.getTurn();
-        this.board = game.getBoard();
         this.gameState = game.getGameState();
-    }*/
+    }
 
     /**
      * Getters and Setters
@@ -77,14 +76,6 @@ public class MensajeBingo implements Mensaje{
 
     public void setTurn(String turn) {
         this.turn = turn;
-    }
-
-    public String[][] getBoard() {
-        return board;
-    }
-
-    public void setBoard(String[][] board) {
-        this.board = board;
     }
 
     public int getMove() {
