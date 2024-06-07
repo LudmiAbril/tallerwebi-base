@@ -21,7 +21,6 @@ body{
 }
 
 
-
 .barra{
     color:white;
     background-color: #e91e63a3 !important;
@@ -33,6 +32,7 @@ body{
     justify-content: center;
     margin-right: 5%;
 }
+/* ------------------------ESTILOS DE TABLERO--------------------------- */
 
 .tablero-fondo{
     display: flex;
@@ -74,4 +74,31 @@ body{
 }
 .fila {
     clear: both; 
+}
+/* ------------------------ESTILOS DE BOTONES--------------------------- */
+
+.botones-modal{
+    display: flex;
+    margin: 2%;
+    align-items: center;
+    justify-content: center;
+    color: rgb(255, 255, 255);
+}
+
+
+    
+    .boton-reiniciar{
+        margin: 2%;
+    background-color: #41043d8a;
+    box-shadow: rgba(240, 46, 170, 0.4) -5px 5px, rgba(240, 46, 170, 0.3) -10px 10px,
+     rgba(240, 46, 170, 0.2) -15px 15px,
+     rgba(240, 46, 170, 0.1) -20px 20px, rgba(240, 46, 170, 0.05) -25px 25px;
+}
+
+.boton-volver-inicio{
+    margin: 2%;
+    background-color: #2502468a;
+    box-shadow: rgba(240, 46, 170, 0.4) 5px 5px, rgba(240, 46, 170, 0.3) 10px 10px,
+     rgba(240, 46, 170, 0.2) 15px 15px, rgba(240, 46, 170, 0.1) 20px 20px,
+     rgba(240, 46, 170, 0.05) 25px 25px;
 }
