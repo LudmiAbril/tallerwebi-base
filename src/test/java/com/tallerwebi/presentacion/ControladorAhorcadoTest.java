@@ -43,7 +43,7 @@ public class ControladorAhorcadoTest {
     @Test
     public void queSeDevuelvaLaVistaInicialAhorcadoYObjetoJugadorVacio() {
 
-        ModelAndView modelAndView = controlador.irAlAhorcado();
+        ModelAndView modelAndView = controlador.ahorcadoJuego();
         String viewname = modelAndView.getViewName();
 
         assertThat(viewname, equalToIgnoringCase("ahorcado"));

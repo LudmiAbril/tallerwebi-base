@@ -362,3 +362,14 @@ main {
 .nav-bar {
     height: 15px;
 }
+
+.casilleros-marcados {
+    list-style: none;
+    padding: 0;
+}
+
+.casilleros-marcados li {
+    display: inline;
+    margin-right: 5px;
+    
+}

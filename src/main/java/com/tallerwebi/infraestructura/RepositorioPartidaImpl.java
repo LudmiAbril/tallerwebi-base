@@ -8,6 +8,8 @@ import javax.transaction.Transactional;
 
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
+import com.tallerwebi.dominio.excepcion.PartidaDeBingoSinLineaNiBingoException;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -32,15 +34,16 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
     }
 
     @Override
-
-    public void guardar(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException {
+    public void guardar(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException, PartidaDeBingoSinLineaNiBingoException {
         if (partida == null || partida.getJuego() == null) {
             throw new IllegalArgumentException();
         } else if (partida instanceof PartidaBlackJack && (((PartidaBlackJack) partida).getPuntaje()) < 0) {
             throw new PartidaConPuntajeNegativoException();
-        } else {
-            this.sessionFactory.getCurrentSession().save(partida);
+        } else if (partida instanceof PartidaBingo && (((PartidaBingo) partida).getSeHizoLinea() == false
+                && ((PartidaBingo) partida).getSeHizoBingo() == false)) {
+            throw new PartidaDeBingoSinLineaNiBingoException();
         }
+        this.sessionFactory.getCurrentSession().save(partida);
     }
 
     @Override
@@ -117,7 +120,7 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
 
     @Override
     public List<PartidaBingo> generarRankingDePartidasDeBingo(Long userId) throws NoHayPartidasDeBingoException {
-        String hql = "FROM PartidaBingo WHERE juego = :juego AND idJugador = :userId ORDER BY fechaYhora DESC";
+        String hql = "SELECT DISTINCT pb FROM PartidaBingo pb LEFT JOIN FETCH pb.casillerosMarcados WHERE pb.juego = :juego AND pb.idJugador = :userId ORDER BY pb.fechaYhora DESC";
         Query query = this.sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter("juego", Juego.BINGO);
         query.setParameter("userId", userId);

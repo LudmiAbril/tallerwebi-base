@@ -13,24 +13,14 @@ body {
 .container {
     display: flex;
     justify-content: space-between;
-    height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+    height: 100vh;
 }
 
-.columna {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 60%;
-    height: 100%;
-    background-color: #f0f0f0;
-    box-sizing: border-box;
-    border: 2px solid #ccc;
-}
+
 
 /*---COLUMNA DEL MEDIO---*/
 .columna:nth-child(1) {
-    width: 40%;
+    width: 37%;
     background-image: url('../imgStatic/fondoSeccionJuegos.png');
     background-size: cover;
     background-position: center;
@@ -39,11 +29,20 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
+    border: 1px solid #ccc;
+
 }
 
 .container .columna .imagen-acceso {
     width: 480px;
 }
+/*---ITEM CONTAINER---*/
+.columna:nth-child(2) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    width: 63%; }
+
 
 .container .columna .sign {
     /* position: absolute;*/
@@ -239,19 +238,21 @@ body {
     color: black;
 }
 
+
 .item {
+    background-image: url('../imgStatic/fondoVerde.png');
     background-size: cover;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 100%; /* Cambiado el ancho a 100% */
     border: 1px solid #ccc;
-    background-image: url('../imgStatic/fondoVerde.png');
-    height: 50%;
+    height: 100%;
     position: relative;
 }
 
 .hover-image {
+    background-size: cover;
     position: absolute;
     top: 0;
     left: 0;
@@ -528,4 +529,8 @@ input:focus , select:focus{
     border-color: #B367A9;
     box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
     outline: none;
+}
+
+.border-left{
+    border-left:none;
 }
