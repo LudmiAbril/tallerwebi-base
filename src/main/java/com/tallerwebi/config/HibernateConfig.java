@@ -21,9 +21,11 @@ public class HibernateConfig {
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/catsino");
         dataSource.setUsername("root");
-        dataSource.setPassword("micauni2107cod!");
+        dataSource.setPassword("SoloTuVoz-01");
         return dataSource;
-    }/*"SoloTuVoz-01"*/
+    }
+    /*"SoloTuVoz-01"*/
+    /*"micauni2107cod!"*/
 
     @Bean
     public LocalSessionFactoryBean sessionFactory(DataSource dataSource) {

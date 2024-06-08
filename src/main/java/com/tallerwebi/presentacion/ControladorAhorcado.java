@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -11,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.ServicioAhorcado;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class ControladorAhorcado {
 
@@ -21,8 +24,15 @@ public class ControladorAhorcado {
         this.servicioAhorcado = servicio;
     }
 
-    @RequestMapping(path = "/ahorcado", method = RequestMethod.GET)
+    @RequestMapping(path = "/irAlAhorcado", method = RequestMethod.GET)
     public ModelAndView irAlAhorcado() {
+        ModelMap model = new ModelMap();
+        model.put("nuevoJugador", new Usuario());
+        return new ModelAndView("irAlAhorcado", model);
+    }
+
+    @RequestMapping(path = "/ahorcadoJuego", method = RequestMethod.GET)
+    public ModelAndView ahorcadoJuego() {
         ModelMap model = new ModelMap();
         try {
             model.put("jugador", new Jugador());

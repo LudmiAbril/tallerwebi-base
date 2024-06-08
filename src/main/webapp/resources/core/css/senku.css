@@ -20,7 +20,10 @@ body{
     border-radius: 5px;
 }
 
-
+.mt{
+    margin-top:20px;
+    margin-left:20px;
+}
 
 .barra{
     color:white;

@@ -8,6 +8,7 @@ body{
     height: 100vh;
     overflow: hidden; /* Evita el scroll */
 }
+
 .loguin{
     background-image: url(../imgStatic/gatos-bienvenida.png);
     background-size: cover;
@@ -36,6 +37,8 @@ body{
     color: white;
 }
 .container {
+    font-family: Arial, sans-serif;
+    margin-top:50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -119,4 +122,15 @@ body{
 .error p{
     padding-top:10px;
     color:white;
+}
+
+.form-control input:focus {
+    border-color: #B367A9;
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+    outline: none;
+}
+
+/* Agregar margen izquierdo a los placeholders */
+.form-control::placeholder {
+    margin-left: 10px;
 }

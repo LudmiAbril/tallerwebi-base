@@ -42,30 +42,27 @@ public class ControladorSenku {
         this.servicioSenku = servicioSenku;
         this.servicioPlataforma = servicioPlataforma;
     }
-    
+
     @RequestMapping(path = "/irAlSenku", method = RequestMethod.GET)
     public ModelAndView inicioSenku() {
         ModelMap modelo = new ModelMap();
         modelo.put("nuevoJugador", new Jugador());
         return new ModelAndView("irAlSenku", modelo);
     }
-    @RequestMapping(path = "/comenzarJuegoSenku", method = RequestMethod.GET)
-	public ModelAndView comenzarJuegoBingo(@RequestParam("tipo") String tipo, HttpSession session) {
 
-		ModelMap model = new ModelMap();
-		Usuario usuario;
-		if (session.getAttribute("jugadorActual") == null || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
-			// Si no está o no es un Usuario, crea un nuevo Usuario y ponlo en la sesión
-			usuario = new Usuario();
-			usuario.setNombre("user");
-			session.setAttribute("jugadorActual", usuario);
-		}
-		else {
-			// Si está, recupéralo de la sesión
-			usuario = (Usuario) session.getAttribute("jugadorActual");
-		}
+    @RequestMapping(path = "/comenzarJuegoSenku", method = RequestMethod.GET)
+    public ModelAndView comenzarJuegoSenku(HttpSession session) {
+        ModelMap model = new ModelMap();
+        Usuario usuario;
+        if (session.getAttribute("jugadorActual") == null || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
+            usuario = new Usuario();
+            usuario.setNombre("user");
+            session.setAttribute("jugadorActual", usuario);
+        } else {
+            usuario = (Usuario) session.getAttribute("jugadorActual");
+        }
         return new ModelAndView("senku", model);
-         }
+    }
         
         @RequestMapping(path = "/obtenerTablero", method = RequestMethod.GET)
     @ResponseBody
