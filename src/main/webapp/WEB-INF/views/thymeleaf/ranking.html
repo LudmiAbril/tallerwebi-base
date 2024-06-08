@@ -44,8 +44,8 @@
                 <div class="w3-card-4 cajita-partida" th:classappend="${iterStat.index > 3} ? 'hidden'">
                     <div th:switch="${partida.getClass().simpleName}">
                         <div th:case="'PartidaBingo'">
-                            <p>Bingo: <span th:text="${partida.seHizoBingo ? 'Sí' : 'No'}"></span></p>
-                            <p>Línea: <span th:text="${partida.seHizoLinea ? 'Sí' : 'No'}"></span></p>
+                            <p>Bingo: <span th:text="${partida.seHizoBingo ? 'si' : 'No'}"></span></p>
+                            <p>Línea: <span th:text="${partida.seHizoLinea ? 'si' : 'No'}"></span></p>
                             <p>Cantidad de numeros marcados: <span
                                     th:text="${partida.cantidadDeCasillerosMarcados}"></span></p>
                             <p>Casilleros marcados:</p>

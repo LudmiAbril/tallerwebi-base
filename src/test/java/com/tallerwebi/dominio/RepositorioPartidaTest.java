@@ -20,6 +20,7 @@ import javax.transaction.Transactional;
 
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
+import com.tallerwebi.dominio.excepcion.PartidaDeBingoSinLineaNiBingoException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,7 +60,7 @@ public class RepositorioPartidaTest {
     }
 
     @Test
-    public void queSeGuardeUnaPartida() throws PartidaConPuntajeNegativoException {
+    public void queSeGuardeUnaPartida() throws PartidaConPuntajeNegativoException, IllegalArgumentException, PartidaDeBingoSinLineaNiBingoException {
         Partida p = crearPartida("jugador", Juego.BINGO);
         repositorio.guardar(p);
         assertThat(session.getCurrentSession().contains(p), equalTo(true));
@@ -67,7 +68,7 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queSeObtengaUnRankingOrdenadoDePartidasParaElBingo()
-            throws PartidasDelJuegoNoEncontradasException, PartidaConPuntajeNegativoException {
+            throws PartidasDelJuegoNoEncontradasException, PartidaConPuntajeNegativoException, IllegalArgumentException, PartidaDeBingoSinLineaNiBingoException {
         // PARTIDA UNO
         Long idJugador = 2L;
         Juego juego = Juego.BINGO;
@@ -118,7 +119,7 @@ public class RepositorioPartidaTest {
     }
 
     @Test
-    public void queSePuedanObtenerLasPartidasDeUnJugador() throws PartidaConPuntajeNegativoException {
+    public void queSePuedanObtenerLasPartidasDeUnJugador() throws PartidaConPuntajeNegativoException, IllegalArgumentException, PartidaDeBingoSinLineaNiBingoException {
         Long usuarioId = 000L;
 
         Partida partida1 = crearPartida("Prueba", Juego.BLACKJACK);
@@ -146,7 +147,7 @@ public class RepositorioPartidaTest {
     }
 
     @Test
-    public void queSePuedanObtenerLasUltimasPartidasOrdenadasPorFecha() throws PartidaConPuntajeNegativoException {
+    public void queSePuedanObtenerLasUltimasPartidasOrdenadasPorFecha() throws PartidaConPuntajeNegativoException, IllegalArgumentException, PartidaDeBingoSinLineaNiBingoException {
         Long usuarioId = 000L;
         List<Partida> partidasEsperadas = new ArrayList<Partida>();
         Partida a = crearPartida("user", Juego.BINGO);
@@ -237,7 +238,7 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queSeObtenganPartidasPorRangoDeFechas()
-            throws PartidaConPuntajeNegativoException, PartidaDeUsuarioNoEncontradaException {
+            throws PartidaConPuntajeNegativoException, PartidaDeUsuarioNoEncontradaException, IllegalArgumentException, PartidaDeBingoSinLineaNiBingoException {
         Long usuarioId = 000L;
         Juego juego = Juego.BINGO;
         Partida partida1 = crearPartida("jugador1", juego);
@@ -260,4 +261,15 @@ public class RepositorioPartidaTest {
     }
 
 
+    @Test
+    public void queSeLanceUnaExcepcionSiSeIntentaGuardarUnaPartidaBingoSinHaberHechoLineaNiBingo() throws IllegalArgumentException, PartidaConPuntajeNegativoException, PartidaDeBingoSinLineaNiBingoException{
+        Set<Integer> casillerosMarcados = new HashSet<Integer>();
+        casillerosMarcados.add(1);
+        casillerosMarcados.add(5);
+        casillerosMarcados.add(9);
+        Partida bingo = new PartidaBingo(1l, Juego.BINGO, casillerosMarcados, false, false, TipoPartidaBingo.BINGO, 25, casillerosMarcados.size());
+        assertThrows(PartidaDeBingoSinLineaNiBingoException.class, () -> {
+            this.repositorio.guardar(bingo);
+        });
+    }
 }
