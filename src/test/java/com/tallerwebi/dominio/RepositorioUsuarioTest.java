@@ -17,8 +17,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
-import static org.mockito.ArgumentMatchers.isNotNull;
-
 import org.apache.commons.codec.digest.DigestUtils;
 
 @Transactional
@@ -84,6 +82,52 @@ public class RepositorioUsuarioTest {
 
         Usuario usuarioEncontrado = repositorioUsuario.buscar(email);
         assertThat(usuarioEncontrado, is(nullValue()));
+    }
+
+    @Test
+    public void queSePuedaBuscarUnUsuarioPorUsuarioYContraseña() {
+        String email = "buscar@gmail.com";
+        String pass = "123";
+        Usuario user = crearObjetoUsuario("user", email, pass);
+        repositorioUsuario.guardar(user);
+
+        Usuario usuarioEncontrado = repositorioUsuario.buscarUsuario(email, pass);
+        assertThat(usuarioEncontrado, is(notNullValue()));
+    }
+
+    @Test
+    public void queNoSePuedaBuscarUnUsuarioPorUsuarioYContraseñaSiElMailEsIncorrecto() {
+        String emailErroneo = "buscar@gmail.com";
+        String pass = "123";
+        Usuario user = crearObjetoUsuario("user", "email@gmail.com", pass);
+        repositorioUsuario.guardar(user);
+
+        Usuario usuarioEncontrado = repositorioUsuario.buscarUsuario(emailErroneo, pass);
+        assertThat(usuarioEncontrado, is(nullValue()));
+    }
+
+    @Test
+    public void queNoSePuedaBuscarUnUsuarioPorUsuarioYContraseñaSiLaContraseñaEsIncorrecta() {
+        String email = "buscar@gmail.com";
+        String passErronea = "123";
+        Usuario user = crearObjetoUsuario("user", email, "abc");
+        repositorioUsuario.guardar(user);
+
+        Usuario usuarioEncontrado = repositorioUsuario.buscarUsuario(email, passErronea);
+        assertThat(usuarioEncontrado, is(nullValue()));
+    }
+
+    @Test
+    public void queSePuedaModificarUnUsuarioEnLaBase() {
+        Usuario user = crearObjetoUsuario("nombre", "email@gmail.com", "123");
+        user.setId((long) 23);
+        repositorioUsuario.guardar(user);
+        String nombreModificado = "modificado";
+        user.setNombre(nombreModificado);
+        repositorioUsuario.modificar(user);
+        Usuario userModificado = sessionFactory.getCurrentSession().get(Usuario.class, user.getId());
+
+        assertThat(userModificado.getNombre(), equalTo(nombreModificado));
     }
 
     private Usuario crearObjetoUsuario(String nombre, String email, String pass) {
