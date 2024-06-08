@@ -46,7 +46,14 @@
                         <div th:case="'PartidaBingo'">
                             <p>Bingo: <span th:text="${partida.seHizoBingo ? 'Sí' : 'No'}"></span></p>
                             <p>Línea: <span th:text="${partida.seHizoLinea ? 'Sí' : 'No'}"></span></p>
-                            <p>Cantidad de numeros marcados: <span th:text="${partida.cantidadDeCasillerosMarcados}"></span></p>
+                            <p>Cantidad de numeros marcados: <span
+                                    th:text="${partida.cantidadDeCasillerosMarcados}"></span></p>
+                            <p>Casilleros marcados:</p>
+                            <ul class="casilleros-marcados">
+                                <li th:each="casillero : ${partida.casillerosMarcados}">
+                                    <span th:text="${casillero}"></span>
+                                </li>
+                            </ul>
                         </div>
                         <div th:case="'PartidaBlackJack'">
                             <p>Ganó: <span th:text="${partida.gano ? 'Sí' : 'No'}"></span></p>
