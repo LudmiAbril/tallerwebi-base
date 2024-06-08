@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
+import com.tallerwebi.dominio.excepcion.PartidaDeBingoSinLineaNiBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
 import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
 
@@ -11,7 +12,7 @@ public interface ServicioPlataforma {
 
     List<Partida> generarRanking(Juego juego) throws PartidasDelJuegoNoEncontradasException;
 
-    void agregarPartida(Partida partida) throws PartidaConPuntajeNegativoException;
+    void agregarPartida(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException, PartidaDeBingoSinLineaNiBingoException;
 
     List<Partida> obtenerPartidasUsuario(Long id, Juego juego) throws PartidaDeUsuarioNoEncontradaException;
 
