@@ -25,7 +25,7 @@ $(document).ready(function () {
         } else {
             tipoPartidaBingo = data.tipoPartidaBingo;
             if (tipoPartidaBingo === "LINEA") {
-                console.log("msotrando el boton de linea")
+                console.log("mostrando el boton de linea")
                 document.getElementById("botonLinea").style.display = "block";
                 document.getElementById("botonBingo").style.display = "none";
             } else if (tipoPartidaBingo === "BINGO") {
@@ -51,6 +51,7 @@ function refrescarNumero() {
                 abrirModalDeLimiteAlcanzado();
             } else {
                 $("#numeroCantado").text(data.nuevoNumero);
+                enviarNumeroAlServidor(data.nuevoNumero);
                 $(".numeroCantadoContenedor").addClass("w3-animate-top");
             }
         });
@@ -121,7 +122,9 @@ function obtenerLosNumerosEntregados() {
         });
     });
 }
-
+function enviarNumeroAlServidor(nuevoNumero) {
+            stompClient.send("/app/bingo/nuevoNumero", {}, JSON.stringify({'nuevoNumero': nuevoNumero}));
+        }
 
 function bingo() {
     $.post("bingo", function (data) {
@@ -230,16 +233,16 @@ const messageHandlers = {
     "bingo.join": (message) => {
         updateGame(message);
     },
-    "bingo.numberCalled": (message) => {
+    "bingo.move": (message) => {
         updateGame(message);
     },
     "bingo.winner": (message) => {
         updateGame(message);
         showWinner(message.winner);
-    }/*,
+    },
     "error": (message) => {
         toastr.error(message.content);
-    }*/
+    }
 }
 
 /**
@@ -259,7 +262,7 @@ const connect = () => {
     const socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
-        stompClient.subscribe('/topic/bingo', function (message) {
+        stompClient.subscribe('/topic/game.state', function (message) {
             handleMessage(JSON.parse(message.body));
         });
         loadGame();
@@ -270,10 +273,11 @@ const connect = () => {
  * Attempts to load a game by joining with the player's previously stored name, or prompts the player to enter their name if no name is stored.
  */
 const loadGame = () => {
+//Reemplazar por el nombre de la sesion
     const playerName = localStorage.getItem("playerName");
     if (playerName) {
         sendMessage({
-            type: "bingo.join",
+            type: "game.join",
             player: playerName
         });
     } else {
@@ -286,9 +290,10 @@ const loadGame = () => {
  */
 const joinGame = () => {
     const playerName = prompt("Enter your name:");
+    //Sesion
     localStorage.setItem("playerName", playerName);
     sendMessage({
-        type: "bingo.join",
+        type: "game.join",
         player: playerName
     });
 }
@@ -299,7 +304,6 @@ const joinGame = () => {
  */
 const updateGame = (message) => {
     game = message;
-    updateBoard(message.board);
     document.getElementById("player1").innerHTML = game.player1;
     document.getElementById("player2").innerHTML = game.player2 || 'Waiting for player 2...';
     document.getElementById("numeroCantado").innerHTML = game.currentNumber;
@@ -324,7 +328,7 @@ const callNumber = () => {
     $.get("obtenerNuevoNumero", function (data) {
         if (!data.limiteAlcanzado) {
             sendMessage({
-                type: "bingo.numberCalled",
+                type: "game.move",
                 number: data.nuevoNumero
             });
         } else {
@@ -339,7 +343,7 @@ const callNumber = () => {
  */
 const marcarCasillero = (numeroCasillero) => {
     sendMessage({
-        type: "bingo.markCell",
+        type: "game.move",
         number: numeroCasillero,
         player: player
     });
@@ -350,7 +354,7 @@ const marcarCasillero = (numeroCasillero) => {
  */
 const bingo = () => {
     sendMessage({
-        type: "bingo.call",
+        type: "game.move",
         player: player
     });
 }
@@ -367,22 +371,6 @@ $(document).ready(function () {
     intervaloRefresco = setInterval(callNumber, 7000);
 });
 
-/**
- * Renders the board based on the numbers provided.
- * @param {Array} board - The board numbers.
- */
-const renderBoard = (board) => {
-    let tablaHtml = "";
-    for (let i = 0; i < board.length; i++) {
-        tablaHtml += "<tr>";
-        for (let j = 0; j < board[i].length; j++) {
-            let numeroCasillero = board[i][j];
-            tablaHtml += `<td><button id='botonCasillero${numeroCasillero}' onclick='marcarCasillero(${numeroCasillero})'>${numeroCasillero}</button></td>`;
-        }
-        tablaHtml += "</tr>";
-    }
-    $(".carton").html(tablaHtml);
-}
 
 /**
  * Shows a modal when the limit is reached.
