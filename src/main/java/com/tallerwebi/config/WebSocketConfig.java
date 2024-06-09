@@ -22,6 +22,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // Registro del endpoint WebSocket
-        registry.addEndpoint("/bingo-multijugador").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/spring/bingo-multijugador").setAllowedOrigins("*").withSockJS();
     }
 }

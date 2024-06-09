@@ -260,7 +260,7 @@ const handleMessage = (message) => {
  * Connects the STOMP client to the server and subscribes to the "/topic/bingo" topic.
  */
 const connect = () => {
-    const socket = new SockJS('/bingo-multijugador');
+    const socket = new SockJS('/spring/bingo-multijugador');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         stompClient.subscribe('/topic/game.state', function (message) {
