@@ -23,6 +23,7 @@ import com.tallerwebi.dominio.Casillero;
 import com.tallerwebi.dominio.Juego;
 import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.Partida;
+import com.tallerwebi.dominio.PartidaSenku;
 import com.tallerwebi.dominio.Senku;
 import com.tallerwebi.dominio.ServicioPlataforma;
 import com.tallerwebi.dominio.ServicioSenku;
@@ -31,6 +32,8 @@ import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.CasilleroInexistenteException;
 import com.tallerwebi.dominio.excepcion.CasilleroVacio;
 import com.tallerwebi.dominio.excepcion.MovimientoInvalidoException;
+import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
+import com.tallerwebi.dominio.excepcion.PartidaDeBingoSinLineaNiBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
 
 @Controller
@@ -38,39 +41,45 @@ public class ControladorSenku {
 
     private ServicioSenku servicioSenku;
     private ServicioPlataforma servicioPlataforma;
+
     @Autowired
     public ControladorSenku(ServicioSenku servicioSenku, ServicioPlataforma servicioPlataforma) {
         this.servicioSenku = servicioSenku;
         this.servicioPlataforma = servicioPlataforma;
     }
-    //PANTALLA DE IR AL SENKU
+
+    // PANTALLA DE IR AL SENKU
     @RequestMapping(path = "/irAlSenku", method = RequestMethod.GET)
     public ModelAndView inicioSenku() {
         ModelMap modelo = new ModelMap();
         modelo.put("nuevoJugador", new Jugador());
         return new ModelAndView("irAlSenku", modelo);
     }
-    //BOTON DE JUGAR
+    // BOTON DE JUGAR
 
     @RequestMapping(path = "/comenzarJuegoSenku", method = RequestMethod.POST)
     public ModelAndView comenzarJuegoSenku(HttpSession session) {
         ModelMap model = new ModelMap();
         Usuario usuario;
-        if (session.getAttribute("jugadorActual") == null || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
-            // Si no está o no es un Usuario, crea un nuevo Usuario y ponlo en la sesión
+        if (session.getAttribute("jugadorActual") == null
+                || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
+
             usuario = new Usuario();
             usuario.setNombre("user");
             session.setAttribute("jugadorActual", usuario);
         } else {
             usuario = (Usuario) session.getAttribute("jugadorActual");
         }
-        Tablero tablero = new Tablero(5); 
-    session.setAttribute("tablero", tablero);
+        Tablero tablero = new Tablero(5);
+        session.setAttribute("tablero", tablero);
+        // PONGO LOS DATOS EN EL MODELO ASI LOS PUEDO RENDERIZAR CON THIMELEAF
+        model.put("mensaje", "¡Bienvenido " + usuario.getNombre() + "! Comienza tu juego.");
+        model.put("nombreJugador", usuario.getNombre());
+        model.put("contadorMovimientos", 0);
+        session.setAttribute("contadorMovimientos", 0);
         return new ModelAndView("senku", model);
     }
-    
-        
-        @RequestMapping(path = "/obtenerTablero", method = RequestMethod.GET)
+    @RequestMapping(path = "/obtenerTablero", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> obtenerTablero(HttpSession session) {
         Tablero tablero = (Tablero) session.getAttribute("tablero");
@@ -78,7 +87,6 @@ public class ControladorSenku {
         respuesta.put("tablero", tablero);
         return respuesta;
     }
-    
 
     @RequestMapping(path = "/marcarCasillero/{x}/{y}", method = RequestMethod.POST)
     @ResponseBody
@@ -108,40 +116,123 @@ public class ControladorSenku {
 
         try {
             if (casilleroSeleccionado != null) {
-                // Intentar mover
                 Casillero casilleroDestino = servicioSenku.getCasillero(tablero, x, y);
                 if (!casilleroDestino.getOcupado()) {
                     servicioSenku.realizarMovimiento(tablero, casilleroSeleccionado, casilleroDestino);
                     session.removeAttribute("casilleroSeleccionado");
+                    Integer contadorMovimientos = (Integer) session.getAttribute("contadorMovimientos");
+                  
+                    contadorMovimientos++;
+                    session.setAttribute("contadorMovimientos", contadorMovimientos);
                     respuesta.put("success", true);
-                    respuesta.put("message", "Movimiento realizado con éxito.");
+                    respuesta.put("mensaje", "Movimiento realizado con éxito.");
+                    respuesta.put("contadorMovimientos", contadorMovimientos);
                 } else {
                     respuesta.put("success", false);
-                    respuesta.put("message", "El casillero de destino debe estar vacío.");
+                    respuesta.put("mensaje", "El casillero de destino debe estar vacío.");
+                    session.removeAttribute("casilleroSeleccionado");
                 }
             } else {
-                // Seleccionar casillero
                 Casillero casilleroSeleccionadoNuevo = servicioSenku.seleccionarCasillero(tablero, x, y);
                 session.setAttribute("casilleroSeleccionado", casilleroSeleccionadoNuevo);
                 respuesta.put("success", true);
-                respuesta.put("message", "Casillero seleccionado con éxito.");
+                respuesta.put("mensaje", "Casillero seleccionado con éxito.");
             }
         } catch (CasilleroVacio e) {
             respuesta.put("success", false);
-            respuesta.put("message", "El casillero seleccionado está vacío.");
+            respuesta.put("mensaje", "El casillero seleccionado está vacío.");
+            session.removeAttribute("casilleroSeleccionado");
         } catch (CasilleroInexistenteException e) {
             respuesta.put("success", false);
-            respuesta.put("message", "El casillero seleccionado no existe en el tablero.");
+            respuesta.put("mensaje", "El casillero seleccionado no existe en el tablero.");
+            session.removeAttribute("casilleroSeleccionado");
         } catch (MovimientoInvalidoException e) {
             respuesta.put("success", false);
-            respuesta.put("message", e.getMessage());
+            respuesta.put("mensaje", e.getMessage());
+            session.removeAttribute("casilleroSeleccionado");
         }
 
         return respuesta;
     }
-}
+    
+    @RequestMapping(path = "/reiniciar", method = RequestMethod.POST)
+    public ModelAndView reiniciarPartida(HttpSession session) {
+  
+        Tablero tablero = new Tablero(5);
+        session.setAttribute("tablero", tablero);
+        session.setAttribute("contadorMovimientos", 0);
+        session.removeAttribute("casilleroSeleccionado");
+        
+      
+        Usuario usuario = (Usuario) session.getAttribute("jugadorActual");
+        if (usuario == null) {
+            usuario = new Usuario();
+            usuario.setNombre("user");
+            session.setAttribute("jugadorActual", usuario);
+        }
 
-
+     
+        ModelMap model = new ModelMap();
+        model.put("mensaje", "Partida reiniciada. ¡Buena suerte " + usuario.getNombre() + "!");
+        model.put("nombreJugador", usuario.getNombre());
+        model.put("contadorMovimientos", 0);
+        
+        return new ModelAndView("senku", model);
+    }
+    
+    @RequestMapping(path = "/senku/gano", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> comprobarSiSeGano(HttpSession session) {
+        Tablero tablero = (Tablero) session.getAttribute("tablero");
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+    
+       
+        Boolean seGano = servicioSenku.seGano(tablero);
+    
+       
+        session.setAttribute("seGano", seGano);
+    
+        
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("seGano", seGano);
+        respuesta.put("nombreJugador", jugador.getNombre()); // Asegúrate de tener el método getNombre() en Usuario
+        
+        return respuesta;
+    }
     
 
+    @RequestMapping(path = "/senku/finalizarPartida", method = RequestMethod.POST)
+public ModelAndView finalizarPartida(HttpSession session) {
+    Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+    Tablero tablero = (Tablero) session.getAttribute("tablero");
 
+   
+    Boolean seGano = servicioSenku.seGano(tablero);
+    
+    if (seGano != null && seGano) {
+     
+        Partida partidaSenku = new PartidaSenku();
+        Usuario jugadorActual = (Usuario) session.getAttribute("jugadorActual");
+        Long id = jugadorActual.getId();
+        
+        partidaSenku.setIdJugador(id);
+        partidaSenku.setJuego(Juego.SENKU);
+        ((PartidaSenku) partidaSenku).setGanado(seGano);
+        ((PartidaSenku) partidaSenku).setCantidadMovimientos((Integer) session.getAttribute("contadorMovimientos"));
+
+        try {
+            servicioPlataforma.agregarPartida(partidaSenku);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (PartidaConPuntajeNegativoException e) {
+            e.printStackTrace();
+        } catch (PartidaDeBingoSinLineaNiBingoException e) {
+            e.printStackTrace();
+        }
+        
+        return new ModelAndView("redirect:/acceso-juegos");
+    }
+    return new ModelAndView("redirect:/acceso-juegos");
+}
+
+}

@@ -1,29 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Ubuntu", sans-serif;
-   
-}
-
-body{
-    background: rgb(118, 216, 241);
-    background: radial-gradient(circle, rgba(118, 216, 241, 0.768032212885154) 6%, rgba(250, 139, 187, 0.6727941176470589) 52%, rgba(195, 148, 233, 0.726015406162465) 100%);
+    font-family: "Oswald", sans-serif;
 
 }
 
-.titulo{
+body {
+    background-image: linear-gradient(152.43deg, #FFE5CC 17.15%, #A1EA9A 72.73%);
+    min-height: 100vh;
+}
+
+.margin{
+    margin: 5%;
+}
+.titulo {
     text-align: center;
     margin: 5%;
     border-radius: 5px;
+    color: #4E4E4E; /* Color neutro para el texto */
 }
 
-
-.barra{
-    color:white;
-    background-color: #e91e63a3 !important;
+.barra {
+    color: white;
+    background-color: #FF6F61; /* Ajustado para armonizar mejor */
     margin: 2%;
     margin-left: 5%;
     border-radius: 0.313em;
@@ -32,9 +34,10 @@ body{
     justify-content: center;
     margin-right: 5%;
 }
+
 /* ------------------------ESTILOS DE TABLERO--------------------------- */
 
-.tablero-fondo{
+.tablero-fondo {
     display: flex;
     align-items: center;
     margin: 5%;
@@ -44,40 +47,46 @@ body{
 .ficha {
     width: 3.125em;
     height: 3.125em;
-    background-color: #7300ff; 
+    background-color: #6A0572; /* Un tono morado oscuro */
     border-radius: 1.563em;
     margin: 0.313em;
-    float: left; 
+    float: left;
 }
+
 .ficha:hover {
-    background-color: #d400ffd4; 
-    transition: background-color 0.2s; 
+    background-color: #A146A1; /* Tono morado más claro */
+    transition: background-color 0.2s;
 }
-.ficha-seleccionada{
-    background-color: #d400ff; 
+
+.ficha-seleccionada {
+    background-color: #A146A1;
 }
+
 .vacio {
     width: 3.125em;
-    height:3.125em;
-    background-color: #ffffffa9; 
+    height: 3.125em;
+    background-color: #F4F4F4; /* Blanco suave */
     border-radius: 1.25em;
     margin: 0.313em;
-    float: left; 
-}
-.vacio:hover{
-    background-color: #d9aee2cb; 
-    transition:  background-color  0.2s;
+    float: left;
 }
 
-.vacio-seleccionado{
-    background-color: #d9aee2; 
+.vacio:hover {
+    background-color: #DDDDDD; /* Gris claro */
+    transition: background-color 0.2s;
 }
+
+.vacio-seleccionado {
+    background-color: #DDDDDD;
+}
+
 .fila {
-    clear: both; 
+    clear: both;
 }
+
 /* ------------------------ESTILOS DE BOTONES--------------------------- */
 
-.botones-modal{
+.botones-modal {
     display: flex;
     margin: 2%;
     align-items: center;
@@ -85,24 +94,50 @@ body{
     color: rgb(255, 255, 255);
 }
 
-
-    
-    .boton-reiniciar{
-        margin: 2%;
-    background-color: #41043d8a;
-    box-shadow: rgba(240, 46, 170, 0.4) -5px 5px, rgba(240, 46, 170, 0.3) -10px 10px,
-     rgba(240, 46, 170, 0.2) -15px 15px,
-     rgba(240, 46, 170, 0.1) -20px 20px, rgba(240, 46, 170, 0.05) -25px 25px;
-}
-
-.boton-volver-inicio{
+.boton-reiniciar {
     margin: 2%;
-    background-color: #2502468a;
-    box-shadow: rgba(240, 46, 170, 0.4) 5px 5px, rgba(240, 46, 170, 0.3) 10px 10px,
-     rgba(240, 46, 170, 0.2) 15px 15px, rgba(240, 46, 170, 0.1) 20px 20px,
-     rgba(240, 46, 170, 0.05) 25px 25px;
+    font-size: small;
+    text-transform: uppercase;
+    padding: 2%;
+    border: none;
+    border-radius: 2em;
+    color: white;
+    background-color: #E57373; /* Tono rojo suave */
+    box-shadow: rgba(230, 57, 70, 0.4) -5px 5px, rgba(230, 57, 70, 0.3) -10px 10px, rgba(230, 57, 70, 0.2) -15px 15px, rgba(230, 57, 70, 0.1) -20px 20px, rgba(230, 57, 70, 0.05) -25px 25px;
 }
-.mt{
-    margin-top:20px;
-    margin-left:20px;
+
+.boton-volver-inicio {
+    margin: 2%;
+    font-size: small;
+    text-transform: uppercase;
+    padding: 2%;
+    border: none;
+    border-radius: 2em;
+    color: white;
+    background-color: #81C784; /* Verde suave */
+    box-shadow: rgba(129, 199, 132, 0.4) 5px 5px, rgba(129, 199, 132, 0.3) 10px 10px, rgba(129, 199, 132, 0.2) 15px 15px, rgba(129, 199, 132, 0.1) 20px 20px, rgba(129, 199, 132, 0.05) 25px 25px;
+}
+
+.mt {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+/* ------------------------ESTILOS DE CUADRO DE INFO--------------------------- */
+.jugador-info {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+}
+
+.jugador-info.show {
+    max-height: 500px; /* Ajusta según el contenido */
+}
+
+.mensaje {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4E4E4E; /* Color neutro para el mensaje */
 }
