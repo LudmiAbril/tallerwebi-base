@@ -17,11 +17,16 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
+import javax.servlet.http.HttpSession;
+import java.util.HashSet;
+import java.util.Set;
+
 public class ControladorMensajes {
 
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
-
+    @Autowired
+    private HttpSession session;
 
 /**
  * Manager for the Bingo games.
@@ -35,7 +40,7 @@ public class ControladorMensajes {
         if (game == null) {
             MensajeBingo errorMessage = new MensajeBingo();
             errorMessage.setType("error");
-            errorMessage.setContent("No fue posible entrar al juego. Talvez o jogo já esteja cheio ou ocorreu um erro interno.");
+            errorMessage.setContent("No fue posible entrar al juego. El juego está lleno o es un error interno.");
             return errorMessage;
         }
         headerAccessor.getSessionAttributes().put("gameId", game.getGameId());
@@ -67,8 +72,6 @@ public void leaveGame(@Payload MensajeJugador message) {
     }
 }
 
-
-
 /**
  * Handles a request from a client to make a move in a Bingo game.
  * If the move is valid, the game state is updated and sent to all subscribers of the game's topic.
@@ -94,17 +97,21 @@ public void makeMove(@Payload MensajeBingo message) {
     if (game.getGameState().equals(EstadoJuego.WAITING_FOR_PLAYER)) {
         MensajeBingo errorMessage = new MensajeBingo();
         errorMessage.setType("error");
-        errorMessage.setContent("Game is waiting for another player to join.");
+        errorMessage.setContent("El juego está esperando que se una un nuevo jugador...");
         this.messagingTemplate.convertAndSend("/topic/game." + gameId, errorMessage);
         return;
     }
 
     if (game.getTurn().equals(player)) {
-        //game.makeMove(player, move);
+        Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
+        if (numerosEntregados == null) {
+            numerosEntregados = new HashSet<>();
+        }
 
-        MensajeBingo gameStateMessage = new MensajeBingo(game);
-        gameStateMessage.setType("game.move");
-        this.messagingTemplate.convertAndSend("/topic/game." + gameId, gameStateMessage);
+        MensajeBingo numerosEntregadosMessage = new MensajeBingo();
+        numerosEntregadosMessage.setType("game.numerosEntregados");
+        numerosEntregadosMessage.setContent(numerosEntregados.toString());
+        this.messagingTemplate.convertAndSend("/topic/game." + gameId, numerosEntregadosMessage);
 
         if (game.isGameOver()) {
             MensajeBingo gameOverMessage = gameToMessage(game);
