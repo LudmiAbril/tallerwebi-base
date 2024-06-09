@@ -36,13 +36,13 @@ public class BingoMultijugador {
             setWinner(nombreJugador);
             return;
         }
-        if(servicioBingo.linea(servicioBingo.getNumerosMarcadosEnElCarton(), cartonJugador2)){
+        else if(servicioBingo.linea(servicioBingo.getNumerosMarcadosEnElCarton(), cartonJugador2)){
             setWinner(nombreJugador2);
             return;
         }
     }
     public boolean isGameOver() {
-        return winner != null || servicioBingo.getSeHizobingo() == true;
+        return winner != null || servicioBingo.getSeHizobingo();
     }
 
 

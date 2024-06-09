@@ -7,6 +7,7 @@ $(document).ready(function () {
         $("#numeroCantado").text(data.numeroAleatorioCantado);
         //para construir la estructura de la tabla del cartón.
         var tablaHtml = "";
+        //nUMEROS ESTA NULL? WTF!!
         for (var i = 0; i < data.carton.numeros.length; i++) {
             tablaHtml += "<tr>";
             for (var j = 0; j < data.carton.numeros[i].length; j++) {
@@ -259,7 +260,7 @@ const handleMessage = (message) => {
  * Connects the STOMP client to the server and subscribes to the "/topic/bingo" topic.
  */
 const connect = () => {
-    const socket = new SockJS('/ws');
+    const socket = new SockJS('/bingo-multijugador');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         stompClient.subscribe('/topic/game.state', function (message) {
@@ -341,7 +342,7 @@ const callNumber = () => {
  * Marks a cell and sends it to the server.
  * @param {Number} numeroCasillero - The number of the cell to be marked.
  */
-const marcarCasillero = (numeroCasillero) => {
+const AlMarcarCasillero = (numeroCasillero) => {
     sendMessage({
         type: "game.move",
         number: numeroCasillero,
@@ -352,7 +353,7 @@ const marcarCasillero = (numeroCasillero) => {
 /**
  * Calls bingo and sends it to the server.
  */
-const bingo = () => {
+const alBingo = () => {
     sendMessage({
         type: "game.move",
         player: player
@@ -362,20 +363,20 @@ const bingo = () => {
 /**
  * Get the initial game data and render the board.
  */
-$(document).ready(function () {
+/*$(document).ready(function () {
     connect();
     $.get("obtenerDatosIniciales", function (data) {
         $("#numeroCantado").text(data.numeroAleatorioCantado);
         renderBoard(data.carton.numeros);
     });
     intervaloRefresco = setInterval(callNumber, 7000);
-});
+});*/
 
 
 /**
  * Shows a modal when the limit is reached.
  */
-const abrirModalDeLimiteAlcanzado = () => {
+const abrirModalLimiteAlcanzado = () => {
     document.getElementById("modalLimite").style.display = "block";
 }
 

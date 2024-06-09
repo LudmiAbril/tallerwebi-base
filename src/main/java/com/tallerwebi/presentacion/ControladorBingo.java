@@ -10,7 +10,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
 import javax.servlet.http.HttpSession;
 
 import com.tallerwebi.dominio.*;
@@ -28,7 +29,7 @@ import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.CartonBingo;
 import com.tallerwebi.dominio.PartidaBingo;
 
-@Controller
+@RestController
 public class ControladorBingo {
 
 	private ServicioBingo servicioBingo;
@@ -102,13 +103,6 @@ public class ControladorBingo {
 	public ModelAndView comenzarJuegoBingoMultijugador(@RequestParam("tipo") String tipo, @RequestParam("jugador2") String nombreJugador2, HttpSession session) {
 		ModelMap model = new ModelMap();
 		Usuario usuario = (Usuario) session.getAttribute("jugadorActual");
-
-		if (usuario == null) {
-			usuario = new Usuario();
-			usuario.setNombre("user");
-			session.setAttribute("jugadorActual", usuario);
-		}
-
 		Integer dimension = usuario.getConfig().getDimensionCarton();
 		BingoMultijugador partida = new BingoMultijugador(usuario.getNombre(), nombreJugador2);
 
@@ -119,6 +113,7 @@ public class ControladorBingo {
 
 		return new ModelAndView("bingo-multijugador", model);
 	}
+
 	@RequestMapping(path = "/obtenerDatosIniciales", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> obtenerDatosIniciales(HttpSession session) {
@@ -289,7 +284,7 @@ public class ControladorBingo {
 	@SendTo("/topic/updates")
 	public Map<String, Object> realizarMovimiento(@RequestBody MovimientoRequest movimientoRequest, HttpSession session) {
 		BingoMultijugador partida = (BingoMultijugador) session.getAttribute("partidaMultijugador");
-		partida.realizarMovimiento(movimientoRequest.getJugador(), movimientoRequest.getMovimiento());
+		//partida.realizarMovimiento(movimientoRequest.getJugador(), movimientoRequest.getMovimiento());
 
 		// Obtener los números entregados
 		Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
