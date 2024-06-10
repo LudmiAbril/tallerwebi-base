@@ -251,4 +251,14 @@ public class ServicioBingoTest {
 		assertThat(((ServicioBingoImpl) this.servicioBingo).getSeHizoLinea(), is(true));
 	}
 
+	@Test
+	public void queSePuedaObtenerLaCantidadDeNumerosRestantesParaCompletarLaTirada(){
+		Integer tirada = 50;
+		Integer numeroAleatorio = 10;
+		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(numeroAleatorio);
+		Integer cantidadDeNumerosEntregados = ((ServicioBingoImpl) this.servicioBingo).obtenerCantidadDeNumerosEntregados();
+		Integer numerosRestantes = this.servicioBingo.obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(this.servicioBingo.obtenerTirada(tirada), cantidadDeNumerosEntregados);
+		Integer numerosRestantesEsperados = 49;
+		assertThat(numerosRestantes, equalTo(numerosRestantesEsperados));
+	}
 }

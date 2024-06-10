@@ -68,7 +68,7 @@ public class ServicioBingoImpl implements ServicioBingo {
 
 	@Override
 	public Boolean bingo(Set<Integer> numerosMarcadosEnElCarton, Integer dimension) {
-		if (numerosMarcadosEnElCarton.size() == dimension*dimension) {
+		if (numerosMarcadosEnElCarton.size() == dimension * dimension) {
 			this.setSeHizobingo(true);
 			this.numerosMarcadosEnElCarton.clear();
 			this.numerosEntregados.clear();
@@ -225,7 +225,7 @@ public class ServicioBingoImpl implements ServicioBingo {
 		} else {
 			numerosEnFila.clear();
 		}
-	
+
 		// DIAGONAL SECUNDARIA
 		for (int i = 0; i < dimension; i++) {
 			numerosEnFila.add(numeros[i][dimension - 1 - i]);
@@ -236,13 +236,23 @@ public class ServicioBingoImpl implements ServicioBingo {
 			this.numerosEntregados.clear();
 			return seHizoLinea;
 		}
-	
+
 		return seHizoLinea;
 	}
 
 	public Integer obtenerCantidadDeNumerosEntregados() {
-		// esta seria la tirada
 		return this.numerosEntregados.size();
+	}
+
+	@Override
+	// obtiene la tirada que llega desde el controller
+	public Integer obtenerTirada(Integer tirada) {
+		return tirada;
+	}
+
+	@Override
+	public Integer obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(Integer tirada, Integer numerosEntregados) {
+		return tirada - numerosEntregados;
 	}
 
 }

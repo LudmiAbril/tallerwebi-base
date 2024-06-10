@@ -142,6 +142,7 @@ public class ControladorBingo {
 		Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
 		Boolean limiteAlcanzado = false;
 		Map<String, Object> respuesta = new HashMap<>();
+		this.servicioBingo.obtenerTirada(tiradaLimiteDeLaSesion);
 		if (numerosEntregados == null) {
 			numerosEntregados = new LinkedHashSet<>();
 			session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
