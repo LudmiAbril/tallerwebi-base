@@ -2,22 +2,14 @@ package com.tallerwebi.presentacion;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.*;
@@ -25,6 +17,9 @@ import java.util.*;
 import javax.servlet.http.HttpSession;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
+import com.tallerwebi.dominio.excepcion.PartidaDeBingoSinLineaNiBingoException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpSession;
@@ -41,9 +36,9 @@ public class ControladorBingoTest {
     @BeforeEach
     public void init() {
         this.servicioBingoMock = mock(ServicioBingo.class);
+        this.servicioPlataformaMock = mock(ServicioPlataforma.class);
         this.controladorBingo = new ControladorBingo(servicioBingoMock, servicioPlataformaMock);
         this.session = new MockHttpSession();
-        this.servicioPlataformaMock = mock(ServicioPlataforma.class);
     }
 
     @Test
@@ -274,14 +269,14 @@ public class ControladorBingoTest {
         CartonBingo cartonMock = mock(CartonBingo.class);
         Set<Integer> numerosMarcados;
         numerosMarcados = new HashSet<Integer>();
-        
+
         session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcados);
         Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-        
+
         when(this.servicioBingoMock.generarCarton(dimension)).thenReturn(cartonMock);
         session.setAttribute("carton", cartonMock);
         CartonBingo carton = (CartonBingo) session.getAttribute("carton");
-        
+
         servicioBingoMock.marcarCasillero(numeroCasillero, cartonMock);
         numerosMarcados.add(numeroCasillero);
         when(this.servicioBingoMock.linea(numerosMarcados, cartonMock)).thenReturn(false);
@@ -289,6 +284,40 @@ public class ControladorBingoTest {
         Map<String, Object> linea = this.controladorBingo.hacerlinea(session);
         Boolean lineaController = (Boolean) linea.get("seHizoLinea");
         assertThat(lineaController, is(false));
+    }
+
+    @Test
+    public void queAlSolicitarFinalizarPartidaSeEntregueLaVistaCorrespondiente() throws IllegalArgumentException,
+            PartidaConPuntajeNegativoException, PartidaDeBingoSinLineaNiBingoException {
+        // hago que se haga linea en un carton de 3x3 con los numeros 1, 2, 3
+
+        // P R E P A R A C I O N
+        Set<Integer> numerosMarcados = new HashSet<Integer>();
+        numerosMarcados.add(1);
+        numerosMarcados.add(2);
+        numerosMarcados.add(3);
+        session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcados);
+
+        Boolean seHizoLinea = true;
+        session.setAttribute("seHizoLinea", seHizoLinea);
+
+        Boolean seHizoBingo = false;
+        session.setAttribute("seHizoBingo", seHizoBingo);
+
+        TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.LINEA;
+        session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
+
+        Integer tiradaLimite = 90;
+        session.setAttribute("tiradaLimiteDeLaSesion", tiradaLimite);
+
+        Usuario jugador = new Usuario();
+        jugador.setId(1l);
+        session.setAttribute("jugadorActual", jugador);
+        // E J E C U C I O N
+        ModelAndView mav = this.controladorBingo.finalizar(session);
+
+        // V E R I F I C A C I O N
+        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/acceso-juegos"));
     }
 
 }
