@@ -186,17 +186,25 @@ public class ControladorSenku {
         Tablero tablero = (Tablero) session.getAttribute("tablero");
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
     
-       
         Boolean seGano = servicioSenku.seGano(tablero);
-    
-       
-        session.setAttribute("seGano", seGano);
-    
+        Boolean movimientosDisponibles = null;
         
+        if (!seGano) {
+            try {
+                movimientosDisponibles = servicioSenku.validarQueHayaMovimientosValidosDisponibles(tablero);
+            } catch (MovimientoInvalidoException e) {
+                e.printStackTrace();
+            }
+        }
+    
+        session.setAttribute("seGano", seGano);
+        session.setAttribute("movimientosDisponibles", movimientosDisponibles);
+    
         Map<String, Object> respuesta = new HashMap<>();
         respuesta.put("seGano", seGano);
-        respuesta.put("nombreJugador", jugador.getNombre()); // Asegúrate de tener el método getNombre() en Usuario
-        
+        respuesta.put("movimientosDisponibles", movimientosDisponibles);
+        respuesta.put("nombreJugador", jugador.getNombre());
+    
         return respuesta;
     }
     
