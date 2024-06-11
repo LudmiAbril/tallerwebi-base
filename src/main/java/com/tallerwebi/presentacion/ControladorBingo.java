@@ -146,11 +146,16 @@ public class ControladorBingo {
 			respuesta.put("limiteAlcanzado", limiteAlcanzado);
 		} else {
 			Integer nuevoNumero = servicioBingo.entregarNumeroAleatorio(numerosEntregados);
+			Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
+			Integer numerosRestantesParaCompletarLaTirada = this.servicioBingo.obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(tirada,
+					numerosEntregados.size());
 			numerosEntregados.add(nuevoNumero);
 			session.setAttribute("numeroAleatorioCantado", nuevoNumero);
 			session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
+			session.setAttribute("numerosRestantesParaCompletarLaTiradaDeLaSesion", numerosRestantesParaCompletarLaTirada);
 			respuesta.put("nuevoNumero", nuevoNumero);
 			respuesta.put("limiteAlcanzado", false);
+			respuesta.put("numerosRestantesParaCompletarLaTirada", numerosRestantesParaCompletarLaTirada);
 		}
 		return respuesta;
 	}
@@ -257,7 +262,7 @@ public class ControladorBingo {
 							new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, seHizoLinea,
 									seHizoBingo,
 									tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados));
-									mav.setViewName("redirect:/acceso-juegos");
+			mav.setViewName("redirect:/acceso-juegos");
 		} catch (PartidaDeBingoSinLineaNiBingoException e) {
 			mav.setViewName("bingo");
 			mav.addObject("mensajeError",
