@@ -210,37 +210,38 @@ public class ControladorSenku {
     
 
     @RequestMapping(path = "/senku/finalizarPartida", method = RequestMethod.POST)
-public ModelAndView finalizarPartida(HttpSession session) {
-    Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-    Tablero tablero = (Tablero) session.getAttribute("tablero");
+    public ModelAndView finalizarPartida(HttpSession session) {
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        Tablero tablero = (Tablero) session.getAttribute("tablero");
 
-   
-    Boolean seGano = servicioSenku.seGano(tablero);
-    
-    if (seGano != null && seGano) {
-     
-        Partida partidaSenku = new PartidaSenku();
-        Usuario jugadorActual = (Usuario) session.getAttribute("jugadorActual");
-        Long id = jugadorActual.getId();
-        
-        partidaSenku.setIdJugador(id);
-        partidaSenku.setJuego(Juego.SENKU);
-        ((PartidaSenku) partidaSenku).setGanado(seGano);
-        ((PartidaSenku) partidaSenku).setCantidadMovimientos((Integer) session.getAttribute("contadorMovimientos"));
+        Boolean seGano = servicioSenku.seGano(tablero);
 
-        try {
-            servicioPlataforma.agregarPartida(partidaSenku);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (PartidaConPuntajeNegativoException e) {
-            e.printStackTrace();
-        } catch (PartidaDeBingoSinLineaNiBingoException e) {
-            e.printStackTrace();
+        if (seGano != null && seGano) {
+
+            Partida partidaSenku = new PartidaSenku();
+            Usuario jugadorActual = (Usuario) session.getAttribute("jugadorActual");
+            Long id = jugadorActual.getId();
+
+            partidaSenku.setIdJugador(id);
+            partidaSenku.setJuego(Juego.SENKU);
+            ((PartidaSenku) partidaSenku).setGanado(seGano);
+            ((PartidaSenku) partidaSenku).setCantidadMovimientos((Integer) session.getAttribute("contadorMovimientos"));
+
+            try {
+                servicioPlataforma.agregarPartida(partidaSenku);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (PartidaConPuntajeNegativoException e) {
+                e.printStackTrace();
+            } catch (PartidaDeBingoSinLineaNiBingoException e) {
+                e.printStackTrace();
+            }
+
+            return new ModelAndView("redirect:/acceso-juegos");
         }
-        
         return new ModelAndView("redirect:/acceso-juegos");
     }
-    return new ModelAndView("redirect:/acceso-juegos");
-}
+
+
 
 }

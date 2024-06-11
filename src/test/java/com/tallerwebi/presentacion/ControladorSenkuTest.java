@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Casillero;
 import com.tallerwebi.dominio.Jugador;
+import com.tallerwebi.dominio.PartidaSenku;
 import com.tallerwebi.dominio.ServicioPlataforma;
 import com.tallerwebi.dominio.ServicioSenku;
 import com.tallerwebi.dominio.Tablero;
@@ -9,6 +10,8 @@ import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.CasilleroInexistenteException;
 import com.tallerwebi.dominio.excepcion.CasilleroVacio;
 import com.tallerwebi.dominio.excepcion.MovimientoInvalidoException;
+import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
+import com.tallerwebi.dominio.excepcion.PartidaDeBingoSinLineaNiBingoException;
 import com.tallerwebi.infraestructura.ServicioSenkuImpl;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
@@ -208,7 +211,7 @@ public void queAlMoverOSeleccionarLanceExcepcionCuandoMovimientoNoEsValido() thr
     // WHEN
     Map<String, Object> respuesta = controladorSenku.moverOSeleccionar(2, 2, session);
 
-    // THEN -- SINO SEMOVIO,NO SINREMENTA Y SE LIMPIA LA SELECCCION EN LA SESSION
+    // THEN -- SINO SE MOVIO,NO SINREMENTA Y SE LIMPIA LA SELECCCION EN LA SESSION
     assertNotNull(respuesta);
     assertFalse((Boolean) respuesta.get("success"));
     assertEquals("El casillero de destino debe estar vacío.", respuesta.get("mensaje"));
@@ -216,6 +219,113 @@ public void queAlMoverOSeleccionarLanceExcepcionCuandoMovimientoNoEsValido() thr
     verify(session, never()).setAttribute(eq("contadorMovimientos"), any(Integer.class)); 
 }
 
+
+@Test
+public void queAlReiniciarLaPartidaSeEstablezcanLosAtributosCorrectamente() {
+    // GIVEN
+    HttpSession session = mock(HttpSession.class);
+    ControladorSenku controladorSenku = new ControladorSenku(mock(ServicioSenku.class), mock(ServicioPlataforma.class));
+    
+    Usuario usuarioMock = new Usuario();
+    usuarioMock.setNombre("user");
+    
+    when(session.getAttribute("jugadorActual")).thenReturn(usuarioMock);
+
+    // WHEN
+    ModelAndView modelAndView = controladorSenku.reiniciarPartida(session);
+
+    // THEN
+    verify(session).setAttribute(eq("tablero"), any(Tablero.class));
+    verify(session).setAttribute("contadorMovimientos", 0);
+    verify(session).removeAttribute("casilleroSeleccionado");
+    //NO SE CREA UN NUEVO USER.NO SE REASIGNA,YA QUE SE RECUPERA EL QUE YA ESTA EN LA SESSION
+    verify(session, never()).setAttribute(eq("jugadorActual"), any(Usuario.class));
+
+    ModelMap model = modelAndView.getModelMap();
+    assertNotNull(model);
+    assertEquals("Partida reiniciada. ¡Buena suerte user!", model.get("mensaje"));
+    assertEquals("user", model.get("nombreJugador"));
+    assertEquals(0, model.get("contadorMovimientos"));
+    assertEquals("senku", modelAndView.getViewName());
+}
+
+@Test
+public void queAlReiniciarLaPartidaSeCreeUnNuevoUsuarioSiNoExiste() {
+    // GIVEN
+    HttpSession session = mock(HttpSession.class);
+    ControladorSenku controladorSenku = new ControladorSenku(mock(ServicioSenku.class), mock(ServicioPlataforma.class));
+
+    when(session.getAttribute("jugadorActual")).thenReturn(null);
+
+    // WHEN
+    ModelAndView modelAndView = controladorSenku.reiniciarPartida(session);
+
+    // THEN
+    verify(session).setAttribute(eq("tablero"), any(Tablero.class));
+    verify(session).setAttribute("contadorMovimientos", 0);
+    verify(session).removeAttribute("casilleroSeleccionado");
+    //SI NO EXISTE EL USER,ENTONCES SI SE CREA
+    verify(session).setAttribute(eq("jugadorActual"), any(Usuario.class));
+
+    ModelMap model = modelAndView.getModelMap();
+    assertNotNull(model);
+    assertEquals("Partida reiniciada. ¡Buena suerte user!", model.get("mensaje"));
+    assertEquals("user", model.get("nombreJugador"));
+    assertEquals(0, model.get("contadorMovimientos"));
+    assertEquals("senku", modelAndView.getViewName());
+}
+
+@Test
+public void queAlFinalizarPartidaSeGuardeLaPartidaSiSeGano()
+        throws IllegalArgumentException, PartidaConPuntajeNegativoException, PartidaDeBingoSinLineaNiBingoException {
+    // GIVEN
+    HttpSession session = mock(HttpSession.class);
+    ServicioSenku servicioSenku = mock(ServicioSenku.class);
+    ServicioPlataforma servicioPlataforma = mock(ServicioPlataforma.class);
+    ControladorSenku controladorSenku = new ControladorSenku(servicioSenku, servicioPlataforma);
+
+    Tablero tablero = new Tablero(5);
+    Usuario jugador = new Usuario();
+    jugador.setId(1L);
+    jugador.setNombre("user");
+
+    when(session.getAttribute("jugadorActual")).thenReturn(jugador);
+    when(session.getAttribute("tablero")).thenReturn(tablero);
+    when(session.getAttribute("contadorMovimientos")).thenReturn(10);
+    when(servicioSenku.seGano(tablero)).thenReturn(true);
+
+    // WHEN
+    ModelAndView modelAndView = controladorSenku.finalizarPartida(session);
+
+    // THEN
+    verify(servicioPlataforma).agregarPartida(any(PartidaSenku.class));
+    assertEquals("redirect:/acceso-juegos", modelAndView.getViewName());
+}
+@Test
+public void queAlFinalizarPartidaNoSeGuardeLaPartidaSiNoSeGano() throws IllegalArgumentException, PartidaConPuntajeNegativoException, PartidaDeBingoSinLineaNiBingoException {
+    // GIVEN
+    HttpSession session = mock(HttpSession.class);
+    ServicioSenku servicioSenku = mock(ServicioSenku.class);
+    ServicioPlataforma servicioPlataforma = mock(ServicioPlataforma.class);
+    ControladorSenku controladorSenku = new ControladorSenku(servicioSenku, servicioPlataforma);
+
+    Tablero tablero = new Tablero(5);
+    Usuario jugador = new Usuario();
+    jugador.setId(1L);
+    jugador.setNombre("user");
+
+    when(session.getAttribute("jugadorActual")).thenReturn(jugador);
+    when(session.getAttribute("tablero")).thenReturn(tablero);
+    when(session.getAttribute("contadorMovimientos")).thenReturn(10);
+    when(servicioSenku.seGano(tablero)).thenReturn(false);
+
+    // WHEN
+    ModelAndView modelAndView = controladorSenku.finalizarPartida(session);
+
+    // THEN
+    verify(servicioPlataforma, never()).agregarPartida(any(PartidaSenku.class));
+    assertEquals("redirect:/acceso-juegos", modelAndView.getViewName());
+}
 
 
 }
