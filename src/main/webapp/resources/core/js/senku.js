@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    //TABLERO
+    // TABLERO
     function actualizarTablero() {
         $.get("obtenerTablero", function (data) {
             var tableroHtml = '';
@@ -13,7 +13,7 @@ $(document).ready(function () {
             }
             $('.tablero').html(tableroHtml);
 
-            //CLICKS CASILLEROS
+            // CLICKS CASILLEROS
             $('.casillero').click(function () {
                 var x = $(this).data('x');
                 var y = $(this).data('y');
@@ -33,32 +33,44 @@ $(document).ready(function () {
     }
 
     function comprobarSiSeGano() {
-        fetch('/senku/gano', {
-            method: 'POST',
+        fetch("http://localhost:8080/spring/senkuGano", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
+                "Content-Type": "application/json"
+            }
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.seGano) {
-                    document.getElementById('modalSenkuFinish').style.display = 'block';
-                    document.querySelector('#modalSenkuFinish span').innerText = data.nombreJugador;
-                    mostrarMensajeMovimientos(data); 
-                }
-            })
-            .catch(error => console.error('Error:', error));
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                console.error('Error del servidor:', data.error);
+                return;
+            }
+
+            if (data.seGano) {
+                document.getElementById('modalSenkuFinish').style.display = 'block';
+                document.querySelector('#modalSenkuFinish span').textContent = data.nombreJugador;
+                mostrarMensajeMovimientos(data);
+            } else if (data.movimientosDisponibles === false) {
+                mostrarMensajeMovimientos(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error en la solicitud:', error);
+        });
     }
-    
+
+    function mostrarMensajeMovimientos(respuesta) {
+        if (respuesta.movimientosDisponibles === false) {
+            document.getElementById("mensajeMovimientos").textContent = "No hay movimientos válidos disponibles.";
+            document.getElementById("modalSenkuFinish").style.display = "block";
+        }
+    }
 
     actualizarTablero();
     setInterval(comprobarSiSeGano, 5000);
 });
-
-function mostrarMensajeMovimientos(respuesta) {
-    if (respuesta.movimientosDisponibles === false) {
-        document.getElementById("mensajeMovimientos").textContent = "No hay movimientos válidos disponibles.";
-        document.getElementById("modalSenkuFinish").style.display = "block";
-    }
-}
