@@ -187,7 +187,7 @@ public class ControladorSenku {
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
     
         Boolean seGano = servicioSenku.seGano(tablero);
-        Boolean movimientosDisponibles = null;
+        Boolean movimientosDisponibles = true;
         
         if (!seGano) {
             try {

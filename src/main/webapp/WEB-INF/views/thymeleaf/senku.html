@@ -39,11 +39,9 @@
             <p>Contador Movimientos : <span class="mov" th:text="${contadorMovimientos}">00</span></p>
         </div>
 
-        <!-- Modal Finalizar Partida -->
-        <div id="modalFinPartida" class="modal">
-            <div class="modal-content">
-                <h2 id="resultadoPartida"></h2>
-                <div class="botones-modal">
+    
+            
+                <div class="botones">
                     <form th:action="@{/reiniciar}" method="post">
                         <button type="submit" class="boton-reiniciar">reiniciar</button>
                     </form>
@@ -51,8 +49,8 @@
                         <button type="submit" class="boton-volver-inicio">inicio</button>
                     </form>
                 </div>
-            </div>
-        </div>
+        
+      
 
         <!-- Tablero -->
         <div class="tablero-fondo">

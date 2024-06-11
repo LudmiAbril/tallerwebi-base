@@ -26,20 +26,20 @@ public class ControladorSenkuTest {
     private ControladorSenku controladorSenku;
     private ServicioSenku servicioSenku;
     private ServicioPlataforma servicioPlataforma;
-/* 
     @BeforeEach
     public void init() {
         servicioSenku = mock(ServicioSenku.class);
         servicioPlataforma = mock(ServicioPlataforma.class);
         controladorSenku = new ControladorSenku(servicioSenku, servicioPlataforma);
-    }
-
-    @Test
-    public void queSeDevuelvaElNombreDeLaVistaCorrectoDelInicioDelSenkuAlLlamarAInicioSenkuEnElController() {
-        ModelAndView modelAndView = controladorSenku.inicioSenku();
-        String viewname = modelAndView.getViewName();
-        assertThat(viewname, equalToIgnoringCase("irAlSenku"));
-    }
+        }
+        
+        @Test
+        public void queSeDevuelvaElNombreDeLaVistaCorrectoDelInicioDelSenkuAlLlamarAInicioSenkuEnElController() {
+            ModelAndView modelAndView = controladorSenku.inicioSenku();
+            String viewname = modelAndView.getViewName();
+            assertThat(viewname, equalToIgnoringCase("irAlSenku"));
+            }
+            /* 
 
     @Test
     public void queElMetodoDeComenzarJuegoSenkuEsteSetenadoCorrectamenteLosAtributosDeLaSesionAlRenderizarLaVistaSenku() {

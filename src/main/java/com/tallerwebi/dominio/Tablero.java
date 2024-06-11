@@ -128,22 +128,33 @@ public class Tablero {
         this.contadorMovimientos = contadorMovimientos;
     }
 
-    public Boolean hayMovimientoDisponibleEnTablero(Casillero casilleroActual) throws MovimientoInvalidoException {
-        int x = casilleroActual.getCoordenadaX();
-        int y = casilleroActual.getCoordenadaY();
-
-        //VERIFICO HACIA ARRIBA,ABAJO,IZQ,DER
-        if (esMovimientoValido(x, y, x - 2, y)) {
-            return true;
-        }if (esMovimientoValido(x, y, x + 2, y)) {
-            return true;
-        }if (esMovimientoValido(x, y, x, y - 2)) {
-            return true;
-        }if (esMovimientoValido(x, y, x, y + 2)) {
-            return true;
+    public boolean hayMovimientoDisponibleEnTablero() throws MovimientoInvalidoException {
+        for (int i = 0; i < cantidadFilasYColumnas; i++) {
+            for (int j = 0; j < cantidadFilasYColumnas; j++) {
+                Casillero casilleroActual = casilleros[i][j];
+                if (!casilleroActual.getOcupado()) {
+                    //mover una ficha desde dos casilleros arriba.
+                    if (esMovimientoValido(i, j, i - 2, j)) {
+                        return true;
+                    }
+                    //mover una ficha desde dos casilleros abajo.
+                    if (esMovimientoValido(i, j, i + 2, j)) {
+                        return true;
+                    }
+                    //mover una ficha desde dos casilleros a la izq
+                    if (esMovimientoValido(i, j, i, j - 2)) {
+                        return true;
+                    }
+                    //mover una ficha desde dos casilleros a la der
+                    if (esMovimientoValido(i, j, i, j + 2)) {
+                        return true;
+                    }
+                }
+            }
         }
         return false;
     }
+    
 
 
 
