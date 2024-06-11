@@ -8,6 +8,7 @@ import com.tallerwebi.dominio.Tablero;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.excepcion.CasilleroInexistenteException;
 import com.tallerwebi.dominio.excepcion.CasilleroVacio;
+import com.tallerwebi.dominio.excepcion.MovimientoInvalidoException;
 import com.tallerwebi.infraestructura.ServicioSenkuImpl;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
@@ -19,6 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -146,26 +149,73 @@ public void queAlMarcarCasilleroRetorneMensajeDeErrorSiElCasilleroEstaVacio()
     assertEquals("El casillero seleccionado está vacío.", respuesta.get("message"));
 }
 
-/* 
 @Test
-public void queAlMoverOSeleccionarRealiceMovimientoValido() {
+public void queAlMoverOSeleccionarRealiceMovimientoValido() throws CasilleroInexistenteException, CasilleroVacio, MovimientoInvalidoException {
     // GIVEN
     HttpSession session = mock(HttpSession.class);
+    ServicioSenku servicioSenku = mock(ServicioSenku.class);
+    ServicioPlataforma servicioPlataforma = mock(ServicioPlataforma.class);
     ControladorSenku controladorSenku = new ControladorSenku(servicioSenku, servicioPlataforma);
     Tablero tablero = new Tablero(5);
-    tablero.getCasilleros()[2][2].setOcupado(true);
+    //CREO LOS CASILLEROS Y LOS SETEO PARA HACER UN MOV VALIDO
+    Casillero casilleroOrigen = new Casillero(0, 2);
+    casilleroOrigen.setOcupado(true); // LO MOCKEO EN OCUPADO --TRUE 
+    Casillero casilleroDestino = new Casillero(2, 2);
+    casilleroDestino.setOcupado(false); // MOCKEO A VACIO --FALSE
+
+    when(servicioSenku.seleccionarCasillero(tablero, 0, 2)).thenReturn(casilleroOrigen);
+    when(servicioSenku.getCasillero(tablero, 2, 2)).thenReturn(casilleroDestino);
+    doNothing().when(servicioSenku).realizarMovimiento(tablero, casilleroOrigen, casilleroDestino);
+
     when(session.getAttribute("tablero")).thenReturn(tablero);
-    when(session.getAttribute("casilleroSeleccionado")).thenReturn(tablero.getCasilleros()[2][2]);
+    when(session.getAttribute("casilleroSeleccionado")).thenReturn(casilleroOrigen);
+    when(session.getAttribute("contadorMovimientos")).thenReturn(0);
 
     // WHEN
-    Map<String, Object> respuesta = controladorSenku.moverOSeleccionar(2, 4, session);
+    Map<String, Object> respuesta = controladorSenku.moverOSeleccionar(2, 2, session);
 
-    // THEN
+    // THEN --SE HACE ELMOVIMIENTO Y LA LOGICA DEL SUCCES
     assertNotNull(respuesta);
     assertTrue((Boolean) respuesta.get("success"));
     assertEquals("Movimiento realizado con éxito.", respuesta.get("mensaje"));
+    verify(session).removeAttribute("casilleroSeleccionado");
+    verify(session).setAttribute(eq("contadorMovimientos"), eq(1));
 }
 
-*/
+
+@Test
+public void queAlMoverOSeleccionarLanceExcepcionCuandoMovimientoNoEsValido() throws CasilleroInexistenteException, CasilleroVacio, MovimientoInvalidoException {
+    // GIVEN
+    HttpSession session = mock(HttpSession.class);
+    ServicioSenku servicioSenku = mock(ServicioSenku.class);
+    ServicioPlataforma servicioPlataforma = mock(ServicioPlataforma.class);
+    ControladorSenku controladorSenku = new ControladorSenku(servicioSenku, servicioPlataforma);
+    Tablero tablero = new Tablero(5);
+    // Creo los casilleros y los seteo para un movimiento inválido
+    Casillero casilleroOrigen = new Casillero(0, 2);
+    casilleroOrigen.setOcupado(true); // MOCKEO A OCUPADO --FALSE
+    Casillero casilleroDestino = new Casillero(2, 2);
+    casilleroDestino.setOcupado(true); // MOCKEO A OCUPADO --FALSE
+
+    when(servicioSenku.seleccionarCasillero(tablero, 0, 2)).thenReturn(casilleroOrigen);
+    when(servicioSenku.getCasillero(tablero, 2, 2)).thenReturn(casilleroDestino);
+    // SIMULAMOS LA EXCEPCION YA QUE EL MOVIMIENTO NO ES CORRECTO
+    doThrow(new MovimientoInvalidoException("Movimiento inválido")).when(servicioSenku).realizarMovimiento(tablero, casilleroOrigen, casilleroDestino);
+
+    when(session.getAttribute("tablero")).thenReturn(tablero);
+    when(session.getAttribute("casilleroSeleccionado")).thenReturn(casilleroOrigen);
+
+    // WHEN
+    Map<String, Object> respuesta = controladorSenku.moverOSeleccionar(2, 2, session);
+
+    // THEN -- SINO SEMOVIO,NO SINREMENTA Y SE LIMPIA LA SELECCCION EN LA SESSION
+    assertNotNull(respuesta);
+    assertFalse((Boolean) respuesta.get("success"));
+    assertEquals("El casillero de destino debe estar vacío.", respuesta.get("mensaje"));
+    verify(session).removeAttribute("casilleroSeleccionado"); 
+    verify(session, never()).setAttribute(eq("contadorMovimientos"), any(Integer.class)); 
+}
+
+
 
 }
