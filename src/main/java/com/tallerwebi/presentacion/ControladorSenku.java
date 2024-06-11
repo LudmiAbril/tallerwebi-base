@@ -79,6 +79,7 @@ public class ControladorSenku {
         session.setAttribute("contadorMovimientos", 0);
         return new ModelAndView("senku", model);
     }
+
     @RequestMapping(path = "/obtenerTablero", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> obtenerTablero(HttpSession session) {
@@ -109,7 +110,8 @@ public class ControladorSenku {
 
     @RequestMapping(path = "/moverOSeleccionar/{x}/{y}", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> moverOSeleccionar(@PathVariable Integer x, @PathVariable Integer y, HttpSession session) {
+    public Map<String, Object> moverOSeleccionar(@PathVariable Integer x, @PathVariable Integer y,
+            HttpSession session) {
         Map<String, Object> respuesta = new HashMap<>();
         Tablero tablero = (Tablero) session.getAttribute("tablero");
         Casillero casilleroSeleccionado = (Casillero) session.getAttribute("casilleroSeleccionado");
@@ -121,7 +123,7 @@ public class ControladorSenku {
                     servicioSenku.realizarMovimiento(tablero, casilleroSeleccionado, casilleroDestino);
                     session.removeAttribute("casilleroSeleccionado");
                     Integer contadorMovimientos = (Integer) session.getAttribute("contadorMovimientos");
-                  
+
                     contadorMovimientos++;
                     session.setAttribute("contadorMovimientos", contadorMovimientos);
                     respuesta.put("success", true);
@@ -154,16 +156,15 @@ public class ControladorSenku {
 
         return respuesta;
     }
-    
+
     @RequestMapping(path = "/reiniciar", method = RequestMethod.POST)
     public ModelAndView reiniciarPartida(HttpSession session) {
-  
+
         Tablero tablero = new Tablero(5);
         session.setAttribute("tablero", tablero);
         session.setAttribute("contadorMovimientos", 0);
         session.removeAttribute("casilleroSeleccionado");
-        
-      
+
         Usuario usuario = (Usuario) session.getAttribute("jugadorActual");
         if (usuario == null) {
             usuario = new Usuario();
@@ -171,24 +172,31 @@ public class ControladorSenku {
             session.setAttribute("jugadorActual", usuario);
         }
 
-     
         ModelMap model = new ModelMap();
         model.put("mensaje", "Partida reiniciada. ¡Buena suerte " + usuario.getNombre() + "!");
         model.put("nombreJugador", usuario.getNombre());
         model.put("contadorMovimientos", 0);
-        
+
         return new ModelAndView("senku", model);
     }
-    
-    @RequestMapping(path = "/senku/gano", method = RequestMethod.POST)
+
+    @RequestMapping(path = "/senkuGano", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> comprobarSiSeGano(HttpSession session) {
+        Map<String, Object> respuesta = new HashMap<>();
+    
+       
+        if (session.getAttribute("tablero") == null) {
+            respuesta.put("error", "No se encontró el tablero en la sesión");
+            return respuesta;
+        }
+    
         Tablero tablero = (Tablero) session.getAttribute("tablero");
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
     
         Boolean seGano = servicioSenku.seGano(tablero);
         Boolean movimientosDisponibles = true;
-        
+    
         if (!seGano) {
             try {
                 movimientosDisponibles = servicioSenku.validarQueHayaMovimientosValidosDisponibles(tablero);
@@ -200,16 +208,15 @@ public class ControladorSenku {
         session.setAttribute("seGano", seGano);
         session.setAttribute("movimientosDisponibles", movimientosDisponibles);
     
-        Map<String, Object> respuesta = new HashMap<>();
         respuesta.put("seGano", seGano);
         respuesta.put("movimientosDisponibles", movimientosDisponibles);
-        respuesta.put("nombreJugador", jugador.getNombre());
+        String nombreJugador = (jugador != null) ? jugador.getNombre() : "Jugador Desconocido";
+        respuesta.put("nombreJugador", nombreJugador);
     
         return respuesta;
     }
     
-
-    @RequestMapping(path = "/senku/finalizarPartida", method = RequestMethod.POST)
+    @RequestMapping(path = "/senkuFinalizarPartida", method = RequestMethod.POST)
     public ModelAndView finalizarPartida(HttpSession session) {
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         Tablero tablero = (Tablero) session.getAttribute("tablero");
@@ -241,7 +248,5 @@ public class ControladorSenku {
         }
         return new ModelAndView("redirect:/acceso-juegos");
     }
-
-
 
 }
