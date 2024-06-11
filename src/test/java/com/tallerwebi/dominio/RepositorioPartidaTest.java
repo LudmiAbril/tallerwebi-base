@@ -281,12 +281,14 @@ public class RepositorioPartidaTest {
     }
 
     @Test
-    public void queNoSeGuardeUnaPartidaSinHaberHechoLineaNiBingo() throws IllegalArgumentException, PartidaConPuntajeNegativoException, PartidaDeBingoSinLineaNiBingoException, NoHayPartidasDeBingoException{
+    public void queNoSeGuardeUnaPartidaSinHaberHechoLineaNiBingo() throws IllegalArgumentException,
+            PartidaConPuntajeNegativoException, PartidaDeBingoSinLineaNiBingoException, NoHayPartidasDeBingoException {
         Set<Integer> casillerosMarcados = new HashSet<Integer>();
         casillerosMarcados.add(1);
         casillerosMarcados.add(5);
         casillerosMarcados.add(9);
-        Partida bingo = new PartidaBingo(1l, Juego.BINGO, casillerosMarcados, false, false, TipoPartidaBingo.BINGO, 25, casillerosMarcados.size());
+        Partida bingo = new PartidaBingo(1l, Juego.BINGO, casillerosMarcados, false, false, TipoPartidaBingo.BINGO, 25,
+                casillerosMarcados.size());
         List<PartidaBingo> partidasDeBingoActuales = new ArrayList<>();
         assertThrows(NoHayPartidasDeBingoException.class, () -> {
             partidasDeBingoActuales.addAll(this.repositorio.generarRankingDePartidasDeBingo(1l));
@@ -296,4 +298,38 @@ public class RepositorioPartidaTest {
         });
         assertThat(partidasDeBingoActuales.contains(bingo), is(false));
     }
+
+    @Test
+public void queSeGuardeUnaPartidaSenku() throws PartidaConPuntajeNegativoException, IllegalArgumentException,
+        PartidaDeBingoSinLineaNiBingoException {
+    // GIVEN
+    Long idJugador = 1L;
+    Juego juego = Juego.SENKU;
+    Boolean ganado = true;
+    Integer cantidadMovimientos = 50;
+
+    Partida partidaSenku = new PartidaSenku(idJugador, juego, ganado, cantidadMovimientos);
+
+    // WHEN
+    repositorio.guardar(partidaSenku);
+
+    // THEN
+    assertThat(session.getCurrentSession().contains(partidaSenku), equalTo(true));
+}
+
+@Test
+public void queLanceExceptionAlGuardarPartidaSenkuConValoresNoValidos() {
+    // GIVEN
+    PartidaSenku partidaSenku = new PartidaSenku();
+    // VALORES NO VALIODS(SOLO SE GUARDA SI SE GANO Y SI HUBO MOVIMEINTOS)
+    partidaSenku.setGanado(null);
+    partidaSenku.setCantidadMovimientos(-1);
+
+    // THEN
+    assertThrows(IllegalArgumentException.class, () -> {
+        repositorio.guardar(partidaSenku);
+    });
+}
+
+
 }
