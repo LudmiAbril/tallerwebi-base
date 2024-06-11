@@ -316,3 +316,31 @@ function showGreeting(message) {
 function showWinner(winner) {
     alert("El ganador del juego es: " + winner);
 }
+document.addEventListener("DOMContentLoaded", function() {
+    function actualizarJugador2() {
+        $.ajax({
+            url: '/obtenerEstadoPartida',
+            method: 'GET',
+            success: function(response) {
+                let nombreJugador2 = response.nombreJugador2;
+                if (nombreJugador2) {
+                    $('#nombreJugador2').text(nombreJugador2);
+                } else {
+                    $('#nombreJugador2').text('esperando nuevos jugadores');
+                }
+            },
+            error: function(error) {
+                console.error("Error al obtener el estado de la partida", error);
+            }
+        });
+    }
+    actualizarJugador2();
+    setInterval(actualizarJugador2, 50000);
+});
+socket.onmessage = function(event) {
+    var data = JSON.parse(event.data);
+    if (data.tipo === "conexion") {
+        // Actualizar el valor del span con el nombre del jugador 2
+        document.getElementById("nombreJugador2").innerText = data.jugador;
+    }
+};

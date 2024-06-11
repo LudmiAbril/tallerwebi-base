@@ -35,7 +35,7 @@ public class ControladorMensajes {
     @MessageMapping("/game.join")
     @SendTo("/topic/game.state")
     public Object joinGame(@Payload JoinMensaje message, SimpMessageHeaderAccessor headerAccessor) {
-        BingoMultijugador game = (BingoMultijugador) bingoManager.joinGame(message.getPlayer());
+        BingoMultijugador game = (BingoMultijugador) bingoManager.joinGame(message.getPlayer(), session);
         if (game == null) {
             MensajeBingo errorMessage = new MensajeBingo();
             errorMessage.setType("error");

@@ -1,4 +1,5 @@
 package com.tallerwebi.dominio;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,7 +15,7 @@ public class BingoManager {
         waitingPlayers = new ConcurrentHashMap<>();
     }
 
-    public synchronized BingoMultijugador joinGame(String player) {
+    public synchronized BingoMultijugador joinGame(String player, HttpSession session) {
         if (games.values().stream().anyMatch(game -> game.getNombreJugador().equals(player) || (game.getNombreJugador2() != null && game.getNombreJugador2().equals(player)))) {
             return games.values().stream().filter(game -> game.getNombreJugador().equals(player) || game.getNombreJugador2().equals(player)).findFirst().get();
         }
@@ -23,6 +24,7 @@ public class BingoManager {
             if (game.getNombreJugador() != null && game.getNombreJugador2() == null) {
                 game.setNombreJugador2(player);
                 game.setGameState(EstadoJuego.PLAYER1_TURN);
+                session.setAttribute("partidaMultijugador", game);
                 return game;
             }
         }
@@ -30,6 +32,7 @@ public class BingoManager {
         BingoMultijugador game = new BingoMultijugador(player, null);
         games.put(game.getGameId(), game);
         waitingPlayers.put(player, game.getGameId());
+        session.setAttribute("partidaMultijugador", game);
         return game;
     }
 

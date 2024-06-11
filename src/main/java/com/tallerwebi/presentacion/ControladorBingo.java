@@ -3,6 +3,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
 import javax.servlet.http.HttpSession;
 
@@ -32,10 +35,12 @@ import com.tallerwebi.dominio.PartidaBingo;
 
 @RestController
 public class ControladorBingo {
+
     private final BingoManager bingoManager = new BingoManager();
 	private ServicioBingo servicioBingo;
 	private ServicioPlataforma servicioPlataforma;
     private SimpMessagingTemplate template;
+	private Set<WebSocketSession> sessions = new HashSet<>();
 
 	@Autowired
 	public ControladorBingo(ServicioBingo servicioBingo, ServicioPlataforma servicioPlataforma) {
@@ -50,9 +55,9 @@ public class ControladorBingo {
 		ModelMap model = new ModelMap();
 		model.put("nuevoJugador", new Usuario());
 		model.put("nombreJugador", new Usuario().getNombre());
-		String nombreUsuario = (String) session.getAttribute("nombreUsuario");
-		if (nombreUsuario != null) {
-			model.put("nombreUsuario", nombreUsuario);
+		Usuario user = (Usuario) session.getAttribute("jugadorActual");
+		if (user != null) {
+			model.put("nombreUsuario", user.getNombre());
 		} else {
 			// Si no hay nombre de usuario en la sesión, puedes manejarlo aquí
 			model.put("nombreUsuario", "Invitado");
@@ -113,11 +118,14 @@ public class ControladorBingo {
 	}
 
 	@RequestMapping(path = "/comenzarJuegoBingoMultijugador", method = RequestMethod.GET)
-    public Map<String, Object> comenzarPartidaBingoMultijugador(@RequestParam("jugador1") String jugador1, @RequestParam("jugador2") String jugador2) {
+    public Map<String, Object> comenzarPartidaBingoMultijugador(@RequestParam("nombreUsuario") String jugador1, HttpSession session, @RequestParam("jugador2") String jugador2, HttpSession session2) {
         Map<String, Object> response = new HashMap<>();
-
+		if (jugador1 == null || jugador2 == null) {
+			response.put("error", "Los nombres de los jugadores son obligatorios.");
+			return response;
+		}
         try {
-            BingoMultijugador partida = bingoManager.joinGame(jugador1);
+            BingoMultijugador partida = bingoManager.joinGame(jugador1, session);
             partida.setNombreJugador2(jugador2);
             partida.setGameState(EstadoJuego.PLAYER1_TURN);
 
@@ -133,6 +141,40 @@ public class ControladorBingo {
         }
 
         return response;
+	}
+
+	@RequestMapping(path = "/obtenerEstadoPartida", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> obtenerEstadoPartida(HttpSession session) {
+		Map<String, Object> response = new HashMap<>();
+		BingoMultijugador partida = (BingoMultijugador) session.getAttribute("partidaMultijugador");
+		if (partida != null) {
+			response.put("nombreJugador2", partida.getNombreJugador2());
+		} else {
+			response.put("nombreJugador2", null);
+		}
+		return response;
+	}
+    private int jugadoresConectados = 0;
+
+	@MessageMapping("/bingo-multijugador/conexion")
+	public void manejarConexion(String jugador, WebSocketSession session) {
+		// Maneja el mensaje de conexión recibido desde el cliente
+		sessions.add(session);
+		if (sessions.size() == 2) {
+			// Ambos jugadores están conectados, inicia la partida
+			iniciarPartida();
+		}
+	}
+	private void iniciarPartida() {
+		// Envía un mensaje a cada sesión para notificar que la partida ha comenzado
+		for (WebSocketSession session : sessions) {
+			try {
+				session.sendMessage(new TextMessage("La partida ha comenzado"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	@RequestMapping(path = "/obtenerDatosIniciales", method = RequestMethod.GET)
 	@ResponseBody
