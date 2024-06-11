@@ -29,9 +29,10 @@ import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.CartonBingo;
 import com.tallerwebi.dominio.PartidaBingo;
 
+
 @RestController
 public class ControladorBingo {
-
+    private final BingoManager bingoManager = new BingoManager();
 	private ServicioBingo servicioBingo;
 	private ServicioPlataforma servicioPlataforma;
     private SimpMessagingTemplate template;
@@ -40,18 +41,29 @@ public class ControladorBingo {
 	public ControladorBingo(ServicioBingo servicioBingo, ServicioPlataforma servicioPlataforma) {
 		this.servicioBingo = servicioBingo;
 		this.servicioPlataforma = servicioPlataforma;
-	}
+
+		//this.template = new SimpMessagingTemplate(new WebSocketStompClient(servicioPlataforma));
+    }
 
 	@RequestMapping(path = "/irAlBingo", method = RequestMethod.GET)
-	public ModelAndView irAlBingo() {
+	public ModelAndView irAlBingo(HttpSession session) {
 		ModelMap model = new ModelMap();
 		model.put("nuevoJugador", new Usuario());
+		model.put("nombreJugador", new Usuario().getNombre());
+		String nombreUsuario = (String) session.getAttribute("nombreUsuario");
+		if (nombreUsuario != null) {
+			model.put("nombreUsuario", nombreUsuario);
+		} else {
+			// Si no hay nombre de usuario en la sesión, puedes manejarlo aquí
+			model.put("nombreUsuario", "Invitado");
+		}
 		return new ModelAndView("irAlBingo", model);
 	}
 	@RequestMapping(path = "/bingo-multijugador", method = RequestMethod.GET)
 	public ModelAndView jugarMultijugador() {
 		ModelMap model = new ModelMap();
 		model.put("nuevoJugador", new Usuario());
+
 		return new ModelAndView("bingo-multijugador", model);
 	}
 
@@ -99,21 +111,29 @@ public class ControladorBingo {
 		return new ModelAndView("bingo", model);
 		// get config. get cantidad de bolas. guardar en la sesion.
 	}
-	@RequestMapping(path = "/comenzarJuegoBingoMultijugador", method = RequestMethod.POST)
-	public ModelAndView comenzarJuegoBingoMultijugador(@RequestParam("tipo") String tipo, @RequestParam("jugador2") String nombreJugador2, HttpSession session) {
-		ModelMap model = new ModelMap();
-		Usuario usuario = (Usuario) session.getAttribute("jugadorActual");
-		Integer dimension = usuario.getConfig().getDimensionCarton();
-		BingoMultijugador partida = new BingoMultijugador(usuario.getNombre(), nombreJugador2);
 
-		session.setAttribute("partidaMultijugador", partida);
-		model.put("dimension", usuario.getConfig().getDimensionCarton());
-		model.put("nombreJugador", usuario.getNombre());
-		model.put("nombreJugador2", nombreJugador2);
+	@RequestMapping(path = "/comenzarJuegoBingoMultijugador", method = RequestMethod.GET)
+    public Map<String, Object> comenzarPartidaBingoMultijugador(@RequestParam("jugador1") String jugador1, @RequestParam("jugador2") String jugador2) {
+        Map<String, Object> response = new HashMap<>();
 
-		return new ModelAndView("bingo-multijugador", model);
+        try {
+            BingoMultijugador partida = bingoManager.joinGame(jugador1);
+            partida.setNombreJugador2(jugador2);
+            partida.setGameState(EstadoJuego.PLAYER1_TURN);
+
+            int dimension = partida.getDimension();
+            partida.setCartonJugador1(servicioBingo.generarCarton(dimension));
+            partida.setCartonJugador2(servicioBingo.generarCarton(dimension));
+
+            response.put("estadoPartida", "Partida comenzada");
+            response.put("partida", partida);
+            template.convertAndSend("/topic/updates", partida);
+        } catch (Exception e) {
+            response.put("error", e.getMessage());
+        }
+
+        return response;
 	}
-
 	@RequestMapping(path = "/obtenerDatosIniciales", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> obtenerDatosIniciales(HttpSession session) {
@@ -159,6 +179,10 @@ public class ControladorBingo {
 		Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
 		Boolean limiteAlcanzado = false;
 		Map<String, Object> respuesta = new HashMap<>();
+		if (tiradaLimiteDeLaSesion == null) {
+			respuesta.put("error", "La tirada límite de la sesión no está establecida.");
+			return respuesta;
+		}
 		if (numerosEntregados == null) {
 			numerosEntregados = new LinkedHashSet<>();
 			session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);

@@ -32,7 +32,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
 public class ControladorBingoTest {
-
+    private BingoManager bingoManager;
     private ControladorBingo controladorBingo;
     private ServicioBingo servicioBingoMock;
     private HttpSession session;
@@ -48,13 +48,13 @@ public class ControladorBingoTest {
 
     @Test
     public void queAlSolicitarIrAlBingoSeEntregueLaVistaIrAlBingo() {
-        ModelAndView mav = this.controladorBingo.irAlBingo();
+        ModelAndView mav = this.controladorBingo.irAlBingo(session);
         assertThat(mav.getViewName(), equalToIgnoringCase("irAlBingo"));
     }
 
     @Test
     public void queAlSolicitarIrAlBingoSeGuardeElModeloCorrespondiente() {
-        ModelAndView mav = this.controladorBingo.irAlBingo();
+        ModelAndView mav = this.controladorBingo.irAlBingo(session);
         Usuario MODELO_ACTUAL = ((Usuario) mav.getModel().get("nuevoJugador"));
         assertThat(MODELO_ACTUAL, instanceOf(Usuario.class));
     }
@@ -87,7 +87,7 @@ public class ControladorBingoTest {
 
     @Test
     public void queAlIrAVistaBingoSeRendericeLaVistaCorrectaYSeGuardeCorrectamenteUnJugador() {
-        ModelAndView modelAndView = controladorBingo.irAlBingo();
+        ModelAndView modelAndView = controladorBingo.irAlBingo(session);
         assertEquals("irAlBingo", modelAndView.getViewName());
         ModelMap modelMap = modelAndView.getModelMap();
         assertNotNull(modelMap);

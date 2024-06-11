@@ -2,8 +2,12 @@ var intervaloRefresco;
 //se utilizará para almacenar el intervalo de actualización del número cantado.
 var numeroColorMap = {};
 $(document).ready(function () {
+
+            // Inicializar stompClient después de cargar la biblioteca
+
     // una vez que se realiza la peticion /obtenerDatosIniciales se ejecuta la funcion siguiente, que es la respuesta a esa peticion. Es decir, cuando se pide /obtenerDatosIniciales se responde de esa forma
     $.get("obtenerDatosIniciales", function (data) {
+
         $("#numeroCantado").text(data.numeroAleatorioCantado);
         //para construir la estructura de la tabla del cartón.
         var tablaHtml = "";
@@ -124,13 +128,18 @@ function obtenerLosNumerosEntregados() {
     });
 }
 function enviarNumeroAlServidor(nuevoNumero) {
-            stompClient.send("/app/bingo/nuevoNumero", {}, JSON.stringify({'nuevoNumero': nuevoNumero}));
-        }
+    if (stompClient && stompClient.connected) {
+        stompClient.send("/app/bingo-multijugador/nuevoNumero", {}, JSON.stringify({'nuevoNumero': nuevoNumero}));
+    } else {
+        console.error("stompClient no está conectado.");
+    }
+}
 
 function bingo() {
     $.post("bingo", function (data) {
         if (data.seHizoBingo) {
             abrirModal();
+            enviarMensajeGanador(data.ganador);
             clearInterval(intervaloRefresco); // Detener la actualización del número
             intervaloRefresco = null;
         } else if (!data.seHizoBingo) {
@@ -185,7 +194,10 @@ function mostrarModalSeleccionTipoPartidaBingo(event) {
     event.preventDefault();
     document.getElementById("modalTipoPartida").style.display = "block";
 }
-
+function mostrarModalPartidaMultijugador(event){
+    event.preventDefault();
+    document.getElementById("iniciarPartidaModal").style.display = "block";
+}
 
 
 function linea() {
@@ -216,20 +228,53 @@ function abrirModalDeLimiteAlcanzado() {
 
 //ACA VA LO DE WEBSOCKETS
 let stompClient = null;
-let game = null;
-let player = null;
 
-/**
- * Sends a message to the server using the STOMP client.
- * @param {Object} message - The message to be sent. Must contain at least a "type" field.
- */
+function connect() {
+    const socket = new SockJS('/bingo-multijugador');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/updates', function (message) {
+            showGameUpdate(JSON.parse(message.body));
+        });
+    });
+}
+
+function obtenerNuevoNumero() {
+    stompClient.send("/app/obtenerNuevoNumero", {}, {});
+}
+/*const stompClient = new StompJs.Client({
+    brokerURL: 'ws://localhost:8080/spring/bingo-multijugador',
+    reconnectDelay: 5000, // Intentar reconectar en 5 segundos si se pierde la conexión
+    heartbeatIncoming: 4000, // Verificar cada 4 segundos si la conexión sigue activa
+    heartbeatOutgoing: 4000
+});
+stompClient.onConnect = (frame) => {
+    setConnected(true);
+    console.log('Connected: ' + frame);
+    //Greetings seguro lo debo de modificar, revisar despues
+    stompClient.subscribe('/topic/greetings', (message) => {
+        handleWebSocketMessage(JSON.parse(message.body));
+    });
+};
 const sendMessage = (message) => {
     stompClient.send(`/app/${message.type}`, {}, JSON.stringify(message));
 }
+stompClient.onWebSocketError = (error) => {
+    console.error('Error with websocket', error);
+};
 
-/**
- * An object containing functions to handle each type of message received from the server.
- */
+stompClient.onStompError = (frame) => {
+    console.error('Broker reported error: ' + frame.headers['message']);
+    console.error('Additional details: ' + frame.body);
+};*/
+function handleWebSocketMessage(message) {
+    if (message.type === "nuevoNumero") {
+        showGreeting(message.nuevoNumero);
+    } else if (message.type === "ganador") {
+        showWinner(message.ganador);
+    }
+}
 const messageHandlers = {
     "bingo.join": (message) => {
         updateGame(message);
@@ -246,140 +291,28 @@ const messageHandlers = {
     }
 }
 
-/**
- * Handles a message received from the server.
- * @param {Object} message - The message received.
- */
 const handleMessage = (message) => {
     if (messageHandlers[message.type]) {
         messageHandlers[message.type](message);
     }
-}
-
-/**
- * Connects the STOMP client to the server and subscribes to the "/topic/bingo" topic.
- */
-const connect = () => {
-    const socket = new SockJS('/spring/bingo-multijugador');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        stompClient.subscribe('/topic/game.state', function (message) {
-            handleMessage(JSON.parse(message.body));
-        });
-        loadGame();
-    });
-}
-
-/**
- * Attempts to load a game by joining with the player's previously stored name, or prompts the player to enter their name if no name is stored.
- */
-const loadGame = () => {
-//Reemplazar por el nombre de la sesion
-    const playerName = localStorage.getItem("playerName");
-    if (playerName) {
-        sendMessage({
-            type: "game.join",
-            player: playerName
-        });
-    } else {
-        joinGame();
+    if (message.type === 'bingo.winner') {
+        showWinner(message.winner);
     }
 }
 
-/**
- * Starts the process of joining a game. Asks the player to enter their name and sends a message to the server requesting to join the game.
- */
-const joinGame = () => {
-    const playerName = prompt("Enter your name:");
-    //Sesion
-    localStorage.setItem("playerName", playerName);
-    sendMessage({
-        type: "game.join",
-        player: playerName
-    });
-}
-
-/**
- * Updates the game state with the information received from the server.
- * @param {Object} message - The message received from the server.
- */
-const updateGame = (message) => {
-    game = message;
-    document.getElementById("player1").innerHTML = game.player1;
-    document.getElementById("player2").innerHTML = game.player2 || 'Waiting for player 2...';
-    document.getElementById("numeroCantado").innerHTML = game.currentNumber;
-    if (game.winner) {
-        showWinner(game.winner);
-    }
-}
-
-/**
- * Displays a success message with the name of the winning player.
- * @param {String} winner - The name of the winning player.
- */
-const showWinner = (winner) => {
-    toastr.success(`The winner is ${winner}!`);
-    clearInterval(intervaloRefresco);
-}
-
-/**
- * Calls a number and sends it to the server.
- */
-const callNumber = () => {
-    $.get("obtenerNuevoNumero", function (data) {
-        if (!data.limiteAlcanzado) {
-            sendMessage({
-                type: "game.move",
-                number: data.nuevoNumero
-            });
-        } else {
-            abrirModalDeLimiteAlcanzado();
-        }
-    });
-}
-
-/**
- * Marks a cell and sends it to the server.
- * @param {Number} numeroCasillero - The number of the cell to be marked.
- */
-const AlMarcarCasillero = (numeroCasillero) => {
-    sendMessage({
-        type: "game.move",
-        number: numeroCasillero,
-        player: player
-    });
-}
-
-/**
- * Calls bingo and sends it to the server.
- */
-const alBingo = () => {
-    sendMessage({
-        type: "game.move",
-        player: player
-    });
-}
-
-/**
- * Get the initial game data and render the board.
- */
-/*$(document).ready(function () {
-    connect();
-    $.get("obtenerDatosIniciales", function (data) {
-        $("#numeroCantado").text(data.numeroAleatorioCantado);
-        renderBoard(data.carton.numeros);
-    });
-    intervaloRefresco = setInterval(callNumber, 7000);
-});*/
-
-
-/**
- * Shows a modal when the limit is reached.
- */
 const abrirModalLimiteAlcanzado = () => {
     document.getElementById("modalLimite").style.display = "block";
 }
-
-window.onload = function () {
+function showGameUpdate(update) {
+    // Aquí se actualizará la interfaz de usuario con la información del juego recibida
+    console.log(update);
+}
+window.onload = function() {
     connect();
+};
+function showGreeting(message) {
+    $("#ultimoNumeroCantado").text(message);
+}
+function showWinner(winner) {
+    alert("El ganador del juego es: " + winner);
 }

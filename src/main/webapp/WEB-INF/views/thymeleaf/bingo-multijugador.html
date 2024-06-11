@@ -27,11 +27,25 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:src="@{/js/customModal.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@latest/dist/stomp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <style>
+        .modal-multi{
+            display: block;
+        }
+        .text-red{
+            color: red;
+        }
+        .text-white{
+            color:white;
+        }
+    </style>
 </head>
 <body>
 <h1>Bingo multijugador</h1>
+
 <section id="fondoBingo">
     <span></span>
     <span></span>
@@ -113,6 +127,29 @@
             <button type="submit" class="boton-volver">Finalizar</button>
         </form>
     </div>
-</div>
+</div><script>
+    function comenzarPartida() {
+        var jugador1 = document.getElementById("nombreJugador1").textContent;
+        var jugador2 = document.getElementById("nombreJugador2").textContent;
+
+        fetch('/comenzarPartidaBingoMultijugador', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `jugador1=${jugador1}&jugador2=${jugador2}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+            } else {
+                alert("Partida comenzada!");
+                // Redirigir o actualizar la interfaz según sea necesario
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
 </body>
 </html>

@@ -30,11 +30,8 @@ public class ControladorMensajes {
     @Autowired
     private HttpSession session;
 
-/**
- * Manager for the Bingo games.
- */
-
     private final BingoManager bingoManager = new BingoManager();
+
     @MessageMapping("/game.join")
     @SendTo("/topic/game.state")
     public Object joinGame(@Payload JoinMensaje message, SimpMessageHeaderAccessor headerAccessor) {
@@ -91,7 +88,7 @@ public void makeMove(@Payload MensajeBingo message) {
     if (game == null || game.isGameOver()) {
         MensajeBingo errorMessage = new MensajeBingo();
         errorMessage.setType("error");
-        errorMessage.setContent("Game not found or is already over.");
+        errorMessage.setContent("Juego no encontrado o terminado.");
         this.messagingTemplate.convertAndSend("/topic/game." + gameId, errorMessage);
         return;
     }

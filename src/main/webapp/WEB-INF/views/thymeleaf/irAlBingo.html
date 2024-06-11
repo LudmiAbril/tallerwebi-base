@@ -10,7 +10,9 @@
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
-
+  #iniciarPartidaModal{
+    display: none;
+  }
   #modalTipoPartida .radio-group input[type="radio"] {
     display: none;
   }
@@ -88,9 +90,11 @@
         <span class="material-symbols-outlined">play_circle</span>JUGAR
       </button>
     </form>
-    <button type="submit" class="btn btn-primary">
+    <form th:action="@{/bingo-multijugador}" method="get">
+    <button type="submit" class="btn btn-primary" onclick="mostrarModalPartidaMultijugador(event)">
       <span class="material-symbols-outlined">group</span>MULTIJUGADOR
     </button>
+    </form>
     <form th:action="@{/verRankingBingo}" method="post">
       <input type="hidden" name="tipoJuego" value="BINGO" />
       <button type="submit" class="btn btn-primary">
@@ -110,12 +114,21 @@
 
           <input type="radio" id="bingo" name="tipo" value="bingo" checked>
           <label for="bingo">Bingo</label>
-
-          <!-- <input type="radio" id="ambas" name="tipo" value="ambas">
-          <label for="ambas">ambas</label> -->
         </div>
         <br>
         <input type="submit" name="enviar" id="enviar" value="Enviar" class="btn-enviar">
+      </form>
+    </div>
+  </div>
+  <div id="iniciarPartidaModal" class="modal-multi">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('iniciarPartidaModal')">&times;</span>
+      <h3>Seleccioná el tipo de partida</h3>
+      <form th:action="@{/comenzarJuegoBingoMultijugador}" method="get" class="text-center">
+      <h4>Iniciar Partida de Bingo</h4>
+      <p>Jugador 1: <span id="nombreJugador1" th:text="${nombreUsuario}"></span></p>
+      <p>Jugador 2: <span id="nombreJugador2"></span></p>
+      <button id="iniciarPartidaButton" onclick="comenzarPartida()">Empezar Partida</button>
       </form>
     </div>
   </div>

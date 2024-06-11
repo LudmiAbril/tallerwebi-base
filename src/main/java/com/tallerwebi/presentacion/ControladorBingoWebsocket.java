@@ -1,5 +1,7 @@
 package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.BingoManager;
+import com.tallerwebi.dominio.dto.Mensaje;
+import com.tallerwebi.dominio.dto.MensajeBingo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -17,9 +19,9 @@ public class ControladorBingoWebsocket {
     private HttpSession session;
 
 
-    @MessageMapping("/bingo")
+    @MessageMapping("/bingo-multijugador")
     @SendTo("/topic/updates")
-    public BingoMessage handleBingoMessage(BingoMessage message) throws Exception {
+    public MensajeBingo handleBingoMessage(MensajeBingo message) throws Exception {
         Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
         if (numerosEntregados == null) {
             numerosEntregados = new HashSet<>();
@@ -27,20 +29,10 @@ public class ControladorBingoWebsocket {
         int nuevoNumero = Integer.parseInt(message.getContent());
         numerosEntregados.add(nuevoNumero);
         session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
-        BingoMessage response = new BingoMessage();
+        MensajeBingo response = new MensajeBingo();
         response.setContent(numerosEntregados.toString());
         return response;
     }
 
-    public static class BingoMessage {
-        private String content;
 
-        public String getContent() {
-            return content;
-        }
-
-        public void setContent(String content) {
-            this.content = content;
-        }
-    }
 }
