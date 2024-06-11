@@ -16,11 +16,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-    <!-- JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script th:src="@{/js/senku.js}"></script>
-    <script th:src="@{/js/cronometro.js}"></script>
-    <script th:src="@{/js/customModal.js}"></script>
+    
 
 </head>
 
@@ -39,11 +35,9 @@
             <p>Contador Movimientos : <span class="mov" th:text="${contadorMovimientos}">00</span></p>
         </div>
 
-        <!-- Modal Finalizar Partida -->
-        <div id="modalFinPartida" class="modal">
-            <div class="modal-content">
-                <h2 id="resultadoPartida"></h2>
-                <div class="botones-modal">
+    
+            
+                <div class="botones">
                     <form th:action="@{/reiniciar}" method="post">
                         <button type="submit" class="boton-reiniciar">reiniciar</button>
                     </form>
@@ -51,8 +45,8 @@
                         <button type="submit" class="boton-volver-inicio">inicio</button>
                     </form>
                 </div>
-            </div>
-        </div>
+        
+      
 
         <!-- Tablero -->
         <div class="tablero-fondo">
@@ -91,6 +85,11 @@
 
     </main>
 </div>
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:src="@{/js/cronometro.js}"></script>
+<script th:src="@{/js/customModal.js}"></script>
+<script th:src="@{/js/senku.js}"></script>
 </body>
 
 </html>

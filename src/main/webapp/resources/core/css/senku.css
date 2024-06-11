@@ -86,37 +86,35 @@ body {
 
 /* ------------------------ESTILOS DE BOTONES--------------------------- */
 
-.botones-modal {
+.botones {
     display: flex;
-    margin: 2%;
+    margin: 0.5em; 
     align-items: center;
     justify-content: center;
     color: rgb(255, 255, 255);
 }
 
-.boton-reiniciar {
-    margin: 2%;
-    font-size: small;
+
+.botones button {
+    margin: 0 1em; 
+    font-size: 0.8em; 
     text-transform: uppercase;
-    padding: 2%;
+    padding: 0.5em 1em; 
     border: none;
     border-radius: 2em;
     color: white;
+}
+
+.boton-reiniciar {
     background-color: #E57373; /* Tono rojo suave */
-    box-shadow: rgba(230, 57, 70, 0.4) -5px 5px, rgba(230, 57, 70, 0.3) -10px 10px, rgba(230, 57, 70, 0.2) -15px 15px, rgba(230, 57, 70, 0.1) -20px 20px, rgba(230, 57, 70, 0.05) -25px 25px;
+    box-shadow: rgba(230, 57, 70, 0.4) -0.25em 0.25em, rgba(230, 57, 70, 0.3) -0.5em 0.5em, rgba(230, 57, 70, 0.2) -0.75em 0.75em, rgba(230, 57, 70, 0.1) -1em 1em, rgba(230, 57, 70, 0.05) -1.25em 1.25em;
 }
 
 .boton-volver-inicio {
-    margin: 2%;
-    font-size: small;
-    text-transform: uppercase;
-    padding: 2%;
-    border: none;
-    border-radius: 2em;
-    color: white;
-    background-color: #81C784; /* Verde suave */
-    box-shadow: rgba(129, 199, 132, 0.4) 5px 5px, rgba(129, 199, 132, 0.3) 10px 10px, rgba(129, 199, 132, 0.2) 15px 15px, rgba(129, 199, 132, 0.1) 20px 20px, rgba(129, 199, 132, 0.05) 25px 25px;
+    background-color: #81C784; 
+    box-shadow: rgba(129, 199, 132, 0.4) 0.25em 0.25em, rgba(129, 199, 132, 0.3) 0.5em 0.5em, rgba(129, 199, 132, 0.2) 0.75em 0.75em, rgba(129, 199, 132, 0.1) 1em 1em, rgba(129, 199, 132, 0.05) 1.25em 1.25em;
 }
+
 
 .mt {
     margin-top: 20px;
