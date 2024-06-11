@@ -25,14 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.tallerwebi.dominio.ServicioBingo;
-import com.tallerwebi.dominio.ServicioPlataforma;
-import com.tallerwebi.dominio.TipoPartidaBingo;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.CartonBingo;
-import com.tallerwebi.dominio.Jugador;
-import com.tallerwebi.dominio.PartidaBingo;
-
 @Controller
 public class ControladorBingo {
 
@@ -247,8 +239,9 @@ public class ControladorBingo {
 	}
 
 	@RequestMapping(path = "/finalizarPartida", method = RequestMethod.POST)
-	public ModelAndView finalizar(HttpSession session) throws PartidaConPuntajeNegativoException, IllegalArgumentException, PartidaDeBingoSinLineaNiBingoException {
-
+	public ModelAndView finalizar(HttpSession session) throws PartidaConPuntajeNegativoException,
+			IllegalArgumentException, PartidaDeBingoSinLineaNiBingoException {
+		ModelAndView mav = new ModelAndView();
 		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
 		Boolean seHizoLinea = (Boolean) session.getAttribute("seHizoLinea");
 		Boolean seHizoBingo = (Boolean) session.getAttribute("seHizoBingo");
@@ -258,12 +251,23 @@ public class ControladorBingo {
 		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
 		Integer cantidadDeCasillerosMarcados = numerosMarcadosDeLaSesion.size();
 
-		servicioPlataforma
-				.agregarPartida(new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, seHizoLinea,
-						seHizoBingo,
-						tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados));
+		try {
+			servicioPlataforma
+					.agregarPartida(
+							new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, seHizoLinea,
+									seHizoBingo,
+									tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados));
+									mav.setViewName("redirect:/acceso-juegos");
+		} catch (PartidaDeBingoSinLineaNiBingoException e) {
+			mav.setViewName("bingo");
+			mav.addObject("mensajeError",
+					"Recordá que necesitas haber hecho al menos una línea o bingo para guardar la partida. ¡Buena suerte!");
+		} catch (Exception e) {
+			mav.setViewName("bingo");
+			mav.addObject("mensajeError", "Ocurrió un error al intentar guardar la partida.");
+		}
 
-		return new ModelAndView("redirect:/acceso-juegos");
+		return mav;
 	}
 
 }

@@ -398,6 +398,7 @@ table{
     background-color: rgb(75, 75, 75);
 }
 
-.hola{
-    background-color: pink;
+.mensajeErrorPartidaBingo {
+    font-size: medium;
+    color: red;
 }

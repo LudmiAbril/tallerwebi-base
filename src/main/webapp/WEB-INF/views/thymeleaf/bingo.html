@@ -113,6 +113,7 @@
       <form th:action="@{/finalizarPartida}" method="post">
         <button type="submit" class="boton-volver">Finalizar</button>
       </form>
+      <p th:text="${mensajeError}" class="mensajeErrorPartidaBingo w3-animate-top"></p>
     </div>
   </div>
 </body>
