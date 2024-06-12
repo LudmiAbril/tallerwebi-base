@@ -1,31 +1,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Oswald", sans-serif;
-
 }
 
 body {
-    background-image: linear-gradient(152.43deg, #FFE5CC 17.15%, #A1EA9A 72.73%);
+    background-image: linear-gradient(rgb(17, 24, 39), rgb(88, 28, 135), rgb(124, 58, 237));
     min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff; 
 }
 
-.margin{
+.margin {
     margin: 5%;
+    width: 100%;
+    max-width: 75em; 
 }
+
 .titulo {
     text-align: center;
     margin: 5%;
-    border-radius: 5px;
-    color: #4E4E4E; /* Color neutro para el texto */
+    border-radius: 0.313em;
+    color: #ffffff;
+}
+
+.galactic-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3em;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 0.625em #fff, 0 0 1.25em #ff00ff, 0 0 1.875em #ff00ff, 0 0 2.5em #ff00ff, 0 0 3.125em #ff00ff, 0 0 3.75em #ff00ff, 0 0 4.375em #ff00ff;
+    }
+    to {
+        text-shadow: 0 0 1.25em #fff, 0 0 1.875em #ff00ff, 0 0 2.5em #ff00ff, 0 0 3.125em #ff00ff, 0 0 3.75em #ff00ff, 0 0 4.375em #ff00ff, 0 0 5em #ff00ff;
+    }
 }
 
 .barra {
-    color: white;
-    background-color: #FF6F61; /* Ajustado para armonizar mejor */
+    color: #ffffff;
+    background-color: #B39DDB;
     margin: 2%;
     margin-left: 5%;
     border-radius: 0.313em;
@@ -47,32 +72,33 @@ body {
 .ficha {
     width: 3.125em;
     height: 3.125em;
-    background-color: #6A0572; /* Un tono morado oscuro */
+    box-shadow: rgba(0, 0, 0, 0.35) 0em 0.3125em 0.9375em;
+    background-color: #aa81f5; 
     border-radius: 1.563em;
     margin: 0.313em;
     float: left;
 }
 
 .ficha:hover {
-    background-color: #A146A1; /* Tono morado más claro */
+    background-color: #ff60e4; 
     transition: background-color 0.2s;
 }
 
 .ficha-seleccionada {
-    background-color: #A146A1;
+    background-color: #7d4cd8;
 }
 
 .vacio {
     width: 3.125em;
     height: 3.125em;
-    background-color: #F4F4F4; /* Blanco suave */
+    background-color: #f4f4f4;
     border-radius: 1.25em;
     margin: 0.313em;
     float: left;
 }
 
 .vacio:hover {
-    background-color: #DDDDDD; /* Gris claro */
+    background-color: #ffffffc4;
     transition: background-color 0.2s;
 }
 
@@ -88,54 +114,79 @@ body {
 
 .botones {
     display: flex;
-    margin: 0.5em; 
+    margin: 0.5em;
     align-items: center;
     justify-content: center;
     color: rgb(255, 255, 255);
 }
 
+.botones form {
+    flex: 1;
+    margin: 0 1em;
+}
 
 .botones button {
-    margin: 0 1em; 
-    font-size: 0.8em; 
+    width: 100%;
+    font-size: 1em;
     text-transform: uppercase;
-    padding: 0.5em 1em; 
+    padding: 0.5em 1em;
     border: none;
     border-radius: 2em;
     color: white;
 }
 
 .boton-reiniciar {
-    background-color: #E57373; /* Tono rojo suave */
-    box-shadow: rgba(230, 57, 70, 0.4) -0.25em 0.25em, rgba(230, 57, 70, 0.3) -0.5em 0.5em, rgba(230, 57, 70, 0.2) -0.75em 0.75em, rgba(230, 57, 70, 0.1) -1em 1em, rgba(230, 57, 70, 0.05) -1.25em 1.25em;
+    background-color: #64b5f6; 
+    box-shadow: rgba(100, 181, 246, 0.4) -0.25em 0.25em, rgba(100, 181, 246, 0.3) -0.5em 0.5em, rgba(100, 181, 246, 0.2) -0.75em 0.75em, rgba(100, 181, 246, 0.1) -1em 1em, rgba(100, 181, 246, 0.05) -1.25em 1.25em;
 }
 
 .boton-volver-inicio {
-    background-color: #81C784; 
-    box-shadow: rgba(129, 199, 132, 0.4) 0.25em 0.25em, rgba(129, 199, 132, 0.3) 0.5em 0.5em, rgba(129, 199, 132, 0.2) 0.75em 0.75em, rgba(129, 199, 132, 0.1) 1em 1em, rgba(129, 199, 132, 0.05) 1.25em 1.25em;
+    background-color: #f48fb1; 
+    box-shadow: rgba(244, 143, 177, 0.4) 0.25em 0.25em, rgba(244, 143, 177, 0.3) 0.5em 0.5em, rgba(244, 143, 177, 0.2) 0.75em 0.75em, rgba(244, 143, 177, 0.1) 1em 1em, rgba(244, 143, 177, 0.05) 1.25em 1.25em;
+}
+
+.boton-reiniciar:hover {
+    background-color: #42a5f5; 
+    transform: translateY(-0.1em);
+}
+
+.boton-volver-inicio:hover {
+    background-color: #f06292; 
+    transform: translateY(-0.1em);
 }
 
 
 .mt {
-    margin-top: 20px;
-    margin-left: 20px;
+    margin-top: 1.25em; 
+    margin-left: 1.25em; 
 }
 
-/* ------------------------ESTILOS DE CUADRO DE INFO--------------------------- */
-.jugador-info {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease;
-}
+/* ------------------------ESTILOS MENSAJE--------------------------- */
 
-.jugador-info.show {
-    max-height: 500px; /* Ajusta según el contenido */
-}
 
 .mensaje {
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #4E4E4E; /* Color neutro para el mensaje */
+    color: #ffffff;
+}
+
+/* ------------------------ESTILOS RESPONSIVOS--------------------------- */
+@media (max-width: 48em) { 
+    .botones {
+        flex-direction: column;
+    }
+    
+    .botones form {
+        margin: 0.5em 0;
+    }
+    
+    .titulo h1 {
+        font-size: 2em;
+    }
+    
+    .titulo h3, .titulo p {
+        font-size: 1em;
+    }
 }

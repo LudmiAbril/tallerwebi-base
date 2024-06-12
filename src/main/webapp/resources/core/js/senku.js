@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    // TABLERO
     function actualizarTablero() {
         $.get("obtenerTablero", function (data) {
             var tableroHtml = '';
@@ -61,6 +60,7 @@ $(document).ready(function () {
         })
         .catch(error => {
             console.error('Error en la solicitud:', error);
+            $(".mensaje").text("Error en la solicitud: " + error.message);
         });
     }
 
