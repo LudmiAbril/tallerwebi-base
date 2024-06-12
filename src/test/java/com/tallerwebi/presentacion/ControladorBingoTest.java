@@ -322,7 +322,7 @@ public class ControladorBingoTest {
     }
 
     @Test
-    public void queAlSolicitarFinalizarPartidaSeGuardeLaPartidaBingoCorrectamente() throws IllegalArgumentException, PartidaConPuntajeNegativoException, PartidaDeBingoSinLineaNiBingoException, NoHayPartidasDeBingoException {
+    public void queAlSolicitarFinalizarPartidaSeGuardeLaPartidaBingoCorrectamenteHabiendoHechoLinea() throws IllegalArgumentException, PartidaConPuntajeNegativoException, PartidaDeBingoSinLineaNiBingoException, NoHayPartidasDeBingoException {
 
         // P R E P A R A C I O N
         Set<Integer> numerosMarcados = new HashSet<Integer>();
@@ -369,7 +369,7 @@ public class ControladorBingoTest {
         assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getCantidadDeCasillerosMarcados(), equalTo(cantidadDeNumerosMarcados));
 
     }
-    // queNoSeGuardeLaPartidaBingoSiNoSeHizoLinea
-    // queNoSeGaurdeLaPartidaSiNoSeHizoBingo
+
+
 
 }
