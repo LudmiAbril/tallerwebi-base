@@ -266,7 +266,7 @@ public class ControladorBingo {
 		} catch (PartidaDeBingoSinLineaNiBingoException e) {
 			mav.setViewName("bingo");
 			mav.addObject("mensajeError",
-					"Recordá que necesitas haber hecho al menos una línea o bingo para guardar la partida. ¡Buena suerte!");
+					"Recordá que necesitas haber hecho línea o bingo para guardar la partida. ¡Buena suerte!");
 		} catch (Exception e) {
 			mav.setViewName("bingo");
 			mav.addObject("mensajeError", "Ocurrió un error al intentar guardar la partida.");
