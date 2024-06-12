@@ -2,9 +2,7 @@ var intervaloRefresco;
 //se utilizará para almacenar el intervalo de actualización del número cantado.
 var numeroColorMap = {};
 $(document).ready(function () {
-
-            // Inicializar stompClient después de cargar la biblioteca
-
+    connect();
     // una vez que se realiza la peticion /obtenerDatosIniciales se ejecuta la funcion siguiente, que es la respuesta a esa peticion. Es decir, cuando se pide /obtenerDatosIniciales se responde de esa forma
     $.get("obtenerDatosIniciales", function (data) {
 
@@ -37,10 +35,6 @@ $(document).ready(function () {
                 console.log("mostrando el boton de bingo")
                 document.getElementById("botonLinea").style.display = "none";
                 document.getElementById("botonBingo").style.display = "block";
-                // } else if (tipoPartidaBingo === "AMBAS") {
-                //     console.log("mostrando ambos botones")
-                //     document.getElementById("botonLinea").style.display = "block";
-                //     document.getElementById("botonBingo").style.display = "block";
             }
         }
 
@@ -127,13 +121,7 @@ function obtenerLosNumerosEntregados() {
         });
     });
 }
-function enviarNumeroAlServidor(nuevoNumero) {
-    if (stompClient && stompClient.connected) {
-        stompClient.send("/app/bingo-multijugador/nuevoNumero", {}, JSON.stringify({'nuevoNumero': nuevoNumero}));
-    } else {
-        console.error("stompClient no está conectado.");
-    }
-}
+
 
 function bingo() {
     $.post("bingo", function (data) {
@@ -235,39 +223,21 @@ function connect() {
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/updates', function (message) {
-            showGameUpdate(JSON.parse(message.body));
+            handleWebSocketMessage(JSON.parse(message.body));
         });
     });
 }
 
 function obtenerNuevoNumero() {
-    stompClient.send("/app/obtenerNuevoNumero", {}, {});
+    stompClient.send("/bingo-multijugador/obtenerNuevoNumero", {}, {});
 }
-/*const stompClient = new StompJs.Client({
-    brokerURL: 'ws://localhost:8080/spring/bingo-multijugador',
-    reconnectDelay: 5000, // Intentar reconectar en 5 segundos si se pierde la conexión
-    heartbeatIncoming: 4000, // Verificar cada 4 segundos si la conexión sigue activa
-    heartbeatOutgoing: 4000
-});
-stompClient.onConnect = (frame) => {
-    setConnected(true);
-    console.log('Connected: ' + frame);
-    //Greetings seguro lo debo de modificar, revisar despues
-    stompClient.subscribe('/topic/greetings', (message) => {
-        handleWebSocketMessage(JSON.parse(message.body));
-    });
-};
-const sendMessage = (message) => {
-    stompClient.send(`/app/${message.type}`, {}, JSON.stringify(message));
+function enviarNumeroAlServidor(nuevoNumero) {
+    if (stompClient && stompClient.connected) {
+        stompClient.send("/bingo-multijugador/nuevoNumero", {}, JSON.stringify({'nuevoNumero': nuevoNumero}));
+    } else {
+        console.error("stompClient no está conectado.");
+    }
 }
-stompClient.onWebSocketError = (error) => {
-    console.error('Error with websocket', error);
-};
-
-stompClient.onStompError = (frame) => {
-    console.error('Broker reported error: ' + frame.headers['message']);
-    console.error('Additional details: ' + frame.body);
-};*/
 function handleWebSocketMessage(message) {
     if (message.type === "nuevoNumero") {
         showGreeting(message.nuevoNumero);
@@ -302,10 +272,6 @@ const handleMessage = (message) => {
 
 const abrirModalLimiteAlcanzado = () => {
     document.getElementById("modalLimite").style.display = "block";
-}
-function showGameUpdate(update) {
-    // Aquí se actualizará la interfaz de usuario con la información del juego recibida
-    console.log(update);
 }
 window.onload = function() {
     connect();

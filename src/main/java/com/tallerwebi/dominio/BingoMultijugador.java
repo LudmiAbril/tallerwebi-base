@@ -30,6 +30,9 @@ public class BingoMultijugador {
         this.cartonJugador2 = servicioBingo.generarCarton(5);
         gameState = EstadoJuego.WAITING_FOR_PLAYER;
     }
+    public BingoMultijugador(){
+        servicioBingo = new ServicioBingoImpl();
+    }
     private void checkWinner() {
 
         if(servicioBingo.linea(servicioBingo.getNumerosMarcadosEnElCarton(), cartonJugador1)){

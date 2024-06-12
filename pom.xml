@@ -24,8 +24,7 @@
         <jetty.version>9.4.45.v20220203</jetty.version> <!-- Añadido para unificar versiones de Jetty -->
         <bcrypt.strength>12</bcrypt.strength>
         <spring.security.version>5.7.3</spring.security.version>
-        <!--aaa
-        -->
+
     </properties>
 
     <dependencies>

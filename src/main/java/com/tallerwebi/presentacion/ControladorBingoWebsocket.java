@@ -19,7 +19,7 @@ public class ControladorBingoWebsocket {
     private HttpSession session;
 
 
-    @MessageMapping("/bingo-multijugador")
+    @MessageMapping("/bingo-multijugador/message")
     @SendTo("/topic/updates")
     public MensajeBingo handleBingoMessage(MensajeBingo message) throws Exception {
         Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");

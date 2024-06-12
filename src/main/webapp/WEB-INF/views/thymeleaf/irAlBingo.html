@@ -95,8 +95,8 @@
       </button>
     </form>
     <form th:action="@{/bingo-multijugador}" method="get">
-    <button type="submit" class="btn btn-primary" onclick="mostrarModalPartidaMultijugador(event)">
-      <span class="material-symbols-outlined">group</span>MULTIJUGADOR
+    <button type="submit" class="btn btn-primary" >
+      <span class="material-symbols-outlined">group</span><a href="sala-espera">MULTIJUGADOR</a>
     </button>
     </form>
     <form th:action="@{/verRankingBingo}" method="post">
@@ -124,28 +124,7 @@
       </form>
     </div>
   </div>
-  <div id="iniciarPartidaModal" class="modal-multi">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('iniciarPartidaModal')">&times;</span>
-      <h3>Seleccioná el tipo de partida</h3>
-      <form th:action="@{/comenzarJuegoBingoMultijugador}" method="get" class="text-center">
-      <h4>Iniciar Partida de Bingo</h4>
-      <p>Jugador 1: <span id="nombreJugador1" th:text="${nombreUsuario}"></span></p>
-      <p>Jugador 2: <span id="nombreJugador2" th:text="${nombreJugador2 != null ? nombreJugador2 : 'esperando nuevos jugadores'}" ></span></p>
-      <button id="iniciarPartidaButton" onclick="comenzarPartida()">Empezar Partida</button>
-      </form>
-    </div>
-  </div>
-  <script>
-    var socket = new WebSocket("ws://localhost:8080/spring/irAlBingo"); // ajusta la URL según tu configuración
-    socket.onopen = function() {
-    var jugador = "Nombre del jugador"; // obtén el nombre del jugador de alguna manera
-    var mensaje = {
-    jugador: jugador,
-    tipo: "conexion"
-    };
-    socket.send(JSON.stringify(mensaje));
-    };</script>
+
   <script th:src="@{/js/bingo.js}"></script>
   <script th:src="@{/js/modal.js}"></script>
 </body>

@@ -20,7 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // Registro del endpoint WebSocket
-        registry.addEndpoint("/irAlBingo").setAllowedOrigins("*").withSockJS();
+        registry.addEndpoint("/sala-espera").setAllowedOrigins("*").withSockJS();
         registry.addEndpoint("/bingo-multijugador").setAllowedOrigins("*").withSockJS();
     }
 

@@ -55,6 +55,7 @@ public class ControladorBingo {
 		ModelMap model = new ModelMap();
 		model.put("nuevoJugador", new Usuario());
 		model.put("nombreJugador", new Usuario().getNombre());
+		String sessionId = session.getId();
 		Usuario user = (Usuario) session.getAttribute("jugadorActual");
 		if (user != null) {
 			model.put("nombreUsuario", user.getNombre());
@@ -118,7 +119,7 @@ public class ControladorBingo {
 	}
 
 	@RequestMapping(path = "/comenzarJuegoBingoMultijugador", method = RequestMethod.GET)
-    public Map<String, Object> comenzarPartidaBingoMultijugador(@RequestParam("nombreUsuario") String jugador1, HttpSession session, @RequestParam("jugador2") String jugador2, HttpSession session2) {
+    public Map<String, Object> comenzarPartidaBingoMultijugador(@RequestParam("nombreUsuario") String jugador1, HttpSession session, @RequestParam("jugador2") String jugador2) {
         Map<String, Object> response = new HashMap<>();
 		if (jugador1 == null || jugador2 == null) {
 			response.put("error", "Los nombres de los jugadores son obligatorios.");
@@ -157,8 +158,8 @@ public class ControladorBingo {
 	}
     private int jugadoresConectados = 0;
 
-	@MessageMapping("/bingo-multijugador/conexion")
-	public void manejarConexion(String jugador, WebSocketSession session) {
+	@MessageMapping("/bingo-multijugador/connect")
+	public void manejarConexion(Map<String, String> jugador, WebSocketSession session) {
 		// Maneja el mensaje de conexión recibido desde el cliente
 		sessions.add(session);
 		if (sessions.size() == 2) {
@@ -167,6 +168,10 @@ public class ControladorBingo {
 		}
 	}
 	private void iniciarPartida() {
+		BingoMultijugador partida = new BingoMultijugador();
+		List<WebSocketSession> sessionList = new ArrayList<>(sessions);
+		partida.setNombreJugador(sessionList.get(0).getPrincipal().getName());
+		partida.setNombreJugador2(sessionList.get(1).getPrincipal().getName());
 		// Envía un mensaje a cada sesión para notificar que la partida ha comenzado
 		for (WebSocketSession session : sessions) {
 			try {
@@ -175,6 +180,7 @@ public class ControladorBingo {
 				e.printStackTrace();
 			}
 		}
+		template.convertAndSend("/topic/updates", partida);
 	}
 	@RequestMapping(path = "/obtenerDatosIniciales", method = RequestMethod.GET)
 	@ResponseBody
@@ -243,6 +249,16 @@ public class ControladorBingo {
 			respuesta.put("limiteAlcanzado", false);
 		}
 		return respuesta;
+	}
+	@RequestMapping(path = "/sala-espera", method = RequestMethod.GET)
+	@ResponseBody
+	public ModelAndView salaEspera(HttpSession session) {
+		ModelMap model = new ModelMap();
+		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+		model.addAttribute("nombreUsuario", jugador.getNombre());
+		model.addAttribute("usuarioConfig", jugador.getConfig());
+
+		return new ModelAndView("sala-espera", model);
 	}
 
 	@RequestMapping(path = "/obtenerNumeroActual", method = RequestMethod.GET)
@@ -346,6 +362,7 @@ public class ControladorBingo {
 
 		return new ModelAndView("redirect:/acceso-juegos");
 	}
+
 	@MessageMapping("/bingo/movimiento")
 	@SendTo("/topic/updates")
 	public Map<String, Object> realizarMovimiento(@RequestBody MovimientoRequest movimientoRequest, HttpSession session) {
@@ -365,6 +382,7 @@ public class ControladorBingo {
 
 		return response;
 	}
+
 	public static class MovimientoRequest {
 		private String jugador;
 		private Object movimiento;
