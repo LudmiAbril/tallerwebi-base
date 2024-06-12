@@ -418,4 +418,18 @@ public class ControladorBingoTest {
         assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getCantidadDeCasillerosMarcados(), equalTo(cantidadDeNumerosMarcados));
 
     }
+
+    @Test
+    public void queSePuedaObtenerLaCantidadDeNumerosRestantesParaCompletarLaTirada() throws PartidaConPuntajeNegativoException{
+        Integer tirada = 90;
+        session.setAttribute("tiradaLimiteDeLaSesion", tirada);
+        Set<Integer> numerosEntregados = new LinkedHashSet<Integer>();
+        numerosEntregados.add(5);
+        numerosEntregados.add(9);
+        session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
+        when(this.servicioBingoMock.obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(tirada, numerosEntregados.size())).thenReturn(88);
+        Map<String, Object> respuesta = this.controladorBingo.obtenerNuevoNumero(session);
+        Integer numerosRestantes = (Integer) respuesta.get("numerosRestantesParaCompletarLaTirada");
+        assertThat(numerosRestantes, is(88));
+    }
 }
