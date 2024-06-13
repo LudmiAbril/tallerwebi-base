@@ -301,7 +301,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
     actualizarJugador2();
-    setInterval(actualizarJugador2, 50000);
+    setInterval(actualizarJugador2, 5000);
 });
 socket.onmessage = function(event) {
     var data = JSON.parse(event.data);

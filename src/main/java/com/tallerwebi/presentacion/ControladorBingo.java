@@ -46,8 +46,7 @@ public class ControladorBingo {
 	public ControladorBingo(ServicioBingo servicioBingo, ServicioPlataforma servicioPlataforma) {
 		this.servicioBingo = servicioBingo;
 		this.servicioPlataforma = servicioPlataforma;
-
-		//this.template = new SimpMessagingTemplate(new WebSocketStompClient(servicioPlataforma));
+		this.template = template;
     }
 
 	@RequestMapping(path = "/irAlBingo", method = RequestMethod.GET)
