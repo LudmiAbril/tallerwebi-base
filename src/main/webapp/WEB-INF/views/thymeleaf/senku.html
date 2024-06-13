@@ -28,19 +28,19 @@
                 <h3 class="nombre-jugador">Jugador:<span th:text="${nombreJugador}"></span></h3>
                 <p>Contador Movimientos : <span class="mov" th:text="${contadorMovimientos}">00</span></p>
             </div>
-            <div class="botones">
-                <form th:action="@{/reiniciar}" method="post">
-                    <button type="submit" class="boton-reiniciar">reiniciar</button>
-                </form>
-                <form th:action="@{/senku/finalizarPartida}" method="post">
-                    <button type="submit" class="boton-volver-inicio">inicio</button>
-                </form>
-            </div>
+          <!-- Mensaje Actualizacion Movimientos -->
+            <p><span class="mensaje" th:text="${mensaje}"></span></p>
             <!-- Tablero -->
             <div class="tablero-fondo">
                 <div class="tablero"></div>
             </div>
-            <p><span class="mensaje" th:text="${mensaje}"></span></p>
+                 <!-- Reiniciar -->
+            <div class="botones">
+                <form th:action="@{/reiniciar}" method="post">
+                    <button type="submit" class="boton-reiniciar">reiniciar</button>
+                </form>
+                
+            </div>
             <!-- Modal de Confirmación -->
             <div id="customExitModal" class="modal-custom">
                 <div class="modal-content-custom">

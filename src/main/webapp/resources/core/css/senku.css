@@ -68,7 +68,9 @@ body {
     margin: 5%;
     justify-content: center;
 }
-
+.tablero{
+    background-color: #B39DDB;
+}
 .ficha {
     width: 3.125em;
     height: 3.125em;
@@ -80,8 +82,8 @@ body {
 }
 
 .ficha:hover {
-    background-color: #ff60e4; 
-    transition: background-color 0.2s;
+    background-color: #50298d; 
+    transition: background-color 0.1s;
 }
 
 .ficha-seleccionada {
@@ -121,12 +123,13 @@ body {
 }
 
 .botones form {
+    align-items: center;
+    justify-content: center;
     flex: 1;
     margin: 0 1em;
 }
 
 .botones button {
-    width: 100%;
     font-size: 1em;
     text-transform: uppercase;
     padding: 0.5em 1em;
@@ -140,20 +143,13 @@ body {
     box-shadow: rgba(100, 181, 246, 0.4) -0.25em 0.25em, rgba(100, 181, 246, 0.3) -0.5em 0.5em, rgba(100, 181, 246, 0.2) -0.75em 0.75em, rgba(100, 181, 246, 0.1) -1em 1em, rgba(100, 181, 246, 0.05) -1.25em 1.25em;
 }
 
-.boton-volver-inicio {
-    background-color: #f48fb1; 
-    box-shadow: rgba(244, 143, 177, 0.4) 0.25em 0.25em, rgba(244, 143, 177, 0.3) 0.5em 0.5em, rgba(244, 143, 177, 0.2) 0.75em 0.75em, rgba(244, 143, 177, 0.1) 1em 1em, rgba(244, 143, 177, 0.05) 1.25em 1.25em;
-}
+
 
 .boton-reiniciar:hover {
     background-color: #42a5f5; 
     transform: translateY(-0.1em);
 }
 
-.boton-volver-inicio:hover {
-    background-color: #f06292; 
-    transform: translateY(-0.1em);
-}
 
 
 .mt {
