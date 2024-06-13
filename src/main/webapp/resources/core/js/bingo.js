@@ -215,9 +215,22 @@ function abrirModalDeLimiteAlcanzado() {
 }
 
 //ACA VA LO DE WEBSOCKETS
+let stompClientSalaEspera = null;
 let stompClient = null;
+let jugadores = [];
 
 function connect() {
+    const socketSalaEspera = new SockJS('/sala-espera');
+        stompClientSalaEspera = Stomp.over(socketSalaEspera);
+        stompClientSalaEspera.connect({}, function (frame) {
+            console.log('Connected to sala de espera: ' + frame);
+            stompClientSalaEspera.subscribe('/topic/sala-espera', function (message) {
+                handleSalaEsperaMessage(JSON.parse(message.body));
+            });
+            // Envía un mensaje indicando que el jugador se ha unido a la sala de espera
+            stompClientSalaEspera.send("/app/sala-espera/join", {}, JSON.stringify({'message': 'Jugador se ha unido'}));
+        });
+
     const socket = new SockJS('/bingo-multijugador');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
@@ -243,6 +256,15 @@ function handleWebSocketMessage(message) {
         showGreeting(message.nuevoNumero);
     } else if (message.type === "ganador") {
         showWinner(message.ganador);
+    } else if (message.type === "actualizarJugador2") {
+              actualizarJugador2();
+          }
+}
+function handleSalaEsperaMessage(message) {
+    if (message.type === "join") {
+        actualizarJugadoresEnSala(message.jugadores);
+    } else if (message.type === "start") {
+        iniciarPartida(message);
     }
 }
 const messageHandlers = {
@@ -260,7 +282,15 @@ const messageHandlers = {
         toastr.error(message.content);
     }
 }
-
+function actualizarJugadoresEnSala(jugadoresEnSala) {
+    jugadores = jugadoresEnSala;
+    if (jugadores.length > 0) {
+        $("#jugador1").text(jugadores[0]);
+    }
+    if (jugadores.length > 1) {
+        $("#jugador2").text(jugadores[1]);
+    }
+}
 const handleMessage = (message) => {
     if (messageHandlers[message.type]) {
         messageHandlers[message.type](message);
@@ -282,7 +312,12 @@ function showGreeting(message) {
 function showWinner(winner) {
     alert("El ganador del juego es: " + winner);
 }
-document.addEventListener("DOMContentLoaded", function() {
+function actualizarJugador2() {
+    $.get("/sala-espera/jugador2", function (data) {
+        $("#jugador2").text(data.nombreJugador2);
+    });
+}
+/*document.addEventListener("DOMContentLoaded", function() {
     function actualizarJugador2() {
         $.ajax({
             url: '/obtenerEstadoPartida',
@@ -302,7 +337,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     actualizarJugador2();
     setInterval(actualizarJugador2, 5000);
-});
+});*/
 socket.onmessage = function(event) {
     var data = JSON.parse(event.data);
     if (data.tipo === "conexion") {
