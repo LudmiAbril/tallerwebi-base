@@ -44,6 +44,7 @@ function refrescarNumero() {
             if (data.limiteAlcanzado) {
                 abrirModalDeLimiteAlcanzado();
             } else {
+                $("#numerosRestantesParaCompletarLaTirada").text("Numeros restantes para completar la tirada: " + data.numerosRestantesParaCompletarLaTirada);
                 $("#numeroCantado").text(data.nuevoNumero);
                 $(".numeroCantadoContenedor").addClass("w3-animate-top");
             }
