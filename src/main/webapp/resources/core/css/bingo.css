@@ -20,19 +20,38 @@ nav {
     justify-content:space-between;
     margin-top:15px;
 }
-
-
-.icono{
-    color:white;
-    font-size:20px;
+/* Estilos para el botón de música */
+.boton-musica {
+    border: 1px solid white;
+    border-radius: 50%;
+    padding: 10px;
+    background-color: #B49FCC;
+    font-size: 1.5em;
+    color: #fff;
+    position: absolute;
+    top: 20%;
+    right: 20px;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
     z-index: 1000;
-    margin-left:15px;
-    padding-top:10px;
 }
 
-.icono:hover{
+.boton-musica:hover {
+    color: #470909;
+    transform: scale(1.2);
+}
+
+.icono {
+    color: white;
+    font-size: 20px;
+    z-index: 1000;
+    margin-left: 15px;
+    padding-top: 10px;
+}
+
+.icono:hover {
     text-shadow: 0 0 30px #e140ec, 0 0 50px #e140ec, 0 0 70px #e140ec, 0 0 60px #e140ec, 0 0 80px #F9EADE, 0 0 80px #F9EADE, 0 0 90px #F9EADE;
-    color:white;
+    color: white;
 }
 
 
@@ -225,12 +244,20 @@ main .w3-button {
 
 }
 
-main .w3-button {
-    padding: 12px;
-    font-size: 1.0rem;
-    border-radius: 15px;
+.modal-content .boton-volver {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: #6D466B;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
 
-
+.modal-content .boton-volver:hover {
+    background-color: #412234;
 }
 
 main .w3-button .w3-green {
@@ -401,4 +428,8 @@ table{
 .mensajeErrorPartidaBingo {
     font-size: medium;
     color: red;
+}
+
+.numerosRestantesParaCompletarLaTirada{
+    color:white;
 }
