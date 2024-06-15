@@ -11,7 +11,6 @@ import com.tallerwebi.dominio.excepcion.CasilleroInexistenteException;
 import com.tallerwebi.dominio.excepcion.CasilleroVacio;
 import com.tallerwebi.dominio.excepcion.MovimientoInvalidoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
-import com.tallerwebi.dominio.excepcion.PartidaDeBingoSinLineaNiBingoException;
 import com.tallerwebi.infraestructura.ServicioSenkuImpl;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
@@ -283,8 +282,7 @@ public class ControladorSenkuTest {
 
     @Test
     public void queAlFinalizarPartidaSeGuardeLaPartidaSiSeGano()
-            throws IllegalArgumentException, PartidaConPuntajeNegativoException,
-            PartidaDeBingoSinLineaNiBingoException {
+            throws IllegalArgumentException, PartidaConPuntajeNegativoException {
         // GIVEN
         HttpSession session = mock(HttpSession.class);
         ServicioSenku servicioSenku = mock(ServicioSenku.class);
@@ -311,7 +309,7 @@ public class ControladorSenkuTest {
 
     @Test
     public void queAlFinalizarPartidaNoSeGuardeLaPartidaSiNoSeGano() throws IllegalArgumentException,
-            PartidaConPuntajeNegativoException, PartidaDeBingoSinLineaNiBingoException {
+            PartidaConPuntajeNegativoException {
         // GIVEN
         HttpSession session = mock(HttpSession.class);
         ServicioSenku servicioSenku = mock(ServicioSenku.class);

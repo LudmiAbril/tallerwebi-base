@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
-import com.tallerwebi.dominio.excepcion.PartidaDeBingoSinLineaNiBingoException;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +33,11 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
     }
 
     @Override
-    public void guardar(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException, PartidaDeBingoSinLineaNiBingoException {
+    public void guardar(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException {
         if (partida == null || partida.getJuego() == null) {
             throw new IllegalArgumentException();
         } else if (partida instanceof PartidaBlackJack && (((PartidaBlackJack) partida).getPuntaje()) < 0) {
             throw new PartidaConPuntajeNegativoException();
-        } else if (partida instanceof PartidaBingo && (((PartidaBingo) partida).getSeHizoLinea() == false
-                && ((PartidaBingo) partida).getSeHizoBingo() == false)) {
-            throw new PartidaDeBingoSinLineaNiBingoException();
         }
         this.sessionFactory.getCurrentSession().save(partida);
     }

@@ -33,7 +33,6 @@ import com.tallerwebi.dominio.excepcion.CasilleroInexistenteException;
 import com.tallerwebi.dominio.excepcion.CasilleroVacio;
 import com.tallerwebi.dominio.excepcion.MovimientoInvalidoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
-import com.tallerwebi.dominio.excepcion.PartidaDeBingoSinLineaNiBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
 
 @Controller
@@ -238,8 +237,6 @@ public ModelAndView finalizarPartida(HttpSession session) {
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         } catch (PartidaConPuntajeNegativoException e) {
-            e.printStackTrace();
-        } catch (PartidaDeBingoSinLineaNiBingoException e) {
             e.printStackTrace();
         }
 

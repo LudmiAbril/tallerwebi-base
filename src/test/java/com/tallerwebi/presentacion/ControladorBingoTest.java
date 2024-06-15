@@ -19,7 +19,6 @@ import javax.servlet.http.HttpSession;
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
-import com.tallerwebi.dominio.excepcion.PartidaDeBingoSinLineaNiBingoException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -289,7 +288,7 @@ public class ControladorBingoTest {
 
     @Test
     public void queAlSolicitarFinalizarPartidaSeEntregueLaVistaCorrespondiente() throws IllegalArgumentException,
-            PartidaConPuntajeNegativoException, PartidaDeBingoSinLineaNiBingoException {
+            PartidaConPuntajeNegativoException {
         // hago que se haga linea en un carton de 3x3 con los numeros 1, 2, 3
 
         // P R E P A R A C I O N
@@ -322,7 +321,7 @@ public class ControladorBingoTest {
     }
 
     @Test
-    public void queAlSolicitarFinalizarPartidaSeGuardeLaPartidaBingoCorrectamenteHabiendoHechoLinea() throws IllegalArgumentException, PartidaConPuntajeNegativoException, PartidaDeBingoSinLineaNiBingoException, NoHayPartidasDeBingoException {
+    public void queAlSolicitarFinalizarPartidaSeGuardeLaPartidaBingoCorrectamenteHabiendoHechoLinea() throws IllegalArgumentException, PartidaConPuntajeNegativoException, NoHayPartidasDeBingoException {
 
         // P R E P A R A C I O N
         Set<Integer> numerosMarcados = new HashSet<Integer>();
@@ -371,7 +370,7 @@ public class ControladorBingoTest {
     }
 
     @Test
-    public void queAlSolicitarFinalizarPartidaSeGuardeLaPartidaBingoCorrectamenteHabiendoHechoBingo() throws IllegalArgumentException, PartidaConPuntajeNegativoException, PartidaDeBingoSinLineaNiBingoException, NoHayPartidasDeBingoException {
+    public void queAlSolicitarFinalizarPartidaSeGuardeLaPartidaBingoCorrectamenteHabiendoHechoBingo() throws IllegalArgumentException, PartidaConPuntajeNegativoException, NoHayPartidasDeBingoException {
 
         // P R E P A R A C I O N
         Set<Integer> numerosMarcados = new HashSet<Integer>();

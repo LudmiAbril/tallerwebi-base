@@ -20,7 +20,6 @@ import javax.transaction.Transactional;
 
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
-import com.tallerwebi.dominio.excepcion.PartidaDeBingoSinLineaNiBingoException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,8 +59,7 @@ public class RepositorioPartidaTest {
     }
 
     @Test
-    public void queSeGuardeUnaPartida() throws PartidaConPuntajeNegativoException, IllegalArgumentException,
-            PartidaDeBingoSinLineaNiBingoException {
+    public void queSeGuardeUnaPartida() throws PartidaConPuntajeNegativoException, IllegalArgumentException {
         Partida p = crearPartida("jugador", Juego.BINGO);
         repositorio.guardar(p);
         assertThat(session.getCurrentSession().contains(p), equalTo(true));
@@ -69,8 +67,8 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queSeObtengaUnRankingOrdenadoDePartidasParaElBingo()
-            throws PartidasDelJuegoNoEncontradasException, PartidaConPuntajeNegativoException, IllegalArgumentException,
-            PartidaDeBingoSinLineaNiBingoException {
+            throws PartidasDelJuegoNoEncontradasException, PartidaConPuntajeNegativoException,
+            IllegalArgumentException {
         // PARTIDA UNO
         Long idJugador = 2L;
         Juego juego = Juego.BINGO;
@@ -122,7 +120,7 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queSePuedanObtenerLasPartidasDeUnJugador() throws PartidaConPuntajeNegativoException,
-            IllegalArgumentException, PartidaDeBingoSinLineaNiBingoException {
+            IllegalArgumentException {
         Long usuarioId = 000L;
 
         Partida partida1 = crearPartida("Prueba", Juego.BLACKJACK);
@@ -151,7 +149,7 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queSePuedanObtenerLasUltimasPartidasOrdenadasPorFecha() throws PartidaConPuntajeNegativoException,
-            IllegalArgumentException, PartidaDeBingoSinLineaNiBingoException {
+            IllegalArgumentException {
         Long usuarioId = 000L;
         List<Partida> partidasEsperadas = new ArrayList<Partida>();
         Partida a = crearPartida("user", Juego.BINGO);
@@ -242,8 +240,7 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queSeObtenganPartidasPorRangoDeFechas()
-            throws PartidaConPuntajeNegativoException, PartidaDeUsuarioNoEncontradaException, IllegalArgumentException,
-            PartidaDeBingoSinLineaNiBingoException {
+            throws PartidaConPuntajeNegativoException, PartidaDeUsuarioNoEncontradaException, IllegalArgumentException {
         Long usuarioId = 000L;
         Juego juego = Juego.BINGO;
         Partida partida1 = crearPartida("jugador1", juego);
@@ -266,70 +263,34 @@ public class RepositorioPartidaTest {
     }
 
     @Test
-    public void queSeLanceUnaExcepcionSiSeIntentaGuardarUnaPartidaBingoSinHaberHechoLineaNiBingo()
-            throws IllegalArgumentException, PartidaConPuntajeNegativoException,
-            PartidaDeBingoSinLineaNiBingoException {
-        Set<Integer> casillerosMarcados = new HashSet<Integer>();
-        casillerosMarcados.add(1);
-        casillerosMarcados.add(5);
-        casillerosMarcados.add(9);
-        Partida bingo = new PartidaBingo(1l, Juego.BINGO, casillerosMarcados, false, false, TipoPartidaBingo.BINGO, 25,
-                casillerosMarcados.size());
-        assertThrows(PartidaDeBingoSinLineaNiBingoException.class, () -> {
-            this.repositorio.guardar(bingo);
-        });
-    }
+    public void queSeGuardeUnaPartidaSenku() throws PartidaConPuntajeNegativoException, IllegalArgumentException {
+        // GIVEN
+        Long idJugador = 1L;
+        Juego juego = Juego.SENKU;
+        Boolean ganado = true;
+        Integer cantidadMovimientos = 50;
 
-    @Test
-    public void queNoSeGuardeUnaPartidaSinHaberHechoLineaNiBingo() throws IllegalArgumentException,
-            PartidaConPuntajeNegativoException, PartidaDeBingoSinLineaNiBingoException, NoHayPartidasDeBingoException {
-        Set<Integer> casillerosMarcados = new HashSet<Integer>();
-        casillerosMarcados.add(1);
-        casillerosMarcados.add(5);
-        casillerosMarcados.add(9);
-        Partida bingo = new PartidaBingo(1l, Juego.BINGO, casillerosMarcados, false, false, TipoPartidaBingo.BINGO, 25,
-                casillerosMarcados.size());
-        List<PartidaBingo> partidasDeBingoActuales = new ArrayList<>();
-        assertThrows(NoHayPartidasDeBingoException.class, () -> {
-            partidasDeBingoActuales.addAll(this.repositorio.generarRankingDePartidasDeBingo(1l));
-        });
-        assertThrows(PartidaDeBingoSinLineaNiBingoException.class, () -> {
-            this.repositorio.guardar(bingo);
-        });
-        assertThat(partidasDeBingoActuales.contains(bingo), is(false));
-    }
+        Partida partidaSenku = new PartidaSenku(idJugador, juego, ganado, cantidadMovimientos);
 
-    @Test
-public void queSeGuardeUnaPartidaSenku() throws PartidaConPuntajeNegativoException, IllegalArgumentException,
-        PartidaDeBingoSinLineaNiBingoException {
-    // GIVEN
-    Long idJugador = 1L;
-    Juego juego = Juego.SENKU;
-    Boolean ganado = true;
-    Integer cantidadMovimientos = 50;
-
-    Partida partidaSenku = new PartidaSenku(idJugador, juego, ganado, cantidadMovimientos);
-
-    // WHEN
-    repositorio.guardar(partidaSenku);
-
-    // THEN
-    assertThat(session.getCurrentSession().contains(partidaSenku), equalTo(true));
-}
-
-@Test
-public void queLanceExceptionAlGuardarPartidaSenkuConValoresNoValidos() {
-    // GIVEN
-    PartidaSenku partidaSenku = new PartidaSenku();
-    // VALORES NO VALIODS(SOLO SE GUARDA SI SE GANO Y SI HUBO MOVIMEINTOS)
-    partidaSenku.setGanado(null);
-    partidaSenku.setCantidadMovimientos(-1);
-
-    // THEN
-    assertThrows(IllegalArgumentException.class, () -> {
+        // WHEN
         repositorio.guardar(partidaSenku);
-    });
-}
 
+        // THEN
+        assertThat(session.getCurrentSession().contains(partidaSenku), equalTo(true));
+    }
+
+    @Test
+    public void queLanceExceptionAlGuardarPartidaSenkuConValoresNoValidos() {
+        // GIVEN
+        PartidaSenku partidaSenku = new PartidaSenku();
+        // VALORES NO VALIODS(SOLO SE GUARDA SI SE GANO Y SI HUBO MOVIMEINTOS)
+        partidaSenku.setGanado(null);
+        partidaSenku.setCantidadMovimientos(-1);
+
+        // THEN
+        assertThrows(IllegalArgumentException.class, () -> {
+            repositorio.guardar(partidaSenku);
+        });
+    }
 
 }
