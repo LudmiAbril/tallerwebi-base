@@ -285,11 +285,14 @@ const messageHandlers = {
 function actualizarJugadoresEnSala(jugadoresEnSala) {
     jugadores = jugadoresEnSala;
     if (jugadores.length > 0) {
-        $("#jugador1").text(jugadores[0]);
+        $("#jugador1").text(jugadores[0].nombre);
     }
     if (jugadores.length > 1) {
-        $("#jugador2").text(jugadores[1]);
+        $("#jugador2").text(jugadores[1].nombre);
     }
+    else {
+            $("#nombreJugador2").text('esperando nuevos jugadores');
+        }
 }
 const handleMessage = (message) => {
     if (messageHandlers[message.type]) {
@@ -312,12 +315,8 @@ function showGreeting(message) {
 function showWinner(winner) {
     alert("El ganador del juego es: " + winner);
 }
-function actualizarJugador2() {
-    $.get("/sala-espera/jugador2", function (data) {
-        $("#jugador2").text(data.nombreJugador2);
-    });
-}
-/*document.addEventListener("DOMContentLoaded", function() {
+
+document.addEventListener("DOMContentLoaded", function() {
     function actualizarJugador2() {
         $.ajax({
             url: '/obtenerEstadoPartida',
@@ -337,7 +336,7 @@ function actualizarJugador2() {
     }
     actualizarJugador2();
     setInterval(actualizarJugador2, 5000);
-});*/
+});
 socket.onmessage = function(event) {
     var data = JSON.parse(event.data);
     if (data.tipo === "conexion") {

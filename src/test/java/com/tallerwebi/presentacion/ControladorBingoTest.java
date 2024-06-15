@@ -27,6 +27,7 @@ import javax.servlet.http.HttpSession;
 import com.tallerwebi.dominio.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
@@ -37,11 +38,13 @@ public class ControladorBingoTest {
     private ServicioBingo servicioBingoMock;
     private HttpSession session;
     private ServicioPlataforma servicioPlataformaMock;
+    private SimpMessagingTemplate template;
 
     @BeforeEach
     public void init() {
+        this.template = template;
         this.servicioBingoMock = mock(ServicioBingo.class);
-        this.controladorBingo = new ControladorBingo(servicioBingoMock, servicioPlataformaMock);
+        this.controladorBingo = new ControladorBingo(servicioBingoMock, servicioPlataformaMock, template);
         this.session = new MockHttpSession();
         this.servicioPlataformaMock = mock(ServicioPlataforma.class);
     }

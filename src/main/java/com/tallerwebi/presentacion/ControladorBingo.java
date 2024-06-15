@@ -41,9 +41,12 @@ public class ControladorBingo {
 	private ServicioPlataforma servicioPlataforma;
     private SimpMessagingTemplate template;
 	private Set<WebSocketSession> sessions = new HashSet<>();
+    private final List<String> nombresJugadores = new ArrayList<>();
+	private Map<WebSocketSession, HttpSession> webSocketToHttpSessionMap = new HashMap<>();
+	private SalaEspera salaDeEspera = new SalaEspera();
 
 	@Autowired
-	public ControladorBingo(ServicioBingo servicioBingo, ServicioPlataforma servicioPlataforma) {
+	public ControladorBingo(ServicioBingo servicioBingo, ServicioPlataforma servicioPlataforma, SimpMessagingTemplate template) {
 		this.servicioBingo = servicioBingo;
 		this.servicioPlataforma = servicioPlataforma;
 		this.template = template;
@@ -64,6 +67,7 @@ public class ControladorBingo {
 		}
 		return new ModelAndView("irAlBingo", model);
 	}
+
 	@RequestMapping(path = "/bingo-multijugador", method = RequestMethod.GET)
 	public ModelAndView jugarMultijugador() {
 		ModelMap model = new ModelMap();
@@ -158,27 +162,69 @@ public class ControladorBingo {
     private int jugadoresConectados = 0;
 
 	@MessageMapping("/bingo-multijugador/connect")
-	public void manejarConexion(Map<String, String> jugador, WebSocketSession session) {
-		// Maneja el mensaje de conexión recibido desde el cliente
-		sessions.add(session);
-		if (sessions.size() == 2) {
-			// Ambos jugadores están conectados, inicia la partida
-			iniciarPartida();
+	public void manejarConexion(Map<String, String> jugador, WebSocketSession session, HttpSession httpSession) {
+		String nombreJugador = jugador.get("nombreJugador");
+		Usuario usuario = (Usuario) httpSession.getAttribute("jugadorActual");
+		usuario.setNombre(nombreJugador);
+		nombresJugadores.add(nombreJugador);
+		httpSession.setAttribute("webSocketSession", session);
+
+		// Añadir la sesión webSocket a la lista de sesiones
+		synchronized (sessions) {
+			sessions.add(session);
+			webSocketToHttpSessionMap.put(session, httpSession);
 		}
-	}
-	private void iniciarPartida() {
-		BingoMultijugador partida = new BingoMultijugador();
-		List<WebSocketSession> sessionList = new ArrayList<>(sessions);
-		partida.setNombreJugador(sessionList.get(0).getPrincipal().getName());
-		partida.setNombreJugador2(sessionList.get(1).getPrincipal().getName());
-		// Envía un mensaje a cada sesión para notificar que la partida ha comenzado
-		for (WebSocketSession session : sessions) {
-			try {
-				session.sendMessage(new TextMessage("La partida ha comenzado"));
-			} catch (IOException e) {
-				e.printStackTrace();
+
+		//template.convertAndSend("/topic/estadoJugadores", nombresJugadores);
+		if (sessions.size() == 2) {
+			List<Usuario> jugadores = new ArrayList<>();
+			for (WebSocketSession sessionx : sessions) {
+				HttpSession httpSessionTemp = webSocketToHttpSessionMap.get(session);
+				Usuario jugadorx = (Usuario) httpSessionTemp.getAttribute("jugadorActual");
+				jugadores.add(jugadorx);
+			}
+			if (jugadores.size() == 2) {
+				iniciarPartida(jugadores.get(0), jugadores.get(1), httpSession);
 			}
 		}
+	}
+	@MessageMapping("/bingo-multijugador/disconnect")
+	public void manejarDesconexion(WebSocketSession session) {
+		synchronized (sessions) {
+			sessions.remove(session);
+			HttpSession httpSession = webSocketToHttpSessionMap.remove(session);
+			if (httpSession != null) {
+				Usuario usuario = (Usuario) httpSession.getAttribute("jugadorActual");
+				if (usuario != null) {
+					nombresJugadores.remove(usuario.getNombre());
+				}
+			}
+		}
+		template.convertAndSend("/topic/estadoJugadores", nombresJugadores);
+	}
+	private void iniciarPartida(Usuario jugador1, Usuario jugador2, HttpSession httpsession) {
+		BingoMultijugador partida = new BingoMultijugador();
+//		List<WebSocketSession> sessionList = new ArrayList<>(sessions);
+//		partida.setNombreJugador(sessionList.get(0).getPrincipal().getName());
+//		partida.setNombreJugador2(sessionList.get(1).getPrincipal().getName());
+		partida.setNombreJugador(jugador1.getNombre());
+		partida.setNombreJugador2(jugador2.getNombre());
+		partida.setGameState(EstadoJuego.PLAYER1_TURN);
+		int dimension = jugador1.getConfig().getDimensionCarton();
+		partida.setCartonJugador1(servicioBingo.generarCarton(dimension));
+		dimension = jugador2.getConfig().getDimensionCarton();
+		partida.setCartonJugador2(servicioBingo.generarCarton(dimension));
+		/*template.convertAndSend("/topic/updates", partida);
+		ModelAndView modelAndView = new ModelAndView("redirect:/bingo-multijugador");
+		modelAndView.addObject("partida", partida);
+		template.convertAndSend("/topic/updates", partida);*/
+		/*for (WebSocketSession session : sessions) {
+			try {
+				template.convertAndSendToUser(session.getId(), "/topic/updates", partida);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}*/
 		template.convertAndSend("/topic/updates", partida);
 	}
 	@RequestMapping(path = "/obtenerDatosIniciales", method = RequestMethod.GET)
@@ -254,10 +300,31 @@ public class ControladorBingo {
 	public ModelAndView salaEspera(HttpSession session) {
 		ModelMap model = new ModelMap();
 		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-		model.addAttribute("nombreUsuario", jugador.getNombre());
-		model.addAttribute("usuarioConfig", jugador.getConfig());
+
+		synchronized (salaDeEspera) {
+			if (jugador != null && !salaDeEspera.getJugadores().contains(jugador)) {
+				salaDeEspera.agregarJugador(jugador);
+			}
+
+			// Verificar si hay dos jugadores y comenzar la partida
+			if (salaDeEspera.hayDosJugadores()) {
+				salaDeEspera.setPartidaIniciada(true);
+				iniciarPartida(salaDeEspera.getJugador1(), salaDeEspera.getJugador2(), session);
+			}
+		}
+
+		model.addAttribute("nombreUsuario", jugador != null ? jugador.getNombre() : "Invitado");
+		model.addAttribute("usuarioConfig", jugador != null ? jugador.getConfig() : null);
 
 		return new ModelAndView("sala-espera", model);
+	}
+
+	@RequestMapping(path = "/obtenerEstadoJugadores", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> obtenerEstadoJugadores(HttpSession session) {
+		Map<String, Object> response = new HashMap<>();
+		response.put("jugadores", nombresJugadores);
+		return response;
 	}
 
 	@RequestMapping(path = "/obtenerNumeroActual", method = RequestMethod.GET)
@@ -382,25 +449,5 @@ public class ControladorBingo {
 		return response;
 	}
 
-	public static class MovimientoRequest {
-		private String jugador;
-		private Object movimiento;
-		// getters y setters
 
-		public String getJugador() {
-			return jugador;
-		}
-
-		public void setJugador(String jugador) {
-			this.jugador = jugador;
-		}
-
-		public Object getMovimiento() {
-			return movimiento;
-		}
-
-		public void setMovimiento(Object movimiento) {
-			this.movimiento = movimiento;
-		}
-	}
 }
