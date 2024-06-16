@@ -457,4 +457,15 @@ public class ControladorBingoTest {
         ModelAndView mav = this.controladorBingo.comenzarJuegoBingo("BINGO", session);
         assertThat(mav.getViewName(), equalToIgnoringCase("bingo"));
     }
+
+    @Test
+    public void queAlSolicitarComenzarJuegoBingoSeGuardenLosDatosCorrespondientesEnElModelo() {
+        Usuario usuario = new Usuario();
+        usuario.setNombre("user");
+        ModelAndView mav = this.controladorBingo.comenzarJuegoBingo("BINGO", session);
+        String nombreModeloActual = (String) mav.getModel().get("nombreJugador");
+        TipoPartidaBingo tipoPartidaModeloActual = (TipoPartidaBingo) mav.getModel().get("tipoPartidaBingoDeLaSesion");
+        assertThat(nombreModeloActual, equalTo("user"));
+        assertThat(tipoPartidaModeloActual, equalTo(TipoPartidaBingo.BINGO));
+    }
 }
