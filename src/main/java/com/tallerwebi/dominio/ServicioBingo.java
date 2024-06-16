@@ -22,4 +22,6 @@ public interface ServicioBingo {
 
     Integer obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(Integer tirada, Integer numerosEntregados);
 
+    Set<Integer> getNumerosEntregados();
+
 }

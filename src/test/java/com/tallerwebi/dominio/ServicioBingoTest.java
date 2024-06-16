@@ -301,4 +301,49 @@ public class ServicioBingoTest {
 		Boolean seHizoLinea = servicioBingo.linea(numerosMarcadosEnElCarton, carton);
 		assertThat(seHizoLinea, is(false));
 	}
+
+	@Test
+	public void queSeVacienLosNumerosEntregadosYMarcadosDespuesDeHacerLinea() {
+		// genero un carton
+		Integer[][] numeros = {
+				{ 1, 2, 3, 4, 5 },
+				{ 6, 7, 8, 9, 10 },
+				{ 11, 12, 13, 14, 15 },
+				{ 16, 17, 18, 19, 20 },
+				{ 21, 22, 23, 24, 25 }
+		};
+		CartonBingo carton = new CartonBingo(numeros);
+		((ServicioBingoImpl) this.servicioBingo).setDimension(5);
+		((ServicioBingoImpl) this.servicioBingo).setCartonNuevo(carton);
+
+		Integer numeroAleatorio1 = 1;
+		Integer numeroAleatorio6 = 6;
+		Integer numeroAleatorio11 = 11;
+		Integer numeroAleatorio16 = 16;
+		Integer numeroAleatorio21 = 21;
+
+		// te entrego numeros aleatorio que en el carton hagan linea
+		Set<Integer> numerosEntregados = new HashSet<Integer>();
+		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(numeroAleatorio1);
+		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(numeroAleatorio6);
+		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(numeroAleatorio11);
+		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(numeroAleatorio16);
+		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(numeroAleatorio21);
+
+		// marcarEsosNumerosEnElCarton
+		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(numeroAleatorio1, carton);
+		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(numeroAleatorio6, carton);
+		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(numeroAleatorio11, carton);
+		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(numeroAleatorio16, carton);
+		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(numeroAleatorio21, carton);
+
+		Boolean linea = ((ServicioBingo) this.servicioBingo)
+				.linea(((ServicioBingoImpl) this.servicioBingo).getNumerosMarcadosEnElCarton(), carton);
+		((ServicioBingoImpl) this.servicioBingo).setSeHizoLinea(linea);
+
+		assertTrue(((ServicioBingoImpl) servicioBingo).getSeHizoLinea());
+		assertTrue(servicioBingo.getNumerosMarcadosEnElCarton().isEmpty());
+		assertTrue(servicioBingo.getNumerosEntregados().isEmpty());
+	}
+
 }
