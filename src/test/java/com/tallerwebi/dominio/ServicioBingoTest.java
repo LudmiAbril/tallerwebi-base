@@ -346,4 +346,48 @@ public class ServicioBingoTest {
 		assertTrue(servicioBingo.getNumerosEntregados().isEmpty());
 	}
 
+	@Test
+	public void queSeVacienLosNumerosEntregadosYMarcadosDespuesDeHacerBingo() {
+		// genero un carton
+		Integer[][] numeros = {
+				{ 1, 2, 3},
+				{ 6, 7, 8},
+				{ 11, 12, 13}
+		};
+		CartonBingo carton = new CartonBingo(numeros);
+		((ServicioBingoImpl) this.servicioBingo).setDimension(3);
+		((ServicioBingoImpl) this.servicioBingo).setCartonNuevo(carton);
+
+		// te entrego numeros aleatorio que en el carton hagan linea
+		Set<Integer> numerosEntregados = new HashSet<Integer>();
+		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(1);
+		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(2);
+		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(3);
+		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(6);
+		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(7);
+		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(8);
+		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(11);
+		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(12);
+		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(13);
+
+		// marcarEsosNumerosEnElCarton
+		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(1, carton);
+		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(2, carton);
+		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(3, carton);
+		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(6, carton);
+		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(7, carton);
+		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(8, carton);
+		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(11, carton);
+		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(12, carton);
+		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(13, carton);
+
+		Boolean bingo = ((ServicioBingo) this.servicioBingo)
+				.bingo(((ServicioBingoImpl) this.servicioBingo).getNumerosMarcadosEnElCarton(), 3);
+		((ServicioBingoImpl) this.servicioBingo).setSeHizobingo(bingo);
+
+		assertTrue(((ServicioBingoImpl) servicioBingo).getSeHizobingo());
+		assertTrue(servicioBingo.getNumerosMarcadosEnElCarton().isEmpty());
+		assertTrue(servicioBingo.getNumerosEntregados().isEmpty());
+	}
+	
 }

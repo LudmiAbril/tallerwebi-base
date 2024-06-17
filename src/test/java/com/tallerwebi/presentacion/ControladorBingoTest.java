@@ -468,4 +468,8 @@ public class ControladorBingoTest {
         assertThat(nombreModeloActual, equalTo("user"));
         assertThat(tipoPartidaModeloActual, equalTo(TipoPartidaBingo.BINGO));
     }
+
+    // queSePuedaGenerarUnCartonDe5x5APartirDeLaConfiguracionDefinida()
+    // queSePuedaGenerarUnCartonDe4x4APartirDeLaConfiguracionDefinida()
+    // queSePuedaGenerarUnCartonDe3x3APartirDeLaConfiguracionDefinida()
 }
