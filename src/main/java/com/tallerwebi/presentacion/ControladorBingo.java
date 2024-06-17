@@ -68,13 +68,7 @@ public class ControladorBingo {
 		return new ModelAndView("irAlBingo", model);
 	}
 
-	@RequestMapping(path = "/bingo-multijugador", method = RequestMethod.GET)
-	public ModelAndView jugarMultijugador() {
-		ModelMap model = new ModelMap();
-		model.put("nuevoJugador", new Usuario());
 
-		return new ModelAndView("bingo-multijugador", model);
-	}
 
 	@RequestMapping(path = "/comenzarJuegoBingo", method = RequestMethod.GET)
 	public ModelAndView comenzarJuegoBingo(@RequestParam("tipo") String tipo, HttpSession session) {
@@ -121,30 +115,12 @@ public class ControladorBingo {
 		// get config. get cantidad de bolas. guardar en la sesion.
 	}
 
-	@RequestMapping(path = "/comenzarJuegoBingoMultijugador", method = RequestMethod.GET)
-    public Map<String, Object> comenzarPartidaBingoMultijugador(@RequestParam("nombreUsuario") String jugador1, HttpSession session, @RequestParam("jugador2") String jugador2) {
-        Map<String, Object> response = new HashMap<>();
-		if (jugador1 == null || jugador2 == null) {
-			response.put("error", "Los nombres de los jugadores son obligatorios.");
-			return response;
-		}
-        try {
-            BingoMultijugador partida = bingoManager.joinGame(jugador1, session);
-            partida.setNombreJugador2(jugador2);
-            partida.setGameState(EstadoJuego.PLAYER1_TURN);
+	@RequestMapping(path = "/bingo-multijugador", method = RequestMethod.GET)
+	public ModelAndView jugarMultijugador() {
+		ModelMap model = new ModelMap();
+		model.put("nuevoJugador", new Usuario());
 
-            int dimension = partida.getDimension();
-            partida.setCartonJugador1(servicioBingo.generarCarton(dimension));
-            partida.setCartonJugador2(servicioBingo.generarCarton(dimension));
-
-            response.put("estadoPartida", "Partida comenzada");
-            response.put("partida", partida);
-            template.convertAndSend("/topic/updates", partida);
-        } catch (Exception e) {
-            response.put("error", e.getMessage());
-        }
-
-        return response;
+		return new ModelAndView("bingo-multijugador", model);
 	}
 
 	@RequestMapping(path = "/obtenerEstadoPartida", method = RequestMethod.GET)
@@ -203,28 +179,23 @@ public class ControladorBingo {
 		template.convertAndSend("/topic/estadoJugadores", nombresJugadores);
 	}
 	private void iniciarPartida(Usuario jugador1, Usuario jugador2, HttpSession httpsession) {
+		int dimensionJugador1 = jugador1.getConfig().getCantidadDePelotas();
+		int dimensionJugador2 = jugador2.getConfig().getCantidadDePelotas();
+
+		int dimension;
+		if (dimensionJugador1 == dimensionJugador2) {
+			dimension = dimensionJugador1;
+		} else {
+			dimension = Math.min(dimensionJugador1, dimensionJugador2);
+		}
 		BingoMultijugador partida = new BingoMultijugador();
-//		List<WebSocketSession> sessionList = new ArrayList<>(sessions);
-//		partida.setNombreJugador(sessionList.get(0).getPrincipal().getName());
-//		partida.setNombreJugador2(sessionList.get(1).getPrincipal().getName());
+
 		partida.setNombreJugador(jugador1.getNombre());
 		partida.setNombreJugador2(jugador2.getNombre());
 		partida.setGameState(EstadoJuego.PLAYER1_TURN);
-		int dimension = jugador1.getConfig().getDimensionCarton();
+
 		partida.setCartonJugador1(servicioBingo.generarCarton(dimension));
-		dimension = jugador2.getConfig().getDimensionCarton();
 		partida.setCartonJugador2(servicioBingo.generarCarton(dimension));
-		/*template.convertAndSend("/topic/updates", partida);
-		ModelAndView modelAndView = new ModelAndView("redirect:/bingo-multijugador");
-		modelAndView.addObject("partida", partida);
-		template.convertAndSend("/topic/updates", partida);*/
-		/*for (WebSocketSession session : sessions) {
-			try {
-				template.convertAndSendToUser(session.getId(), "/topic/updates", partida);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}*/
 		template.convertAndSend("/topic/updates", partida);
 	}
 	@RequestMapping(path = "/obtenerDatosIniciales", method = RequestMethod.GET)

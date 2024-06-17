@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 import com.tallerwebi.dominio.BingoManager;
+import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.dto.Mensaje;
 import com.tallerwebi.dominio.dto.MensajeBingo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,10 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashSet;
@@ -33,6 +38,10 @@ public class ControladorBingoWebsocket {
         response.setContent(numerosEntregados.toString());
         return response;
     }
+
+
+
+
 
 
 }
