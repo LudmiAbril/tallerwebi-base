@@ -5,7 +5,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Bingo</title>
-    <link rel="stylesheet" th:href="@{/css/estilos-IrA.css}" />
+    <link rel="stylesheet" th:href="@{/css/salaDeEspera.css}" />
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -20,17 +20,42 @@
         <span class="material-symbols-outlined icono">arrow_back</span>
     </a>
 </nav>
+
+<div class="title">Bienvenido a la sala de espera</div>
 <div id="iniciarPartidaModal" class="modal-multi">
     <div class="modal-content">
+        <div class="background-pattern"></div>
         <span class="close" onclick="closeModal('iniciarPartidaModal')">&times;</span>
-        <h3>Bienvenido a la sala de espera, estamos buscando un compañero para que comiences tu partida</h3>
-        <form th:action="@{/comenzarJuegoBingoMultijugador}" method="get" class="text-center">
-            <p>Jugador 1: <span id="nombreJugador1" th:text="${nombreUsuario}"></span></p>
-            <p>Jugador 2: <span id="nombreJugador2" th:text="${nombreJugador2 != null ? nombreJugador2 : 'esperando nuevos jugadores'}" ></span></p>
-<!--            <button id="iniciarPartidaButton" onclick="comenzarPartida()">Empezar Partida</button>-->
+        <h3>Estamos buscando un compañero para que comiences tu partida</h3>
+        <div id="loader"></div>
+        <form action="/comenzarJuegoBingoMultijugador" method="get" class="text-center">
+            <p>Jugador 1: <span id="nombreJugador1">Nombre del Usuario</span></p>
+            <p>Jugador 2: <span id="nombreJugador2">esperando nuevos jugadores</span></p>
+            <!--            <button id="iniciarPartidaButton" onclick="comenzarPartida()">Empezar Partida</button>-->
         </form>
     </div>
 </div>
+<nav class="nav-bar">
+    <a th:href="@{/volverAlMenu}">
+        <span class="material-symbols-outlined icono">arrow_back</span>
+    </a>
+</nav>
+<img th:src="@{/imgStatic/gatoMafioso.png}" class="gatoMafioso">
+<div class="title">Bienvenido a la sala de espera</div>
+<div class="main-content">
+    <div class="background-pattern"></div>
+    <h3>Estamos buscando un compañero para que comiences tu partida</h3>
+    <div class="player-container">
+        <p><span>Jugador 1:</span> <span th:text="${nombreUsuario}">Nombre del Usuario</span></p>
+    </div>
+    <div class="player-container">
+        <p><span>Jugador 2:</span> <span th:text="${nombreJugador2 != null ? nombreJugador2 : 'esperando nuevos jugadores'}">esperando nuevos jugadores</span></p>
+    </div>
+    <form th:action="@{/comenzarJuegoBingoMultijugador}" method="get" class="text-center">
+        <!--            <button id="iniciarPartidaButton" onclick="comenzarPartida()">Empezar Partida</button>-->
+    </form>
+</div>
+<div class="stars"></div>
 <<script>
     const socket = new SockJS('/spring/sala-espera');
     const stompClient = Stomp.over(socket);
