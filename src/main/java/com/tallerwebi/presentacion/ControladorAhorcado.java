@@ -26,7 +26,6 @@ public class ControladorAhorcado {
         model.put("nuevoJugador", new Jugador());
         return new ModelAndView("irAlAhorcado", model);
     }
-
     @RequestMapping(path = "/ahorcadoJuego", method = RequestMethod.GET)
     public ModelAndView ahorcadoJuego(HttpSession session) {
         ModelMap model = new ModelMap();
@@ -43,10 +42,12 @@ public class ControladorAhorcado {
             model.put("partesAhorcado", partesAhorcado);
             return new ModelAndView("ahorcado", model);
         } catch (Exception e) {
-      
+            model.put("mensajeError", "No se pudo inicializar el jugador.");
+            model.put("error", e.getMessage());
             return new ModelAndView("redirect:/irAlAhorcado");
         }
     }
+    
     
 
 
