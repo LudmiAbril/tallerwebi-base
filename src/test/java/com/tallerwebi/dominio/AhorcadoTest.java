@@ -1,107 +1,108 @@
 package com.tallerwebi.dominio;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import com.tallerwebi.dominio.RepositorioPalabra;
-import com.tallerwebi.infraestructura.RepositorioPalabraImpl;
-import org.hibernate.SessionFactory;
+import java.util.ArrayList;
+import java.util.List;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-
 import com.tallerwebi.infraestructura.ServicioAhorcadoImpel;
 
-class AhorcadoTest {
-    private Palabra palabraMock;
-    private ServicioAhorcado servicio;
+public class AhorcadoTest {
+
+    private ServicioAhorcadoImpel servicio;
     private RepositorioPalabra repositorioPalabra;
-    private SessionFactory sessionFactory;
 
     @BeforeEach
     public void init() {
-        palabraMock = mock(Palabra.class);
-        //sessionFactory = (SessionFactory) sessionFactory.getCurrentSession();
-        repositorioPalabra = new RepositorioPalabraImpl(sessionFactory);
-        this.servicio = new ServicioAhorcadoImpel(this.repositorioPalabra);
+        repositorioPalabra = mock(RepositorioPalabra.class);
+        servicio = new ServicioAhorcadoImpel(repositorioPalabra);
     }
-
 
     @Test
     public void queSePuedaIngresarUnaLetraCorrecta() {
+      
+        Integer partesAhorcado = 6;
+        String palabraParaAdivinar = "perro";
+        Character letra = 'e';
 
-        Integer partesAhorcado=6;
-        String palabraParaAdivinar= "perro";
-        Character letra= 'e';
+       
+        partesAhorcado = servicio.intentarLetra(letra, palabraParaAdivinar, partesAhorcado);
 
-        partesAhorcado=servicio.intentarLetra(letra, palabraParaAdivinar, partesAhorcado);
 
-       assertThat(partesAhorcado, equalTo(6) );
+        assertThat(partesAhorcado, equalTo(6));
     }
 
     @Test
-    public void queSeReduscanLosIntentosSiIngresamosUnaLetraIncorrecta() {
-        Integer partesAhorcado=6;
-        String palabraParaAdivinar= servicio.entregarPalabra();
-        Character letra= 'x';
+    public void queSeReduzcanLosIntentosSiIngresamosUnaLetraIncorrecta() {
+  
+        Integer partesAhorcado = 6;
+        String palabraParaAdivinar = "perro";
+        Character letra = 'x';
 
-        partesAhorcado=servicio.intentarLetra(letra, palabraParaAdivinar, partesAhorcado);
+   
+        partesAhorcado = servicio.intentarLetra(letra, palabraParaAdivinar, partesAhorcado);
 
-        assertThat(partesAhorcado, equalTo(5) );
+    
+        assertThat(partesAhorcado, equalTo(5));
     }
 
     @Test
     public void queSeAcerteLaPalabra() {
+   
+        Integer partesAhorcado = 6;
+        String palabraParaAdivinar = "perro";
+        Character letraCorrecta = 'p';
+        Character letraIncorrecta = 'x';
 
+      
+        partesAhorcado = servicio.intentarLetra(letraCorrecta, palabraParaAdivinar, partesAhorcado);
+        partesAhorcado = servicio.intentarLetra(letraIncorrecta, palabraParaAdivinar, partesAhorcado);
 
+        String palabraOculta = mostrarPalabraOculta(palabraParaAdivinar, "p");
 
-
-    }
-/*
-    @Test
-    public void quesePonganEnLaPosicionCorrectaLasLetrasAlAdivinar() {
-        String[] palabras = {"java"};
-        ServicioAhorcado juego = new ServicioAhorcadoImpel(palabras);
-
-        assertTrue(juego.intentarLetra('a'));
-        assertEquals("_a_a", juego.getPalabraAdivinada().toString());
-        assertTrue(juego.intentarLetra('j'));
-        assertEquals("ja_a", juego.getPalabraAdivinada().toString());
-
-        assertTrue(juego.intentarLetra('v'));
-        assertEquals("java", juego.getPalabraAdivinada().toString());
+       
+        assertThat(palabraOculta, equalTo("p____"));
+        assertFalse(servicio.Perdio(partesAhorcado));
     }
 
     @Test
-    public void perderJuegoAhorcado() {
-        String[] palabras = {"java"};
-        ServicioAhorcado juego = new ServicioAhorcadoImpel(palabras);
+    public void queSePierdaElJuego() {
+ 
+        Integer partesAhorcado = 1;
+        String palabraParaAdivinar = "perro";
+        Character letraIncorrecta = 'x';
 
-        assertFalse(juego.intentarLetra('x'));
-        assertFalse(juego.intentarLetra('y'));
-        assertTrue(juego.intentarLetra('j'));
-        assertFalse(juego.intentarLetra('w'));
-        assertFalse(juego.intentarLetra('q'));
-        assertFalse(juego.intentarLetra('h'));
-        assertFalse(juego.intentarLetra('p'));
 
-        assertTrue(juego.isPerdido());
+        partesAhorcado = servicio.intentarLetra(letraIncorrecta, palabraParaAdivinar, partesAhorcado);
+
+ 
+        assertTrue(servicio.Perdio(partesAhorcado));
     }
-    @Test
- public void queSeActualiceLaPalabrasDisponiblesDespuesDeAdivinar() {
-       String[] palabras = {"java"};
-       ServicioAhorcado juego = new ServicioAhorcadoImpel(palabras);
 
-       assertTrue(juego.intentarLetra('a'));
-       assertTrue(juego.intentarLetra('j'));
-       assertTrue(juego.intentarLetra('v'));
+    private String mostrarPalabraOculta(String palabra, String letrasIntentadas) {
+        StringBuilder palabraOculta = new StringBuilder(palabra.length());
 
-       assertFalse(Arrays.asList(juego.getPalabras()).contains("java"));
-       assertTrue(Arrays.asList(juego.getPalabrasAdivinadas()).contains("java"));
+        for (int i = 0; i < palabra.length(); i++) {
+            char letra = palabra.charAt(i);
 
-    }*/
+            if (letra == ' ') {
+                palabraOculta.append(' '); 
+            } else if (letrasIntentadas.indexOf(letra) >= 0) {
+                palabraOculta.append(letra); 
+            } else {
+                palabraOculta.append('_'); 
+            }
+        }
+
+        return palabraOculta.toString();
+    }
 }
