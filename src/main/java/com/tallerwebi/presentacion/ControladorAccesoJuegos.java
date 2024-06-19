@@ -35,7 +35,16 @@ public class ControladorAccesoJuegos {
     @RequestMapping(path = "/acceso-juegos")
     public ModelAndView accesoJuegos(HttpSession session) {
         ModelMap model = new ModelMap();
-        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        Usuario jugador;
+        if (session.getAttribute("jugadorActual") == null
+                || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
+
+            jugador = new Usuario();
+            jugador.setNombre("user");
+            session.setAttribute("jugadorActual", jugador);
+        } else {
+            jugador = (Usuario) session.getAttribute("jugadorActual");
+        }
         model.addAttribute("jugador", jugador.getNombre());
         model.addAttribute("usuarioConfig", jugador.getConfig());
         return new ModelAndView("acceso-juegos", model);
@@ -97,6 +106,10 @@ public class ControladorAccesoJuegos {
             @RequestParam("dimensionCarton") Integer dimensionCarton, HttpSession session) {
         ModelMap model = new ModelMap();
         Usuario userActual = (Usuario) session.getAttribute("jugadorActual");
+        if (duracionBlackjack == null || valorAs == null || cantidadPelotas == null
+                || dimensionCarton == null) {
+            model.addAttribute("mensajeError", "Los datos no pueden estar vacíos");
+        }
         userActual.getConfig().setDuracionBlackjack(duracionBlackjack);
         userActual.getConfig().setValorDelAs(valorAs);
         userActual.getConfig().setCantidadDePelotas(cantidadPelotas);
@@ -105,7 +118,7 @@ public class ControladorAccesoJuegos {
             servicioUsuario.actualizarConfiguracionesDePartida(userActual);
             model.addAttribute("mensaje", "se actualizaron las preferencias");
         } catch (Exception e) {
-            model.addAttribute("mensaje", "no se pudieron actualizar los datos");
+            model.addAttribute("mensajeError", "no se pudieron actualizar los datos");
         }
         model.addAttribute("usuarioConfig", userActual.getConfig());
         return new ModelAndView("acceso-juegos", model);
