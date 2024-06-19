@@ -14,8 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.ServicioAhorcado;
+import com.tallerwebi.dominio.Usuario;
 
 import static org.mockito.Mockito.*;
 
@@ -33,89 +33,91 @@ public class ControladorAhorcadoTest {
 
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getSession()).thenReturn(session);
+        when(session.getAttribute("jugadorActual")).thenReturn(new Usuario());
         RequestAttributes requestAttributes = new ServletRequestAttributes(request);
         RequestContextHolder.setRequestAttributes(requestAttributes);
     }
 
     @Test
-    public void queSeDevuelvaLaVistaInicialAhorcadoYObjetoJugadorVacio() {
-        when(session.getAttribute("jugador")).thenReturn(null);
+    public void queSeDevuelvaLaVistaInicialAhorcadoYElUsuarioEnLaSesion() {
         when(servicioAhorcado.entregarPalabra()).thenReturn("palabra");
 
         ModelAndView modelAndView = controlador.ahorcadoJuego(session);
         String viewname = modelAndView.getViewName();
 
         assertThat(viewname, equalToIgnoringCase("ahorcado"));
-        assertThat(modelAndView.getModel().get("jugador"), instanceOf(Jugador.class));
-        assertThat(((Jugador) modelAndView.getModel().get("jugador")).getNombre(), nullValue());
+        assertThat(modelAndView.getModel().get("jugador"), instanceOf(Usuario.class));
+        assertThat(((Usuario) modelAndView.getModel().get("jugador")).getNombre(), nullValue());
         assertThat((String) modelAndView.getModel().get("palabra"), not(isEmptyOrNullString()));
         assertThat((Integer) modelAndView.getModel().get("partesAhorcado"), is(6));
     }
 
     @Test
     public void queSeDevuelvaLaVistaErrorSiHayUnaExcepcion() {
-        when(session.getAttribute("jugador")).thenReturn(null);
         when(servicioAhorcado.entregarPalabra()).thenThrow(new RuntimeException());
 
         ModelAndView modelAndView = controlador.ahorcadoJuego(session);
         String viewname = modelAndView.getViewName();
 
-        assertThat(viewname, equalToIgnoringCase("error"));
-        assertThat((String) modelAndView.getModel().get("mensajeError"), is("No se pudo inicializar el jugador."));
+        assertThat(viewname, equalToIgnoringCase("forward:/irAlAhorcado"));
+        assertThat((String) modelAndView.getModel().get("mensajeError"),
+                equalToIgnoringCase("No se pudo inicializar el jugador."));
     }
 
     @Test
-public void testMostrarPalabraOculta() {
+    public void testMostrarPalabraOculta() {
 
-    String palabraCompleta = "palabra";
-    String letrasIntentadas1 = "pab";
-    String resultadoEsperado1 = "pa_ab_a";
-    String resultado1 = controlador.mostrarPalabraOculta(palabraCompleta, letrasIntentadas1);
-    assertEquals(resultadoEsperado1, resultado1);
+        String palabraCompleta = "palabra";
+        String letrasIntentadas1 = "pab";
+        String resultadoEsperado1 = "pa_ab_a";
+        String resultado1 = controlador.mostrarPalabraOculta(palabraCompleta, letrasIntentadas1);
+        assertEquals(resultadoEsperado1, resultado1);
 
-
-    
-    String palabraVacia = "";
-    String letrasIntentadas3 = "abc";
-    String resultadoEsperado3 = "";
-    String resultado3 = controlador.mostrarPalabraOculta(palabraVacia, letrasIntentadas3);
-    assertEquals(resultadoEsperado3, resultado3);
-}
-/* 
-@Test
-public void queSeActualiceElJuegoConLetraCorrecta() {
-
-    String palabra = "palabra";
-    int partesAhorcado = 6;
-    StringBuilder letrasIntentadas = new StringBuilder();
-
-
-    when(session.getAttribute("palabra")).thenReturn(palabra);
-    when(session.getAttribute("partesAhorcado")).thenReturn(partesAhorcado);
-    when(session.getAttribute("letrasIntentadas")).thenReturn(letrasIntentadas);
-
-
-    when(servicioAhorcado.intentarLetra('a', palabra, partesAhorcado)).thenReturn(6);
-    when(servicioAhorcado.Perdio(6)).thenReturn(false);
-
-
-    ModelAndView modelAndView = controlador.intentarLetra('a', session);
-    String viewname = modelAndView.getViewName();
-
-
-    assertThat(viewname.toLowerCase(), equalTo("ahorcado"));
-    assertThat((Integer) modelAndView.getModel().get("partesAhorcado"), equalTo(6));
-    assertThat((String) modelAndView.getModel().get("letrasIntentadas"), equalTo("a"));
-
-    String palabraOculta = (String) modelAndView.getModel().get("palabra");
-    String palabraCompleta = "palabra";
-    String letrasIntentadas1 = "pa";
-    String resultadoEsperado1 = "pa_a_a";
-    String resultado1 = controlador.mostrarPalabraOculta(palabraCompleta, letrasIntentadas1);
-    assertEquals(resultadoEsperado1, resultado1);
-}
-
-    */
+        String palabraVacia = "";
+        String letrasIntentadas3 = "abc";
+        String resultadoEsperado3 = "";
+        String resultado3 = controlador.mostrarPalabraOculta(palabraVacia, letrasIntentadas3);
+        assertEquals(resultadoEsperado3, resultado3);
+    }
+    /*
+     * @Test
+     * public void queSeActualiceElJuegoConLetraCorrecta() {
+     * 
+     * String palabra = "palabra";
+     * int partesAhorcado = 6;
+     * StringBuilder letrasIntentadas = new StringBuilder();
+     * 
+     * 
+     * when(session.getAttribute("palabra")).thenReturn(palabra);
+     * when(session.getAttribute("partesAhorcado")).thenReturn(partesAhorcado);
+     * when(session.getAttribute("letrasIntentadas")).thenReturn(letrasIntentadas);
+     * 
+     * 
+     * when(servicioAhorcado.intentarLetra('a', palabra,
+     * partesAhorcado)).thenReturn(6);
+     * when(servicioAhorcado.Perdio(6)).thenReturn(false);
+     * 
+     * 
+     * ModelAndView modelAndView = controlador.intentarLetra('a', session);
+     * String viewname = modelAndView.getViewName();
+     * 
+     * 
+     * assertThat(viewname.toLowerCase(), equalTo("ahorcado"));
+     * assertThat((Integer) modelAndView.getModel().get("partesAhorcado"),
+     * equalTo(6));
+     * assertThat((String) modelAndView.getModel().get("letrasIntentadas"),
+     * equalTo("a"));
+     * 
+     * String palabraOculta = (String) modelAndView.getModel().get("palabra");
+     * String palabraCompleta = "palabra";
+     * String letrasIntentadas1 = "pa";
+     * String resultadoEsperado1 = "pa_a_a";
+     * String resultado1 = controlador.mostrarPalabraOculta(palabraCompleta,
+     * letrasIntentadas1);
+     * assertEquals(resultadoEsperado1, resultado1);
+     * }
+     * 
+     */
 
     @Test
     public void queSeActualiceElJuegoConLetraIncorrecta() {
@@ -167,4 +169,3 @@ public void queSeActualiceElJuegoConLetraCorrecta() {
         assertThat((String) modelAndView.getModel().get("mensajeExito"), is("¡Ganaste!"));
     }
 }
-

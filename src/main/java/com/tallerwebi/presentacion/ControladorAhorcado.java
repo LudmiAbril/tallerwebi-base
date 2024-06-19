@@ -8,6 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.tallerwebi.dominio.Jugador;
 import com.tallerwebi.dominio.ServicioAhorcado;
+import com.tallerwebi.dominio.Usuario;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,19 +22,19 @@ public class ControladorAhorcado {
         this.servicioAhorcado = servicioAhorcado;
     }
     @RequestMapping(path = "/irAlAhorcado", method = RequestMethod.GET)
-    public ModelAndView irAlAhorcado() {
+    public ModelAndView irAlAhorcado(HttpSession session) {
         ModelMap model = new ModelMap();
-        model.put("nuevoJugador", new Jugador());
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        model.put("nuevoJugador", jugador);
         return new ModelAndView("irAlAhorcado", model);
     }
     @RequestMapping(path = "/ahorcadoJuego", method = RequestMethod.GET)
     public ModelAndView ahorcadoJuego(HttpSession session) {
         ModelMap model = new ModelMap();
         try {
-            Jugador jugador = (Jugador) session.getAttribute("jugador");
+            Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
             if (jugador == null) {
-                jugador = new Jugador();
-                session.setAttribute("jugador", jugador);
+                return new ModelAndView("redirect:/home");
             }
             model.put("jugador", jugador);
             String palabra = servicioAhorcado.entregarPalabra();
@@ -44,7 +45,7 @@ public class ControladorAhorcado {
         } catch (Exception e) {
             model.put("mensajeError", "No se pudo inicializar el jugador.");
             model.put("error", e.getMessage());
-            return new ModelAndView("redirect:/irAlAhorcado");
+            return new ModelAndView("forward:/irAlAhorcado", model);
         }
     }
     
