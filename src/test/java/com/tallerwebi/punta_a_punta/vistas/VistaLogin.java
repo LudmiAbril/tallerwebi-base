@@ -13,10 +13,6 @@ public class VistaLogin extends VistaWeb {
         return this.obtenerTextoDelElemento(selector);
     }
 
-    public String obtenerMensaje(String selector){
-        return this.obtenerTextoDelElemento(selector);
-    }
-
     public void ingresarEmail(String email){
         this.escribirEnElElemento("#email", email);
     }
