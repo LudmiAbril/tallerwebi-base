@@ -17,15 +17,15 @@ public class VistaLogin extends VistaWeb {
         return this.obtenerTextoDelElemento(selector);
     }
 
-    public void ingresarDuracion(String duracion){
-        this.escribirEnElElemento("blackjack-duracion", duracion);
+    public void ingresarEmail(String email){
+        this.escribirEnElElemento("#email", email);
     }
 
-    public void ingresarTirada(String tirada){
-        this.escribirEnElElemento("#cant-numeros", tirada);
+    public void ingresarContrasenia(String contrasenia){
+        this.escribirEnElElemento("#password", contrasenia);
     }
 
-    public void darClickEnGuardar(){
-        this.darClickEnElElemento(".save-button");
+    public void darClickEnIngresar(){
+        this.darClickEnElElemento("#btn-registrarme");
     }
 }
