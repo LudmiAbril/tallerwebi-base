@@ -21,7 +21,7 @@ public class VistaLogin extends VistaWeb {
         this.escribirEnElElemento("#password", contrasenia);
     }
 
-    public void darClickEnIngresar(){
-        this.darClickEnElElemento("#btn-registrarme");
+    public void darClick(String selector){
+        this.darClickEnElElemento(selector);
     }
 }
