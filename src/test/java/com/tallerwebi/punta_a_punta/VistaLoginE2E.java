@@ -24,7 +24,8 @@ public class VistaLoginE2E {
     static void abrirNavegador() {
         playwright = Playwright.create();
         browser = playwright.chromium().launch();
-        // browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(50));
+        // browser = playwright.chromium().launch(new
+        // BrowserType.LaunchOptions().setHeadless(false).setSlowMo(50));
     }
 
     @AfterAll
@@ -58,5 +59,16 @@ public class VistaLoginE2E {
         String url = vistaLogin.obtenerURLActual();
         assertThat(url, containsStringIgnoringCase("/spring/acceso-juegos"));
     }
+
+    @Test
+    void deberiaDecirUsuarioOClaveIncorrectaSiSeIngresaUnaContraseniaIncorrecta() {
+        vistaLogin.ingresarEmail("mica@gmail.com");
+        vistaLogin.ingresarContrasenia("mica");
+        vistaLogin.darClickEnIngresar();
+        String textoEsperado = "Usuario o clave incorrecta";
+        String textoActual = vistaLogin.obtenerTexto("div.error p");
+        assertThat(textoEsperado, equalToIgnoringCase(textoActual));
+    }
+
     
 }
