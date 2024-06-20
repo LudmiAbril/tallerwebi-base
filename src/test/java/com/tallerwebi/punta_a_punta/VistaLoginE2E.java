@@ -70,5 +70,14 @@ public class VistaLoginE2E {
         assertThat(textoEsperado, equalToIgnoringCase(textoActual));
     }
 
-    
+    @Test
+    void deberiaDecirUsuarioOClaveIncorrectaSiSeIngresaUnEmailIncorrecto() {
+        vistaLogin.ingresarEmail("micaelazara@gmail.com");
+        vistaLogin.ingresarContrasenia("1234");
+        vistaLogin.darClickEnIngresar();
+        String textoEsperado = "Usuario o clave incorrecta";
+        String textoActual = vistaLogin.obtenerTexto("div.error p");
+        assertThat(textoEsperado, equalToIgnoringCase(textoActual));
+    }
+
 }
