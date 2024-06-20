@@ -50,23 +50,13 @@ public class VistaLoginE2E {
         assertThat("¡Bienvenido de nuevo, jefe!", equalToIgnoringCase(texto));
     }
 
-    // que se muestre el mensaje de error
-    // @Test
-    // void deberiaDarUnErrorAlNoCompletarTodasLasConfiguracionesYTocarElBoton() {
-    //     page.waitForSelector("blackjack-duracion");
-    //     vistaLogin.ingresarDuracion(""); // Simula la entrada vacía
-    //     vistaLogin.ingresarTirada(""); // Simula la entrada vacía
-    //     vistaLogin.darClickEnGuardar();
-    //     String texto = vistaLogin.obtenerMensaje("p.mensajeError");
-    //     assertThat(texto, equalToIgnoringCase("Los datos no pueden estar vacíos"));
-    // }
+    @Test
+    void deberiaNavegarAAccesoJuegosSiElUsuarioExiste() {
+        vistaLogin.ingresarEmail("mica@gmail.com");
+        vistaLogin.ingresarContrasenia("1234");
+        vistaLogin.darClickEnIngresar();
+        String url = vistaLogin.obtenerURLActual();
+        assertThat(url, containsStringIgnoringCase("/spring/acceso-juegos"));
+    }
     
-    // @Test
-    // void deberiaNavegarAlHomeSiElUsuarioExiste() {
-    //     vistaLogin.ingresarDuracion("test@unlam.edu.ar");
-    //     vistaLogin.ingresarTirada("test");
-    //     vistaLogin.darClickEnGuardar();
-    //     String url = vistaLogin.obtenerURLActual();
-    //     assertThat(url, containsStringIgnoringCase("/spring/home"));
-    // }
 }
