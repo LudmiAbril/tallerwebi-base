@@ -1,12 +1,14 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.infraestructura.ServicioBingoImpl;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.UUID;
 
 //extends PartidaMultijugador
+@Service("servicioBingoMultijugador")
 public class BingoMultijugador {
     public final ServicioBingo servicioBingo;
     private String gameId;

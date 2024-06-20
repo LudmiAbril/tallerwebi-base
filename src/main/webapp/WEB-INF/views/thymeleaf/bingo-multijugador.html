@@ -25,12 +25,11 @@
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}">
     <script th:src="@{https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js}"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script th:src="@{/js/customModal.js}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@latest/dist/stomp.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/sockjs/1.0.3/sockjs.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.4.0/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
     <style>
         .modal-multi{
             display: block;
@@ -89,8 +88,7 @@
 
 <!-- /.container -->
 
-<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/bingo.js}"></script>
+
 <!-- Modal de Bingo -->
 <div id="modalBingo" class="modal w3-animate-top">
     <div class="modal-content">
@@ -127,7 +125,8 @@
             <button type="submit" class="boton-volver">Finalizar</button>
         </form>
     </div>
-</div><script>
+</div>
+<!--<script>
     function comenzarPartida() {
         var jugador1 = document.getElementById("nombreJugador1").textContent;
         var jugador2 = document.getElementById("nombreJugador2").textContent;
@@ -150,6 +149,10 @@
         })
         .catch(error => console.error('Error:', error));
     }
-</script>
+</script>-->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/bingo.js}"></script>
+<script th:src="@{/js/sockjs.min.js}"></script>
+<script th:src="@{/js/stomp.min.js}"></script>
 </body>
 </html>

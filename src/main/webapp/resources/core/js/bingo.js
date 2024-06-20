@@ -9,7 +9,6 @@ $(document).ready(function () {
         $("#numeroCantado").text(data.numeroAleatorioCantado);
         //para construir la estructura de la tabla del cartón.
         var tablaHtml = "";
-        //nUMEROS ESTA NULL? WTF!!
         for (var i = 0; i < data.carton.numeros.length; i++) {
             tablaHtml += "<tr>";
             for (var j = 0; j < data.carton.numeros[i].length; j++) {
@@ -215,23 +214,12 @@ function abrirModalDeLimiteAlcanzado() {
 }
 
 //ACA VA LO DE WEBSOCKETS
-let stompClientSalaEspera = null;
+//let stompClientSalaEspera = null;
 let stompClient = null;
 let jugadores = [];
 
 function connect() {
-    const socketSalaEspera = new SockJS('/sala-espera');
-        stompClientSalaEspera = Stomp.over(socketSalaEspera);
-        stompClientSalaEspera.connect({}, function (frame) {
-            console.log('Connected to sala de espera: ' + frame);
-            stompClientSalaEspera.subscribe('/topic/sala-espera', function (message) {
-                handleSalaEsperaMessage(JSON.parse(message.body));
-            });
-            // Envía un mensaje indicando que el jugador se ha unido a la sala de espera
-            stompClientSalaEspera.send("/app/sala-espera/join", {}, JSON.stringify({'message': 'Jugador se ha unido'}));
-        });
-
-    const socket = new SockJS('/bingo-multijugador');
+    const socket = new SockJS('/spring/bingo-multijugador');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
@@ -242,23 +230,32 @@ function connect() {
 }
 
 function obtenerNuevoNumero() {
-    stompClient.send("/bingo-multijugador/obtenerNuevoNumero", {}, {});
+    stompClient.send("/spring/bingo-multijugador/obtenerNuevoNumero", {}, {});
 }
 function enviarNumeroAlServidor(nuevoNumero) {
     if (stompClient && stompClient.connected) {
-        stompClient.send("/bingo-multijugador/nuevoNumero", {}, JSON.stringify({'nuevoNumero': nuevoNumero}));
+        stompClient.send({
+                    destination: "/app/nuevoNumero",
+                    body: JSON.stringify({tipo: "nuevoNumero", nuevoNumero: nuevoNumero})
+                });
     } else {
         console.error("stompClient no está conectado.");
     }
 }
 function handleWebSocketMessage(message) {
-    if (message.type === "nuevoNumero") {
-        showGreeting(message.nuevoNumero);
-    } else if (message.type === "ganador") {
-        showWinner(message.ganador);
-    } else if (message.type === "actualizarJugador2") {
-              actualizarJugador2();
-          }
+    switch (message.tipo) {
+        case "nuevoNumero":
+            actualizarNumero(message.nuevoNumero);
+            break;
+        case "ganador":
+            mostrarGanador(message.ganador);
+            break;
+        case "join":
+            actualizarJugadoresEnSala(message.jugadores);
+            break;
+        default:
+            console.error("Tipo de mensaje desconocido:", message);
+    }
 }
 function handleSalaEsperaMessage(message) {
     if (message.type === "join") {
@@ -316,31 +313,4 @@ function showWinner(winner) {
     alert("El ganador del juego es: " + winner);
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    function actualizarJugador2() {
-        $.ajax({
-            url: '/obtenerEstadoPartida',
-            method: 'GET',
-            success: function(response) {
-                let nombreJugador2 = response.nombreJugador2;
-                if (nombreJugador2) {
-                    $('#nombreJugador2').text(nombreJugador2);
-                } else {
-                    $('#nombreJugador2').text('esperando nuevos jugadores');
-                }
-            },
-            error: function(error) {
-                console.error("Error al obtener el estado de la partida", error);
-            }
-        });
-    }
-    actualizarJugador2();
-    setInterval(actualizarJugador2, 5000);
-});
-socket.onmessage = function(event) {
-    var data = JSON.parse(event.data);
-    if (data.tipo === "conexion") {
-        // Actualizar el valor del span con el nombre del jugador 2
-        document.getElementById("nombreJugador2").innerText = data.jugador;
-    }
-};
+

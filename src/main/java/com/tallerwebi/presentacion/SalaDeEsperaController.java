@@ -1,14 +1,21 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.BingoMultijugador;
 import com.tallerwebi.dominio.dto.SalaEsperaMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class SalaDeEsperaController {
@@ -29,4 +36,5 @@ public class SalaDeEsperaController {
         }
         return new SalaEsperaMessage("join", jugadores);
     }
+
 }

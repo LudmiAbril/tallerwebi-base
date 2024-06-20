@@ -1,5 +1,5 @@
 package com.tallerwebi.dominio;
 
 public enum EstadoPartida {
-    EN_CURSO, FINALIZADA;
+    POR_INICIAR, EN_CURSO, FINALIZADA;
 }

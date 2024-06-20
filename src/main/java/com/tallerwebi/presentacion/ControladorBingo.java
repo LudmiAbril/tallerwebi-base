@@ -68,7 +68,13 @@ public class ControladorBingo {
 		return new ModelAndView("irAlBingo", model);
 	}
 
+	@RequestMapping(path = "/bingo-multijugador", method = RequestMethod.GET)
+	public ModelAndView jugarMultijugador() {
+		ModelMap model = new ModelMap();
+		model.put("nuevoJugador", new Usuario());
 
+		return new ModelAndView("bingo-multijugador", model);
+	}
 
 	@RequestMapping(path = "/comenzarJuegoBingo", method = RequestMethod.GET)
 	public ModelAndView comenzarJuegoBingo(@RequestParam("tipo") String tipo, HttpSession session) {
@@ -115,26 +121,44 @@ public class ControladorBingo {
 		// get config. get cantidad de bolas. guardar en la sesion.
 	}
 
-	@RequestMapping(path = "/bingo-multijugador", method = RequestMethod.GET)
-	public ModelAndView jugarMultijugador() {
-		ModelMap model = new ModelMap();
-		model.put("nuevoJugador", new Usuario());
-
-		return new ModelAndView("bingo-multijugador", model);
-	}
-
-	@RequestMapping(path = "/obtenerEstadoPartida", method = RequestMethod.GET)
-	@ResponseBody
-	public Map<String, Object> obtenerEstadoPartida(HttpSession session) {
+	@RequestMapping(path = "/comenzarJuegoBingoMultijugador", method = RequestMethod.GET)
+	public Map<String, Object> comenzarPartidaBingoMultijugador(@RequestParam("nombreUsuario") String jugador1, HttpSession session, @RequestParam("jugador2") String jugador2) {
 		Map<String, Object> response = new HashMap<>();
-		BingoMultijugador partida = (BingoMultijugador) session.getAttribute("partidaMultijugador");
-		if (partida != null) {
-			response.put("nombreJugador2", partida.getNombreJugador2());
-		} else {
-			response.put("nombreJugador2", null);
+		if (jugador1 == null || jugador2 == null) {
+			response.put("error", "Los nombres de los jugadores son obligatorios.");
+			return response;
+		}
+		try {
+			BingoMultijugador partida = bingoManager.joinGame(jugador1, session);
+			partida.setNombreJugador2(jugador2);
+			partida.setGameState(EstadoJuego.PLAYER1_TURN);
+			int dimension = partida.getDimension();
+			partida.setCartonJugador1(servicioBingo.generarCarton(dimension));
+			partida.setCartonJugador2(servicioBingo.generarCarton(dimension));
+			response.put("estadoPartida", "Partida comenzada");
+			response.put("partida", partida);
+			template.convertAndSend("/topic/updates", partida);
+		} catch (Exception e) {
+			response.put("error", e.getMessage());
 		}
 		return response;
 	}
+
+
+
+
+	@RequestMapping(path = "/obtenerEstadoPartida", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> obtenerEstadoPartida(HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
+        BingoMultijugador partida = (BingoMultijugador) session.getAttribute("partidaMultijugador");
+        if (partida != null) {
+            response.put("nombreJugador2", partida.getNombreJugador2());
+        } else {
+            response.put("nombreJugador2", null);
+        }
+        return response;
+    }
     private int jugadoresConectados = 0;
 
 	@MessageMapping("/bingo-multijugador/connect")
@@ -221,6 +245,11 @@ public class ControladorBingo {
 		respuesta.put("tipoPartidaBingo", tipoPartidaBingo);
 		return respuesta;
 	}
+
+
+
+
+
 
 	@RequestMapping(path = "/marcarCasillero/{numeroCasillero}", method = RequestMethod.POST)
 	@ResponseBody

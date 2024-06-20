@@ -1,12 +1,12 @@
 package com.tallerwebi.dominio;
 
 public enum EstadoJuego {
-    WAITING_FOR_PLAYER("Waiting for player."),
-    PLAYER1_TURN("Player 1's turn."),
-    PLAYER2_TURN("Player 2's turn."),
-    PLAYER1_WON("Player 1 won."),
-    PLAYER2_WON("Player 2 won."),
-    TIE("Tie.");
+    WAITING_FOR_PLAYER("Esperando por un jugador..."),
+    PLAYER1_TURN("Turno del jugador 1."),
+    PLAYER2_TURN("Turno del jugador 2."),
+    PLAYER1_WON("Ganó el jugador 1."),
+    PLAYER2_WON("Ganó el jugador 2."),
+    TIE("Empate.");
 
     String description;
 
