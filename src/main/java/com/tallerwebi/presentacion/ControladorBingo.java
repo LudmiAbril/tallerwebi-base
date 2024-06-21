@@ -121,29 +121,6 @@ public class ControladorBingo {
 		// get config. get cantidad de bolas. guardar en la sesion.
 	}
 
-	@RequestMapping(path = "/comenzarJuegoBingoMultijugador", method = RequestMethod.GET)
-	public Map<String, Object> comenzarPartidaBingoMultijugador(@RequestParam("nombreUsuario") String jugador1, HttpSession session, @RequestParam("jugador2") String jugador2) {
-		Map<String, Object> response = new HashMap<>();
-		if (jugador1 == null || jugador2 == null) {
-			response.put("error", "Los nombres de los jugadores son obligatorios.");
-			return response;
-		}
-		try {
-			BingoMultijugador partida = bingoManager.joinGame(jugador1, session);
-			partida.setNombreJugador2(jugador2);
-			partida.setGameState(EstadoJuego.PLAYER1_TURN);
-			int dimension = partida.getDimension();
-			partida.setCartonJugador1(servicioBingo.generarCarton(dimension));
-			partida.setCartonJugador2(servicioBingo.generarCarton(dimension));
-			response.put("estadoPartida", "Partida comenzada");
-			response.put("partida", partida);
-			template.convertAndSend("/topic/updates", partida);
-		} catch (Exception e) {
-			response.put("error", e.getMessage());
-		}
-		return response;
-	}
-
 
 
 

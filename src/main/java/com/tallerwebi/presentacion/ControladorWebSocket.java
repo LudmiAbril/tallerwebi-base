@@ -10,12 +10,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class ControladorWebSocket {
@@ -34,21 +33,14 @@ public class ControladorWebSocket {
         return json;
     }
 
-    @RequestMapping(path = "/comenzarJuegoBingo", method = RequestMethod.GET)
-    public ModelAndView comenzarJuegoBingo(@RequestParam("tipo") String tipo, HttpSession session) {
-
+    @RequestMapping(path = "/comenzarJuegoBingoMultijugador", method = RequestMethod.GET)
+    public ModelAndView comenzarJuegoBingoMultijugador( HttpSession session) {
         ModelMap model = new ModelMap();
-        Usuario usuario;
-        if (session.getAttribute("jugadorActual") == null
-                || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
-            // Si no está o no es un Usuario, crea un nuevo Usuario y ponlo en la sesión
-            usuario = new Usuario();
-            usuario.setNombre("user");
-            session.setAttribute("jugadorActual", usuario);
-        } else {
-            usuario = (Usuario) session.getAttribute("jugadorActual");
+        if (session.getAttribute("jugadorActual") == null)
+                 {
+            return new ModelAndView("redirect:/home");
         }
-
+        Usuario usuario = (Usuario) session.getAttribute("jugadorActual");
         session.setAttribute("tiradaLimiteDeLaSesion", usuario.getConfig().getCantidadDePelotas());
         session.setAttribute("dimensionDelCartonDeLaSesion", usuario.getConfig().getDimensionCarton());
 
@@ -56,22 +48,47 @@ public class ControladorWebSocket {
         CartonBingo carton = servicioBingo.generarCarton(dimensionDelCartonDeLaSesion);
 
         Set<Integer> numerosEntregados = new LinkedHashSet<Integer>();
-        Integer numeroNuevo = this.servicioBingo.entregarNumeroAleatorio(numerosEntregados);
+        session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
+        /*Integer numeroNuevo = this.servicioBingo.entregarNumeroAleatorio(numerosEntregados);
         Integer numeroCantadoAleatorio = numeroNuevo;
         numerosEntregados.add(numeroNuevo);
-        session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
-        session.setAttribute("numeroAleatorioCantado", numeroCantadoAleatorio);
+
+        session.setAttribute("numeroAleatorioCantado", numeroCantadoAleatorio);*/
         session.setAttribute("carton", carton);
 
         String nombreJugador = usuario.getNombre();
         model.put("nombreJugador", nombreJugador);
         session.setAttribute("nombreJugador", nombreJugador);
-        TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.valueOf(tipo.toUpperCase());
-        session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
+        //TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.valueOf(tipo.toUpperCase());
+        //session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
 
-        TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session.getAttribute("tipoPartidaBingo");
-        model.put("tipoPartidaBingoDeLaSesion", tipoPartidaBingoDeLaSesion);
+        //TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session.getAttribute("tipoPartidaBingo");
+        //model.put("tipoPartidaBingoDeLaSesion", tipoPartidaBingoDeLaSesion);
         return new ModelAndView("bingo-multijugador", model);
+    }
+
+    @RequestMapping(path = "/obtenerDatosInicialesMultijugador", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> obtenerDatosInicialesMultijugador(HttpSession session) {
+        CartonBingo carton = (CartonBingo) session.getAttribute("carton");
+        //Integer numeroCantadoAleatorio = (Integer) session.getAttribute("numeroAleatorioCantado");
+        Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
+        if (numerosEntregados == null) {
+            numerosEntregados = new LinkedHashSet<>();
+            session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
+        }
+        //numerosEntregados.add(numeroCantadoAleatorio);
+        //session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
+
+        HashSet<Integer> numerosMarcadosDeLaSesion = new HashSet<Integer>();
+        session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+        //TipoPartidaBingo tipoPartidaBingo = (TipoPartidaBingo) session.getAttribute("tipoPartidaBingo");
+
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("carton", carton);
+        //respuesta.put("numeroAleatorioCantado", numeroCantadoAleatorio);
+        //respuesta.put("tipoPartidaBingo", tipoPartidaBingo);
+        return respuesta;
     }
 }
 

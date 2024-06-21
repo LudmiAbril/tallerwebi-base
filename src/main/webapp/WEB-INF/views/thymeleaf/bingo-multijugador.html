@@ -126,32 +126,9 @@
         </form>
     </div>
 </div>
-<!--<script>
-    function comenzarPartida() {
-        var jugador1 = document.getElementById("nombreJugador1").textContent;
-        var jugador2 = document.getElementById("nombreJugador2").textContent;
-
-        fetch('/comenzarPartidaBingoMultijugador', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `jugador1=${jugador1}&jugador2=${jugador2}`
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                alert(data.error);
-            } else {
-                alert("Partida comenzada!");
-                // Redirigir o actualizar la interfaz según sea necesario
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    }
-</script>-->
+<script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7.0.0/bundles/stomp.umd.min.js"></script>
+<script th:src="@{/js/script-multijugador.js}"></script>
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
-<script th:src="@{/js/bingo.js}"></script>
 <script th:src="@{/js/sockjs.min.js}"></script>
 <script th:src="@{/js/stomp.min.js}"></script>
 </body>

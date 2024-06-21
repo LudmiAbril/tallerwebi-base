@@ -2,7 +2,6 @@ var intervaloRefresco;
 //se utilizará para almacenar el intervalo de actualización del número cantado.
 var numeroColorMap = {};
 $(document).ready(function () {
-    connect();
     // una vez que se realiza la peticion /obtenerDatosIniciales se ejecuta la funcion siguiente, que es la respuesta a esa peticion. Es decir, cuando se pide /obtenerDatosIniciales se responde de esa forma
     $.get("obtenerDatosIniciales", function (data) {
 
@@ -213,104 +212,6 @@ function abrirModalDeLimiteAlcanzado() {
     document.getElementById("modalLimite").style.display = "block";
 }
 
-//ACA VA LO DE WEBSOCKETS
-//let stompClientSalaEspera = null;
-let stompClient = null;
-let jugadores = [];
 
-function connect() {
-    const socket = new SockJS('/spring/bingo-multijugador');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/updates', function (message) {
-            handleWebSocketMessage(JSON.parse(message.body));
-        });
-    });
-}
-
-function obtenerNuevoNumero() {
-    stompClient.send("/spring/bingo-multijugador/obtenerNuevoNumero", {}, {});
-}
-function enviarNumeroAlServidor(nuevoNumero) {
-    if (stompClient && stompClient.connected) {
-        stompClient.send({
-                    destination: "/app/nuevoNumero",
-                    body: JSON.stringify({tipo: "nuevoNumero", nuevoNumero: nuevoNumero})
-                });
-    } else {
-        console.error("stompClient no está conectado.");
-    }
-}
-function handleWebSocketMessage(message) {
-    switch (message.tipo) {
-        case "nuevoNumero":
-            actualizarNumero(message.nuevoNumero);
-            break;
-        case "ganador":
-            mostrarGanador(message.ganador);
-            break;
-        case "join":
-            actualizarJugadoresEnSala(message.jugadores);
-            break;
-        default:
-            console.error("Tipo de mensaje desconocido:", message);
-    }
-}
-function handleSalaEsperaMessage(message) {
-    if (message.type === "join") {
-        actualizarJugadoresEnSala(message.jugadores);
-    } else if (message.type === "start") {
-        iniciarPartida(message);
-    }
-}
-const messageHandlers = {
-    "bingo.join": (message) => {
-        updateGame(message);
-    },
-    "bingo.move": (message) => {
-        updateGame(message);
-    },
-    "bingo.winner": (message) => {
-        updateGame(message);
-        showWinner(message.winner);
-    },
-    "error": (message) => {
-        toastr.error(message.content);
-    }
-}
-function actualizarJugadoresEnSala(jugadoresEnSala) {
-    jugadores = jugadoresEnSala;
-    if (jugadores.length > 0) {
-        $("#jugador1").text(jugadores[0].nombre);
-    }
-    if (jugadores.length > 1) {
-        $("#jugador2").text(jugadores[1].nombre);
-    }
-    else {
-            $("#nombreJugador2").text('esperando nuevos jugadores');
-        }
-}
-const handleMessage = (message) => {
-    if (messageHandlers[message.type]) {
-        messageHandlers[message.type](message);
-    }
-    if (message.type === 'bingo.winner') {
-        showWinner(message.winner);
-    }
-}
-
-const abrirModalLimiteAlcanzado = () => {
-    document.getElementById("modalLimite").style.display = "block";
-}
-window.onload = function() {
-    connect();
-};
-function showGreeting(message) {
-    $("#ultimoNumeroCantado").text(message);
-}
-function showWinner(winner) {
-    alert("El ganador del juego es: " + winner);
-}
 
 
