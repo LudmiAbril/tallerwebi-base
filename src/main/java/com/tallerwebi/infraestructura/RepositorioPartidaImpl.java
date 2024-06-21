@@ -111,6 +111,10 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
 
         List<Partida> partidas = query.getResultList();
 
+        if (partidas.isEmpty()) {
+            throw new PartidaDeUsuarioNoEncontradaException();
+        }
+
         return partidas;
     }
 
