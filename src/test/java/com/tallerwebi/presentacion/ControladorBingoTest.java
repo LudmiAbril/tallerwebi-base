@@ -9,8 +9,8 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 import java.util.*;
 
@@ -20,11 +20,14 @@ import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
+
+import org.mockito.MockitoAnnotations;
 
 public class ControladorBingoTest {
 
@@ -469,6 +472,41 @@ public class ControladorBingoTest {
         assertThat(tipoPartidaModeloActual, equalTo(TipoPartidaBingo.BINGO));
     }
 
+    @Test
+    public void queGuardeElMensajeDeErrorEnElModeloSiNoSePuedeGuardarUnaPartida()
+            throws IllegalArgumentException, PartidaConPuntajeNegativoException, NoHayPartidasDeBingoException {
+        // P R E P A R A C I O N
+        Set<Integer> numerosMarcados = new HashSet<>();
+        numerosMarcados.add(null);
+        numerosMarcados.add(null);
+        numerosMarcados.add(null);
+        session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcados);
+
+        Boolean seHizoLinea = null;
+        session.setAttribute("seHizoLinea", seHizoLinea);
+        Boolean seHizoBingo = null;
+        session.setAttribute("seHizoBingo", seHizoBingo);
+
+        TipoPartidaBingo tipoPartidaBingo = null;
+        session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
+
+        Integer tiradaLimite = null;
+        session.setAttribute("tiradaLimiteDeLaSesion", tiradaLimite);
+
+        Usuario jugador = new Usuario();
+        jugador.setId(null);
+        session.setAttribute("jugadorActual", jugador);
+
+        doThrow(new IllegalArgumentException("Error al guardar la partida"))
+                .when(servicioPlataformaMock).agregarPartida(any(PartidaBingo.class));
+
+        // E J E C U C I O N
+        ModelAndView mav = this.controladorBingo.finalizar(session);
+
+        // V E R I F I C A C I O N
+        String mensajeErrorActual = (String) mav.getModelMap().getAttribute("mensajeError");
+        assertThat(mensajeErrorActual, equalToIgnoringCase("Ocurrió un error al intentar guardar la partida."));
+    }
     // queSePuedaGenerarUnCartonDe5x5APartirDeLaConfiguracionDefinida()
     // queSePuedaGenerarUnCartonDe4x4APartirDeLaConfiguracionDefinida()
     // queSePuedaGenerarUnCartonDe3x3APartirDeLaConfiguracionDefinida()
