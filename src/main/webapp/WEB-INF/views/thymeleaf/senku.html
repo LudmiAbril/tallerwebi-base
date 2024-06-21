@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,9 +13,20 @@
     <link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
 
     <!-- Fonts and Icons -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="module" th:src="@{/js/cronometro.js}"></script>
+
+    <script th:src="@{/js/customModal.js}"></script>
+    <script type="module" th:src="@{/js/senku.js}"></script>
+
+
 </head>
+
 <body>
     <div class="margin">
         <nav class="nav-bar mt">
@@ -26,21 +38,24 @@
             <div class="titulo">
                 <h1 class="galactic-title">SENKU</h1>
                 <h3 class="nombre-jugador">Jugador:<span th:text="${nombreJugador}"></span></h3>
+                <p style="color: white" class="tiempo">
+                    Tiempo transcurrido: <span class="reloj">00:00:00</span>
+                  </p>
                 <p>Contador Movimientos : <span class="mov" th:text="${contadorMovimientos}">00</span></p>
             </div>
-            <div class="botones">
-                <form th:action="@{/reiniciar}" method="post">
-                    <button type="submit" class="boton-reiniciar">reiniciar</button>
-                </form>
-                <form th:action="@{/senku/finalizarPartida}" method="post">
-                    <button type="submit" class="boton-volver-inicio">inicio</button>
-                </form>
-            </div>
+            <!-- Mensaje Actualizacion Movimientos -->
+            <p><span class="mensaje" th:text="${mensaje}"></span></p>
             <!-- Tablero -->
             <div class="tablero-fondo">
                 <div class="tablero"></div>
             </div>
-            <p><span class="mensaje" th:text="${mensaje}"></span></p>
+            <!-- Reiniciar -->
+            <div >
+                <form th:action="@{/reiniciar}" method="post" class="botones">
+                    <button type="submit" class="boton-reiniciar">reiniciar</button>
+                </form>
+
+            </div>
             <!-- Modal de Confirmación -->
             <div id="customExitModal" class="modal-custom">
                 <div class="modal-content-custom">
@@ -70,10 +85,7 @@
             </div>
         </main>
     </div>
-    <!-- JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script th:src="@{/js/cronometro.js}"></script>
-    <script th:src="@{/js/customModal.js}"></script>
-    <script th:src="@{/js/senku.js}"></script>
+
 </body>
+
 </html>

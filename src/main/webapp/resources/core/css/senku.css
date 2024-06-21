@@ -68,20 +68,34 @@ body {
     margin: 5%;
     justify-content: center;
 }
+.tablero{
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px,
+     rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+     background-image: conic-gradient(from 80deg at -3% 0%, rgba(255, 255, 255, 1) 0%,
+      rgb(14, 165, 233) 50%, rgb(14, 165, 233) 100%);
 
+    padding: 1%;
+    border-radius: 10%;
+    background-color: #ffffff;
+}
 .ficha {
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+     rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
+     rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
     width: 3.125em;
     height: 3.125em;
-    box-shadow: rgba(0, 0, 0, 0.35) 0em 0.3125em 0.9375em;
-    background-color: #aa81f5; 
+  
+    background-image: linear-gradient(161.15deg, #6974DC 12.73%, #9679DD 72.95%);
+
+
     border-radius: 1.563em;
     margin: 0.313em;
     float: left;
 }
 
 .ficha:hover {
-    background-color: #ff60e4; 
-    transition: background-color 0.2s;
+    background-image: linear-gradient(161.15deg, #4251d4 12.73%, #6e44d8 72.95%);
+   
 }
 
 .ficha-seleccionada {
@@ -89,16 +103,18 @@ body {
 }
 
 .vacio {
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
     width: 3.125em;
     height: 3.125em;
-    background-color: #f4f4f4;
-    border-radius: 1.25em;
+    background-color: #312e2e;
+    border-radius: 100%;
     margin: 0.313em;
     float: left;
 }
 
 .vacio:hover {
-    background-color: #ffffffc4;
+    background-color: #000000f8;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
     transition: background-color 0.2s;
 }
 
@@ -121,12 +137,13 @@ body {
 }
 
 .botones form {
+    align-items: center;
+    justify-content: center;
     flex: 1;
     margin: 0 1em;
 }
 
 .botones button {
-    width: 100%;
     font-size: 1em;
     text-transform: uppercase;
     padding: 0.5em 1em;
@@ -140,20 +157,13 @@ body {
     box-shadow: rgba(100, 181, 246, 0.4) -0.25em 0.25em, rgba(100, 181, 246, 0.3) -0.5em 0.5em, rgba(100, 181, 246, 0.2) -0.75em 0.75em, rgba(100, 181, 246, 0.1) -1em 1em, rgba(100, 181, 246, 0.05) -1.25em 1.25em;
 }
 
-.boton-volver-inicio {
-    background-color: #f48fb1; 
-    box-shadow: rgba(244, 143, 177, 0.4) 0.25em 0.25em, rgba(244, 143, 177, 0.3) 0.5em 0.5em, rgba(244, 143, 177, 0.2) 0.75em 0.75em, rgba(244, 143, 177, 0.1) 1em 1em, rgba(244, 143, 177, 0.05) 1.25em 1.25em;
-}
+
 
 .boton-reiniciar:hover {
     background-color: #42a5f5; 
     transform: translateY(-0.1em);
 }
 
-.boton-volver-inicio:hover {
-    background-color: #f06292; 
-    transform: translateY(-0.1em);
-}
 
 
 .mt {

@@ -1,4 +1,3 @@
-
 /*---GENERAL---*/
 * {
     margin: 0;
@@ -15,17 +14,14 @@ body {
     display: flex;
     justify-content: space-between;
     height: 100vh;
+    flex-wrap: wrap;
 }
 
-.error-message{
-    color:red;
-    margin-left:10px;
-    font-size:15px;
-    font-weight:800;
-    text-transform:uppercase;
+@media (max-width: 1200px) {
+    .container {
+        flex-direction: column;
+    }
 }
-
-
 
 /*---COLUMNA DEL MEDIO---*/
 .columna:nth-child(1) {
@@ -45,6 +41,17 @@ body {
 .container .columna .imagen-acceso {
     width: 480px;
 }
+@media (max-width: 768px) {
+    .columna:nth-child(1) {
+        width: 100%;
+        height: auto;
+    }
+
+    .container .columna .imagen-acceso {
+        width: 100%; /* Ajustar el tamaño de la imagen en pantallas más pequeñas */
+    }
+}
+
 /*---ITEM CONTAINER---*/
 .columna:nth-child(2) {
     display: grid;
@@ -85,6 +92,22 @@ body {
 
 .container .columna .sign .flicker {
     animation: shine 2s forwards, blink 3s 2s infinite;
+}
+@media (max-width: 1200px) {
+    .columna:nth-child(2) {
+        width: 100%;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .columna:nth-child(2) {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        width: 100%;
+        gap: 5px;
+    }
 }
 
 @keyframes blink {
@@ -227,7 +250,11 @@ body {
     animation: glow 2s ease-in-out infinite alternate;
     text-align: center;
 }
-
+@media (max-width: 768px) {
+    .h2 {
+        font-size: 2rem;
+    }
+}
 @keyframes glow {
     from {
         text-shadow: 0 0 20px #fcfcfc;
@@ -542,4 +569,12 @@ input:focus , select:focus{
 
 .border-left{
     border-left:none;
+}
+
+@media (max-width: 768px) {
+    .modal-content2 {
+        width: 100%;
+        padding: 20px 10px;
+        height: auto;
+    }
 }

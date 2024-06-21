@@ -31,7 +31,7 @@ public class BlackjackTest {
     }
 
     @Test
-    public void entregarCartasIniciales() {
+    public void queSeentreguenDosCartasIniciales() {
         Integer valorAs = 11;
         servicio.inicializarBaraja(valorAs);
         cartasJugador = servicio.entregarCartasPrincipales();
@@ -39,21 +39,21 @@ public class BlackjackTest {
     }
 
     @Test
-    public void calcularPuntaje() {
+    public void queSePuedacalcularElPuntajeDeUnaMano() {
         cartasJugador.add(new Carta("A", 11, Palo.PICA));
         cartasJugador.add(new Carta("4", 4, Palo.DIAMANTE));
         assertThat(servicio.calcularPuntuacion(cartasJugador), equalTo(15));
     }
 
     @Test
-    public void pedirUnaCarta() {
+    public void queSePuedaPedirUnaCarta() {
         servicio.inicializarBaraja(11);
         cartasJugador.add(servicio.pedirCarta());
         assertThat(cartasJugador.size(), equalTo(1));
     }
 
     @Test
-    public void queAlPlantarseSeActualizeElMazoDelCrupier() {
+    public void queAlPlantarseElJugadorSeActualizeElMazoDelCrupier() {
         servicio.inicializarBaraja(11);
         cartasCrupier.add(new Carta("3", 3, Palo.CORAZON));
         cartasCrupier.add(new Carta("3", 3, Palo.DIAMANTE));
@@ -68,7 +68,7 @@ public class BlackjackTest {
     }
 
     @Test
-    public void queUnaManoSeaBlackJack() {
+    public void queSePuedaVerificarQueUnaManoSeaBlackJack() {
         cartasJugador.add(new Carta("J", 10, Palo.CORAZON));
         cartasJugador.add(new Carta("A", 11, Palo.PICA));
         assertThat(servicio.hayBlackjack(cartasJugador), is(true));
@@ -77,11 +77,32 @@ public class BlackjackTest {
     @Test
     public void queElEstadoDeLaPartidaSeaFinalizadoSiLaManoDelJugadorSePasaAntesDePlantarse() {
         cartasJugador.add(new Carta("J", 10, Palo.CORAZON));
+        cartasJugador.add(new Carta("J", 10, Palo.CORAZON));
         cartasJugador.add(new Carta("5", 5, Palo.CORAZON));
-        cartasJugador.add(new Carta("A", 11, Palo.PICA));
         cartasCrupier.add(new Carta("5", 5, Palo.CORAZON));
         cartasCrupier.add(new Carta("3", 3, Palo.DIAMANTE));
         EstadoPartida estado = servicio.estadoPartida(cartasJugador, cartasCrupier, false);
+        assertThat(estado, equalTo(EstadoPartida.FINALIZADA));
+    }
+
+    @Test
+    public void queElEstadoDeLaPartidaSeaFinalizadaSiElUsuarioHaceBlackjackAntesDePlantarse() {
+        cartasJugador.add(new Carta("10", 10, Palo.PICA));
+        cartasJugador.add(new Carta("5", 5, Palo.CORAZON));
+        cartasJugador.add(new Carta("6", 6, Palo.CORAZON));
+        Boolean plantado = false;
+        EstadoPartida estado = servicio.estadoPartida(cartasJugador, cartasCrupier, plantado);
+        assertThat(estado, equalTo(EstadoPartida.FINALIZADA));
+    }
+
+    @Test
+    public void queElEstadoDeLaPartidaSeaFinalizadaSiElUsuarioSePlanta() {
+        cartasJugador.add(new Carta("5", 5, Palo.PICA));
+        cartasJugador.add(new Carta("2", 2, Palo.CORAZON));
+        cartasCrupier.add(new Carta("6", 6, Palo.CORAZON));
+        cartasJugador.add(new Carta("J", 10, Palo.DIAMANTE));
+        Boolean plantado = true;
+        EstadoPartida estado = servicio.estadoPartida(cartasJugador, cartasCrupier, plantado);
         assertThat(estado, equalTo(EstadoPartida.FINALIZADA));
     }
 
@@ -97,19 +118,7 @@ public class BlackjackTest {
     }
 
     @Test
-    public void qqueElEstadoDeLaPartidaSeaFinalizadaSiElUsuarioSePlanta() {
-        cartasJugador.add(new Carta("5", 5, Palo.PICA));
-        cartasJugador.add(new Carta("2", 2, Palo.CORAZON));
-        cartasCrupier.add(new Carta("6", 6, Palo.CORAZON));
-        cartasJugador.add(new Carta("J", 10, Palo.DIAMANTE));
-        Boolean plantado = true;
-        EstadoPartida estado = servicio.estadoPartida(cartasJugador, cartasCrupier, plantado);
-        assertThat(estado, equalTo(EstadoPartida.FINALIZADA));
-    }
-
-    @Test
     public void queElGanadorDeLaPartidaSeaElJugadorAlPlantarseConUnPuntajeMayor() {
-        // SEGUIR REFACTORIZANDO Y AGREGANDO CASOS EMPATE AAAAA
         cartasJugador.add(new Carta("A", 11, Palo.DIAMANTE));
         cartasJugador.add(new Carta("6", 6, Palo.DIAMANTE));
         cartasCrupier.add(new Carta("A", 11, Palo.PICA));
@@ -131,4 +140,27 @@ public class BlackjackTest {
         String ganador = servicio.ganador(cartasJugador, cartasCrupier, "jugador", plantado);
         assertThat(ganador, equalToIgnoringCase("casa"));
     }
+
+    @Test
+    public void queElGanadorSeaElUsuarioSiSuManoHaceBlackjackAntesDePlantarse() {
+        cartasJugador.add(new Carta("A", 11, Palo.DIAMANTE));
+        cartasJugador.add(new Carta("J", 10, Palo.CORAZON));
+        cartasCrupier.add(new Carta("8", 8, Palo.PICA));
+        cartasCrupier.add(new Carta("2", 2, Palo.CORAZON));
+        Boolean plantado = false;
+        String ganador = servicio.ganador(cartasJugador, cartasCrupier, "jugador", plantado);
+        assertThat(ganador, equalToIgnoringCase("jugador"));
+    }
+
+    @Test
+    public void queHayaEmpateSiElPuntajeDeAmbosJugadoreEsIgualAlPlantarseElUsuario() {
+        cartasJugador.add(new Carta("8", 8, Palo.DIAMANTE));
+        cartasJugador.add(new Carta("2", 2, Palo.TREBOL));
+        cartasCrupier.add(new Carta("8", 8, Palo.PICA));
+        cartasCrupier.add(new Carta("2", 2, Palo.CORAZON));
+        Boolean plantado = true;
+        String ganador = servicio.ganador(cartasJugador, cartasCrupier, "jugador", plantado);
+        assertThat(ganador, equalToIgnoringCase("empate"));
+    }
+
 }

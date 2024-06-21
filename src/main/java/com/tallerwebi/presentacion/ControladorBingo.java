@@ -12,7 +12,6 @@ import javax.servlet.http.HttpSession;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
-import com.tallerwebi.dominio.excepcion.PartidaDeBingoSinLineaNiBingoException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -147,12 +146,14 @@ public class ControladorBingo {
 		} else {
 			Integer nuevoNumero = servicioBingo.entregarNumeroAleatorio(numerosEntregados);
 			Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
-			Integer numerosRestantesParaCompletarLaTirada = this.servicioBingo.obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(tirada,
-					numerosEntregados.size());
+			Integer numerosRestantesParaCompletarLaTirada = this.servicioBingo
+					.obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(tirada,
+							numerosEntregados.size());
 			numerosEntregados.add(nuevoNumero);
 			session.setAttribute("numeroAleatorioCantado", nuevoNumero);
 			session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
-			session.setAttribute("numerosRestantesParaCompletarLaTiradaDeLaSesion", numerosRestantesParaCompletarLaTirada);
+			session.setAttribute("numerosRestantesParaCompletarLaTiradaDeLaSesion",
+					numerosRestantesParaCompletarLaTirada);
 			respuesta.put("nuevoNumero", nuevoNumero);
 			respuesta.put("limiteAlcanzado", false);
 			respuesta.put("numerosRestantesParaCompletarLaTirada", numerosRestantesParaCompletarLaTirada);
@@ -245,7 +246,7 @@ public class ControladorBingo {
 
 	@RequestMapping(path = "/finalizarPartida", method = RequestMethod.POST)
 	public ModelAndView finalizar(HttpSession session) throws PartidaConPuntajeNegativoException,
-			IllegalArgumentException, PartidaDeBingoSinLineaNiBingoException {
+			IllegalArgumentException {
 		ModelAndView mav = new ModelAndView();
 		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
 		Boolean seHizoLinea = (Boolean) session.getAttribute("seHizoLinea");
@@ -263,10 +264,6 @@ public class ControladorBingo {
 									seHizoBingo,
 									tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados));
 			mav.setViewName("redirect:/acceso-juegos");
-		} catch (PartidaDeBingoSinLineaNiBingoException e) {
-			mav.setViewName("bingo");
-			mav.addObject("mensajeError",
-					"Recordá que necesitas haber hecho línea o bingo para guardar la partida. ¡Buena suerte!");
 		} catch (Exception e) {
 			mav.setViewName("bingo");
 			mav.addObject("mensajeError", "Ocurrió un error al intentar guardar la partida.");
