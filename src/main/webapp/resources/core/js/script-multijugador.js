@@ -1,18 +1,18 @@
 const stompClient = new StompJs.Client({
-    brokerURL: 'ws://localhost:8080/spring/wschat'
+    brokerURL: 'ws://localhost:8080/spring/bingo'
 });
 
 stompClient.debug = function(str) {
     console.log(str)
  };
-const numeroCantado;
+const numeroCantado = 0;
 stompClient.onConnect = (frame) => {
     console.log('Connected: ' + frame);
     stompClient.subscribe('/topic/messages', (m) => {
         console.log("Mensaje recibido:", m.body); // Verifica que el mensaje recibido no sea undefined
         numeroCantado = JSON.parse(m.body);
-        console.log("Número recibido:", numeroRecibido); // Verifica que el parseo es correcto
-
+        console.log("Número recibido:", numeroCantado); // Verifica que el parseo es correcto
+        document.getElementById("numeroCantado").innerHTML = numeroCantado;
 
     });
     setInterval(() => {
@@ -39,10 +39,10 @@ function nuevoNumero() {
     });
 }
 
-var intervaloRefresco;
+
 //se utilizará para almacenar el intervalo de actualización del número cantado.
 var numeroColorMap = {};
-$(document).ready(function () {
+/*$(document).ready(function () {
     // una vez que se realiza la peticion /obtenerDatosIniciales se ejecuta la funcion siguiente, que es la respuesta a esa peticion. Es decir, cuando se pide /obtenerDatosIniciales se responde de esa forma
     $.get("obtenerDatosInicialesMultijugador", function (data) {
 
@@ -59,13 +59,13 @@ $(document).ready(function () {
             tablaHtml += "</tr>";
         }
         $(".carton").html(tablaHtml);
-        /*$(".numeroCantadoContenedor").addClass("w3-animate-top");*/
+        *//*$(".numeroCantadoContenedor").addClass("w3-animate-top");*//*
         $(".carton").addClass("w3-animate-bottom");
 
         if (data.error) {
             alert(data.error)
         } else {
-            /*tipoPartidaBingo = data.tipoPartidaBingo;
+            *//*tipoPartidaBingo = data.tipoPartidaBingo;
             if (tipoPartidaBingo === "LINEA") {
                 console.log("mostrando el boton de linea")
                 document.getElementById("botonLinea").style.display = "block";
@@ -74,13 +74,13 @@ $(document).ready(function () {
                 console.log("mostrando el boton de bingo")
                 document.getElementById("botonLinea").style.display = "none";
                 document.getElementById("botonBingo").style.display = "block";
-            }*/
+            }*//*
             document.getElementById("botonLinea").style.display = "none";
             document.getElementById("botonBingo").style.display = "block";
         }
 
     });
-});
+});*/
 /*
 function refrescarNumero() {
     obtenerLosNumerosEntregados();
