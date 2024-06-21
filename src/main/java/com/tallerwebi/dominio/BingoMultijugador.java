@@ -1,6 +1,8 @@
 package com.tallerwebi.dominio;
 
 import com.tallerwebi.infraestructura.ServicioBingoImpl;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashSet;
@@ -10,7 +12,9 @@ import java.util.UUID;
 //extends PartidaMultijugador
 @Service("servicioBingoMultijugador")
 public class BingoMultijugador {
+    @Autowired
     public final ServicioBingo servicioBingo;
+    
     private String gameId;
     private CartonBingo cartonJugador1;
     private CartonBingo cartonJugador2;
