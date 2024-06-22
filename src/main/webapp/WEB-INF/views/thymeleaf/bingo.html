@@ -55,26 +55,33 @@
   </nav>
 
   <main role="main" class="container">
-
+    <!----NUMERO QUE SALE---->
     <div class="numeroCantadoContenedor">
       <p id="numeroCantado"></p>
     </div>
 
+    <!----NUMEROS QUE SALIERON---->
     <div class="numerosEntregados">
       <p id="numeroCantadoColeccion"></p>
     </div>
 
+    <!---NUMEROS QUE FALTAN----->
+
     <p id="numerosRestantesParaCompletarLaTirada"></p>
+    <!----CARTON DE BINGO---->
     <table>
       <tbody class="carton">
       </tbody>
     </table>
+
 
     <div class="w3-container">
       <button id="botonBingo" type="submit" class="w3-button w3-xlarge w3-wide w3-purple w3-cel"
         onclick="bingo()">BINGO</button>
       <button id="botonLinea" class="w3-button w3-xlarge w3-wide w3-purple w3-cel" onclick="linea()">LINEA</button>
     </div>
+
+
 
 
   </main>
@@ -111,7 +118,7 @@
       </div>
     </div>
   </div>
-  <!-- Modal de limite alcanzado de bolas -->
+  <!-- Modal de limite alcanzado de bolas
   <div id="modalLimite" class="modal w3-animate-top">
     <div class="modal-content">
       <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el límite de numeros cantados!</h3>
@@ -119,6 +126,19 @@
         <button type="submit" class="boton-volver">Finalizar</button>
       </form>
       <p th:text="${mensajeError}" class="mensajeErrorPartidaBingo w3-animate-top"></p>
+    </div>
+  </div>-->
+
+  <div id="modalLimite" class="modal">
+    <div class="modal-content2">
+      <img th:src="@{/imgStatic/gatitoTriste.png}" alt="gato triste" class="gatoTriste">
+      <div class="text-container">
+        <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el límite de números cantados!</h3>
+        <form th:action="@{/finalizarPartida}" method="post">
+          <button type="submit" class="boton-volver">Finalizar</button>
+        </form>
+        <p th:text="${mensajeError}" class="mensajeErrorPartidaBingo"></p>
+      </div>
     </div>
   </div>
 

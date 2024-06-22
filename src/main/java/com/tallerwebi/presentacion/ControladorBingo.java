@@ -263,7 +263,7 @@ public class ControladorBingo {
 							new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, seHizoLinea,
 									seHizoBingo,
 									tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados));
-			mav.setViewName("redirect:/acceso-juegos");
+			mav.setViewName("redirect:/irAlBingo");
 		} catch (Exception e) {
 			mav.setViewName("bingo");
 			mav.addObject("mensajeError", "Ocurrió un error al intentar guardar la partida.");

@@ -29,7 +29,7 @@ nav {
     font-size: 1.5em;
     color: #fff;
     position: absolute;
-    top: 20%;
+    top: 5%;
     right: 20px;
     cursor: pointer;
     transition: color 0.3s, transform 0.3s;
@@ -57,7 +57,6 @@ nav {
 
 .modal-custom {
     background-color: white;
-    max-width: 1100px;
     width: 100%;
     position: relative;
     z-index: 1;
@@ -151,10 +150,13 @@ main {
 
 
 main table {
+    padding:5px;
     font-size: 2.0rem;
     border-radius: 20px;
     background-color: #B49FCC;
     margin-bottom: 10px;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+
 }
 
 
@@ -174,6 +176,7 @@ th {
 main .w3-button {
     padding: 12px;
     font-size: 1.0rem;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
     border-radius: 15px;
 
 }
@@ -203,35 +206,33 @@ main .w3-button {
     background-position: center;
 }
 
-/* Estilo para el modal */
+/* Estilo para el modal
 .modal {
     display: none;
     /* Ocultar el modal por defecto */
-    position: fixed;
+/* position: fixed; */
     /* Fijar la posición del modal */
-    z-index: 1;
+/* z-index: 1; */
     /* Ubicar el modal encima de los demás elementos */
-    left: 0;
-    top: 0;
-    width: 100%;
+/*   left: 0; */
+/*  top: 0; */
+/*  width: 100% */
     /* Ancho total */
-    height: 100%;
+/* height: 100%; */
     /* Altura total */
-    overflow: auto;
+/* overflow: auto; */
     /* Permitir desplazamiento cuando el contenido es demasiado grande */
-    background-color: rgba(0, 0, 0, 0.5);
+/*  background-color: rgba(0, 0, 0, 0.5); */
     /* Fondo semi-transparente */
-}
+/*} */
 
-/* Estilo para el contenido del modal */
+/* Estilo para el contenido del modal
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-
-    /* Ancho del contenido */
     font-size: 1.5rem;
     border-radius:20px;
     background-color: #B49FCC;
@@ -262,8 +263,94 @@ main .w3-button {
 
 main .w3-button .w3-green {
     background-color: #28a745;
+}*/
+.modal {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.6s;
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.5); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-content , .modal-content2{
+    display: flex;
+    align-items: center;
+    background-color: #B49FCC;
+    margin: 10% auto;
+    padding: 20px 30px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 20px;
+    animation: zoomIn 0.6s;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+
+}
+.modal-content2{
+    display: flex; /* Alinea los elementos en fila */
+    flex-direction: row; /* Define la dirección de los elementos en fila */
+    align-items: center; /* Alinea verticalmente los elementos en el centro */
+}
+.text-container {
+    margin-left: 20px;
+}
+
+.modal-content h3 {
+    color: #fff;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.modal-content .text-container {
+    flex: 1;
+    text-align: left;
+}
+
+.modal-content img.gatoTriste {
+    width: 150px;
+    flex-shrink: 0;
+}
+
+.boton-volver {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: #6D466B;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+
+}
+
+.boton-volver:hover {
+    background-color: #412234;
+}
+
+.mensajeErrorPartidaBingo {
+    color: #fff;
+    margin-top: 15px;
+    font-size: 1rem;
+}
 /* Estilos para td */
 td button {
     font-family: 'Rammetto One';
@@ -271,6 +358,8 @@ td button {
     border-radius: 10px;
     width: 2.2em;
     border: 1px solid #ccc;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+
 }
 
 
@@ -285,6 +374,8 @@ table{
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
+    margin-bottom:10px;
+
 }
 
 
@@ -419,17 +510,31 @@ table{
 }
 
 
-.boton-volver {
-    width: 100px;
-    padding: 5px;
-    background-color: rgb(75, 75, 75);
-}
 
 .mensajeErrorPartidaBingo {
     font-size: medium;
     color: red;
 }
 
-.numerosRestantesParaCompletarLaTirada{
-    color:white;
+#numerosRestantesParaCompletarLaTirada {
+    color: white;
+    font-size: 0.8rem;
+    background-color: #6D466B;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom:20px;
+
+}
+
+.contenedor-nRestantes {
+    background-color: #8A4D9F;
+    padding: 15px;
+    border-radius: 15px;
+    max-width: 250px;
+    width: 100%;
+    margin-top: 15px;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+    text-align: center;
 }
