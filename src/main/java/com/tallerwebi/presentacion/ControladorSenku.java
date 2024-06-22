@@ -72,7 +72,8 @@ public class ControladorSenku {
         Tablero tablero = new Tablero(5);
         session.setAttribute("tablero", tablero);
         // PONGO LOS DATOS EN EL MODELO ASI LOS PUEDO RENDERIZAR CON THIMELEAF
-        model.put("mensaje", "¡Bienvenido " + usuario.getNombre() + "! Comienza tu juego.");
+        model.put("mensaje", "¡Bienvenido " + usuario.getNombre() + "!");
+        model.put("mensaje2", "¡QUE COMIENCE EL JUEGO!");
         model.put("nombreJugador", usuario.getNombre());
         model.put("contadorMovimientos", 0);
         session.setAttribute("contadorMovimientos", 0);
