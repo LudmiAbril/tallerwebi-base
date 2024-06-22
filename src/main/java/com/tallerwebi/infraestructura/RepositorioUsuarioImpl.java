@@ -2,6 +2,13 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.RepositorioUsuario;
 import com.tallerwebi.dominio.Usuario;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -14,26 +21,31 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     private SessionFactory sessionFactory;
 
     @Autowired
-    public RepositorioUsuarioImpl(SessionFactory sessionFactory){
+    public RepositorioUsuarioImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+
     }
 
     @Override
-    public Usuario buscarUsuario(String email, String password) {
-
+    public Usuario buscarUsuario(String email, String rawPassword) {
         final Session session = sessionFactory.getCurrentSession();
-        return (Usuario) session.createCriteria(Usuario.class)
+        Usuario usuario = (Usuario) session.createCriteria(Usuario.class)
                 .add(Restrictions.eq("email", email))
-                .add(Restrictions.eq("password", password))
                 .uniqueResult();
+
+        if (usuario != null && usuario.getPassword().equals(DigestUtils.sha512Hex(rawPassword))) {
+            return usuario;
+        }
+        return null;
     }
 
     @Override
     public void guardar(Usuario usuario) {
+        String passwordEncriptada = DigestUtils.sha512Hex(usuario.getPassword());
+        usuario.setPassword(passwordEncriptada);
         sessionFactory.getCurrentSession().save(usuario);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public Usuario buscar(String email) {
         return (Usuario) sessionFactory.getCurrentSession().createCriteria(Usuario.class)
@@ -45,5 +57,4 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     public void modificar(Usuario usuario) {
         sessionFactory.getCurrentSession().update(usuario);
     }
-
 }

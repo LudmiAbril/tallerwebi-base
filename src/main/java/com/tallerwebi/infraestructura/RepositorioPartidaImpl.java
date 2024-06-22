@@ -1,5 +1,6 @@
 package com.tallerwebi.infraestructura;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -7,6 +8,7 @@ import javax.transaction.Transactional;
 
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -36,9 +38,8 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
             throw new IllegalArgumentException();
         } else if (partida instanceof PartidaBlackJack && (((PartidaBlackJack) partida).getPuntaje()) < 0) {
             throw new PartidaConPuntajeNegativoException();
-        } else {
-            this.sessionFactory.getCurrentSession().save(partida);
         }
+        this.sessionFactory.getCurrentSession().save(partida);
     }
 
     @Override
@@ -65,9 +66,6 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
         query.setParameter("user", id);
 
         List<Partida> partidas = query.getResultList();
-
-
-
 
         if (partidas.isEmpty()) {
             throw new PartidaDeUsuarioNoEncontradaException();
@@ -100,8 +98,29 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
     }
 
     @Override
+    public List<Partida> obtenerPartidasPorFechaRango(Long usuarioId, Juego juego, LocalDateTime of,
+            LocalDateTime of2) throws PartidaDeUsuarioNoEncontradaException {
+        String hql = "FROM Partida WHERE juego = :juego AND idJugador = :userId AND fechaYhora BETWEEN :fechaInicio AND :fechaFin ORDER BY fechaYhora DESC";
+        Query query = this.sessionFactory.getCurrentSession().createQuery(hql);
+        query.setParameter("juego", juego);
+        query.setParameter("userId", usuarioId);
+        LocalDateTime fechaInicio = of;
+        query.setParameter("fechaInicio", fechaInicio);
+        LocalDateTime fechaFin = of2;
+        query.setParameter("fechaFin", fechaFin);
+
+        List<Partida> partidas = query.getResultList();
+
+        if (partidas.isEmpty()) {
+            throw new PartidaDeUsuarioNoEncontradaException();
+        }
+
+        return partidas;
+    }
+
+    @Override
     public List<PartidaBingo> generarRankingDePartidasDeBingo(Long userId) throws NoHayPartidasDeBingoException {
-        String hql = "FROM PartidaBingo WHERE juego = :juego AND idJugador = :userId ORDER BY fechaYhora DESC";
+        String hql = "SELECT DISTINCT pb FROM PartidaBingo pb LEFT JOIN FETCH pb.casillerosMarcados WHERE pb.juego = :juego AND pb.idJugador = :userId ORDER BY pb.fechaYhora DESC";
         Query query = this.sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter("juego", Juego.BINGO);
         query.setParameter("userId", userId);

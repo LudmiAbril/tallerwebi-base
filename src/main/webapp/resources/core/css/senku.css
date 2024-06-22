@@ -1,30 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Ubuntu", sans-serif;
-   
+    font-family: "Oswald", sans-serif;
 }
 
-body{
-    background: rgb(118, 216, 241);
-    background: radial-gradient(circle, rgba(118, 216, 241, 0.768032212885154) 6%, rgba(250, 139, 187, 0.6727941176470589) 52%, rgba(195, 148, 233, 0.726015406162465) 100%);
-
+body {
+    background-image: linear-gradient(rgb(17, 24, 39), rgb(88, 28, 135), rgb(124, 58, 237));
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff; 
 }
 
-.titulo{
+.margin {
+    margin: 5%;
+    width: 100%;
+    max-width: 75em; 
+}
+
+.titulo {
     text-align: center;
     margin: 5%;
-    border-radius: 5px;
+    border-radius: 0.313em;
+    color: #ffffff;
 }
 
+.galactic-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3em;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    animation: glow 1.5s ease-in-out infinite alternate;
+}
 
+@keyframes glow {
+    from {
+        text-shadow: 0 0 0.625em #fff, 0 0 1.25em #ff00ff, 0 0 1.875em #ff00ff, 0 0 2.5em #ff00ff, 0 0 3.125em #ff00ff, 0 0 3.75em #ff00ff, 0 0 4.375em #ff00ff;
+    }
+    to {
+        text-shadow: 0 0 1.25em #fff, 0 0 1.875em #ff00ff, 0 0 2.5em #ff00ff, 0 0 3.125em #ff00ff, 0 0 3.75em #ff00ff, 0 0 4.375em #ff00ff, 0 0 5em #ff00ff;
+    }
+}
 
-.barra{
-    color:white;
-    background-color: #e91e63a3 !important;
+.barra {
+    color: #ffffff;
+    background-color: #B39DDB;
     margin: 2%;
     margin-left: 5%;
     border-radius: 0.313em;
@@ -34,44 +60,143 @@ body{
     margin-right: 5%;
 }
 
-.tablero-fondo{
+/* ------------------------ESTILOS DE TABLERO--------------------------- */
+
+.tablero-fondo {
     display: flex;
     align-items: center;
     margin: 5%;
     justify-content: center;
 }
+.tablero{
+    box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px,
+     rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+     background-image: conic-gradient(from 80deg at -3% 0%, rgba(255, 255, 255, 1) 0%,
+      rgb(14, 165, 233) 50%, rgb(14, 165, 233) 100%);
 
+    padding: 1%;
+    border-radius: 10%;
+    background-color: #ffffff;
+}
 .ficha {
+    box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset,
+     rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px,
+     rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
     width: 3.125em;
     height: 3.125em;
-    background-color: #7300ff; 
+  
+    background-image: linear-gradient(161.15deg, #6974DC 12.73%, #9679DD 72.95%);
+
+
     border-radius: 1.563em;
     margin: 0.313em;
-    float: left; 
-}
-.ficha:hover {
-    background-color: #d400ffd4; 
-    transition: background-color 0.2s; 
-}
-.ficha-seleccionada{
-    background-color: #d400ff; 
-}
-.vacio {
-    width: 3.125em;
-    height:3.125em;
-    background-color: #ffffffa9; 
-    border-radius: 1.25em;
-    margin: 0.313em;
-    float: left; 
-}
-.vacio:hover{
-    background-color: #d9aee2cb; 
-    transition:  background-color  0.2s;
+    float: left;
 }
 
-.vacio-seleccionado{
-    background-color: #d9aee2; 
+.ficha:hover {
+    background-image: linear-gradient(161.15deg, #4251d4 12.73%, #6e44d8 72.95%);
+   
 }
+
+.ficha-seleccionada {
+    background-color: #7d4cd8;
+}
+
+.vacio {
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+    width: 3.125em;
+    height: 3.125em;
+    background-color: #312e2e;
+    border-radius: 100%;
+    margin: 0.313em;
+    float: left;
+}
+
+.vacio:hover {
+    background-color: #000000f8;
+    box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+    transition: background-color 0.2s;
+}
+
+.vacio-seleccionado {
+    background-color: #DDDDDD;
+}
+
 .fila {
-    clear: both; 
+    clear: both;
+}
+
+/* ------------------------ESTILOS DE BOTONES--------------------------- */
+
+.botones {
+    display: flex;
+    margin: 0.5em;
+    align-items: center;
+    justify-content: center;
+    color: rgb(255, 255, 255);
+}
+
+.botones form {
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    margin: 0 1em;
+}
+
+.botones button {
+    font-size: 1em;
+    text-transform: uppercase;
+    padding: 0.5em 1em;
+    border: none;
+    border-radius: 2em;
+    color: white;
+}
+
+.boton-reiniciar {
+    background-color: #64b5f6; 
+    box-shadow: rgba(100, 181, 246, 0.4) -0.25em 0.25em, rgba(100, 181, 246, 0.3) -0.5em 0.5em, rgba(100, 181, 246, 0.2) -0.75em 0.75em, rgba(100, 181, 246, 0.1) -1em 1em, rgba(100, 181, 246, 0.05) -1.25em 1.25em;
+}
+
+
+
+.boton-reiniciar:hover {
+    background-color: #42a5f5; 
+    transform: translateY(-0.1em);
+}
+
+
+
+.mt {
+    margin-top: 1.25em; 
+    margin-left: 1.25em; 
+}
+
+/* ------------------------ESTILOS MENSAJE--------------------------- */
+
+
+.mensaje {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+}
+
+/* ------------------------ESTILOS RESPONSIVOS--------------------------- */
+@media (max-width: 48em) { 
+    .botones {
+        flex-direction: column;
+    }
+    
+    .botones form {
+        margin: 0.5em 0;
+    }
+    
+    .titulo h1 {
+        font-size: 2em;
+    }
+    
+    .titulo h3, .titulo p {
+        font-size: 1em;
+    }
 }

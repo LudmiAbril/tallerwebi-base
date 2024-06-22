@@ -2,62 +2,57 @@ package com.tallerwebi.presentacion;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
-import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.contains;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 import java.util.*;
 
 import javax.servlet.http.HttpSession;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
+import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
+
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
+import org.mockito.MockitoAnnotations;
+
 public class ControladorBingoTest {
-    private BingoManager bingoManager;
+
     private ControladorBingo controladorBingo;
     private ServicioBingo servicioBingoMock;
     private HttpSession session;
     private ServicioPlataforma servicioPlataformaMock;
-    private SimpMessagingTemplate template;
 
     @BeforeEach
     public void init() {
-        this.template = template;
         this.servicioBingoMock = mock(ServicioBingo.class);
-        this.controladorBingo = new ControladorBingo(servicioBingoMock, servicioPlataformaMock, template);
-        this.session = new MockHttpSession();
         this.servicioPlataformaMock = mock(ServicioPlataforma.class);
+        this.controladorBingo = new ControladorBingo(servicioBingoMock, servicioPlataformaMock);
+        this.session = new MockHttpSession();
     }
 
     @Test
     public void queAlSolicitarIrAlBingoSeEntregueLaVistaIrAlBingo() {
-        ModelAndView mav = this.controladorBingo.irAlBingo(session);
+        ModelAndView mav = this.controladorBingo.irAlBingo();
         assertThat(mav.getViewName(), equalToIgnoringCase("irAlBingo"));
     }
 
     @Test
     public void queAlSolicitarIrAlBingoSeGuardeElModeloCorrespondiente() {
-        ModelAndView mav = this.controladorBingo.irAlBingo(session);
+        ModelAndView mav = this.controladorBingo.irAlBingo();
         Usuario MODELO_ACTUAL = ((Usuario) mav.getModel().get("nuevoJugador"));
         assertThat(MODELO_ACTUAL, instanceOf(Usuario.class));
     }
@@ -90,7 +85,7 @@ public class ControladorBingoTest {
 
     @Test
     public void queAlIrAVistaBingoSeRendericeLaVistaCorrectaYSeGuardeCorrectamenteUnJugador() {
-        ModelAndView modelAndView = controladorBingo.irAlBingo(session);
+        ModelAndView modelAndView = controladorBingo.irAlBingo();
         assertEquals("irAlBingo", modelAndView.getViewName());
         ModelMap modelMap = modelAndView.getModelMap();
         assertNotNull(modelMap);
@@ -117,7 +112,6 @@ public class ControladorBingoTest {
         assertEquals(cartonMock, cartonObtenido);
         assertEquals(numeroCantadoAleatorio, respuesta.get("numeroAleatorioCantado"));
     }
-    // Test Negativos
 
     @Test
     public void queAlComenzarJuegoBingoNoSeGenereUnNumeroAleatorioNiSeGuardeEnLaSesion() {
@@ -241,7 +235,6 @@ public class ControladorBingoTest {
         assertThat(numeroAleatorioDeLaSesion, equalTo(numeroAleatorio));
     }
 
-    // gue los num marcados se guarda
     @Test
     public void queLosNumerosMarcadosSeGuarden() {
         // necesito un carton
@@ -271,4 +264,250 @@ public class ControladorBingoTest {
         session.setAttribute("tipo", tipoMock);
         assertThat(session.getAttribute("tipo"), equalTo(tipoMock));
     }
+
+    @Test
+    public void queNoSePuedaHacerLineaSiNoSeMarcoUnaLinea() {
+        Integer dimension = 5;
+        Integer numeroCasillero = 3;
+        CartonBingo cartonMock = mock(CartonBingo.class);
+        Set<Integer> numerosMarcados;
+        numerosMarcados = new HashSet<Integer>();
+
+        session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcados);
+        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+
+        when(this.servicioBingoMock.generarCarton(dimension)).thenReturn(cartonMock);
+        session.setAttribute("carton", cartonMock);
+        CartonBingo carton = (CartonBingo) session.getAttribute("carton");
+
+        servicioBingoMock.marcarCasillero(numeroCasillero, cartonMock);
+        numerosMarcados.add(numeroCasillero);
+        when(this.servicioBingoMock.linea(numerosMarcados, cartonMock)).thenReturn(false);
+
+        Map<String, Object> linea = this.controladorBingo.hacerlinea(session);
+        Boolean lineaController = (Boolean) linea.get("seHizoLinea");
+        assertThat(lineaController, is(false));
+    }
+
+    @Test
+    public void queAlSolicitarFinalizarPartidaSeEntregueLaVistaCorrespondiente() throws IllegalArgumentException,
+            PartidaConPuntajeNegativoException {
+        // hago que se haga linea en un carton de 3x3 con los numeros 1, 2, 3
+
+        // P R E P A R A C I O N
+        Set<Integer> numerosMarcados = new HashSet<Integer>();
+        numerosMarcados.add(1);
+        numerosMarcados.add(2);
+        numerosMarcados.add(3);
+        session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcados);
+
+        Boolean seHizoLinea = true;
+        session.setAttribute("seHizoLinea", seHizoLinea);
+
+        Boolean seHizoBingo = false;
+        session.setAttribute("seHizoBingo", seHizoBingo);
+
+        TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.LINEA;
+        session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
+
+        Integer tiradaLimite = 90;
+        session.setAttribute("tiradaLimiteDeLaSesion", tiradaLimite);
+
+        Usuario jugador = new Usuario();
+        jugador.setId(1l);
+        session.setAttribute("jugadorActual", jugador);
+        // E J E C U C I O N
+        ModelAndView mav = this.controladorBingo.finalizar(session);
+
+        // V E R I F I C A C I O N
+        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/acceso-juegos"));
+    }
+
+    @Test
+    public void queAlSolicitarFinalizarPartidaSeGuardeLaPartidaBingoCorrectamenteHabiendoHechoLinea()
+            throws IllegalArgumentException, PartidaConPuntajeNegativoException, NoHayPartidasDeBingoException {
+
+        // P R E P A R A C I O N
+        Set<Integer> numerosMarcados = new HashSet<Integer>();
+        numerosMarcados.add(1);
+        numerosMarcados.add(2);
+        numerosMarcados.add(3);
+        session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcados);
+
+        Boolean seHizoLinea = true;
+        session.setAttribute("seHizoLinea", seHizoLinea);
+
+        Boolean seHizoBingo = false;
+        session.setAttribute("seHizoBingo", seHizoBingo);
+
+        TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.LINEA;
+        session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
+
+        Integer tiradaLimite = 90;
+        session.setAttribute("tiradaLimiteDeLaSesion", tiradaLimite);
+
+        Usuario jugador = new Usuario();
+        jugador.setId(1l);
+        session.setAttribute("jugadorActual", jugador);
+
+        // E J E C U C I O N
+        this.controladorBingo.finalizar(session);
+
+        List<PartidaBingo> partidasBingoEsperadas = new ArrayList<PartidaBingo>();
+        int cantidadDeNumerosMarcados = numerosMarcados.size();
+        PartidaBingo partida = new PartidaBingo(1L, Juego.BINGO, numerosMarcados, seHizoLinea, seHizoBingo,
+                tipoPartidaBingo, tiradaLimite, cantidadDeNumerosMarcados);
+
+        partidasBingoEsperadas.add(partida);
+
+        when(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1l)).thenReturn(partidasBingoEsperadas);
+
+        // V E R I F I C A C I O N
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getIdJugador(), equalTo(1L));
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getJuego(),
+                equalTo(Juego.BINGO));
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getCasillerosMarcados(),
+                equalTo(numerosMarcados));
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getSeHizoLinea(),
+                equalTo(seHizoLinea));
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getSeHizoBingo(),
+                equalTo(seHizoBingo));
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getTipoPartidaBingo(),
+                equalTo(tipoPartidaBingo));
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getTirada(),
+                equalTo(tiradaLimite));
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0)
+                .getCantidadDeCasillerosMarcados(), equalTo(cantidadDeNumerosMarcados));
+
+    }
+
+    @Test
+    public void queAlSolicitarFinalizarPartidaSeGuardeLaPartidaBingoCorrectamenteHabiendoHechoBingo()
+            throws IllegalArgumentException, PartidaConPuntajeNegativoException, NoHayPartidasDeBingoException {
+
+        // P R E P A R A C I O N
+        Set<Integer> numerosMarcados = new HashSet<Integer>();
+        numerosMarcados.add(1);
+        numerosMarcados.add(2);
+        numerosMarcados.add(3);
+        session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcados);
+
+        Boolean seHizoLinea = false;
+        session.setAttribute("seHizoLinea", seHizoLinea);
+
+        Boolean seHizoBingo = true;
+        session.setAttribute("seHizoBingo", seHizoBingo);
+
+        TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.LINEA;
+        session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
+
+        Integer tiradaLimite = 90;
+        session.setAttribute("tiradaLimiteDeLaSesion", tiradaLimite);
+
+        Usuario jugador = new Usuario();
+        jugador.setId(1l);
+        session.setAttribute("jugadorActual", jugador);
+
+        // E J E C U C I O N
+        this.controladorBingo.finalizar(session);
+
+        List<PartidaBingo> partidasBingoEsperadas = new ArrayList<PartidaBingo>();
+        int cantidadDeNumerosMarcados = numerosMarcados.size();
+        PartidaBingo partida = new PartidaBingo(1L, Juego.BINGO, numerosMarcados, seHizoLinea, seHizoBingo,
+                tipoPartidaBingo, tiradaLimite, cantidadDeNumerosMarcados);
+
+        partidasBingoEsperadas.add(partida);
+
+        when(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1l)).thenReturn(partidasBingoEsperadas);
+
+        // V E R I F I C A C I O N
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getIdJugador(), equalTo(1L));
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getJuego(),
+                equalTo(Juego.BINGO));
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getCasillerosMarcados(),
+                equalTo(numerosMarcados));
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getSeHizoLinea(),
+                equalTo(seHizoLinea));
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getSeHizoBingo(),
+                equalTo(seHizoBingo));
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getTipoPartidaBingo(),
+                equalTo(tipoPartidaBingo));
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getTirada(),
+                equalTo(tiradaLimite));
+        assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0)
+                .getCantidadDeCasillerosMarcados(), equalTo(cantidadDeNumerosMarcados));
+
+    }
+
+    @Test
+    public void queSePuedaObtenerLaCantidadDeNumerosRestantesParaCompletarLaTirada()
+            throws PartidaConPuntajeNegativoException {
+        Integer tirada = 90;
+        session.setAttribute("tiradaLimiteDeLaSesion", tirada);
+        Set<Integer> numerosEntregados = new LinkedHashSet<Integer>();
+        numerosEntregados.add(5);
+        numerosEntregados.add(9);
+        session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
+        when(this.servicioBingoMock.obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(tirada,
+                numerosEntregados.size())).thenReturn(88);
+        Map<String, Object> respuesta = this.controladorBingo.obtenerNuevoNumero(session);
+        Integer numerosRestantes = (Integer) respuesta.get("numerosRestantesParaCompletarLaTirada");
+        assertThat(numerosRestantes, is(88));
+    }
+
+    @Test
+    public void queAlSolicitarComenzarJuegoBingoSeEntregueLaVistaCorrespondiente() {
+        ModelAndView mav = this.controladorBingo.comenzarJuegoBingo("BINGO", session);
+        assertThat(mav.getViewName(), equalToIgnoringCase("bingo"));
+    }
+
+    @Test
+    public void queAlSolicitarComenzarJuegoBingoSeGuardenLosDatosCorrespondientesEnElModelo() {
+        Usuario usuario = new Usuario();
+        usuario.setNombre("user");
+        ModelAndView mav = this.controladorBingo.comenzarJuegoBingo("BINGO", session);
+        String nombreModeloActual = (String) mav.getModel().get("nombreJugador");
+        TipoPartidaBingo tipoPartidaModeloActual = (TipoPartidaBingo) mav.getModel().get("tipoPartidaBingoDeLaSesion");
+        assertThat(nombreModeloActual, equalTo("user"));
+        assertThat(tipoPartidaModeloActual, equalTo(TipoPartidaBingo.BINGO));
+    }
+
+    @Test
+    public void queGuardeElMensajeDeErrorEnElModeloSiNoSePuedeGuardarUnaPartida()
+            throws IllegalArgumentException, PartidaConPuntajeNegativoException, NoHayPartidasDeBingoException {
+        // P R E P A R A C I O N
+        Set<Integer> numerosMarcados = new HashSet<>();
+        numerosMarcados.add(null);
+        numerosMarcados.add(null);
+        numerosMarcados.add(null);
+        session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcados);
+
+        Boolean seHizoLinea = null;
+        session.setAttribute("seHizoLinea", seHizoLinea);
+        Boolean seHizoBingo = null;
+        session.setAttribute("seHizoBingo", seHizoBingo);
+
+        TipoPartidaBingo tipoPartidaBingo = null;
+        session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
+
+        Integer tiradaLimite = null;
+        session.setAttribute("tiradaLimiteDeLaSesion", tiradaLimite);
+
+        Usuario jugador = new Usuario();
+        jugador.setId(null);
+        session.setAttribute("jugadorActual", jugador);
+
+        doThrow(new IllegalArgumentException("Error al guardar la partida"))
+                .when(servicioPlataformaMock).agregarPartida(any(PartidaBingo.class));
+
+        // E J E C U C I O N
+        ModelAndView mav = this.controladorBingo.finalizar(session);
+
+        // V E R I F I C A C I O N
+        String mensajeErrorActual = (String) mav.getModelMap().getAttribute("mensajeError");
+        assertThat(mensajeErrorActual, equalToIgnoringCase("Ocurrió un error al intentar guardar la partida."));
+    }
+    // queSePuedaGenerarUnCartonDe5x5APartirDeLaConfiguracionDefinida()
+    // queSePuedaGenerarUnCartonDe4x4APartirDeLaConfiguracionDefinida()
+    // queSePuedaGenerarUnCartonDe3x3APartirDeLaConfiguracionDefinida()
 }

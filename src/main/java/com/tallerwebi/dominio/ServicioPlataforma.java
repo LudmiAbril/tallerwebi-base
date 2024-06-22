@@ -11,7 +11,7 @@ public interface ServicioPlataforma {
 
     List<Partida> generarRanking(Juego juego) throws PartidasDelJuegoNoEncontradasException;
 
-    void agregarPartida(Partida partida) throws PartidaConPuntajeNegativoException;
+    void agregarPartida(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException;
 
     List<Partida> obtenerPartidasUsuario(Long id, Juego juego) throws PartidaDeUsuarioNoEncontradaException;
 

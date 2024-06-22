@@ -1,6 +1,7 @@
 package com.tallerwebi.dominio;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -8,16 +9,18 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.hibernate.SessionFactory;
 
 import javax.transaction.Transactional;
 
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
-import org.hibernate.SessionFactory;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,6 +37,7 @@ import com.tallerwebi.infraestructura.RepositorioPartidaImpl;
 @ContextConfiguration(classes = { HibernateTestConfig.class })
 public class RepositorioPartidaTest {
     private RepositorioPartida repositorio;
+
     @Autowired
     SessionFactory session;
 
@@ -43,8 +47,19 @@ public class RepositorioPartidaTest {
         };
     }
 
+    // crear instancias de la clase Partida
+    private Partida crearPartida(String nombre, Juego juego) {
+        Partida partida = new Partida(nombre, juego);
+        return partida;
+    }
+
+    private Partida crearPartida(long idJugador, Juego juego) {
+        Partida partida = new Partida(idJugador, juego);
+        return partida;
+    }
+
     @Test
-    public void queSeGuardeUnaPartida() throws PartidaConPuntajeNegativoException {
+    public void queSeGuardeUnaPartida() throws PartidaConPuntajeNegativoException, IllegalArgumentException {
         Partida p = crearPartida("jugador", Juego.BINGO);
         repositorio.guardar(p);
         assertThat(session.getCurrentSession().contains(p), equalTo(true));
@@ -52,7 +67,8 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queSeObtengaUnRankingOrdenadoDePartidasParaElBingo()
-            throws PartidasDelJuegoNoEncontradasException, PartidaConPuntajeNegativoException {
+            throws PartidasDelJuegoNoEncontradasException, PartidaConPuntajeNegativoException,
+            IllegalArgumentException {
         // PARTIDA UNO
         Long idJugador = 2L;
         Juego juego = Juego.BINGO;
@@ -64,20 +80,22 @@ public class RepositorioPartidaTest {
         Boolean seHizoBingo = false;
         TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.BINGO;
         Integer tirada = 50;
+        Integer cantidadDeCasillerosMarcados = casillerosMarcados.size();
 
         Partida p1 = new PartidaBingo(idJugador, juego, casillerosMarcados, seHizoLinea, seHizoBingo, tipoPartidaBingo,
-                tirada);
+                tirada, cantidadDeCasillerosMarcados);
 
         casillerosMarcados.add(7);
         casillerosMarcados.add(6);
         // PARTIDA DOS
-        Partida p2 = new PartidaBingo(idJugador, Juego.BINGO, casillerosMarcados, false, true, TipoPartidaBingo.BINGO, 25);
+        Partida p2 = new PartidaBingo(idJugador, Juego.BINGO, casillerosMarcados, false, true, TipoPartidaBingo.BINGO,
+                25, 9);
 
         List<Partida> partidasEsperadas = new ArrayList<Partida>();
         partidasEsperadas.add(p2);
         partidasEsperadas.add(p1);
 
-
+        // ejec desordenada para verificar orden
         repositorio.guardar(p2);
         repositorio.guardar(p1);
 
@@ -94,15 +112,17 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queSeLanzeUnaExceptionSiNoHayPartidasDeEseJuego() {
-
+        // PartidaDeUsuarioNoEncontradaException
         assertThrows(PartidasDelJuegoNoEncontradasException.class, () -> {
             repositorio.listarPartidasPorJuego(Juego.BINGO);
         });
     }
 
     @Test
-    public void queObtenganLasPartidasDeUnJugador() throws PartidaConPuntajeNegativoException {
+    public void queSePuedanObtenerLasPartidasDeUnJugador() throws PartidaConPuntajeNegativoException,
+            IllegalArgumentException {
         Long usuarioId = 000L;
+
         Partida partida1 = crearPartida("Prueba", Juego.BLACKJACK);
         partida1.setIdJugador(usuarioId);
         repositorio.guardar(partida1);
@@ -128,7 +148,8 @@ public class RepositorioPartidaTest {
     }
 
     @Test
-    public void queSePuedanObtenerLasUltimasPartidasOrdenadasPorFecha() throws PartidaConPuntajeNegativoException {
+    public void queSePuedanObtenerLasUltimasPartidasOrdenadasPorFecha() throws PartidaConPuntajeNegativoException,
+            IllegalArgumentException {
         Long usuarioId = 000L;
         List<Partida> partidasEsperadas = new ArrayList<Partida>();
         Partida a = crearPartida("user", Juego.BINGO);
@@ -159,15 +180,10 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queLanceUnaExceptionAlObtenerPartidasDeUsuarioConIdNulo() {
-
+        // PartidaDeUsuarioNoEncontradaException
         assertThrows(PartidaDeUsuarioNoEncontradaException.class, () -> {
             repositorio.obtenerPartidasUsuario(null, Juego.BINGO);
         });
-    }
-
-    private Partida crearPartida(String nombre, Juego juego) {
-        Partida partida = new Partida(nombre, juego);
-        return partida;
     }
 
     @Test
@@ -214,4 +230,67 @@ public class RepositorioPartidaTest {
             repositorio.guardar(null);
         });
     }
+
+    @Test
+    public void queLanceExceptionDePartidasNoEncontradasAlListarPartidasPorJuegoConJuegoNulo() {
+        assertThrows(PartidasDelJuegoNoEncontradasException.class, () -> {
+            repositorio.listarPartidasPorJuego(null);
+        });
+    }
+
+    @Test
+    public void queSeObtenganPartidasPorRangoDeFechas()
+            throws PartidaConPuntajeNegativoException, PartidaDeUsuarioNoEncontradaException, IllegalArgumentException {
+        Long usuarioId = 000L;
+        Juego juego = Juego.BINGO;
+        Partida partida1 = crearPartida("jugador1", juego);
+        partida1.setFechaYhora(LocalDateTime.of(2022, 1, 1, 0, 0));
+        partida1.setIdJugador(usuarioId);
+        repositorio.guardar(partida1);
+
+        Partida partida2 = crearPartida("jugador2", juego);
+        partida2.setFechaYhora(LocalDateTime.of(2023, 1, 1, 0, 0));
+        partida2.setIdJugador(usuarioId);
+        repositorio.guardar(partida2);
+
+        // Supón que se añade un método en el repositorio para obtener partidas por
+        // rango de fechas
+        List<Partida> partidas = repositorio.obtenerPartidasPorFechaRango(usuarioId, juego,
+                LocalDateTime.of(2021, 1, 1, 0, 0), LocalDateTime.of(2022, 12, 31, 23, 59));
+        assertThat(partidas.size(), equalTo(1));
+        assertThat(partidas.get(0).getIdJugador(), equalTo(usuarioId));
+        assertThat(partidas.get(0).getFechaYhora(), equalTo(LocalDateTime.of(2022, 1, 1, 0, 0)));
+    }
+
+    @Test
+    public void queSeGuardeUnaPartidaSenku() throws PartidaConPuntajeNegativoException, IllegalArgumentException {
+        // GIVEN
+        Long idJugador = 1L;
+        Juego juego = Juego.SENKU;
+        Boolean ganado = true;
+        Integer cantidadMovimientos = 50;
+
+        Partida partidaSenku = new PartidaSenku(idJugador, juego, ganado, cantidadMovimientos);
+
+        // WHEN
+        repositorio.guardar(partidaSenku);
+
+        // THEN
+        assertThat(session.getCurrentSession().contains(partidaSenku), equalTo(true));
+    }
+
+    @Test
+    public void queLanceExceptionAlGuardarPartidaSenkuConValoresNoValidos() {
+        // GIVEN
+        PartidaSenku partidaSenku = new PartidaSenku();
+        // VALORES NO VALIODS(SOLO SE GUARDA SI SE GANO Y SI HUBO MOVIMEINTOS)
+        partidaSenku.setGanado(null);
+        partidaSenku.setCantidadMovimientos(-1);
+
+        // THEN
+        assertThrows(IllegalArgumentException.class, () -> {
+            repositorio.guardar(partidaSenku);
+        });
+    }
+
 }

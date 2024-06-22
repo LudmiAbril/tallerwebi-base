@@ -4,7 +4,6 @@ var numeroColorMap = {};
 $(document).ready(function () {
     // una vez que se realiza la peticion /obtenerDatosIniciales se ejecuta la funcion siguiente, que es la respuesta a esa peticion. Es decir, cuando se pide /obtenerDatosIniciales se responde de esa forma
     $.get("obtenerDatosIniciales", function (data) {
-
         $("#numeroCantado").text(data.numeroAleatorioCantado);
         //para construir la estructura de la tabla del cartón.
         var tablaHtml = "";
@@ -26,11 +25,9 @@ $(document).ready(function () {
         } else {
             tipoPartidaBingo = data.tipoPartidaBingo;
             if (tipoPartidaBingo === "LINEA") {
-                console.log("mostrando el boton de linea")
                 document.getElementById("botonLinea").style.display = "block";
                 document.getElementById("botonBingo").style.display = "none";
             } else if (tipoPartidaBingo === "BINGO") {
-                console.log("mostrando el boton de bingo")
                 document.getElementById("botonLinea").style.display = "none";
                 document.getElementById("botonBingo").style.display = "block";
             }
@@ -47,8 +44,8 @@ function refrescarNumero() {
             if (data.limiteAlcanzado) {
                 abrirModalDeLimiteAlcanzado();
             } else {
+                $("#numerosRestantesParaCompletarLaTirada").text("Numeros restantes para completar la tirada: " + data.numerosRestantesParaCompletarLaTirada);
                 $("#numeroCantado").text(data.nuevoNumero);
-                enviarNumeroAlServidor(data.nuevoNumero);
                 $(".numeroCantadoContenedor").addClass("w3-animate-top");
             }
         });
@@ -125,7 +122,6 @@ function bingo() {
     $.post("bingo", function (data) {
         if (data.seHizoBingo) {
             abrirModal();
-            enviarMensajeGanador(data.ganador);
             clearInterval(intervaloRefresco); // Detener la actualización del número
             intervaloRefresco = null;
         } else if (!data.seHizoBingo) {
@@ -180,10 +176,7 @@ function mostrarModalSeleccionTipoPartidaBingo(event) {
     event.preventDefault();
     document.getElementById("modalTipoPartida").style.display = "block";
 }
-function mostrarModalPartidaMultijugador(event){
-    event.preventDefault();
-    document.getElementById("iniciarPartidaModal").style.display = "block";
-}
+
 
 
 function linea() {
@@ -211,7 +204,3 @@ function linea() {
 function abrirModalDeLimiteAlcanzado() {
     document.getElementById("modalLimite").style.display = "block";
 }
-
-
-
-

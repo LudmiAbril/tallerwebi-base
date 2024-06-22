@@ -17,13 +17,12 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
 
     @Autowired
     public ServicioBlackjackImpl() {
-        // this.baraja = new Baraja();
     }
 
     @Override
     public List<Carta> entregarCartasPrincipales() {
         List<Carta> cartasEntregadas = new ArrayList<>();
-        if (baraja.getSize() >= 2) { // Verifica si hay al menos dos cartas disponibles
+        if (baraja.getSize() >= 2) {
             cartasEntregadas.add(baraja.sacarCarta());
             cartasEntregadas.add(baraja.sacarCarta());
         } else {
@@ -70,8 +69,7 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
 
     @Override
     public EstadoPartida estadoPartida(List<Carta> cartasJugador, List<Carta> cartasCasa, Boolean plantado) {
-        if (sePaso(cartasJugador) || hayBlackjack(cartasJugador)
-                || plantado) {
+        if (plantado || sePaso(cartasJugador) || hayBlackjack(cartasJugador)) {
             return EstadoPartida.FINALIZADA;
         }
         return EstadoPartida.EN_CURSO;
@@ -122,8 +120,6 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
 
     @Override
     public List<Carta> plantarse(List<Carta> cartasCasa) {
-        // si la casa tiene menos de 17, se obliga a sacar mas cartas hasta que sea 17 o
-        // mayor
         List<Carta> manoFinalCrupier = new ArrayList<>();
         List<Carta> manoConteo = new ArrayList<>(cartasCasa);
         while (calcularPuntuacion(manoConteo) < 17) {
@@ -150,7 +146,5 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
     public Baraja getBaraja() {
         return this.baraja;
     }
-
-    
 
 }

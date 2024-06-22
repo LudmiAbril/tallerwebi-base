@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+body{
+    height: 100vh;
+    overflow: hidden; /* Evita el scroll */
+}
 
 .loguin{
     background-image: url(../imgStatic/gatos-bienvenida.png);
@@ -33,6 +37,8 @@
     color: white;
 }
 .container {
+    font-family: Arial, sans-serif;
+    margin-top:50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -112,4 +118,19 @@
     background-color: #2D2A49;
     text-shadow: 0 0 30px rgba(0, 0, 0, 0.51), 0 0 50px rgba(0, 0, 0, 0.51), 0 0 70px rgba(0, 0, 0, 0.51), 0 0 60px rgba(0, 0, 0, 0.51), 0 0 80px #F9EADE, 0 0 80px #F9EADE, 0 0 90px #F9EADE;
 
+}
+.error p{
+    padding-top:10px;
+    color:white;
+}
+
+.form-control input:focus {
+    border-color: #B367A9;
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+    outline: none;
+}
+
+/* Agregar margen izquierdo a los placeholders */
+.form-control::placeholder {
+    margin-left: 10px;
 }

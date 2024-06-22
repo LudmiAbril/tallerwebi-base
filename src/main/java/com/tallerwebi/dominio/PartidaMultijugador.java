@@ -1,83 +1,75 @@
- package com.tallerwebi.dominio;
+package com.tallerwebi.dominio;
 
+import java.util.UUID;
 
- public abstract class PartidaMultijugador extends Partida {
+ public class PartidaMultijugador extends Partida {
      private String gameId;
      private String nombreJugador;
      private String nombreJugador2;
      private String ganador;
      private String turno;
      private EstadoJuego gameState;
-
-     public PartidaMultijugador(Juego juego, String jugador1, String jugador2){
+/* 
+     public PartidaMultijugador(Juego juego, String nombreJugador, String nombreJugador2) {
+         //super(juego);
+         //Crea un id unico
+         this.gameId = UUID.randomUUID().toString();
          this.juego = juego;
-         this.nombreJugador = jugador1;
-         this.nombreJugador2 = jugador2;
-     }
-     public PartidaMultijugador(String jugador, String jugador2){
-         this.nombreJugador = jugador;
-         this.nombreJugador2= jugador2;
-     }
-     public PartidaMultijugador(String jugador){
-         this.nombreJugador = jugador;
-     }
-     public String getJugador() {
-         return nombreJugador;
+         this.nombreJugador= nombreJugador;
+         this.nombreJugador2=nombreJugador2;
+         gameState = EstadoJuego.WAITING_FOR_PLAYER;
      }
 
-     public void setJugador(String jugador) {
-         this.nombreJugador = jugador;
-     }
-     public String getGameId() {
-         return gameId;
-     }
+    // public String getJugador() {
+    // return nombreJugador;
+    // }
 
-     public void setGameId(String gameId) {
-         this.gameId = gameId;
-     }
+    public void setJugador(String jugador) {
+        this.nombreJugador = jugador;
+    }
 
-     public String getNombreJugador() {
-         return nombreJugador;
-     }
+    public String getGameId() {
+        return gameId;
+    }
 
-     public void setNombreJugador(String nombreJugador) {
-         this.nombreJugador = nombreJugador;
-     }
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
+    }
 
-     public String getNombreJugador2() {
-         return nombreJugador2;
-     }
+    public String getNombreJugador() {
+        return nombreJugador;
+    }
 
-     public void setNombreJugador2(String nombreJugador2) {
-         this.nombreJugador2 = nombreJugador2;
-     }
+    public void setNombreJugador(String nombreJugador) {
+        this.nombreJugador = nombreJugador;
+    }
 
-     public String getGanador() {
-         return ganador;
-     }
+    public String getNombreJugador2() {
+        return nombreJugador2;
+    }
 
-     public void setGanador(String ganador) {
-         this.ganador = ganador;
-     }
+    public void setNombreJugador2(String nombreJugador2) {
+        this.nombreJugador2 = nombreJugador2;
+    }
 
-     public String getTurno() {
-         return turno;
-     }
+    public String getGanador() {
+        return ganador;
+    }
 
-     public void setTurno(String turno) {
-         this.turno = turno;
-     }
+    public void setGanador(String ganador) {
+        this.ganador = ganador;
+    }
 
-     public EstadoJuego getGameState() {
-         return gameState;
-     }
+    public String getTurno() {
+        return turno;
+    }
+
+    public void setTurn(String turno) {
+        this.turno = turno;
+    }
 
      public void setGameState(EstadoJuego gameState) {
          this.gameState = gameState;
      }
-
-     public abstract void iniciarPartida();
-     public abstract void realizarMovimiento(String jugador, Object movimiento);
-     public abstract boolean verificarGanador();
+     */
  }
-

@@ -35,7 +35,7 @@ public class ServicioPlataformaImpl implements ServicioPlataforma {
     }
 
     @Override
-    public void agregarPartida(Partida partida) throws PartidaConPuntajeNegativoException {
+    public void agregarPartida(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException {
         this.repositorioPartida.guardar(partida);
     }
 

@@ -175,17 +175,25 @@ public class SenkuTest {
     }
 
     @Test
-    public void queElJuegoAviseQueYaNoHayMovimientosValidos() throws CasilleroInexistenteException, CasilleroVacio, MovimientoInvalidoException {
+    public void queElJuegoAviseQueYaNoHayMovimientosValidos() throws MovimientoInvalidoException, CasilleroInexistenteException, CasilleroVacio {
         // GIVEN
-        Senku nuevo = new Senku(1);
-        Tablero tablero = nuevo.getTablero();
-        ServicioSenkuImpl servicio = new ServicioSenkuImpl();
-        Casillero seleccionado=servicio.getCasillero(tablero,0,0);
-        // WHEN-
-        //(0, 0)
-
-        assertFalse(servicio.hayMovimientosValidosDisponiblesDesdeCasillero(tablero,seleccionado));
+        Tablero tablero = new Tablero(3);
+         //(0, 0), (0, 1), (0, 2)
+        //(1, 0), (1, 1), (1, 2)
+        //(2, 0), (2, 1),(2, 2)
+        
+        ServicioSenkuImpl servicioSenku = new ServicioSenkuImpl();
+        Casillero seleccionado, destino;
+    
+    
+        // WHEN
+        boolean hayMovimientosValidos = tablero.hayMovimientoDisponibleEnTablero();
+    
+        // THEN
+        assertFalse(hayMovimientosValidos);
     }
+    
+    
     @Test
     public void queElJuegoSepaQueYaGanaste() throws CasilleroInexistenteException, CasilleroVacio, MovimientoInvalidoException {
         // GIVEN

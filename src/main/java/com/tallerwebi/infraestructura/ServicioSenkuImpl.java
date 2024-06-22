@@ -60,7 +60,7 @@ public class ServicioSenkuImpl implements ServicioSenku {
 
     @Override
     public Boolean hayMovimientosValidosDisponiblesDesdeCasillero(Tablero tablero, Casillero casilleroActual) throws MovimientoInvalidoException {
-        return tablero.hayMovimientoDisponibleEnTablero(casilleroActual);
+        return tablero.hayMovimientoDisponibleEnTablero();
     }
 
     public void validarMovimiento(Tablero tablero, Casillero seleccionado, Casillero destino) throws MovimientoInvalidoException {

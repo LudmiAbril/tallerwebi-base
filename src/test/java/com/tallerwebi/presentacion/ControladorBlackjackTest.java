@@ -382,7 +382,7 @@ public class ControladorBlackjackTest {
     }
 
     @Test
-    public void queAlFinalizarSeGuardeLaPartidaYseVuelvaALaVistaInicial() throws PartidaConPuntajeNegativoException {
+    public void queAlFinalizarSeGuardeLaPartidaYseVuelvaALaVistaInicial() throws PartidaConPuntajeNegativoException, IllegalArgumentException {
         // simulamos datos de jugada
         List<Carta> mano = new ArrayList<>();
         mano.add(mock(Carta.class));
@@ -413,7 +413,7 @@ public class ControladorBlackjackTest {
 
     @Test
     public void queAlReiniciarSeSeRestablescanLosValoresInicialesYSeReinicieLaVista()
-            throws PartidaDeUsuarioNoEncontradaException, PartidaConPuntajeNegativoException {
+            throws PartidaDeUsuarioNoEncontradaException, PartidaConPuntajeNegativoException, IllegalArgumentException {
         // datos en sesion
         List<Carta> mano = new ArrayList<>();
         mano.add(mock(Carta.class));

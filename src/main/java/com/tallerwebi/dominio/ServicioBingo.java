@@ -18,8 +18,10 @@ public interface ServicioBingo {
 
     Set<Integer> getNumerosMarcadosEnElCarton();
 
-    Integer getDimension();
+    Integer obtenerTirada(Integer tirada);
 
-    Boolean getSeHizobingo();
+    Integer obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(Integer tirada, Integer numerosEntregados);
+
+    Set<Integer> getNumerosEntregados();
 
 }

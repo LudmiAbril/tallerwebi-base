@@ -20,17 +20,8 @@
       </a>
     </nav>
     <main class="container">
-      <img
-        th:src="@{/imgStatic/BjTitulo2.png}"
-        alt="titulo"
-        class="imagen-home"
-      />
-      <form
-        th:action="@{/blackjack}"
-        method="post"
-        th:object="${nuevoJugador}"
-        class="text-center"
-      >
+      <img th:src="@{/imgStatic/BjTitulo2.png}" alt="titulo" class="imagen-home"/>
+      <form th:action="@{/blackjack}" method="post" th:object="${nuevoJugador}" class="text-center">
         <input type="hidden" name="contrareloj" value="false" />
         <input type="hidden" name="tiempoLimite" value="2" />
         <button type="submit" class="btn btn-primary">

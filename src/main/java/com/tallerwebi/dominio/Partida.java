@@ -15,9 +15,9 @@ public class Partida {
     @SequenceGenerator(name = "partida_seq", sequenceName = "partida_sequence", allocationSize = 1)
     private long id;
     private String jugador;
-
+    // private Integer puntaje;
     private Long idJugador;
-    protected Juego juego;
+    private Juego juego;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime fechaYhora;
 
@@ -31,6 +31,7 @@ public class Partida {
     }
     public Partida(String jugador, Juego juego){
         this.jugador = jugador;
+        // this.puntaje = puntaje;--AHORA ESTO ESTA EN CADA HIJO
         this.juego = juego;
     }
     public Juego getJuego() {
@@ -41,8 +42,8 @@ public class Partida {
         this.juego = juego;
     }
 
-    public String getJugador() {
-        return jugador;
+    public Long getJugador() {
+        return idJugador;
     }
 
     public void setJugador(Long idJugador) {
@@ -65,7 +66,17 @@ public class Partida {
         this.idJugador = idJugador;
     }
 
+   
+
     public void setJugador(String jugador) {
         this.jugador = jugador;
+    }
+
+    public void setNombre(String jugador) {
+       this.jugador=jugador;
+    }
+
+    public String getNombre() {
+        return this.jugador;
     }
 }
