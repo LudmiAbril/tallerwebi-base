@@ -42,4 +42,13 @@ public class ServicioAhorcadoImpel implements ServicioAhorcado {
        Random rand = new Random();
        return palabras.get(rand.nextInt(palabras.size()));
    }
+
+    @Override
+    public Integer intentarPalabra(String intento, String palabra) {
+        if(intento.equals(palabra)){
+            return 1;
+        }
+        return 0;
+    }
+
 }

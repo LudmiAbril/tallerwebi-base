@@ -168,4 +168,13 @@ public class ControladorAhorcadoTest {
         assertThat(viewname, equalToIgnoringCase("ganaste"));
         assertThat((String) modelAndView.getModel().get("mensajeExito"), is("¡Ganaste!"));
     }
+    @Test
+    public void queAlArriesgarUnaPalabraCorrectaSeGane(){
+        when(session.getAttribute("palabra")).thenReturn("palabra");
+        when(session.getAttribute("partesAhorcado")).thenReturn(6);
+        ModelAndView modelAndView = controlador.intentarPalabra("palabra", session);
+        String viewname = modelAndView.getViewName();
+        assertThat(viewname, equalToIgnoringCase("ganaste"));
+        assertThat((String) modelAndView.getModel().get("mensajeExito"), is("¡Ganaste!"));
+    }
 }

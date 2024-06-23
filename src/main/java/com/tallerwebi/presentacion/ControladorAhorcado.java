@@ -108,4 +108,39 @@ public class ControladorAhorcado {
         }
     
         return palabraOculta.toString();
-    } }
+    }
+
+    @RequestMapping(path = "/intentarPalabra", method = RequestMethod.POST)
+    public ModelAndView intentarPalabra(@RequestParam("intento") String intento, HttpSession session) {
+        ModelMap model = new ModelMap();
+        try {
+            String palabra = (String) session.getAttribute("palabra");
+            Integer partesAhorcado = (Integer) session.getAttribute("partesAhorcado");
+            //StringBuilder letrasIntentadas = (StringBuilder) session.getAttribute("letrasIntentadas");
+
+            partesAhorcado = servicioAhorcado.intentarPalabra(intento, palabra);
+
+            session.setAttribute("partesAhorcado", partesAhorcado);
+            if (servicioAhorcado.Perdio(partesAhorcado)) {
+                model.put("mensajeError", "Perdiste. La palabra era: " + palabra);
+                return new ModelAndView("perdiste", model);
+            }
+
+            model.put("jugador", session.getAttribute("jugador"));
+
+            model.put("partesAhorcado", partesAhorcado);
+
+            if (intento.equals(palabra)) {
+                model.put("mensajeExito", "¡Ganaste!");
+                model.put("palabra", intento);
+                return new ModelAndView("ganaste", model);
+            }
+
+            return new ModelAndView("ahorcado", model);
+        } catch (Exception e) {
+            model.put("mensajeError", "Ocurrió un error.");
+            return new ModelAndView("error", model);
+        }
+    }
+
+}

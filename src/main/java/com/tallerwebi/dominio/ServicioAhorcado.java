@@ -13,4 +13,6 @@ public interface ServicioAhorcado {
 
     String entregarPalabra();
 
+    Integer intentarPalabra(String intento, String palabra);
+
 }
