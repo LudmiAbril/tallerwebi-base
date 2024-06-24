@@ -19,6 +19,7 @@ $(document).ready(function () {
         $(".carton").html(tablaHtml);
         $(".numeroCantadoContenedor").addClass("w3-animate-top");
         $(".carton").addClass("w3-animate-bottom");
+        $("#numerosRestantesParaCompletarLaTirada").text("Numeros restantes para completar la tirada: " + data.numerosRestantesParaCompletarLaTirada);
 
         if (data.error) {
             alert(data.error)
@@ -32,6 +33,7 @@ $(document).ready(function () {
                 document.getElementById("botonBingo").style.display = "block";
             }
         }
+
 
     });
     intervaloRefresco = setInterval(refrescarNumero, 7000);

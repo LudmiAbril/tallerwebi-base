@@ -105,10 +105,20 @@ public class ControladorBingo {
 		session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
 		TipoPartidaBingo tipoPartidaBingo = (TipoPartidaBingo) session.getAttribute("tipoPartidaBingo");
 
+		Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
+		Integer numerosRestantesParaCompletarLaTirada = this.servicioBingo
+				.obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(tirada,
+						numerosEntregados.size());
+
+		session.setAttribute("numerosRestantesParaCompletarLaTiradaDeLaSesion",
+				numerosRestantesParaCompletarLaTirada);
+
 		Map<String, Object> respuesta = new HashMap<>();
 		respuesta.put("carton", carton);
 		respuesta.put("numeroAleatorioCantado", numeroCantadoAleatorio);
 		respuesta.put("tipoPartidaBingo", tipoPartidaBingo);
+		respuesta.put("numerosRestantesParaCompletarLaTirada",
+				numerosRestantesParaCompletarLaTirada);
 		return respuesta;
 	}
 
@@ -145,18 +155,18 @@ public class ControladorBingo {
 			respuesta.put("limiteAlcanzado", limiteAlcanzado);
 		} else {
 			Integer nuevoNumero = servicioBingo.entregarNumeroAleatorio(numerosEntregados);
-			Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
+			// Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
 			Integer numerosRestantesParaCompletarLaTirada = this.servicioBingo
-					.obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(tirada,
-							numerosEntregados.size());
+			.obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(tiradaLimiteDeLaSesion,
+			numerosEntregados.size());
 			numerosEntregados.add(nuevoNumero);
 			session.setAttribute("numeroAleatorioCantado", nuevoNumero);
 			session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
-			session.setAttribute("numerosRestantesParaCompletarLaTiradaDeLaSesion",
-					numerosRestantesParaCompletarLaTirada);
+
 			respuesta.put("nuevoNumero", nuevoNumero);
 			respuesta.put("limiteAlcanzado", false);
-			respuesta.put("numerosRestantesParaCompletarLaTirada", numerosRestantesParaCompletarLaTirada);
+			respuesta.put("numerosRestantesParaCompletarLaTirada",
+					numerosRestantesParaCompletarLaTirada);
 		}
 		return respuesta;
 	}
