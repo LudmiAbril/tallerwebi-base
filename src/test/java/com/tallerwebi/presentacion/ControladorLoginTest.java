@@ -35,7 +35,7 @@ public class ControladorLoginTest {
 	}
 
 	@Test
-	public void loginConUsuarioYPasswordInorrectosDeberiaLlevarALoginNuevamente() {
+	public void loginConUsuarioYPasswordIncorrectosDeberiaLlevarALoginNuevamente() {
 		// preparacion
 		when(servicioLoginMock.consultarUsuario(anyString(), anyString())).thenReturn(null);
 
