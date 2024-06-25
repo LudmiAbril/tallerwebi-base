@@ -22,13 +22,14 @@ public class ControladorBingoBotTest {
     private ServicioBingo servicioBingoMock;
     @Mock
     private ServicioPlataforma servicioPlataformaMock;
+    private Usuario jugadorMock;
 
     @BeforeEach
     public void init(){
         MockitoAnnotations.initMocks(this);
         this.controladorBingoBot = new ControladorBingoBot(servicioBingoMock, servicioPlataformaMock);
         this.session = new MockHttpSession();
-        Usuario jugador = new Usuario();
+        this.jugadorMock = mock(Usuario.class);
     }
 
     @Test
@@ -211,12 +212,15 @@ public class ControladorBingoBotTest {
 
         assertThat(numerosFaltantes.get("numerosFaltantesParaLinea"), notNullValue());
     }
-
+*/
     @Test
     public void queSeObtengaLaDimensionDelCartonCorrectamente(){
         controladorBingoBot.comenzarJuegoBingoBot("BINGO", session);
-        Map<String, Object> dimension = controladorBingoBot.obtenerDimensionDelCarton(session);
+        ConfiguracionesJuego configuracionesJuegoMock = mock(ConfiguracionesJuego.class);
+        when(this.jugadorMock.getConfig()).thenReturn(configuracionesJuegoMock);
 
-        assertThat(dimension.get("dimensionDelCarton"), equalTo(session.getAttribute("dimensionDelCartonDeLaSesion")));
-    }*/
+        Integer dimension = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
+        when(configuracionesJuegoMock.getDimensionCarton()).thenReturn(dimension);
+        assertThat(jugadorMock.getConfig().getDimensionCarton(), equalTo(session.getAttribute("dimensionDelCartonDeLaSesion")));
+    }
 }
