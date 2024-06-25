@@ -1,18 +1,12 @@
 package com.tallerwebi.presentacion;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.http.HttpSession;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
-
+import com.tallerwebi.infraestructura.ServicioBingoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -63,7 +57,6 @@ public class ControladorBingoBot {
         session.setAttribute("dimensionDelCartonDeLaSesion", usuario.getConfig().getDimensionCarton());
 
         Integer dimensionDelCartonDeLaSesion = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
-
         CartonBingo carton = servicioBingo.generarCarton(dimensionDelCartonDeLaSesion);
         session.setAttribute("carton", carton);
 
@@ -89,7 +82,6 @@ public class ControladorBingoBot {
         session.setAttribute("dimensionDelBot", dimensionDelCartonDeLaSesion);
         CartonBingo cartonBot = this.servicioBingo.generarCarton(dimensionDelCartonDeLaSesion);
         session.setAttribute("cartonBot", cartonBot);
-
         return new ModelAndView("bingo-bot", model);
     }
 
@@ -140,6 +132,10 @@ public class ControladorBingoBot {
         servicioBingo.marcarCasillero(numeroCasillero, carton);
 
         Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+        if(numerosMarcadosDeLaSesion == null){
+            numerosMarcadosDeLaSesion = new HashSet<>();
+            //session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+        }
         numerosMarcadosDeLaSesion.add(numeroCasillero);
         session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
 
