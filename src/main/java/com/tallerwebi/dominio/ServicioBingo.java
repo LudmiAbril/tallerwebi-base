@@ -12,7 +12,7 @@ public interface ServicioBingo {
 
     Boolean bingo(Set<Integer> numerosMarcadosEnElCarton, Integer dimension);
 
-    CartonBingo generarCarton(Integer dimensionDelCartonDeLaSesion);
+    CartonBingo generarCarton(Integer dimension);
 
     Boolean linea(Set<Integer> numerosMarcadosEnElCarton, CartonBingo cartonDeLaSesion);
 
@@ -23,5 +23,7 @@ public interface ServicioBingo {
     Integer obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(Integer tirada, Integer numerosEntregados);
 
     Set<Integer> getNumerosEntregados();
+
+    Boolean marcarCasilleroBot(Integer numeroCasillero, CartonBingo carton, Set<Integer> numerosMarcadosBot);
 
 }
