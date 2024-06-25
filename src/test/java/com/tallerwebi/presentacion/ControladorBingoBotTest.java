@@ -38,15 +38,17 @@ public class ControladorBingoBotTest {
         ModelAndView mav = controladorBingoBot.comenzarJuegoBingoBot(String.valueOf(tipoPartida), session);
         assertThat(mav.getViewName(), equalTo("bingo-bot"));
     }
-    /*@Test
+    @Test
     public void queLosCartonesDelUsuarioYDelBotSeanDistintos(){
         TipoPartidaBingo tipoPartida = TipoPartidaBingo.BINGO;
         controladorBingoBot.comenzarJuegoBingoBot(String.valueOf(tipoPartida), session);
+
         CartonBingo cartonUsuario = (CartonBingo) session.getAttribute("carton");
         CartonBingo cartonBot = (CartonBingo) session.getAttribute("cartonBot");
-
+        System.out.println(Arrays.deepToString(cartonUsuario.getNumeros()));
+        System.out.println(Arrays.deepToString(cartonBot.getNumeros()));
         assertThat(cartonUsuario, not(equalTo(cartonBot)));
-    }*/
+    }
     @Test
     public void queLaTiradaSeaFijaParaLosDos(){
         TipoPartidaBingo tipoPartida = TipoPartidaBingo.BINGO;
@@ -139,13 +141,13 @@ public class ControladorBingoBotTest {
         assertThat(numerosEntregados.get("numerosEntregadosDeLaSesion"), notNullValue());
     }
 
-    /*@Test
+    @Test
     public void queSeObtenganLosNumerosMarcadosCorrectamente(){
         controladorBingoBot.comenzarJuegoBingoBot("BINGO", session);
         Map<String, Object> numerosMarcados = controladorBingoBot.obtenerLosNumerosMarcados(session);
 
         assertThat(numerosMarcados.get("numerosMarcadosDeLaSesion"), notNullValue());
-    }*/
+    }
 
     @Test
     public void queSeObtengaElUltimoNumeroEntregadoCorrectamente(){

@@ -224,6 +224,10 @@ public class ControladorBingoBot {
     public Map<String, Object> obtenerLosNumerosMarcados(HttpSession session) {
         Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
         Map<String, Object> respuesta = new HashMap<String, Object>();
+        if (numerosMarcadosDeLaSesion == null) {
+            numerosMarcadosDeLaSesion = new HashSet<>();
+            session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+        }
         respuesta.put("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
         return respuesta;
     }
