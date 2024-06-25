@@ -80,6 +80,13 @@ public class ControladorBingoBotTest {
     }
     @Test
     public void queLosCartonesNoSeanNulos(){
+        CartonBingo cartonUsuarioMock = mock(CartonBingo.class);
+        CartonBingo cartonBotMock = mock(CartonBingo.class);
+        Integer dimensionCompartida = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
+        when(this.servicioBingoMock.generarCarton(dimensionCompartida)).thenReturn(cartonUsuarioMock);
+        when(this.servicioBingoMock.generarCarton(dimensionCompartida)).thenReturn(cartonBotMock);
+        session.setAttribute("carton", cartonUsuarioMock);
+        session.setAttribute("cartonBot", cartonBotMock);
         assertThat(session.getAttribute("carton"), is(notNullValue()));
         assertThat(session.getAttribute("cartonBot"), is(notNullValue()));
     }
