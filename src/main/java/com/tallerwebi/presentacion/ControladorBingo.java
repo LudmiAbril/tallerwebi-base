@@ -64,7 +64,7 @@ public class ControladorBingo {
 
 		Integer dimensionDelCartonDeLaSesion = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
 		CartonBingo carton = servicioBingo.generarCarton(dimensionDelCartonDeLaSesion);
-
+        session.setAttribute("carton", carton);
 		Set<Integer> numerosEntregados = new LinkedHashSet<Integer>();
 		Integer numeroNuevo = this.servicioBingo.entregarNumeroAleatorio(numerosEntregados);
 		Integer numeroCantadoAleatorio = numeroNuevo;
@@ -72,7 +72,7 @@ public class ControladorBingo {
 		session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
 		session.setAttribute("numeroAleatorioCantado", numeroCantadoAleatorio);
 
-		session.setAttribute("carton", carton);
+
 
 		String nombreJugador = usuario.getNombre();
 		model.put("nombreJugador", nombreJugador);

@@ -40,16 +40,16 @@ public class ControladorBingoBotTest {
     @Test
     public void queLosCartonesDelUsuarioYDelBotSeanDistintos(){
         TipoPartidaBingo tipoPartida = TipoPartidaBingo.BINGO;
-        controladorBingoBot.comenzarJuegoBingoBot(String.valueOf(tipoPartida), session);
+        CartonBingo cartonUsuarioMock = mock(CartonBingo.class);
+        CartonBingo cartonBotMock = mock(CartonBingo.class);
+
         Integer dimensionCompartida = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
-        //when(servicioBingoMock.generarCarton(dimensionCompartida)).thenReturn()));
-        CartonBingo cartonUsuario = servicioBingoMock.generarCarton(dimensionCompartida); //(CartonBingo) session.getAttribute("carton");
-        CartonBingo cartonBot = servicioBingoMock.generarCarton(dimensionCompartida); //(CartonBingo) session.getAttribute("cartonBot");
-        //System.out.println(Arrays.deepToString(cartonUsuario.getNumeros()));
-        //System.out.println(Arrays.deepToString(cartonBot.getNumeros()));
-        //assertThat(cartonUsuario, notNullValue());
-        //assertThat(cartonBot, notNullValue());
-        //assertThat(cartonUsuario, not(equalTo(cartonBot)));
+        when(this.servicioBingoMock.generarCarton(dimensionCompartida)).thenReturn(cartonUsuarioMock);
+        when(this.servicioBingoMock.generarCarton(dimensionCompartida)).thenReturn(cartonBotMock);
+        controladorBingoBot.comenzarJuegoBingoBot(String.valueOf((tipoPartida)), session);
+        assertThat(cartonUsuarioMock, notNullValue());
+        assertThat(cartonBotMock, notNullValue());
+        assertThat(cartonUsuarioMock, not(equalTo(cartonBotMock)));
     }
     @Test
     public void queLaTiradaSeaFijaParaLosDos(){
