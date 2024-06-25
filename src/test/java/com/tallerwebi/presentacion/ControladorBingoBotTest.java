@@ -87,12 +87,10 @@ public class ControladorBingoBotTest {
     public void queSeObtenganDatosInicialesCorrectamente(){
         controladorBingoBot.comenzarJuegoBingoBot("BINGO", session);
         Map<String, Object> datosIniciales = controladorBingoBot.obtenerDatosIniciales(session);
-
-        //assertThat(datosIniciales.get("carton"), notNullValue());
         assertThat(datosIniciales.get("numeroAleatorioCantado"), notNullValue());
         assertThat(datosIniciales.get("tipoPartidaBingo"), notNullValue());
         assertThat(datosIniciales.get("numerosRestantesParaCompletarLaTirada"), notNullValue());
-        //assertThat(datosIniciales.get("cartonBot"), notNullValue());
+
     }
     @Test
     public void queSeMarqueCasilleroCorrectamente(){
@@ -103,7 +101,7 @@ public class ControladorBingoBotTest {
         controladorBingoBot.marcarCasillero(numeroCantado, session);
 
         Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-        //assertThat(numerosMarcadosDeLaSesion.contains(numeroCantado), equalTo(true));
+        assertThat(numerosMarcadosDeLaSesion.contains(numeroCantado), equalTo(true));
         verify(servicioBingoMock, times(1)).marcarCasillero(numeroCantado, carton);
     }
     @Test
@@ -113,7 +111,7 @@ public class ControladorBingoBotTest {
 
         assertThat(respuesta.get("nuevoNumero"), notNullValue());
         assertThat(respuesta.get("limiteAlcanzado"), equalTo(false));
-        //verify(servicioBingoMock, times(1)).entregarNumeroAleatorio(anySet());
+        verify(servicioBingoMock, times(2)).entregarNumeroAleatorio(anySet());
     }
     @Test
     public void queSeObtengaNumeroActualCorrectamente(){
