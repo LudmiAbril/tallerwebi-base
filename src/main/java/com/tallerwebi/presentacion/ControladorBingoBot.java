@@ -1,18 +1,12 @@
 package com.tallerwebi.presentacion;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.http.HttpSession;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
-
+import com.tallerwebi.infraestructura.ServicioBingoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -63,7 +57,6 @@ public class ControladorBingoBot {
         session.setAttribute("dimensionDelCartonDeLaSesion", usuario.getConfig().getDimensionCarton());
 
         Integer dimensionDelCartonDeLaSesion = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
-
         CartonBingo carton = servicioBingo.generarCarton(dimensionDelCartonDeLaSesion);
         session.setAttribute("carton", carton);
 
@@ -89,7 +82,6 @@ public class ControladorBingoBot {
         // session.setAttribute("dimensionDelBot", dimensionDelCartonDeLaSesion);
         CartonBingo cartonBot = this.servicioBingo.generarCarton(dimensionDelCartonDeLaSesion);
         session.setAttribute("cartonBot", cartonBot);
-
         return new ModelAndView("bingo-bot", model);
     }
 
@@ -140,6 +132,10 @@ public class ControladorBingoBot {
         servicioBingo.marcarCasillero(numeroCasillero, carton);
 
         Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+        if(numerosMarcadosDeLaSesion == null){
+            numerosMarcadosDeLaSesion = new HashSet<>();
+            //session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+        }
         numerosMarcadosDeLaSesion.add(numeroCasillero);
         session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
 
@@ -205,46 +201,50 @@ public class ControladorBingoBot {
         return respuesta;
     }
 
-    // @RequestMapping(path = "/obtenerNumeroActual", method = RequestMethod.GET)
-    // @ResponseBody
-    // public Map<String, Integer> obtenerNumeroActual(HttpSession session) {
-    //     Integer numeroActual = (Integer) session.getAttribute("numeroAleatorioCantado");
-    //     Map<String, Integer> respuesta = new HashMap<>();
-    //     respuesta.put("numeroActual", numeroActual);
-    //     return respuesta;
-    // }
+    @RequestMapping(path = "/obtenerNumeroActual", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Integer> obtenerNumeroActual(HttpSession session) {
+        Integer numeroActual = (Integer) session.getAttribute("numeroAleatorioCantado");
+        Map<String, Integer> respuesta = new HashMap<>();
+        respuesta.put("numeroActual", numeroActual);
+        return respuesta;
+    }
 
-    // @RequestMapping(path = "/bingo", method = RequestMethod.POST)
-    // @ResponseBody
-    // public Map<String, Object> hacerBingo(HttpSession session) {
-    //     Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-    //     Integer dimension = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
-    //     Boolean seHizoBingo = this.servicioBingo.bingo(numerosMarcadosDeLaSesion, dimension);
-    //     session.setAttribute("seHizoBingo", seHizoBingo);
-    //     session.setAttribute("seHizoLinea", false);
-    //     Map<String, Object> respuesta = new HashMap<String, Object>();
-    //     respuesta.put("seHizoBingo", seHizoBingo);
-    //     return respuesta;
-    // }
+    @RequestMapping(path = "/bingo", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> hacerBingo(HttpSession session) {
+        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+        Integer dimension = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
+        Boolean seHizoBingo = this.servicioBingo.bingo(numerosMarcadosDeLaSesion, dimension);
+        session.setAttribute("seHizoBingo", seHizoBingo);
+        session.setAttribute("seHizoLinea", false);
+        Map<String, Object> respuesta = new HashMap<String, Object>();
+        respuesta.put("seHizoBingo", seHizoBingo);
+        return respuesta;
+    }
     
 
-    // @RequestMapping(path = "/obtenerLosNumerosEntregados", method = RequestMethod.GET)
-    // @ResponseBody
-    // public Map<String, Object> obtenerLosNumerosEntregados(HttpSession session) {
-    //     Set<Integer> numerosEntregadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
-    //     Map<String, Object> respuesta = new HashMap<String, Object>();
-    //     respuesta.put("numerosEntregadosDeLaSesion", numerosEntregadosDeLaSesion);
-    //     return respuesta;
-    // }
+    @RequestMapping(path = "/obtenerLosNumerosEntregados", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> obtenerLosNumerosEntregados(HttpSession session) {
+        Set<Integer> numerosEntregadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
+        Map<String, Object> respuesta = new HashMap<String, Object>();
+        respuesta.put("numerosEntregadosDeLaSesion", numerosEntregadosDeLaSesion);
+        return respuesta;
+    }
 
-    // @RequestMapping(path = "/obtenerLosNumerosMarcados", method = RequestMethod.GET)
-    // @ResponseBody
-    // public Map<String, Object> obtenerLosNumerosMarcados(HttpSession session) {
-    //     Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-    //     Map<String, Object> respuesta = new HashMap<String, Object>();
-    //     respuesta.put("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
-    //     return respuesta;
-    // }
+    @RequestMapping(path = "/obtenerLosNumerosMarcados", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String, Object> obtenerLosNumerosMarcados(HttpSession session) {
+        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+        Map<String, Object> respuesta = new HashMap<String, Object>();
+        if (numerosMarcadosDeLaSesion == null) {
+            numerosMarcadosDeLaSesion = new HashSet<>();
+            session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+        }
+        respuesta.put("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+        return respuesta;
+    }
 
     // @RequestMapping(path = "/obtenerUltimoNumeroEntregado", method = RequestMethod.GET)
     // @ResponseBody
