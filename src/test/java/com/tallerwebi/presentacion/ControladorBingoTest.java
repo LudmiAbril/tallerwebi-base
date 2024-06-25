@@ -320,7 +320,7 @@ public class ControladorBingoTest {
         ModelAndView mav = this.controladorBingo.finalizar(session);
 
         // V E R I F I C A C I O N
-        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/acceso-juegos"));
+        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/irAlBingo"));
     }
 
     @Test
