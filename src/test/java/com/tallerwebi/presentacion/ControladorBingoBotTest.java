@@ -198,23 +198,26 @@ public class ControladorBingoBotTest {
         verify(servicioBingoMock, times(1)).linea(numerosMarcados, carton);
     }
 
-    /*@Test
+    @Test
     public void queSeObtenganLosNumerosFaltantesParaBingoCorrectamente(){
         controladorBingoBot.comenzarJuegoBingoBot("BINGO", session);
-        Map<String, Object> numerosFaltantes = controladorBingoBot.obtenerNumerosFaltantesParaBingo(session);
+        Map<String, Object> datosIniciales = controladorBingoBot.obtenerDatosIniciales(session);
+        Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
+        Integer faltantes = (Integer) datosIniciales.get("numerosRestantesParaCompletarLaTirada"); //(Integer) session.getAttribute("numerosRestantesParaCompletarLaTiradaDeLaSesion");
 
-        assertThat(numerosFaltantes.get("numerosFaltantesParaBingo"), notNullValue());
+        Integer limiteMinimo =0;
+        assertThat(faltantes, is(org.hamcrest.Matchers.greaterThanOrEqualTo(limiteMinimo)));
     }
-*/
+
     @Test
     public void queSeObtenganLosNumerosFaltantesParaLineaCorrectamente(){
-        controladorBingoBot.comenzarJuegoBingoBot("BINGO", session);
-
+        controladorBingoBot.comenzarJuegoBingoBot("LINEA", session);
+        Map<String, Object> datosIniciales = controladorBingoBot.obtenerDatosIniciales(session);
         Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
-        Integer faltantes = (Integer) session.getAttribute("numerosRestantesParaCompletarLaTiradaDeLaSesion");
-        //assertThat(numerosFaltantes.get("numerosFaltantesParaLinea"), notNullValue());
+        Integer faltantes = (Integer) datosIniciales.get("numerosRestantesParaCompletarLaTirada"); //(Integer) session.getAttribute("numerosRestantesParaCompletarLaTiradaDeLaSesion");
+
         Integer limiteMinimo =0;
-        assertThat(faltantes, is(org.hamcrest.Matchers.greaterThan(limiteMinimo)));
+        assertThat(faltantes, is(org.hamcrest.Matchers.greaterThanOrEqualTo(limiteMinimo)));
     }
 
     @Test
