@@ -13,6 +13,7 @@ import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.number.OrderingComparison.*;
 import static org.mockito.Mockito.*;
 
 public class ControladorBingoBotTest {
@@ -204,15 +205,18 @@ public class ControladorBingoBotTest {
 
         assertThat(numerosFaltantes.get("numerosFaltantesParaBingo"), notNullValue());
     }
-
+*/
     @Test
     public void queSeObtenganLosNumerosFaltantesParaLineaCorrectamente(){
         controladorBingoBot.comenzarJuegoBingoBot("BINGO", session);
-        Map<String, Object> numerosFaltantes = controladorBingoBot.obtenerNumerosFaltantesParaLinea(session);
 
-        assertThat(numerosFaltantes.get("numerosFaltantesParaLinea"), notNullValue());
+        Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
+        Integer faltantes = (Integer) session.getAttribute("numerosRestantesParaCompletarLaTiradaDeLaSesion");
+        //assertThat(numerosFaltantes.get("numerosFaltantesParaLinea"), notNullValue());
+        Integer limiteMinimo =0;
+        assertThat(faltantes, is(org.hamcrest.Matchers.greaterThan(limiteMinimo)));
     }
-*/
+
     @Test
     public void queSeObtengaLaDimensionDelCartonCorrectamente(){
         controladorBingoBot.comenzarJuegoBingoBot("BINGO", session);
