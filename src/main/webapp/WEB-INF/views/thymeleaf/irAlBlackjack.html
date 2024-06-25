@@ -20,8 +20,17 @@
       </a>
     </nav>
     <main class="container">
-      <img th:src="@{/imgStatic/BjTitulo2.png}" alt="titulo" class="imagen-home"/>
-      <form th:action="@{/blackjack}" method="post" th:object="${nuevoJugador}" class="text-center">
+      <img
+        th:src="@{/imgStatic/BjTitulo2.png}"
+        alt="titulo"
+        class="imagen-home"
+      />
+      <form
+        th:action="@{/blackjack}"
+        method="post"
+        th:object="${nuevoJugador}"
+        class="text-center"
+      >
         <input type="hidden" name="contrareloj" value="false" />
         <input type="hidden" name="tiempoLimite" value="2" />
         <button type="submit" class="btn btn-primary">
@@ -32,10 +41,11 @@
       <button class="btn btn-primary" id="playWithTimeButton">
         <span class="material-symbols-outlined">timer</span>JUGAR CON TIEMPO
       </button>
-
-      <button type="submit" class="btn btn-primary">
-        <span class="material-symbols-outlined">group</span>MULTIJUGADOR
-      </button>
+      <form th:action="@{/blackjackDificil}" method="get">
+        <button type="submit" class="btn btn-primary">
+          <span class="material-symbols-outlined">group</span>MODO DIFICIL
+        </button>
+      </form>
       <form th:action="@{/verRanking}" method="post">
         <input type="hidden" name="tipoJuego" value="BLACKJACK" />
         <button type="submit" class="btn btn-primary">
