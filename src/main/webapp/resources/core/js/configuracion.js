@@ -15,20 +15,24 @@ function validarFormulario() {
         return false;
     }
 
-    // Limpiar mensaje de error si pasa la validación
+   
     document.getElementById('error-cant-numeros').innerText = '';
 
-    // Limpiar localStorage al enviar el formulario
+   
     localStorage.removeItem('cantidadPelotas');
+    localStorage.removeItem('dimensionTablero');
 
-    // Si la validación pasa, se envía el formulario
+    
     return true;
 }
 
-// Función para guardar el valor del input en localStorage
+
 function guardarValorInput() {
     var cantidadPelotas = document.getElementById('cant-numeros').value;
     localStorage.setItem('cantidadPelotas', cantidadPelotas);
+
+    var dimensionTablero = document.querySelector('input[name="dimensionTablero"]:checked').value;
+    localStorage.setItem('dimensionTablero', dimensionTablero);
 }
 
 // Función para cargar el valor del input desde localStorage
@@ -37,9 +41,18 @@ function cargarValorInput() {
     if (cantidadPelotas !== null) {
         document.getElementById('cant-numeros').value = cantidadPelotas;
     }
+    var dimensionTablero = localStorage.getItem('dimensionTablero');
+    if (dimensionTablero !== null) {
+        document.querySelector('input[name="dimensionTablero"][value="' + dimensionTablero + '"]').checked = true;
+    }
 }
 
 // Cargar el valor del input cuando se abre el modal
 document.getElementById('configuracionModal').addEventListener('show', function() {
     cargarValorInput();
 });
+
+document.querySelectorAll('input[name="dimensionTablero"]').forEach(function(element) {
+    element.addEventListener('change', guardarValorInput);
+});
+
