@@ -131,11 +131,11 @@ public class ControladorBingoBotTest {
         verify(servicioBingoMock, times(2)).entregarNumeroAleatorio(anySet());
     }
 
-    @Test
-    public void queSeObtengaNumeroActualCorrectamente() {
-        controladorBingoBot.comenzarJuegoBingoBot("BINGO", session);
-        Map<String, Integer> numeroActual = controladorBingoBot.obtenerNumeroActual(session);
-    }
+    // @Test
+    // public void queSeObtengaNumeroActualCorrectamente() {
+    //     controladorBingoBot.comenzarJuegoBingoBot("BINGO", session);
+    //     Map<String, Integer> numeroActual = controladorBingoBot.obtenerNumeroActual(session);
+    // }
 
     // assertThat(numeroActual.get("numeroActual"),
     // equalTo(session.getAttribute("numeroAleatorioCantado")));
@@ -166,13 +166,13 @@ public class ControladorBingoBotTest {
     // notNullValue());
     // }
 
-    @Test
-    public void queSeObtenganLosNumerosMarcadosCorrectamente() {
-        controladorBingoBot.comenzarJuegoBingoBot("BINGO", session);
-        Map<String, Object> numerosMarcados = controladorBingoBot.obtenerLosNumerosMarcados(session);
+    // @Test
+    // public void queSeObtenganLosNumerosMarcadosCorrectamente() {
+    //     controladorBingoBot.comenzarJuegoBingoBot("BINGO", session);
+    //     Map<String, Object> numerosMarcados = controladorBingoBot.obtenerLosNumerosMarcados(session);
 
-        assertThat(numerosMarcados.get("numerosMarcadosDeLaSesion"), notNullValue());
-    }
+    //     assertThat(numerosMarcados.get("numerosMarcadosDeLaSesion"), notNullValue());
+    // }
 
     // @Test
     // public void queSeObtengaElUltimoNumeroEntregadoCorrectamente(){

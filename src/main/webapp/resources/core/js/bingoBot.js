@@ -18,6 +18,7 @@ $(document).ready(function () {
         $(".numeroCantadoContenedor").addClass("w3-animate-top");
         $(".cartonBot").addClass("w3-animate-bottom");
         $("#numerosRestantesParaCompletarLaTirada").text("Numeros restantes para completar la tirada: " + data.numerosRestantesParaCompletarLaTirada);
+        console.log(numerosRestantesParaCompletarLaTirada)
 
         if (data.error) {
             alert(data.error)
@@ -39,7 +40,8 @@ function refrescarNumero() {
     obtenerLosNumerosEntregados();
     $(".numeroCantadoContenedor").removeClass("w3-animate-top");
     setTimeout(function () {
-        $.get("obtenerNuevoNumero", function (data) {
+        $.get("obtenerNuevoNumeroBot", function (data) {
+            console.log("realice la peticion")
             if (data.limiteAlcanzado) {
                 abrirModalDeLimiteAlcanzado();
             } else {
@@ -48,35 +50,81 @@ function refrescarNumero() {
                 $(".numeroCantadoContenedor").addClass("w3-animate-top");
             }
         });
+        console.log("no pude procesar la solicitud")
     }, 100);
 }
+// function marcarCasillero(numeroCasillero) {
+//     $.get("obtenerNumeroActual", function (data) {
+//         numeroActual = data.numeroActual;
+//         casilleroEsIgualANumeroEntregado(numeroCasillero, function (result) {
+//             if (numeroCasillero == numeroActual || result) {
+//                 $.post("marcarCasillero/" + numeroCasillero, function () {
+//                     $("#botonCasillero" + numeroCasillero).css("background-color", "purple");
+//                 })
+//             }
+//         });
+//     });
+// }
+
 function marcarCasillero(numeroCasillero) {
-    $.get("obtenerNumeroActual", function (data) {
-        numeroActual = data.numeroActual;
-        casilleroEsIgualANumeroEntregado(numeroCasillero, function (result) {
-            if (numeroCasillero == numeroActual || result) {
-                $.post("marcarCasillero/" + numeroCasillero, function () {
-                    $("#botonCasillero" + numeroCasillero).css("background-color", "purple");
-                })
-            }
-        });
-    });
-}
-
-
-function casilleroEsIgualANumeroEntregado(numeroCasillero, callback) {
-    $.get("obtenerLosNumerosEntregados", function (data) {
-        numerosEntregados = new Set(data.numerosEntregadosDeLaSesion);
-        if (numerosEntregados.has(numeroCasillero)) {
-            console.log("el casillero es igual a un numero entregado antes")
-            callback(true);
-        } else {
-            console.log("El casillero no es igual a un numero entregado antes")
-            callback(false);
+    $.get("obtenerNuevoNumeroBot", function (data) {
+        if (data.seMarcoBot == true) {
+            $("#botonCasillero" + numeroCasillero).css("background-color", "purple");
+        }
+        // numeroActual = data.numeroActual;
+        // casilleroEsIgualANumeroEntregado(numeroCasillero, function (result) {
+        //     if (numeroCasillero == numeroActual || result) {
+        //         $.post("marcarCasillero/" + numeroCasillero, function () {
+        //             $("#botonCasillero" + numeroCasillero).css("background-color", "purple");
+        //         })
+        //     }
+        // });
+        if (data.seHizoBingo) {
+            abrirModal();
+            clearInterval(intervaloRefresco);
+            intervaloRefresco = null;
+        } else if (!data.seHizoBingo) {
+            var botonBingo = document.querySelector("#botonBingo");
+            botonBingo.style.color = 'black';
+            botonBingo.classList.add('animate__animated', 'animate__shakeX');
+            botonBingo.style.backgroundColor = 'gray';
+            setTimeout(function () {
+                botonBingo.classList.remove('animate__animated', 'animate__shakeX');
+                botonBingo.style.backgroundColor = '#8a2be2';
+            }, 1000);
         }
 
+        if (data.seHizoLinea) {
+            abrirModal();
+            clearInterval(intervaloRefresco);
+            intervaloRefresco = null;
+        } else if (!data.seHizoLinea) {
+            var botonLinea = document.querySelector("#botonLinea");
+            botonLinea.style.color = 'black';
+            botonLinea.classList.add('animate__animated', 'animate__shakeX');
+            botonLinea.style.backgroundColor = 'gray';
+            setTimeout(function () {
+                botonLinea.classList.remove('animate__animated', 'animate__shakeX');
+                botonLinea.style.backgroundColor = '#8a2be2';
+            }, 1000);
+        }
     });
 }
+
+
+// function casilleroEsIgualANumeroEntregado(numeroCasillero, callback) {
+//     $.get("obtenerLosNumerosEntregados", function (data) {
+//         numerosEntregados = new Set(data.numerosEntregadosDeLaSesion);
+//         if (numerosEntregados.has(numeroCasillero)) {
+//             console.log("el casillero es igual a un numero entregado antes")
+//             callback(true);
+//         } else {
+//             console.log("El casillero no es igual a un numero entregado antes")
+//             callback(false);
+//         }
+
+//     });
+// }
 
 function obtenerLosNumerosEntregados() {
     var bolaAmarillo = "bolaAmarillo.png";
@@ -96,7 +144,7 @@ function obtenerLosNumerosEntregados() {
         bolaVioleta
     ];
 
-    $.get("obtenerCincoUltimosNumerosEntregados", function (data) {
+    $.get("obtenerCincoUltimosNumerosEntregadosBot", function (data) {
         var ultimosNumeros = data.ultimosNumerosEntregados;
         ultimosNumeros.reverse();
         var numerosEntregadosDiv = $(".numerosEntregados");
@@ -116,26 +164,26 @@ function obtenerLosNumerosEntregados() {
 }
 
 
-function bingo() {
-    $.post("bingo", function (data) {
-        if (data.seHizoBingo) {
-            abrirModal();
-            clearInterval(intervaloRefresco); // Detener la actualización del número
-            intervaloRefresco = null;
-        } else if (!data.seHizoBingo) {
-            var botonBingo = document.querySelector("#botonBingo");
-            botonBingo.style.color = 'black';
-            botonBingo.classList.add('animate__animated', 'animate__shakeX');
-            botonBingo.style.backgroundColor = 'gray';
-            setTimeout(function () {
-                botonBingo.classList.remove('animate__animated', 'animate__shakeX');
-                botonBingo.style.backgroundColor = '#8a2be2';
-            }, 1000);
-        }
+// function bingo() {
+//     $.post("bingo", function (data) {
+//         if (data.seHizoBingo) {
+//             abrirModal();
+//             clearInterval(intervaloRefresco); // Detener la actualización del número
+//             intervaloRefresco = null;
+//         } else if (!data.seHizoBingo) {
+//             var botonBingo = document.querySelector("#botonBingo");
+//             botonBingo.style.color = 'black';
+//             botonBingo.classList.add('animate__animated', 'animate__shakeX');
+//             botonBingo.style.backgroundColor = 'gray';
+//             setTimeout(function () {
+//                 botonBingo.classList.remove('animate__animated', 'animate__shakeX');
+//                 botonBingo.style.backgroundColor = '#8a2be2';
+//             }, 1000);
+//         }
 
-    }
-    );
-}
+//     }
+//     );
+// }
 
 function abrirModal() {
     document.getElementById("modalBingo").style.display = "block";
@@ -170,32 +218,30 @@ function lanzarConfetti() {
     }, 250);
 }
 
-function mostrarModalSeleccionTipoPartidaBingo(event) {
+function mostrarModalSeleccionTipoPartidaBingoBot(event) {
     event.preventDefault();
     document.getElementById("modalTipoPartida").style.display = "block";
 }
 
-
-
-function linea() {
-    $.get("linea", function (data) {
-        if (data.seHizoLinea) {
-            abrirModal();
-            clearInterval(intervaloRefresco);
-            intervaloRefresco = null;
-        } else if (!data.seHizoLinea) {
-            var botonLinea = document.querySelector("#botonLinea");
-            botonLinea.style.color = 'black';
-            botonLinea.classList.add('animate__animated', 'animate__shakeX');
-            botonLinea.style.backgroundColor = 'gray';
-            setTimeout(function () {
-                botonLinea.classList.remove('animate__animated', 'animate__shakeX');
-                botonLinea.style.backgroundColor = '#8a2be2';
-            }, 1000);
-        }
-    }
-    );
-}
+// function linea() {
+//     $.get("linea", function (data) {
+//         if (data.seHizoLinea) {
+//             abrirModal();
+//             clearInterval(intervaloRefresco);
+//             intervaloRefresco = null;
+//         } else if (!data.seHizoLinea) {
+//             var botonLinea = document.querySelector("#botonLinea");
+//             botonLinea.style.color = 'black';
+//             botonLinea.classList.add('animate__animated', 'animate__shakeX');
+//             botonLinea.style.backgroundColor = 'gray';
+//             setTimeout(function () {
+//                 botonLinea.classList.remove('animate__animated', 'animate__shakeX');
+//                 botonLinea.style.backgroundColor = '#8a2be2';
+//             }, 1000);
+//         }
+//     }
+//     );
+// }
 
 function abrirModalDeLimiteAlcanzado() {
     document.getElementById("modalLimite").style.display = "block";

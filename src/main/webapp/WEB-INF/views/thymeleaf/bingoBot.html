@@ -93,6 +93,7 @@
 
     <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/bingoBot.js}"></script>
+    <script th:src="@{/js/bingo.js}"></script>
     <!-- Modal de Bingo -->
     <div id="modalBingo" class="modal w3-animate-top">
         <div class="modal-content">
@@ -137,7 +138,7 @@
             <img th:src="@{/imgStatic/gatitoTriste.png}" alt="gato triste" class="gatoTriste">
             <div class="text-container">
                 <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el límite de números cantados!</h3>
-                <form th:action="@{/finalizarPartida}" method="post">
+                <form th:action="@{/finalizarPartidaBot}" method="post">
                     <button type="submit" class="boton-volver">Finalizar</button>
                 </form>
                 <p th:text="${mensajeError}" class="mensajeErrorPartidaBingo"></p>
