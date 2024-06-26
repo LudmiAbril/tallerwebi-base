@@ -1,6 +1,7 @@
 package com.tallerwebi.punta_a_punta.vistas;
 
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.WaitForSelectorState;
 
 public class VistaAccesoAjuegos extends VistaWeb {
     public VistaAccesoAjuegos(Page page) {
@@ -11,6 +12,7 @@ public class VistaAccesoAjuegos extends VistaWeb {
     public String obtenerTitulo() {
         return this.page.title();
     }
+
     public void darClick(String selector){
         this.darClickEnElElemento(selector);
     }
@@ -32,12 +34,12 @@ public class VistaAccesoAjuegos extends VistaWeb {
         this.darClickEnElElemento(".menu-item:nth-of-type(2)");
     }
 
-    public String modalConfiguracionEstaVisible() {
-        return this.page.locator("#configuracionModal").isVisible() ? "true" : "false";
+    public boolean modalConfiguracionEstaVisible() {
+        return this.page.locator("#configuracionModal").isVisible();
     }
 
-    public String modalSalidaEstaVisible() {
-        return this.page.locator("#exitModal").isVisible() ? "true" : "false";
+    public boolean modalSalidaEstaVisible() {
+        return this.page.locator("#exitModal").isVisible();
     }
 
     public String obtenerURLActual() {
@@ -56,6 +58,7 @@ public class VistaAccesoAjuegos extends VistaWeb {
     public String obtenerMensaje(String selector){
         return this.obtenerTextoDelElemento(selector);
     }
+
     public String obtenerMensajeError() {
         return this.obtenerTexto("#mensajeError");
     }
@@ -81,6 +84,7 @@ public class VistaAccesoAjuegos extends VistaWeb {
     }
 
 
-
-
+    public void esperarElementoVisible(String selector) {
+        this.page.waitForSelector(selector, new Page.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
+    }
 }

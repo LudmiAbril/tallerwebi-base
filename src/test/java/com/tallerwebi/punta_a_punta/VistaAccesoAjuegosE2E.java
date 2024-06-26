@@ -11,6 +11,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsStringIgnoringCase;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.hamcrest.Matchers.is;
 
 public class VistaAccesoAjuegosE2E {
 
@@ -42,6 +43,8 @@ public class VistaAccesoAjuegosE2E {
     void cerrarContexto() {
         context.close();
     }
+
+
     @Test
     void deberiaMostrarFrasesEnLaPagina() {
         String frase1 = vistaAccesoAjuegos.obtenerTexto(".frase .animated-text:nth-of-type(1)");
@@ -50,36 +53,26 @@ public class VistaAccesoAjuegosE2E {
         assertThat(frase2, equalToIgnoringCase("Disfruta de nuestro catsino"));
     }
 
-
     @Test
     void deberiaAbrirModalDeConfiguracion() {
         vistaAccesoAjuegos.abrirMenu();
         vistaAccesoAjuegos.abrirModalConfiguracion();
-        assertThat(vistaAccesoAjuegos.modalConfiguracionEstaVisible(), equalToIgnoringCase("true"));
+        assertThat(vistaAccesoAjuegos.modalConfiguracionEstaVisible(),is(true));
     }
 
-   /* @Test
-    void deberiaMostrarMensajeErrorCuandoTiradaMenorQue16En4x4() {
-        vistaAccesoAjuegos.abrirMenu();
-        vistaAccesoAjuegos.abrirModalConfiguracion();
-        vistaAccesoAjuegos.seleccionarDimensionCarton("4");
-        vistaAccesoAjuegos.ingresarTirada("13"); // Menos de 4*4
-        vistaAccesoAjuegos.darClick("#guardar");
-        String mensajeErrorEsperado = "Ingrese al menos 16 numeros.";
-        String mensajeErrorActual = vistaAccesoAjuegos.obtenerMensaje("div.error p");
-        assertThat(mensajeErrorActual, equalToIgnoringCase(mensajeErrorEsperado));
+        @Test
+   void deberiaEvitarEnviarFormularioConCampoVacio() {
+       vistaAccesoAjuegos.abrirMenu();
+       vistaAccesoAjuegos.abrirModalConfiguracion();
+       vistaAccesoAjuegos.ingresarDuracionBlackjack("1");
+       vistaAccesoAjuegos.seleccionarValorAsBlackjack("11");
+       vistaAccesoAjuegos.seleccionarDimensionCarton("4");
+       vistaAccesoAjuegos.ingresarTirada(" ");
+       vistaAccesoAjuegos.darClick("#guardar");
+       assertThat(vistaAccesoAjuegos.modalConfiguracionEstaVisible(),is(true));
 
+   }
 
-         @Test
-    void deberiaEvitarEnviarFormularioConCampoVacio() {
-        vistaAccesoAjuegos.abrirMenu();
-        vistaAccesoAjuegos.abrirModalConfiguracion();
-        vistaAccesoAjuegos.seleccionarDimensionCarton("5");
-        vistaAccesoAjuegos.ingresarTirada("");
-        vistaAccesoAjuegos.darClick("#guardar");
-        assertThat(vistaAccesoAjuegos.modalConfiguracionEstaVisible(), equalToIgnoringCase("true"));
-    }
-    }*/
     @Test
     void deberiaGuardarLaConfiguracionCorrectamenteSiIngresoQueLaTiradaSeaMayorAlCarton() {
         vistaAccesoAjuegos.abrirMenu();
@@ -101,8 +94,7 @@ public class VistaAccesoAjuegosE2E {
         vistaAccesoAjuegos.ingresarTirada("-5");
         vistaAccesoAjuegos.darClick("#guardar");
 
-        // Verificar que el modal sigue visible
-        assertThat(vistaAccesoAjuegos.modalConfiguracionEstaVisible(), equalToIgnoringCase("true"));
+        assertThat(vistaAccesoAjuegos.modalConfiguracionEstaVisible(), is(true));
     }
 
 
@@ -115,26 +107,45 @@ public class VistaAccesoAjuegosE2E {
         vistaAccesoAjuegos.ingresarDuracionBlackjack("-2");
         vistaAccesoAjuegos.darClick("#guardar");
 
-        assertThat(vistaAccesoAjuegos.modalConfiguracionEstaVisible(), equalToIgnoringCase("true"));
+        assertThat(vistaAccesoAjuegos.modalConfiguracionEstaVisible(), is(true));
     }
-
-
-
     @Test
-    void deberiaAbrirModalDeSalida() {
+    void deberiaSeleccionarValorAsBlackjack() {
         vistaAccesoAjuegos.abrirMenu();
-        vistaAccesoAjuegos.abrirModalSalida();
-        assertThat(vistaAccesoAjuegos.modalSalidaEstaVisible(), equalToIgnoringCase("true"));
+        vistaAccesoAjuegos.abrirModalConfiguracion();
+        String valorSeleccionado = "11";
+        vistaAccesoAjuegos.seleccionarValorAsBlackjack(valorSeleccionado);
+
+        assertThat(vistaAccesoAjuegos.obtenerValorAsBlackjack(), equalTo(valorSeleccionado));
     }
+
 
     @Test
     void deberiaCerrarModalConfiguracion() {
         vistaAccesoAjuegos.abrirMenu();
         vistaAccesoAjuegos.abrirModalConfiguracion();
         vistaAccesoAjuegos.cerrarModalConfiguracion();
-        String modalVisibilidad = vistaAccesoAjuegos.modalConfiguracionEstaVisible();
-        assertThat(modalVisibilidad, equalToIgnoringCase("false"));
+        boolean modalVisibilidad = vistaAccesoAjuegos.modalConfiguracionEstaVisible();
+        assertThat(modalVisibilidad, is(false));
     }
+
+
+    @Test
+    void deberiaAbrirModalDeSalida() {
+        vistaAccesoAjuegos.abrirMenu();
+        vistaAccesoAjuegos.abrirModalSalida();
+        assertThat(vistaAccesoAjuegos.modalSalidaEstaVisible(), is(true));
+    }
+
+    @Test
+    void deberiaDirigirAlInicioDeLaPaginaSiApretasElBotnDeSalida() {
+        vistaAccesoAjuegos.abrirMenu();
+        vistaAccesoAjuegos.abrirModalSalida();
+        vistaAccesoAjuegos.darClick("#btn-salir");
+        String url = vistaAccesoAjuegos.obtenerURLActual();
+        assertThat(url, containsStringIgnoringCase("/spring/salir"));
+    }
+
     @Test
     void deberiaNavegarABingo() {
         vistaAccesoAjuegos.darClick("#accederBingo");
@@ -152,7 +163,6 @@ public class VistaAccesoAjuegosE2E {
     @Test
     void deberiaNavegarABlackjack() {
         vistaAccesoAjuegos.darClick("#accederBj");
-
         String url = vistaAccesoAjuegos.obtenerURLActual();
         assertThat(url, containsStringIgnoringCase("/inicio-blackjack"));
     }
@@ -163,14 +173,6 @@ public class VistaAccesoAjuegosE2E {
         String url = vistaAccesoAjuegos.obtenerURLActual();
         assertThat(url, containsStringIgnoringCase("/irAlAhorcado"));
     }
-    @Test
-    void deberiaSeleccionarValorAsBlackjack() {
-        vistaAccesoAjuegos.abrirMenu();
-        vistaAccesoAjuegos.abrirModalConfiguracion();
-        String valorSeleccionado = "11";
-        vistaAccesoAjuegos.seleccionarValorAsBlackjack(valorSeleccionado);
 
-        assertThat(vistaAccesoAjuegos.obtenerValorAsBlackjack(), equalTo(valorSeleccionado));
-    }
 
 }

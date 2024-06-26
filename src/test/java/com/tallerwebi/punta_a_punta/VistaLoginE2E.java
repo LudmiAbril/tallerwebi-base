@@ -53,8 +53,8 @@ public class VistaLoginE2E {
 
     @Test
     void deberiaNavegarAAccesoJuegosSiElUsuarioExiste() {
-        vistaLogin.ingresarEmail("mica@gmail.com");
-        vistaLogin.ingresarContrasenia("1234");
+        vistaLogin.ingresarEmail("mm@gmail.com");
+        vistaLogin.ingresarContrasenia("boca");
         vistaLogin.darClick("#btn-login");
         String url = vistaLogin.obtenerURLActual();
         assertThat(url, containsStringIgnoringCase("/spring/acceso-juegos"));
