@@ -91,18 +91,17 @@
           <h3>SENKU</h3>
           <label>Dimensión del Tablero:</label>
           <div class="radio-group">
-            <input type="radio" id="dimension-3x3" name="dimensionTablero"
-              th:checked="${usuarioConfig.dimensionTablero == 3}" value="3" />
-            <label for="dimension-3x3">3x3</label>
-            <input type="radio" id="dimension-5x5" name="dimensionTablero"
-              th:checked="${usuarioConfig.dimensionTablero == 5}" value="5" />
-            <label for="dimension-5x5">5x5</label>
-            <input type="radio" id="dimension-7x7" name="dimensionTablero"
-              th:checked="${usuarioConfig.dimensionTablero == 7}" value="7" />
-            <label for="dimension-7x7">7x7</label>
+            <input type="radio" id="senku-dimension-3x3" name="dimensionTablero"
+                   th:checked="${usuarioConfig.dimensionTablero == 3}" value="3" />
+            <label for="senku-dimension-3x3">3x3</label>
+            <input type="radio" id="senku-dimension-5x5" name="dimensionTablero"
+                   th:checked="${usuarioConfig.dimensionTablero == 5}" value="5" />
+            <label for="senku-dimension-5x5">5x5</label>
+            <input type="radio" id="senku-dimension-7x7" name="dimensionTablero"
+                   th:checked="${usuarioConfig.dimensionTablero == 7}" value="7" />
+            <label for="senku-dimension-7x7">7x7</label>
           </div>
         </div>
-        
         <div class="button-container">
           <button class="save-button" type="submit"><span class="material-symbols-outlined">check</span>GUARDAR</button>
           <button type="button" class="cancel-button" onclick="closeModal('configuracionModal')"><span
