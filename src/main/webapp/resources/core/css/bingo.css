@@ -386,7 +386,7 @@ table{
     left: 0;
     width: 100%;
     height:100vh; /* Ajusta la altura para cubrir todo el contenido */
-    background-image: url("../imgStatic/fondoBingo.png");
+    background-image: url("../imgStatic/fondos/fondoBingo.png");
     background-size: cover;
     animation: animateBg 50s linear infinite;
     z-index: -10;
