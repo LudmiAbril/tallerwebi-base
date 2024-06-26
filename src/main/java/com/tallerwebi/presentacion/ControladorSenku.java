@@ -69,7 +69,10 @@ public class ControladorSenku {
         } else {
             usuario = (Usuario) session.getAttribute("jugadorActual");
         }
-        Tablero tablero = new Tablero(5);
+        session.setAttribute("dimensionDelTableroDeLaSesion", usuario.getConfig().getDimensionTablero());
+
+        Integer dimensionDelTableroDeLaSesion = (Integer) session.getAttribute("dimensionDelTableroDeLaSesion");
+        Tablero tablero = new Tablero(dimensionDelTableroDeLaSesion);
         session.setAttribute("tablero", tablero);
         // PONGO LOS DATOS EN EL MODELO ASI LOS PUEDO RENDERIZAR CON THIMELEAF
         model.put("mensaje", "¡Bienvenido " + usuario.getNombre() + "! Comienza tu juego.");

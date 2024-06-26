@@ -14,7 +14,7 @@ public class ConfiguracionesJuego {
     private Integer valorDelAs;
     private Integer cantidadDePelotas;
     private Integer dimensionCarton;
-
+    private Integer dimensionTablero;
     public ConfiguracionesJuego() {
         this.duracionBlackjack = 5;
         this.valorDelAs = 11;
@@ -52,6 +52,13 @@ public class ConfiguracionesJuego {
 
     public void setDimensionCarton(Integer dimensionCarton) {
         this.dimensionCarton = dimensionCarton;
+    }
+
+    public Integer getDimensionTablero() {
+        return dimensionTablero;
+    }
+    public void setDimensionTablero(Integer dimensionTablero) {
+        this.dimensionTablero = dimensionTablero;
     }
 
 }
