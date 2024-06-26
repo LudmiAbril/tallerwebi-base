@@ -72,7 +72,7 @@
         <div class="contenedorCartones">
             <!-- user -->
             <table>
-                <tbody class="carton">
+                <tbody class="cartonUser carton">
                 </tbody>
             </table>
 
@@ -95,12 +95,12 @@
 
     <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/bingoBot.js}"></script>
-    <script th:src="@{/js/bingo.js}"></script>
+   
     <!-- Modal de Bingo -->
     <div id="modalBingo" class="modal w3-animate-top">
         <div class="modal-content">
-            <h3>Hiciste <span th:text="${tipoPartidaBingoDeLaSesion}"></span></h3>
-            <p>¡Felicidades, <span th:text="${nombreJugador}"></span>!</p>
+            <h3 class="tituloModal"></h3>
+            <p class="textoModal"></p>
             <form th:action="@{/finalizarPartida}" method="post">
                 <button type="submit">Volver al inicio</button>
             </form>
