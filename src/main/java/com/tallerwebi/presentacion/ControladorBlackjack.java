@@ -149,6 +149,7 @@ public class ControladorBlackjack {
         session.setAttribute("cartasCasa", cartasCasa);
         session.setAttribute("modoDificil", true);
         session.setAttribute("puntaje", puntajeInicial);
+        session.setAttribute("valorDelAs", valorAs);
         session.setAttribute("estadoPartida", servicioBlackjack.estadoPartida(cartasJugador, cartasCasa, false));
         session.setAttribute("ganador",
                 servicioBlackjack.ganador(cartasJugador, cartasCasa, nombreJugador, false));
@@ -291,6 +292,8 @@ public class ControladorBlackjack {
                 new PartidaBlackJack(jugador.getId(), puntajeFinal, Juego.BLACKJACK, hayBlackjack, gano, duracion));
 
         Boolean modoDificil = (Boolean) session.getAttribute("modoDificil");
+        if (modoDificil == null)
+            modoDificil = false;
         if (modoDificil) {
             return new ModelAndView("redirect:/blackjackDificil");
         }
