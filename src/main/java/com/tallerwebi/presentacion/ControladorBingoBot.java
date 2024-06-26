@@ -30,15 +30,15 @@ public class ControladorBingoBot {
         this.servicioPlataforma = servicioPlataforma;
     }
 
-    @RequestMapping(path = "/irAlBingo", method = RequestMethod.GET)
-    public ModelAndView irAlBingo() {
-        ModelMap model = new ModelMap();
-        model.put("nuevoJugador", new Usuario());
-        return new ModelAndView("irAlBingo", model);
-    }
+    // @RequestMapping(path = "/irAlBingo", method = RequestMethod.GET)
+    // public ModelAndView irAlBingo() {
+    //     ModelMap model = new ModelMap();
+    //     model.put("nuevoJugador", new Usuario());
+    //     return new ModelAndView("irAlBingo", model);
+    // }
 
     @RequestMapping(path = "/comenzarJuegoBingoBot", method = RequestMethod.GET)
-    public ModelAndView comenzarJuegoBingoBot(@RequestParam("tipo") String tipo, HttpSession session) {
+    public ModelAndView comenzarJuegoBingoBot(HttpSession session) {
 
         ModelMap model = new ModelMap();
         Usuario usuario;
@@ -72,23 +72,23 @@ public class ControladorBingoBot {
 
         session.setAttribute("nombreJugador", nombreJugador);
 
-        TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.valueOf(tipo.toUpperCase());
+        TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.BINGO;
         session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
 
         TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session.getAttribute("tipoPartidaBingo");
         model.put("tipoPartidaBingoDeLaSesion", tipoPartidaBingoDeLaSesion);
 
-        // S E T E A N D O D A T O S D E L B O T !!
-        session.setAttribute("dimensionDelBot", dimensionDelCartonDeLaSesion);
         CartonBingo cartonBot = this.servicioBingo.generarCarton(dimensionDelCartonDeLaSesion);
         session.setAttribute("cartonBot", cartonBot);
-        return new ModelAndView("bingo-bot", model);
+        return new ModelAndView("bingoBot", model);
     }
 
-    @RequestMapping(path = "/obtenerDatosIniciales", method = RequestMethod.GET)
+    @RequestMapping(path = "/obtenerDatosInicialesBot", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> obtenerDatosIniciales(HttpSession session) {
         CartonBingo carton = (CartonBingo) session.getAttribute("carton");
+        CartonBingo cartonBot = (CartonBingo) session.getAttribute("cartonBot");
+        Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
         Integer numeroCantadoAleatorio = (Integer) session.getAttribute("numeroAleatorioCantado");
         Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
         if (numerosEntregados == null) {
@@ -103,7 +103,6 @@ public class ControladorBingoBot {
         session.setAttribute("numerosMarcadosBot", numerosMarcadosDeLaSesion);
         TipoPartidaBingo tipoPartidaBingo = (TipoPartidaBingo) session.getAttribute("tipoPartidaBingo");
 
-        Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
         Integer numerosRestantesParaCompletarLaTirada = this.servicioBingo
                 .obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(tirada,
                         numerosEntregados.size());
@@ -111,7 +110,6 @@ public class ControladorBingoBot {
         session.setAttribute("numerosRestantesParaCompletarLaTiradaDeLaSesion",
                 numerosRestantesParaCompletarLaTirada);
 
-        CartonBingo cartonBot = (CartonBingo) session.getAttribute("cartonBot");
 
         Map<String, Object> respuesta = new HashMap<>();
         respuesta.put("carton", carton);
@@ -123,27 +121,28 @@ public class ControladorBingoBot {
         return respuesta;
     }
 
-    @RequestMapping(path = "/marcarCasillero/{numeroCasillero}", method = RequestMethod.POST)
-    @ResponseBody
-    public void marcarCasillero(@PathVariable Integer numeroCasillero, HttpSession session) {
-        CartonBingo carton = (CartonBingo) session.getAttribute("carton");
-        Integer numeroCantado = (Integer) session.getAttribute("numeroAleatorioCantado");
+    // @RequestMapping(path = "/marcarCasillero/{numeroCasillero}", method = RequestMethod.POST)
+    // @ResponseBody
+    // public void marcarCasillero(@PathVariable Integer numeroCasillero, HttpSession session) {
+    //     CartonBingo carton = (CartonBingo) session.getAttribute("carton");
+    //     Integer numeroCantado = (Integer) session.getAttribute("numeroAleatorioCantado");
 
-        servicioBingo.marcarCasillero(numeroCasillero, carton);
+    //     servicioBingo.marcarCasillero(numeroCasillero, carton);
 
-        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-        if(numerosMarcadosDeLaSesion == null){
-            numerosMarcadosDeLaSesion = new HashSet<>();
-            //session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
-        }
-        numerosMarcadosDeLaSesion.add(numeroCasillero);
-        session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+    //     Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+    //     if(numerosMarcadosDeLaSesion == null){
+    //         numerosMarcadosDeLaSesion = new HashSet<>();
+    //         //session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+    //     }
+    //     numerosMarcadosDeLaSesion.add(numeroCasillero);
+    //     session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
 
-    }
+    // }
 
-    @RequestMapping(path = "/obtenerNuevoNumero", method = RequestMethod.GET)
+    @RequestMapping(path = "/obtenerNuevoNumeroBot", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> obtenerNuevoNumero(HttpSession session) throws PartidaConPuntajeNegativoException {
+        CartonBingo cartonBot = (CartonBingo) session.getAttribute("cartonBot");
         Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
         Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
         Boolean limiteAlcanzado = false;
@@ -172,72 +171,89 @@ public class ControladorBingoBot {
             respuesta.put("limiteAlcanzado", false);
             respuesta.put("numerosRestantesParaCompletarLaTirada",
                     numerosRestantesParaCompletarLaTirada);
-                    // num marcados del bot
-                    // bot gano o no
-        }
-        // si el num esta en el carton del bot
-        CartonBingo cartonBot = (CartonBingo) session.getAttribute("cartonBot");
-        if (this.servicioBingo.marcarCasilleroBot(tiradaLimiteDeLaSesion, cartonBot, numerosEntregados)) {
-            
         }
 
-        return respuesta;
-    }
+        Boolean seMarcoBot = false;
+        Boolean seHizoBingo = false;
+        Boolean seHizoLinea = false;
+        Set<Integer> numerosMarcadosBot;
 
-    @RequestMapping(path = "/obtenerNumeroActual", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Integer> obtenerNumeroActual(HttpSession session) {
-        Integer numeroActual = (Integer) session.getAttribute("numeroAleatorioCantado");
-        Map<String, Integer> respuesta = new HashMap<>();
-        respuesta.put("numeroActual", numeroActual);
-        return respuesta;
-    }
+        if (this.servicioBingo.marcarCasilleroBot(tiradaLimiteDeLaSesion, cartonBot)) {
+            numerosMarcadosBot = (Set<Integer>) session.getAttribute("numerosMarcadosBot");
+            session.setAttribute("numerosMarcadosBot", this.servicioBingo.getNumerosMarcadosBot());
+            seMarcoBot = true;
+            Integer dimension = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
+            session.setAttribute("numerosMarcadosBot", this.servicioBingo.getNumerosMarcadosBot());
+            seHizoBingo = this.servicioBingo.bingo(numerosMarcadosBot, dimension);
+            seHizoLinea = this.servicioBingo.linea(numerosMarcadosBot, cartonBot);
 
-    @RequestMapping(path = "/bingo", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> hacerBingo(HttpSession session) {
-        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-        Integer dimension = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
-        Boolean seHizoBingo = this.servicioBingo.bingo(numerosMarcadosDeLaSesion, dimension);
-        session.setAttribute("seHizoBingo", seHizoBingo);
-        session.setAttribute("seHizoLinea", false);
-        Map<String, Object> respuesta = new HashMap<String, Object>();
-        respuesta.put("seHizoBingo", seHizoBingo);
-        return respuesta;
-    }
-
-    @RequestMapping(path = "/obtenerLosNumerosEntregados", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Object> obtenerLosNumerosEntregados(HttpSession session) {
-        Set<Integer> numerosEntregadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
-        Map<String, Object> respuesta = new HashMap<String, Object>();
-        respuesta.put("numerosEntregadosDeLaSesion", numerosEntregadosDeLaSesion);
-        return respuesta;
-    }
-
-    @RequestMapping(path = "/obtenerLosNumerosMarcados", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Object> obtenerLosNumerosMarcados(HttpSession session) {
-        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-        Map<String, Object> respuesta = new HashMap<String, Object>();
-        if (numerosMarcadosDeLaSesion == null) {
-            numerosMarcadosDeLaSesion = new HashSet<>();
-            session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
         }
-        respuesta.put("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+
+        numerosMarcadosBot = (Set<Integer>) session.getAttribute("numerosMarcadosBot");
+
+        respuesta.put("numerosMarcadosBot", numerosMarcadosBot);
+        respuesta.put("seMarcoBot", seMarcoBot);
+        respuesta.put("seHizoBingoBot", seHizoBingo);
+        respuesta.put("seHizoLineaBot", seHizoLinea);
+
         return respuesta;
     }
 
-    @RequestMapping(path = "/obtenerUltimoNumeroEntregado", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Object> obtenerUltimoNumeroEntregado(HttpSession session) {
-        Integer ultimoNumeroEntregado = (Integer) session.getAttribute("numeroAleatorioCantado");
-        Map<String, Object> respuesta = new HashMap<String, Object>();
-        respuesta.put("ultimoNumeroEntregado", ultimoNumeroEntregado);
-        return respuesta;
-    }
+    // @RequestMapping(path = "/obtenerNumeroActual", method = RequestMethod.GET)
+    // @ResponseBody
+    // public Map<String, Integer> obtenerNumeroActual(HttpSession session) {
+    //     Integer numeroActual = (Integer) session.getAttribute("numeroAleatorioCantado");
+    //     Map<String, Integer> respuesta = new HashMap<>();
+    //     respuesta.put("numeroActual", numeroActual);
+    //     return respuesta;
+    // }
 
-    @RequestMapping(path = "/obtenerCincoUltimosNumerosEntregados", method = RequestMethod.GET)
+    // @RequestMapping(path = "/bingo", method = RequestMethod.POST)
+    // @ResponseBody
+    // public Map<String, Object> hacerBingo(HttpSession session) {
+    //     Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+    //     Integer dimension = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
+    //     Boolean seHizoBingo = this.servicioBingo.bingo(numerosMarcadosDeLaSesion, dimension);
+    //     session.setAttribute("seHizoBingo", seHizoBingo);
+    //     session.setAttribute("seHizoLinea", false);
+    //     Map<String, Object> respuesta = new HashMap<String, Object>();
+    //     respuesta.put("seHizoBingo", seHizoBingo);
+    //     return respuesta;
+    // }
+    
+
+    // @RequestMapping(path = "/obtenerLosNumerosEntregados", method = RequestMethod.GET)
+    // @ResponseBody
+    // public Map<String, Object> obtenerLosNumerosEntregados(HttpSession session) {
+    //     Set<Integer> numerosEntregadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
+    //     Map<String, Object> respuesta = new HashMap<String, Object>();
+    //     respuesta.put("numerosEntregadosDeLaSesion", numerosEntregadosDeLaSesion);
+    //     return respuesta;
+    // }
+
+    // @RequestMapping(path = "/obtenerLosNumerosMarcados", method = RequestMethod.GET)
+    // @ResponseBody
+    // public Map<String, Object> obtenerLosNumerosMarcados(HttpSession session) {
+    //     Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+    //     Map<String, Object> respuesta = new HashMap<String, Object>();
+    //     if (numerosMarcadosDeLaSesion == null) {
+    //         numerosMarcadosDeLaSesion = new HashSet<>();
+    //         session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+    //     }
+    //     respuesta.put("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
+    //     return respuesta;
+    // }
+
+    // @RequestMapping(path = "/obtenerUltimoNumeroEntregado", method = RequestMethod.GET)
+    // @ResponseBody
+    // public Map<String, Object> obtenerUltimoNumeroEntregado(HttpSession session) {
+    //     Integer ultimoNumeroEntregado = (Integer) session.getAttribute("numeroAleatorioCantado");
+    //     Map<String, Object> respuesta = new HashMap<String, Object>();
+    //     respuesta.put("ultimoNumeroEntregado", ultimoNumeroEnstregado);
+    //     return respuesta;
+    // }
+
+    @RequestMapping(path = "/obtenerCincoUltimosNumerosEntregadosBot", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> obtenerCincoUltimosNumerosEntregados(HttpSession session) {
         Set<Integer> numerosEntregadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
@@ -249,7 +265,6 @@ public class ControladorBingoBot {
 
         List<Integer> ultimosNumeros = new ArrayList<>(numerosEntregadosDeLaSesion);
 
-        // Obtener los últimos 5 números, si hay menos de 5, devolver todos
         int startIndex = Math.max(0, ultimosNumeros.size() - 5);
         List<Integer> numerosParaMostrar = ultimosNumeros.subList(startIndex, ultimosNumeros.size());
 
@@ -258,20 +273,20 @@ public class ControladorBingoBot {
         return respuesta;
     }
 
-    @RequestMapping(path = "/linea", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Object> hacerlinea(HttpSession session) {
-        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-        CartonBingo cartonDeLaSesion = (CartonBingo) session.getAttribute("carton");
-        Boolean seHizoLinea = this.servicioBingo.linea(numerosMarcadosDeLaSesion, cartonDeLaSesion);
-        session.setAttribute("seHizoLinea", seHizoLinea);
-        session.setAttribute("seHizoBingo", false);
-        Map<String, Object> respuesta = new HashMap<String, Object>();
-        respuesta.put("seHizoLinea", seHizoLinea);
-        return respuesta;
-    }
+    // @RequestMapping(path = "/linea", method = RequestMethod.GET)
+    // @ResponseBody
+    // public Map<String, Object> hacerlinea(HttpSession session) {
+    //     Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+    //     CartonBingo cartonDeLaSesion = (CartonBingo) session.getAttribute("carton");
+    //     Boolean seHizoLinea = this.servicioBingo.linea(numerosMarcadosDeLaSesion, cartonDeLaSesion);
+    //     session.setAttribute("seHizoLinea", seHizoLinea);
+    //     session.setAttribute("seHizoBingo", false);
+    //     Map<String, Object> respuesta = new HashMap<String, Object>();
+    //     respuesta.put("seHizoLinea", seHizoLinea);
+    //     return respuesta;
+    // }
 
-    @RequestMapping(path = "/finalizarPartida", method = RequestMethod.POST)
+    @RequestMapping(path = "/finalizarPartidaBot", method = RequestMethod.POST)
     public ModelAndView finalizar(HttpSession session) throws PartidaConPuntajeNegativoException,
             IllegalArgumentException {
         ModelAndView mav = new ModelAndView();

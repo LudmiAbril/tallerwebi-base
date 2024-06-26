@@ -24,6 +24,7 @@ public interface ServicioBingo {
 
     Set<Integer> getNumerosEntregados();
 
-    Boolean marcarCasilleroBot(Integer numeroCasillero, CartonBingo carton, Set<Integer> numerosMarcadosBot);
+    Boolean marcarCasilleroBot(Integer numeroCasillero, CartonBingo carton);
 
+    Set<Integer> getNumerosMarcadosBot();
 }
