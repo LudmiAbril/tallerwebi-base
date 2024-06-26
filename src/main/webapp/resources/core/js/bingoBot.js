@@ -3,6 +3,7 @@ var intervaloRefresco;
 var numeroColorMap = {};
 $(document).ready(function () {
     $.get("obtenerDatosInicialesBot", function (data) {
+        console.log("entre a la solicitud de obtener datos iniciales bot")
         $("#numeroCantado").text(data.numeroAleatorioCantado);
         var tablaHtml = "";
         for (var i = 0; i < data.cartonBot.numeros.length; i++) {
@@ -34,6 +35,7 @@ $(document).ready(function () {
         }
 
     });
+    console.log("no entre a la solicitud")
     intervaloRefresco = setInterval(refrescarNumero, 7000);
 });
 function refrescarNumero() {
@@ -41,7 +43,7 @@ function refrescarNumero() {
     $(".numeroCantadoContenedor").removeClass("w3-animate-top");
     setTimeout(function () {
         $.get("obtenerNuevoNumeroBot", function (data) {
-            console.log("realice la peticion")
+            console.log("realice la peticion de obtener nuevo numero bot")
             if (data.limiteAlcanzado) {
                 abrirModalDeLimiteAlcanzado();
             } else {
@@ -50,7 +52,7 @@ function refrescarNumero() {
                 $(".numeroCantadoContenedor").addClass("w3-animate-top");
             }
         });
-        console.log("no pude procesar la solicitud")
+        console.log("no pude procesar la solicitud de obtener nuevo numero bot")
     }, 100);
 }
 // function marcarCasillero(numeroCasillero) {
@@ -218,10 +220,10 @@ function lanzarConfetti() {
     }, 250);
 }
 
-function mostrarModalSeleccionTipoPartidaBingoBot(event) {
-    event.preventDefault();
-    document.getElementById("modalTipoPartida").style.display = "block";
-}
+// function mostrarModalSeleccionTipoPartidaBingoBot(event) {
+//     event.preventDefault();
+//     document.getElementById("modalTipoPartida").style.display = "block";
+// }
 
 // function linea() {
 //     $.get("linea", function (data) {

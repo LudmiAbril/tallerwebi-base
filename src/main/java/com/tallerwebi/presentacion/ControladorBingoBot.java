@@ -38,7 +38,7 @@ public class ControladorBingoBot {
     // }
 
     @RequestMapping(path = "/comenzarJuegoBingoBot", method = RequestMethod.GET)
-    public ModelAndView comenzarJuegoBingoBot(@RequestParam("tipo") String tipo, HttpSession session) {
+    public ModelAndView comenzarJuegoBingoBot(HttpSession session) {
 
         ModelMap model = new ModelMap();
         Usuario usuario;
@@ -72,14 +72,12 @@ public class ControladorBingoBot {
 
         session.setAttribute("nombreJugador", nombreJugador);
 
-        TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.valueOf(tipo.toUpperCase());
+        TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.BINGO;
         session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
 
         TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session.getAttribute("tipoPartidaBingo");
         model.put("tipoPartidaBingoDeLaSesion", tipoPartidaBingoDeLaSesion);
 
-        // S E T E A N D O D A T O S D E L B O T !!
-        // session.setAttribute("dimensionDelBot", dimensionDelCartonDeLaSesion);
         CartonBingo cartonBot = this.servicioBingo.generarCarton(dimensionDelCartonDeLaSesion);
         session.setAttribute("cartonBot", cartonBot);
         return new ModelAndView("bingoBot", model);

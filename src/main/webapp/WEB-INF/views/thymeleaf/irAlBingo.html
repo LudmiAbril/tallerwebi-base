@@ -89,9 +89,11 @@
         <span class="material-symbols-outlined">play_circle</span>JUGAR
       </button>
     </form>
-    <button type="submit" class="btn btn-primary" onclick="mostrarModalSeleccionTipoPartidaBingoBot(event)">
-      <span class="material-symbols-outlined">smart_toy</span>MULTIJUGADOR
-    </button>
+    <form th:action="@{/comenzarJuegoBingoBot}" method="get">
+      <button type="submit" class="btn btn-primary">
+        <span class="material-symbols-outlined">smart_toy</span>MULTIJUGADOR
+      </button>
+    </form>
     <form th:action="@{/verRankingBingo}" method="post">
       <input type="hidden" name="tipoJuego" value="BINGO" />
       <button type="submit" class="btn btn-primary">
@@ -119,24 +121,6 @@
     </div>
   </div>
 
-  <!-- Modal de selección de tipo de partida de MULTIJUGADOR (BOT)-->
-  <div id="modalTipoPartida" class="modal w3-animate-top">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal('modalTipoPartida')">&times;</span>
-      <h3>Seleccioná el tipo de partida</h3>
-      <form th:action="@{/comenzarJuegoBingoBot}" method="get" class="text-center" id="tipoPartidaForm">
-        <div class="radio-group">
-          <input type="radio" id="linea" name="tipo" value="linea">
-          <label for="linea">linea</label>
-
-          <input type="radio" id="bingo" name="tipo" value="bingo" checked>
-          <label for="bingo">Bingo</label>
-
-        </div>
-        <br>
-        <input type="submit" name="enviar" id="enviar" value="Enviar" class="btn-enviar">
-      </form>
-    </div>
   </div>
   <script th:src="@{/js/bingo.js}"></script>
   <script th:src="@{/js/modal.js}"></script>
