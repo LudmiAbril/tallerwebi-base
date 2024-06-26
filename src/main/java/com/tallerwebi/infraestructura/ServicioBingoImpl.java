@@ -69,7 +69,7 @@ public class ServicioBingoImpl implements ServicioBingo {
 	}
 
 	@Override
-	public Boolean marcarCasilleroBot(Integer numeroCasillero, CartonBingo carton, Set<Integer> numerosMarcadosBot) {
+	public Boolean marcarCasilleroBot(Integer numeroCasillero, CartonBingo carton) {
 		Integer[][] numeros = carton.getNumeros();
 		Boolean seMarco = false;
 		for (int i = 0; i < numeros.length; i++) {
@@ -270,6 +270,14 @@ public class ServicioBingoImpl implements ServicioBingo {
 	@Override
 	public Integer obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(Integer tirada, Integer numerosEntregados) {
 		return tirada - numerosEntregados;
+	}
+
+	public Set<Integer> getNumerosMarcadosBot() {
+		return numerosMarcadosBot;
+	}
+
+	public void setNumerosMarcadosBot(Set<Integer> numerosMarcadosBot) {
+		this.numerosMarcadosBot = numerosMarcadosBot;
 	}
 
 }

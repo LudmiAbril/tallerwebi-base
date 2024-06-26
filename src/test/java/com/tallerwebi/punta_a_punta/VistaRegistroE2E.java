@@ -53,14 +53,14 @@ public class VistaRegistroE2E {
         assertThat("¡Entra al juego, jefe!", equalToIgnoringCase(texto));
     }
 
-    // @Test
-    // void deberiaNavegarAAccesoJuegosSiElUsuarioExiste() {
-    //     vistaRegistro.ingresarEmail("mica@gmail.com");
-    //     vistaRegistro.ingresarContrasenia("1234");
-    //     vistaRegistro.darClick("#btn-registrarme");
-    //     String url = vistaRegistro.obtenerURLActual();
-    //     assertThat(url, containsStringIgnoringCase("/spring/acceso-juegos"));
-    // }
+    @Test
+    void deberiaNavegarALoginSiSePudoRegistrarElUsuario() {
+        vistaRegistro.ingresarEmail("milanesadejava@gmail.com");
+        vistaRegistro.ingresarContrasenia("java");
+        vistaRegistro.darClick("#btn-registrarme");
+        String url = vistaRegistro.obtenerURLActual();
+        assertThat(url, containsStringIgnoringCase("/spring/acceso-juegos"));
+    }
 
     // @Test
     // void deberiaDecirUsuarioOClaveIncorrectaSiSeIngresaUnaContraseniaIncorrecta() {

@@ -173,7 +173,7 @@ function lanzarConfetti() {
     }, 250);
 }
 
-function mostrarModalSeleccionTipoPartidaBingo(event) {
+function mostrarModalSeleccionTipoPartidaBingoBot(event) {
     event.preventDefault();
     document.getElementById("modalTipoPartida").style.display = "block";
 }

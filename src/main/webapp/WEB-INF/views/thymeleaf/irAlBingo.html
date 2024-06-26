@@ -2,76 +2,77 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <title>Bingo</title>
   <link rel="stylesheet" th:href="@{/css/estilos-IrA.css}" />
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<style>
+  <style>
+    #modalTipoPartida .radio-group input[type="radio"] {
+      display: none;
+    }
 
-  #modalTipoPartida .radio-group input[type="radio"] {
-    display: none;
-  }
+    #modalTipoPartida .radio-group label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 50px;
+      border: 1px solid #888;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      background-color: white;
+      transition: background-color 0.3s, border-color 0.3s;
+      text-align: center;
+      margin-top: 10px;
+    }
 
-  #modalTipoPartida .radio-group label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100px;
-    height: 50px;
-    border: 1px solid #888;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    background-color: white;
-    transition: background-color 0.3s, border-color 0.3s;
-    text-align: center;
-    margin-top: 10px;
-  }
+    #modalTipoPartida .radio-group input[type="radio"]:checked+label {
+      background-color: #B367A9;
+      color: white;
+    }
 
-  #modalTipoPartida .radio-group input[type="radio"]:checked + label {
-    background-color: #B367A9;
-    color: white;
-  }
+    #modalTipoPartida .radio-group label:hover {
+      background-color: #b367a9a2;
+    }
 
-  #modalTipoPartida .radio-group label:hover {
-    background-color: #b367a9a2;
-  }
+    #modalTipoPartida .radio-group {
+      justify-content: center;
+      display: flex;
+      margin: 10px;
+      align-items: center;
+      gap: 40px;
+    }
 
-  #modalTipoPartida .radio-group {
-    justify-content:center;
-    display: flex;
-    margin:10px;
-    align-items: center;
-    gap:40px;
-  }
+    /* Estilos CSS para el botón de enviar */
+    #modalTipoPartida .btn-enviar {
+      font-family: 'Teko', sans-serif;
+      cursor: pointer;
+      text-transform: uppercase;
+      font-size: 15px;
+      width: 100%;
+      color: white;
+      border-radius: 10px;
+      border: 1px solid #6d2194;
+      padding: 10px 25px;
+      background-color: #7f369a;
+      display: block;
+      margin: 0 auto;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
 
-  /* Estilos CSS para el botón de enviar */
-  #modalTipoPartida .btn-enviar{
-    font-family: 'Teko', sans-serif;
-    cursor: pointer;
-    text-transform: uppercase;
-    font-size: 15px;
-    width: 100%;
-    color: white;
-    border-radius: 10px;
-    border: 1px solid #6d2194;
-    padding: 10px 25px;
-    background-color: #7f369a;
-    display: block;
-    margin: 0 auto;
-    transition: background-color 0.3s, box-shadow 0.3s;
-  }
-  #modalTipoPartida .btn-enviar:hover{
-    background-color:#2D2A49;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  }
-  #modalTipoPartida .modal-content h3{
-    text-align:center;
-  }
-</style>
+    #modalTipoPartida .btn-enviar:hover {
+      background-color: #2D2A49;
+      box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    #modalTipoPartida .modal-content h3 {
+      text-align: center;
+    }
+  </style>
 
 </head>
 
@@ -88,9 +89,11 @@
         <span class="material-symbols-outlined">play_circle</span>JUGAR
       </button>
     </form>
-    <button type="submit" class="btn btn-primary">
-      <span class="material-symbols-outlined">smart_toy</span>MULTIJUGADOR
-    </button>
+    <form th:action="@{/comenzarJuegoBingoBot}" method="get">
+      <button type="submit" class="btn btn-primary">
+        <span class="material-symbols-outlined">smart_toy</span>MULTIJUGADOR
+      </button>
+    </form>
     <form th:action="@{/verRankingBingo}" method="post">
       <input type="hidden" name="tipoJuego" value="BINGO" />
       <button type="submit" class="btn btn-primary">
@@ -111,16 +114,17 @@
           <input type="radio" id="bingo" name="tipo" value="bingo" checked>
           <label for="bingo">Bingo</label>
 
-          <!-- <input type="radio" id="ambas" name="tipo" value="ambas">
-          <label for="ambas">ambas</label> -->
         </div>
         <br>
         <input type="submit" name="enviar" id="enviar" value="Enviar" class="btn-enviar">
       </form>
     </div>
   </div>
+
+  </div>
   <script th:src="@{/js/bingo.js}"></script>
   <script th:src="@{/js/modal.js}"></script>
+  <script th:src="@{/js/bingoBot.js}"></script>
 </body>
 
 </html>
