@@ -37,7 +37,7 @@ nav {
 }
 
 .boton-musica:hover {
-    color: #470909;
+    color: rgba(207, 76, 234, 0.81);
     transform: scale(1.2);
 }
 
@@ -386,7 +386,7 @@ table{
     left: 0;
     width: 100%;
     height:100vh; /* Ajusta la altura para cubrir todo el contenido */
-    background-image: url("../imgStatic/fondoBingo.png");
+    background-image: url("../imgStatic/fondos/fondoBingo.png");
     background-size: cover;
     animation: animateBg 50s linear infinite;
     z-index: -10;
@@ -537,4 +537,10 @@ table{
     margin-top: 15px;
     box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
     text-align: center;
+}
+
+
+.contenedorCartones {
+    display: flex;
+    flex-direction: row;
 }

@@ -29,4 +29,7 @@ public class VistaWeb {
     private Locator obtenerElemento(String selectorCSS){
         return page.locator(selectorCSS);
     }
+
+
+
 }

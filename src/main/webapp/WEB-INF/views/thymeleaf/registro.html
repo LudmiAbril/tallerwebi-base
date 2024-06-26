@@ -1,66 +1,56 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
   <title>Registro</title>
   <!-- custom style -->
-  <link rel="stylesheet" th:href="@{/css/loguin.css}" />
+  <link rel="stylesheet" th:href="@{/css/loguin-registro.css}" />
+
+  <!-- custom style -->
+  <link rel="stylesheet" th:href="@{/css/loguinCopy.css}" />
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
-  <!-- Enlace a Google Fonts con Thymeleaf -->
-  <link rel="preconnect" th:href="@{https://fonts.googleapis.com}" />
-  <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin />
-  <link
-    th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}"
-    rel="stylesheet" />
 
   <!-- Enlace animaciones-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}" />
   <!-- Enlace a Google Fonts con Thymeleaf -->
   <link rel="preconnect" th:href="@{https://fonts.googleapis.com}" />
   <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin />
-  <link
-    th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}"
-    rel="stylesheet" />
-  <link rel="stylesheet"
-    th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0}" />
-
+  <link th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0}" />
 </head>
+<body>
+<header>
+  <p>¿Ya tienes cuena?</p>
+  <a href="login" class="boton-margen">Iniciar sesión</a>
+</header>
+<main>
 
-<body class="nuevo">
-
-  <div class="text-center">
-    <img th:src="@{/imgStatic/crearCuentaImg.png}" class="img-registro" />
-  </div>
-  <main role="main" class="container">
-    <div class="frase">
-      <p id="texto1">&iexcl;Entra al juego, jefe!</p>
-      <br>
-      <p>
-        Primero, ingresa tus datos para unirte a la pandilla de los gatos.
-      </p>
-    </div>
-    <form th:action="@{/registrarme}" method="POST" class="text-center" th:object="${usuario}">
-      <br>
-      <div class="mb-3">
-        <input th:field="*{nombre}" id="nombre" name="nombreJugador" type="text" class="form-control" required
-          placeholder="Ingresa tu NOMBRE" /><br>
-        <input th:field="*{email}" id="email" name="emailJugador" type="email" class="form-control" required
-          placeholder="Ingrese su EMAIL" /><br>
-        <input th:field="*{password}" id="password" name="passwordJugador" type="password" class="form-control" required
-          placeholder="Ingrese una CONTRASEÑA" />
+  <div class="form-container">
+    <h1>¡Entra al juego, jefe!</h1>
+    <p>Primero, ingresa tus datos para unirte a la pandilla de los gatos.</p>
+    <form th:action="@{/registrarme}" method="POST" th:object="${usuario}">
+      <div class="input-container">
+        <span class="material-symbols-outlined icon">person</span>
+        <input th:field="*{nombre}" id="nombre" name="nombreJugador" type="text" required placeholder="Ingresa tu NOMBRE"/>
       </div>
-      <button id="btn-registrarme" class="btn btn-primary" type="Submit">
-        REGISTRARME
-      </button>
+      <div class="input-container">
+        <span class="material-symbols-outlined icon">mail</span>
+        <input th:field="*{email}" id="email" name="emailJugador" type="email" required placeholder="Ingrese su EMAIL"/>
+      </div>
+      <div class="input-container">
+        <span class="material-symbols-outlined icon">lock</span>
+        <input th:field="*{password}" id="password" name="passwordJugador" type="password" required placeholder="Ingrese una CONTRASEÑA"/>
+      </div>
+      <button id="btn-registrarme" class="btn-primary" type="Submit">REGISTRARME</button>
     </form>
-    <!-- Botón fijo de inicio de sesión -->
-    <a href="login" class="boton-margen">INICIAR SESIÓN</a>
-    <p th:text="${error}"></p>
-  </main>
-  <!-- Boostrap core js -->
-  <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
-</body>
+    <div class="error">
+      <p th:text="${error}"></p>
+    </div>
+  </div>
+</main>
 
+<!-- Boostrap core js -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
 </html>
