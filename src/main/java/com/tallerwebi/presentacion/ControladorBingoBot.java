@@ -30,12 +30,6 @@ public class ControladorBingoBot {
         this.servicioPlataforma = servicioPlataforma;
     }
 
-    // @RequestMapping(path = "/irAlBingo", method = RequestMethod.GET)
-    // public ModelAndView irAlBingo() {
-    //     ModelMap model = new ModelMap();
-    //     model.put("nuevoJugador", new Usuario());
-    //     return new ModelAndView("irAlBingo", model);
-    // }
 
     @RequestMapping(path = "/comenzarJuegoBingoBot", method = RequestMethod.GET)
     public ModelAndView comenzarJuegoBingoBot(HttpSession session) {
@@ -86,6 +80,7 @@ public class ControladorBingoBot {
     @RequestMapping(path = "/obtenerDatosInicialesBot", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> obtenerDatosIniciales(HttpSession session) {
+       
         CartonBingo carton = (CartonBingo) session.getAttribute("carton");
         CartonBingo cartonBot = (CartonBingo) session.getAttribute("cartonBot");
         Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
@@ -142,12 +137,13 @@ public class ControladorBingoBot {
     @RequestMapping(path = "/obtenerNuevoNumeroBot", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> obtenerNuevoNumero(HttpSession session) throws PartidaConPuntajeNegativoException {
+        Integer nuevoNumero = 0;
         CartonBingo cartonBot = (CartonBingo) session.getAttribute("cartonBot");
         Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
         Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
         Boolean limiteAlcanzado = false;
         Map<String, Object> respuesta = new HashMap<>();
-        this.servicioBingo.obtenerTirada(tiradaLimiteDeLaSesion);
+        // this.servicioBingo.obtenerTirada(tiradaLimiteDeLaSesion);
         if (numerosEntregados == null) {
             numerosEntregados = new LinkedHashSet<>();
             session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
@@ -158,7 +154,7 @@ public class ControladorBingoBot {
             limiteAlcanzado = true;
             respuesta.put("limiteAlcanzado", limiteAlcanzado);
         } else {
-            Integer nuevoNumero = servicioBingo.entregarNumeroAleatorio(numerosEntregados);
+            nuevoNumero = servicioBingo.entregarNumeroAleatorio(numerosEntregados);
             // Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
             Integer numerosRestantesParaCompletarLaTirada = this.servicioBingo
                     .obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(tiradaLimiteDeLaSesion,
@@ -174,27 +170,24 @@ public class ControladorBingoBot {
         }
 
         Boolean seMarcoBot = false;
-        Boolean seHizoBingo = false;
-        Boolean seHizoLinea = false;
+        Boolean seHizoBingoBot = false;
         Set<Integer> numerosMarcadosBot;
 
-        if (this.servicioBingo.marcarCasilleroBot(tiradaLimiteDeLaSesion, cartonBot)) {
+        if (this.servicioBingo.marcarCasilleroBot(nuevoNumero, cartonBot)) {
             numerosMarcadosBot = (Set<Integer>) session.getAttribute("numerosMarcadosBot");
             session.setAttribute("numerosMarcadosBot", this.servicioBingo.getNumerosMarcadosBot());
             seMarcoBot = true;
             Integer dimension = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
             session.setAttribute("numerosMarcadosBot", this.servicioBingo.getNumerosMarcadosBot());
-            seHizoBingo = this.servicioBingo.bingo(numerosMarcadosBot, dimension);
-            seHizoLinea = this.servicioBingo.linea(numerosMarcadosBot, cartonBot);
-
+            seHizoBingoBot = this.servicioBingo.bingo(numerosMarcadosBot, dimension);
         }
 
         numerosMarcadosBot = (Set<Integer>) session.getAttribute("numerosMarcadosBot");
 
         respuesta.put("numerosMarcadosBot", numerosMarcadosBot);
         respuesta.put("seMarcoBot", seMarcoBot);
-        respuesta.put("seHizoBingoBot", seHizoBingo);
-        respuesta.put("seHizoLineaBot", seHizoLinea);
+        respuesta.put("seHizoBingoBot", seHizoBingoBot);
+        
 
         return respuesta;
     }

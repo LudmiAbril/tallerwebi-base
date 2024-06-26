@@ -73,7 +73,7 @@
       text-align: center;
     }
   </style>
-
+<script th:src="@{/js/bingo.js}"></script>
 </head>
 
 <body>
@@ -85,7 +85,7 @@
   <main class="container">
     <img th:src="@{/imgStatic/bingoTitulo.png}" alt="titulo" class="imagen-home" />
     <form method="get" class="text-center">
-      <button type="submit" class="btn btn-primary" onclick="mostrarModalSeleccionTipoPartidaBingo(event)">
+      <button type="submit" class="btn btn-primary" onclick="mostrarModalSeleccionTipoPartidaBingoBot(event)">
         <span class="material-symbols-outlined">play_circle</span>JUGAR
       </button>
     </form>
@@ -124,7 +124,7 @@
   </div>
   <script th:src="@{/js/bingo.js}"></script>
   <script th:src="@{/js/modal.js}"></script>
-  <script th:src="@{/js/bingoBot.js}"></script>
+ 
 </body>
 
 </html>
