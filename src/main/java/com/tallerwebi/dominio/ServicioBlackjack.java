@@ -26,4 +26,6 @@ public interface ServicioBlackjack {
 
     Baraja getBaraja();
 
+    List<Carta> entregarManoDeVeinte();
+
 }

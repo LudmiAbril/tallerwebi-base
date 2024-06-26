@@ -38,6 +38,16 @@ public class BlackjackTest {
         assertThat(cartasJugador.size(), equalTo(2));
     }
 
+
+    @Test
+    public void queSeentreguenUnaManoDeVeinte() {
+        Integer valorAs = 1;
+        servicio.inicializarBaraja(valorAs);
+        cartasCrupier = servicio.entregarManoDeVeinte();
+        assertThat(cartasCrupier.size(), equalTo(2));
+        assertThat(servicio.calcularPuntuacion(cartasCrupier), equalTo(20));;
+    }
+
     @Test
     public void queSePuedacalcularElPuntajeDeUnaMano() {
         cartasJugador.add(new Carta("A", 11, Palo.PICA));

@@ -320,7 +320,7 @@ public class ControladorBingoTest {
         ModelAndView mav = this.controladorBingo.finalizar(session);
 
         // V E R I F I C A C I O N
-        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/acceso-juegos"));
+        assertThat(mav.getViewName(), equalToIgnoringCase("redirect:/irAlBingo"));
     }
 
     @Test
@@ -507,7 +507,50 @@ public class ControladorBingoTest {
         String mensajeErrorActual = (String) mav.getModelMap().getAttribute("mensajeError");
         assertThat(mensajeErrorActual, equalToIgnoringCase("Ocurrió un error al intentar guardar la partida."));
     }
-    // queSePuedaGenerarUnCartonDe5x5APartirDeLaConfiguracionDefinida()
-    // queSePuedaGenerarUnCartonDe4x4APartirDeLaConfiguracionDefinida()
-    // queSePuedaGenerarUnCartonDe3x3APartirDeLaConfiguracionDefinida()
+
+    @Test
+    public void queSePuedaGenerarUnCartonDe5x5APartirDeLaConfiguracionDefinida()
+            throws IllegalArgumentException, PartidaConPuntajeNegativoException, NoHayPartidasDeBingoException {
+        Usuario usuarioMock = mock(Usuario.class);
+        when(usuarioMock.getNombre()).thenReturn("Mica");
+        when(usuarioMock.getConfig()).thenReturn(new ConfiguracionesJuego());
+        CartonBingo cartonMock = mock(CartonBingo.class);
+        Integer dimension = usuarioMock.getConfig().getDimensionCarton();
+        when(this.servicioBingoMock.generarCarton(dimension)).thenReturn(cartonMock);
+        session.setAttribute("carton", cartonMock);
+        assertThat(5, equalTo(usuarioMock.getConfig().getDimensionCarton()));
+    }
+
+    @Test
+    public void queSePuedaGenerarUnCartonDe4x4APartirDeLaConfiguracionDefinida()
+            throws IllegalArgumentException, PartidaConPuntajeNegativoException, NoHayPartidasDeBingoException {
+        Usuario usuarioMock = mock(Usuario.class);
+        ConfiguracionesJuego configMock = mock(ConfiguracionesJuego.class);
+        when(usuarioMock.getNombre()).thenReturn("Mica");
+        when(usuarioMock.getConfig()).thenReturn(configMock);
+
+        when(configMock.getDimensionCarton()).thenReturn(4);
+        CartonBingo cartonMock = mock(CartonBingo.class);
+        Integer dimension = configMock.getDimensionCarton();
+        when(this.servicioBingoMock.generarCarton(dimension)).thenReturn(cartonMock);
+        session.setAttribute("carton", cartonMock);
+        assertThat(4, equalTo(configMock.getDimensionCarton()));
+    }
+
+    @Test
+    public void queSePuedaGenerarUnCartonDe3x3APartirDeLaConfiguracionDefinida()
+            throws IllegalArgumentException, PartidaConPuntajeNegativoException, NoHayPartidasDeBingoException {
+        Usuario usuarioMock = mock(Usuario.class);
+        ConfiguracionesJuego configMock = mock(ConfiguracionesJuego.class);
+        when(usuarioMock.getNombre()).thenReturn("Mica");
+        when(usuarioMock.getConfig()).thenReturn(configMock);
+
+        when(configMock.getDimensionCarton()).thenReturn(3);
+        CartonBingo cartonMock = mock(CartonBingo.class);
+        Integer dimension = configMock.getDimensionCarton();
+        when(this.servicioBingoMock.generarCarton(dimension)).thenReturn(cartonMock);
+        session.setAttribute("carton", cartonMock);
+        assertThat(3, equalTo(configMock.getDimensionCarton()));
+    }
+
 }

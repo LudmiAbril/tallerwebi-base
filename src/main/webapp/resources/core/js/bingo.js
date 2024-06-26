@@ -19,6 +19,7 @@ $(document).ready(function () {
         $(".carton").html(tablaHtml);
         $(".numeroCantadoContenedor").addClass("w3-animate-top");
         $(".carton").addClass("w3-animate-bottom");
+        $("#numerosRestantesParaCompletarLaTirada").text("Numeros restantes para completar la tirada: " + data.numerosRestantesParaCompletarLaTirada);
 
         if (data.error) {
             alert(data.error)
@@ -32,6 +33,7 @@ $(document).ready(function () {
                 document.getElementById("botonBingo").style.display = "block";
             }
         }
+
 
     });
     intervaloRefresco = setInterval(refrescarNumero, 7000);
@@ -49,14 +51,13 @@ function refrescarNumero() {
                 $(".numeroCantadoContenedor").addClass("w3-animate-top");
             }
         });
-    }, 100); // Espera 100 milisegundos antes de solicitar el nuevo número
+    }, 100);
 }
 function marcarCasillero(numeroCasillero) {
     $.get("obtenerNumeroActual", function (data) {
         numeroActual = data.numeroActual;
         casilleroEsIgualANumeroEntregado(numeroCasillero, function (result) {
             if (numeroCasillero == numeroActual || result) {
-                console.log("marcado")
                 $.post("marcarCasillero/" + numeroCasillero, function () {
                     $("#botonCasillero" + numeroCasillero).css("background-color", "purple");
                 })
@@ -182,12 +183,10 @@ function mostrarModalSeleccionTipoPartidaBingo(event) {
 function linea() {
     $.get("linea", function (data) {
         if (data.seHizoLinea) {
-            console.log("hiciste linea")
             abrirModal();
             clearInterval(intervaloRefresco);
             intervaloRefresco = null;
         } else if (!data.seHizoLinea) {
-            console.log("no hiciste linea")
             var botonLinea = document.querySelector("#botonLinea");
             botonLinea.style.color = 'black';
             botonLinea.classList.add('animate__animated', 'animate__shakeX');

@@ -35,7 +35,7 @@ public class ControladorLoginTest {
 	}
 
 	@Test
-	public void loginConUsuarioYPasswordInorrectosDeberiaLlevarALoginNuevamente() {
+	public void loginConUsuarioYPasswordIncorrectosDeberiaLlevarALoginNuevamente() {
 		// preparacion
 		when(servicioLoginMock.consultarUsuario(anyString(), anyString())).thenReturn(null);
 
@@ -44,8 +44,19 @@ public class ControladorLoginTest {
 
 		// validacion
 		assertThat(modelAndView.getViewName(), equalToIgnoringCase("login"));
-		assertThat(modelAndView.getModel().get("error").toString(), equalToIgnoringCase("Usuario o clave incorrecta"));
 
+	}
+
+	@Test
+	public void loginConUsuarioYPasswordInorrectosDeberiaGuardarEnElModeloUnMensajeDeError() {
+		// preparacion
+		when(servicioLoginMock.consultarUsuario(anyString(), anyString())).thenReturn(null);
+
+		// ejecucion
+		ModelAndView modelAndView = controladorLogin.validarLogin(datosLoginMock, requestMock);
+
+		// validacion
+		assertThat(modelAndView.getModel().get("error").toString(), equalToIgnoringCase("Usuario o clave incorrecta"));
 	}
 
 	@Test
