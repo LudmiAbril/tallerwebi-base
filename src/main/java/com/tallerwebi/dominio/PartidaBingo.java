@@ -79,7 +79,4 @@ public class PartidaBingo extends Partida {
     public void setCantidadDeCasillerosMarcados(Integer cantidadDeCasillerosMarcados) {
         this.cantidadDeCasillerosMarcados = cantidadDeCasillerosMarcados;
     }
-
-    
-
 }

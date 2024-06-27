@@ -9,7 +9,7 @@ $(document).ready(function () {
   // Función para agregar una nueva carta a un contenedor dado
   function agregarCarta(contenedor, nombreCarta, jugador) {
     contenedor.append(
-      "<img src='./img/cartas/" +
+      "<img src='./imgStatic/cartas/" +
         nombreCarta +
         ".png' width='140px' class='carta nueva-carta-" +
         jugador +
