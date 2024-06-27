@@ -197,30 +197,7 @@ public class ControladorBingoBot {
     @RequestMapping(path = "/finalizarPartidaBot", method = RequestMethod.POST)
     public ModelAndView finalizar(HttpSession session) throws PartidaConPuntajeNegativoException,
             IllegalArgumentException {
-        ModelAndView mav = new ModelAndView();
-        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-        Boolean seHizoLinea = (Boolean) session.getAttribute("seHizoLinea");
-        Boolean seHizoBingo = (Boolean) session.getAttribute("seHizoBingo");
-        TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session
-                .getAttribute("tipoPartidaBingo");
-        Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
-        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-        Integer cantidadDeCasillerosMarcados = numerosMarcadosDeLaSesion.size();
-        Boolean ganoBot = (Boolean) session.getAttribute("seHizoBingoBot");
-        try {
-            servicioPlataforma
-                    .agregarPartida(
-                            new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, seHizoLinea,
-                                    seHizoBingo,
-                                    tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados,
-                                    ganoBot));
-            mav.setViewName("redirect:/irAlBingo");
-        } catch (Exception e) {
-            mav.setViewName("bingo");
-            mav.addObject("mensajeError", "Ocurrió un error al intentar guardar la partida.");
-        }
-
-        return mav;
+        return new ModelAndView("irAlBingo");
     }
 
 }
