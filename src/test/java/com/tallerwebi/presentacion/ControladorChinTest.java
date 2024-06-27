@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -27,7 +26,7 @@ public class ControladorChinTest {
 
     @BeforeEach
     public void init(){
-        //<>
+
         this.servicioPlataforma = servicioPlataforma;
         this.servicioChinMock = mock(ServicioChin.class);
         this.controladorChin = new ControladorChin(servicioChinMock, servicioPlataforma);
@@ -36,7 +35,6 @@ public class ControladorChinTest {
     }
     @Test
     public void queAlSolicitarLaVistaDeChinSeMuestreLaVistaDeChin(){
-        //when(this.servicioChin.get()).thenReturn();
         ModelAndView mav = controladorChin.irAlChin();
         String message = mav.getModel().get("message").toString();
         assertThat(mav.getViewName(), equalToIgnoringCase("chin"));
@@ -49,20 +47,37 @@ public class ControladorChinTest {
         assertThat(MODELO_ACTUAL, instanceOf(Usuario.class));
     }
     @Test
-    public void queSeMuestrenLasCartasDelMazoRepartidas(){
-        //when(this.servicioChin.repartirCuatroCartasDeFrente(new ArrayList<Carta>(), new ArrayList<Carta>()).thenReturn(4));
-        //ModelAndView mav = this.controladorChin;
-
+    public void queElNombreDelUsuarioNoPuedaSerNulo(){
+        ModelAndView mav = this.controladorChin.irAlChin();
+        Usuario MODELO_ACTUAL = ((Usuario) mav.getModel().get("nuevoJugador"));
+        assertThat(MODELO_ACTUAL, is(notNullValue()));
     }
     @Test
-    public void queSeGuardeLaCantidadDeChinsEnLaPartida(){
-        Jugador jugadorMock = mock(Jugador.class);
+    public void queElMazoyManodelJugador1NoSeanNulos(){
+        Usuario jugadorMock = mock(Usuario.class);
         when(jugadorMock.getNombre()).thenReturn("Axel");
-        List<Integer> puntajesDePartidas = new ArrayList<>();
-        Integer cantidadChins =0;
-        //when(servicioChinMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
         controladorChin.comenzarJuegoChin(jugadorMock, session);
-        //controlador.ch
-        //assertThat(session.getAttribute("cantidadDeChinsEnPartida"), equalTo(cantidadChins));
+
+        assertThat(session.getAttribute("mazoJugador1"), is(notNullValue()));
+        assertThat(session.getAttribute("manoJugador1"), is(notNullValue()));
     }
+    @Test
+    public void queElMazoyManodelJugador2NoSeanNulos(){
+        Usuario jugadorMock = mock(Usuario.class);
+        when(jugadorMock.getNombre()).thenReturn("Axel");
+        controladorChin.comenzarJuegoChin(jugadorMock, session);
+
+        assertThat(session.getAttribute("mazoJugador2"), is(notNullValue()));
+        assertThat(session.getAttribute("manoJugador2"), is(notNullValue()));
+    }
+    @Test
+    public void queElMazoDeDescarteInicieSiempreVacio(){
+        Usuario jugadorMock = mock(Usuario.class);
+        when(jugadorMock.getNombre()).thenReturn("Axel");
+        controladorChin.comenzarJuegoChin(jugadorMock, session);
+
+        assertThat(((ArrayList<Carta>) session.getAttribute("descarte1")).size(), is(0));
+        assertThat(((ArrayList<Carta>) session.getAttribute("descarte2")).size(), is(0));
+    }
+
 }

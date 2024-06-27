@@ -131,21 +131,16 @@ public class ControladorBingoTest {
 
     @Test
     public void queNoSePuedaHacerBingoSiElNumeroEntregadoNoFueMarcado() {
-        // necesito un carton
         CartonBingo cartonMock = mock(CartonBingo.class);
         when(this.servicioBingoMock.generarCarton(5)).thenReturn(cartonMock);
-        // necesito que el servicio me de un numero aleatorio
         Set<Integer> numerosEntregados = new LinkedHashSet<>();
         Integer numeroAleatorio = 10;
         when(this.servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
-        // ahora ese numero no lo voy a marcar, es decir, no lo voy a agregar a los
-        // numeros marcados
+
         Map<String, Object> respuesta = controladorBingo.hacerBingo(session);
         Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-        // el bingo del mapa de la respuesta tiene que ser false
+
         Boolean seHizoBingo = (Boolean) respuesta.get("seHizoBingo");
-        // los numeros marcados de la sesion tienen que ser nulos porque no se marco
-        // ninguno
         assertThat(seHizoBingo, is(false));
         assertThat(numerosMarcadosDeLaSesion, is(nullValue()));
     }
@@ -237,10 +232,9 @@ public class ControladorBingoTest {
 
     @Test
     public void queLosNumerosMarcadosSeGuarden() {
-        // necesito un carton
         CartonBingo cartonMock = mock(CartonBingo.class);
         when(this.servicioBingoMock.generarCarton(5)).thenReturn(cartonMock);
-        // necesito que el servicio me de un numero aleatorio
+
         Set<Integer> numerosEntregados = new LinkedHashSet<>();
         Integer numeroAleatorio = 10;
         when(this.servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
@@ -254,8 +248,7 @@ public class ControladorBingoTest {
 
     @Test
     public void queSePuedaElegirElTipoPartidaBingoYSeGuardeSuEleccionEnLaSesion() {
-        // necesito tipo partida
-        // tiene que llegar la eleccion por el form
+
         CartonBingo cartonMock = mock(CartonBingo.class);
         Usuario usuarioMock = mock(Usuario.class);
         when(this.servicioBingoMock.generarCarton(5)).thenReturn(cartonMock);
@@ -292,7 +285,6 @@ public class ControladorBingoTest {
     @Test
     public void queAlSolicitarFinalizarPartidaSeEntregueLaVistaCorrespondiente() throws IllegalArgumentException,
             PartidaConPuntajeNegativoException {
-        // hago que se haga linea en un carton de 3x3 con los numeros 1, 2, 3
 
         // P R E P A R A C I O N
         Set<Integer> numerosMarcados = new HashSet<Integer>();

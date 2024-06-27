@@ -25,15 +25,11 @@ public class ServicioBingoTest {
 
 	@Test
 	public void queSePuedaEntregarUnNumeroAleatorioDel1Al99YQueNoSeRepitan() {
-		// almacenar los números entregados
 		Set<Integer> numerosEntregados = new HashSet<Integer>();
 		Integer numeroAleatorio = servicioBingo.entregarNumeroAleatorio(numerosEntregados);
 		numerosEntregados.add(numeroAleatorio);
-		// que el número entregado no sea nulo
 		assertThat(numeroAleatorio, is(notNullValue()));
-		// esté dentro del rango especificado
 		assertThat(numeroAleatorio, allOf(greaterThanOrEqualTo(1), lessThan(100)));
-		// esté contenido en el conjunto numerosEntregados.
 		assertThat(numerosEntregados, containsInAnyOrder(numeroAleatorio));
 	}
 
@@ -41,7 +37,7 @@ public class ServicioBingoTest {
 	public void queSePuedaGenerarUnCartonDe25NumerosAleatorios() {
 		CartonBingo carton = servicioBingo.generarCarton(5);
 		Integer[][] numeros = carton.getNumeros();
-		// para almacenar los números que se encuentran en el cartón.
+
 		Set<Integer> numerosUsados = new HashSet<Integer>();
 		int cantidadDeNumerosActual = 0;
 		final int CANTIDAD_DE_NUMEROS_ESPERADA = 25;
@@ -62,7 +58,7 @@ public class ServicioBingoTest {
 
 	@Test
 	public void queElCasilleroMarcadoSeaIgualAlNumeroEntregado() {
-		// Generar un cartón nuevo
+
 		Integer[][] numeros = {
 				{ 1, 2, 3, 4, 5 },
 				{ 6, 7, 8, 9, 10 },
@@ -87,7 +83,6 @@ public class ServicioBingoTest {
 
 	@Test
 	public void queSePuedaHacerLineaVertical() {
-		// genero un carton
 		Integer[][] numeros = {
 				{ 1, 2, 3, 4, 5 },
 				{ 6, 7, 8, 9, 10 },
@@ -297,7 +292,6 @@ public class ServicioBingoTest {
 		numerosMarcadosEnElCarton.add(numeroAleatorio16);
 		numerosMarcadosEnElCarton.add(numeroAleatorio11);
 
-		// Verifico que no se haga línea
 		Boolean seHizoLinea = servicioBingo.linea(numerosMarcadosEnElCarton, carton);
 		assertThat(seHizoLinea, is(false));
 	}
@@ -322,7 +316,6 @@ public class ServicioBingoTest {
 		Integer numeroAleatorio16 = 16;
 		Integer numeroAleatorio21 = 21;
 
-		// te entrego numeros aleatorio que en el carton hagan linea
 		Set<Integer> numerosEntregados = new HashSet<Integer>();
 		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(numeroAleatorio1);
 		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(numeroAleatorio6);
@@ -330,7 +323,7 @@ public class ServicioBingoTest {
 		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(numeroAleatorio16);
 		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(numeroAleatorio21);
 
-		// marcarEsosNumerosEnElCarton
+
 		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(numeroAleatorio1, carton);
 		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(numeroAleatorio6, carton);
 		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(numeroAleatorio11, carton);
@@ -348,7 +341,7 @@ public class ServicioBingoTest {
 
 	@Test
 	public void queSeVacienLosNumerosEntregadosYMarcadosDespuesDeHacerBingo() {
-		// genero un carton
+
 		Integer[][] numeros = {
 				{ 1, 2, 3},
 				{ 6, 7, 8},
@@ -358,7 +351,7 @@ public class ServicioBingoTest {
 		((ServicioBingoImpl) this.servicioBingo).setDimension(3);
 		((ServicioBingoImpl) this.servicioBingo).setCartonNuevo(carton);
 
-		// te entrego numeros aleatorio que en el carton hagan linea
+
 		Set<Integer> numerosEntregados = new HashSet<Integer>();
 		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(1);
 		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(2);
@@ -370,7 +363,7 @@ public class ServicioBingoTest {
 		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(12);
 		((ServicioBingoImpl) this.servicioBingo).getNumerosEntregados().add(13);
 
-		// marcarEsosNumerosEnElCarton
+
 		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(1, carton);
 		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(2, carton);
 		((ServicioBingoImpl) this.servicioBingo).marcarCasillero(3, carton);

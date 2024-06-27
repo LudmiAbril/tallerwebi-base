@@ -69,7 +69,6 @@ public class RepositorioPartidaTest {
     public void queSeObtengaUnRankingOrdenadoDePartidasParaElBingo()
             throws PartidasDelJuegoNoEncontradasException, PartidaConPuntajeNegativoException,
             IllegalArgumentException {
-        // PARTIDA UNO
         Long idJugador = 2L;
         Juego juego = Juego.BINGO;
         Set<Integer> casillerosMarcados = new HashSet<Integer>();
@@ -95,7 +94,7 @@ public class RepositorioPartidaTest {
         partidasEsperadas.add(p2);
         partidasEsperadas.add(p1);
 
-        // ejec desordenada para verificar orden
+
         repositorio.guardar(p2);
         repositorio.guardar(p1);
 
@@ -112,7 +111,6 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queSeLanzeUnaExceptionSiNoHayPartidasDeEseJuego() {
-        // PartidaDeUsuarioNoEncontradaException
         assertThrows(PartidasDelJuegoNoEncontradasException.class, () -> {
             repositorio.listarPartidasPorJuego(Juego.BINGO);
         });
@@ -180,7 +178,6 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queLanceUnaExceptionAlObtenerPartidasDeUsuarioConIdNulo() {
-        // PartidaDeUsuarioNoEncontradaException
         assertThrows(PartidaDeUsuarioNoEncontradaException.class, () -> {
             repositorio.obtenerPartidasUsuario(null, Juego.BINGO);
         });
@@ -253,8 +250,6 @@ public class RepositorioPartidaTest {
         partida2.setIdJugador(usuarioId);
         repositorio.guardar(partida2);
 
-        // Supón que se añade un método en el repositorio para obtener partidas por
-        // rango de fechas
         List<Partida> partidas = repositorio.obtenerPartidasPorFechaRango(usuarioId, juego,
                 LocalDateTime.of(2021, 1, 1, 0, 0), LocalDateTime.of(2022, 12, 31, 23, 59));
         assertThat(partidas.size(), equalTo(1));
@@ -269,12 +264,9 @@ public class RepositorioPartidaTest {
         Juego juego = Juego.SENKU;
         Boolean ganado = true;
         Integer cantidadMovimientos = 50;
-
         Partida partidaSenku = new PartidaSenku(idJugador, juego, ganado, cantidadMovimientos);
-
         // WHEN
         repositorio.guardar(partidaSenku);
-
         // THEN
         assertThat(session.getCurrentSession().contains(partidaSenku), equalTo(true));
     }
@@ -286,7 +278,6 @@ public class RepositorioPartidaTest {
         // VALORES NO VALIODS(SOLO SE GUARDA SI SE GANO Y SI HUBO MOVIMEINTOS)
         partidaSenku.setGanado(null);
         partidaSenku.setCantidadMovimientos(-1);
-
         // THEN
         assertThrows(IllegalArgumentException.class, () -> {
             repositorio.guardar(partidaSenku);
