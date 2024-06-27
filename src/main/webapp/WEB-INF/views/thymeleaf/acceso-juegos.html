@@ -14,154 +14,183 @@
   <link
     th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}"
     rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/icon?family=Material+Icons}">
+
   <link rel="stylesheet"
     th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0}" />
-  <style>
-    input,
-    label {
-      font-family: Arial, Helvetica, sans-serif;
-    }
-  </style>
+<style>
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+</style>
 </head>
 
 <body>
-  <div class="icon-container">
-    <div class="home-icon" onclick="openModal('homeModal')"><span class="material-symbols-outlined">home</span></div>
-    <div class="home-icon" onclick="openModal('configuracionModal')"><span
-        class="material-symbols-outlined">manufacturing</span></div>
-  </div>
+<div id="exitModal" class="modal">
+  <div class="modal-content1">
+    <span class="close" onclick="closeModal('exitModal')">&times;</span>
 
-  <div id="homeModal" class="modal">
-    <div class="modal-content1">
-      <span class="close" onclick="closeModal('homeModal')">&times;</span>
-      <p>Estas seguro que deseas abandonar la plataforma?</p>
+    <img th:src="@{/imgStatic/modalAbandonoCat.png}" alt="Exit Image">
+    <div class="modal-text">
+      <p>¿Estás seguro de que deseas abandonar la plataforma?</p>
       <div class="btn-salir">
-        <a th:href="@{/salir}">
+        <a th:href="@{/salir}" id="btn-salir">
           <button><span class="material-symbols-outlined">logout</span>Salir</button>
         </a>
       </div>
     </div>
   </div>
+</div>
 
-  <div id="configuracionModal" class="modal">
-    <div class="modal-content2">
-      <span class="close" onclick="closeModal('configuracionModal')">&times;</span>
-      <h2>CONFIGURACIÓN</h2>
-      <form th:action="@{/guardarCambios}" method="post">
-        <div class="section">
-          <h3>BLACKJACK</h3>
+<div id="configuracionModal" class="modal">
+  <div class="modal-content2">
+    <span class="close2" onclick="closeModal('configuracionModal')">&times;</span>
+    <h2>CONFIGURACIÓN</h2>
+    <form id="configForm" th:action="@{/guardarCambios}" method="post" onsubmit="return validarFormulario()">
+      <div class="section">
+        <h3>BLACKJACK</h3>
+        <div class="icon-container">
+          <i class="material-icons">access_time</i>
           <label for="blackjack-duracion">Duración del Blackjack:</label>
           <input type="number" id="blackjack-duracion" name="duracionBlackjack"
-            th:value="${usuarioConfig.duracionBlackjack}" min="1" /> min
-          <br /><br />
-
-          <label>Valor del As:</label>
-          <div class="radio-group">
-            <input type="radio" id="blackjack-as-valor-1" name="valorAs" th:checked="${usuarioConfig.valorDelAs == 1}"
-              value="1" />
-            <label for="blackjack-as-valor-1">1</label>
-            <input type="radio" id="blackjack-as-valor-11" name="valorAs" th:checked="${usuarioConfig.valorDelAs == 11}"
-              value="11" />
-            <label for="blackjack-as-valor-11">11</label>
-          </div>
-
+                 th:value="${usuarioConfig.duracionBlackjack}" min="1" max="5" required/> min
         </div>
-        <hr />
-        <div class="section">
-          <h3>BINGO</h3>
+        <div class="icon-container">
+          <span class="material-symbols-outlined" style="margin-right: 10px;">poker_chip </span>
+          <label>Valor del As:</label>
+        </div>
+        <div class="radio-group">
+          <input type="radio" id="blackjack-as-valor-1" name="valorAs" th:checked="${usuarioConfig.valorDelAs == 1}"
+                 value="1" required/>
+          <label for="blackjack-as-valor-1">1</label>
+          <input type="radio" id="blackjack-as-valor-11" name="valorAs" th:checked="${usuarioConfig.valorDelAs == 11}"
+                 value="11" required/>
+          <label for="blackjack-as-valor-11">11</label>
+        </div>
+      </div>
+      <hr />
+      <div class="section">
+        <h3>BINGO</h3>
+        <div class="icon-container">
+          <i class="material-icons">grid_on</i>
           <label>Dimensión del Cartón:</label>
-          <div class="radio-group">
-            <input type="radio" id="dimension-3x3" name="dimensionCarton"
-              th:checked="${usuarioConfig.dimensionCarton == 3}" value="3" />
-            <label for="dimension-3x3">3x3</label>
-            <input type="radio" id="dimension-4x4" name="dimensionCarton"
-              th:checked="${usuarioConfig.dimensionCarton == 4}" value="4" />
-            <label for="dimension-4x4">4x4</label>
-            <input type="radio" id="dimension-5x5" name="dimensionCarton"
-              th:checked="${usuarioConfig.dimensionCarton == 5}" value="5" />
-            <label for="dimension-5x5">5x5</label>
-          </div>
-          <br /><br />
+        </div>
+        <div class="radio-group">
+          <input type="radio" id="dimension-3x3" name="dimensionCarton"
+                 th:checked="${usuarioConfig.dimensionCarton == 3}" value="3" required/>
+          <label for="dimension-3x3">3x3</label>
+          <input type="radio" id="dimension-4x4" name="dimensionCarton"
+                 th:checked="${usuarioConfig.dimensionCarton == 4}" value="4" required/>
+          <label for="dimension-4x4">4x4</label>
+          <input type="radio" id="dimension-5x5" name="dimensionCarton"
+                 th:checked="${usuarioConfig.dimensionCarton == 5}" value="5" required/>
+          <label for="dimension-5x5">5x5</label>
+        </div>
+        <br />
+        <div class="icon-container">
+          <i class="material-icons">casino</i>
           <label for="cant-numeros">Ingresar tirada:</label>
           <input type="number" id="cant-numeros" name="cantidadPelotas" th:value="${usuarioConfig.cantidadDePelotas}"
-            min="1" />
+                 min="1" max="99" required/>
         </div>
-        <hr />
-        <div class="section">
-          <h3>SENKU</h3>
-          <label>Dimensión del Tablero:</label>
-          <div class="radio-group">
-            <input type="radio" id="senku-dimension-3x3" name="dimensionTablero"
-                   th:checked="${usuarioConfig.dimensionTablero == 3}" value="3" />
-            <label for="senku-dimension-3x3">3x3</label>
-            <input type="radio" id="senku-dimension-5x5" name="dimensionTablero"
-                   th:checked="${usuarioConfig.dimensionTablero == 5}" value="5" />
-            <label for="senku-dimension-5x5">5x5</label>
-            <input type="radio" id="senku-dimension-7x7" name="dimensionTablero"
-                   th:checked="${usuarioConfig.dimensionTablero == 7}" value="7" />
-            <label for="senku-dimension-7x7">7x7</label>
-          </div>
+
+       
+      </div>
+      <div class="button-container">
+        <button class="save-button" type="submit" id="guardar"><span class="material-symbols-outlined">check</span>GUARDAR</button>
+        <button type="button" class="cancel-button" onclick="closeModal('configuracionModal')"><span
+                class="material-symbols-outlined">close</span>CANCELAR</button>
+        <div class="error">
+          <p th:text="${mensajeError}" class="mensajeError" id="mensajeError"></p>
+
         </div>
-        <div class="button-container">
-          <button class="save-button" type="submit"><span class="material-symbols-outlined">check</span>GUARDAR</button>
-          <button type="button" class="cancel-button" onclick="closeModal('configuracionModal')"><span
-              class="material-symbols-outlined">close</span>CANCELAR</button>
-          <p th:text="${mensajeError}" class="mensajeError"></p>
-          <p th:text="${mensaje}" class="mensaje"></p>
-        </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
+</div>
+
+
   <section class="container">
     <div class="columna">
-      <br /><br /><br /><br />
+      <div class="icon-containerMenu">
+        <div class="menu-icon" onclick="toggleMenu()"><span class="material-symbols-outlined">menu</span></div>
+      </div>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <div class="menu-item" onclick="openModal('configuracionModal')">
+          <span class="material-symbols-outlined">settings</span>
+          <span>Configuración</span>
+        </div>
+        <div class="menu-item" onclick="openModal('exitModal')">
+          <span class="material-symbols-outlined">logout</span>
+          <span>Salida</span>
+        </div>
+      </div>
+      <br>
       <div class="sign"><span class="fast-flicker">C</span>ats<span class="flicker">i</span>no</div>
-      <img th:src="@{/imgStatic/imagenAcesso.png}" class="imagen-acceso" alt="imagen-bienvenida" />
+      <div class="frase">
+        <p class="animated-text">Todo la diversión y el descanso a su alcance</p>
+        <p class="animated-text">Disfruta de nuestro catsino</p>
+      </div>
     </div>
+
+
     <div class="columna">
       <div class="item border-left">
-        <a th:href="@{/irAlBingo}" class="link-juego">
+        <a th:href="@{/irAlBingo}" class="link-juego" id="accederBingo">
           <h2 class="h2">
             <span class="one">B</span><span class="two">I</span><span class="three">N</span><span
               class="four">G</span><span class="five">O</span>
           </h2>
         </a>
-        <img th:src="@{/imgStatic/fondoCarton1.png}" alt="Imagen al hover" class="hover-image" />
+        <img th:src="@{/imgStatic/fondos/fondoCarton1.png}" alt="Imagen al hover" class="hover-image" />
       </div>
       <div class="item border-left">
-        <a th:href="@{/irAlSenku}" class="link-juego">
+        <a th:href="@{/irAlSenku}" class="link-juego" id="accederSenku">
           <h2 class="h2">
             <span class="one">S</span><span class="two">E</span><span class="three">N</span><span
               class="four">K</span><span class="five">U</span>
           </h2>
         </a>
-        <img th:src="@{/imgStatic/fondoCuadrado1.png}" alt="Imagen al hover" class="hover-image" />
+        <img th:src="@{/imgStatic/fondos/fondoCuadrado1.png}" alt="Imagen al hover" class="hover-image" />
       </div>
       <div class="item border-left">
-        <a th:href="@{/inicio-blackjack}" class="link-juego">
+        <a th:href="@{/inicio-blackjack}" class="link-juego" id="accederBj">
           <h2 class="h2">
             <span class="one">B</span><span class="two">L</span><span class="three">A</span><span
               class="four">C</span><span class="five">K</span><span class="six">J</span><span
               class="seven">A</span><span class="eight">C</span><span class="nine">K</span>
           </h2>
         </a>
-        <img th:src="@{/imgStatic/fondoCartas1.png}" alt="Imagen al hover" class="hover-image" />
+        <img th:src="@{/imgStatic/fondos/fondoCartas1.png}" alt="Imagen al hover" class="hover-image" />
       </div>
       <div class="item border-left">
-        <a th:href="@{/irAlAhorcado}" class="link-juego">
+        <a th:href="@{/irAlAhorcado}" class="link-juego" id="accederAhorcado">
           <h2 class="h2">
             <span class="one">A</span><span class="two">H</span><span class="three">O</span><span
               class="four">R</span><span class="five">C</span><span class="six">A</span><span
               class="seven">D</span><span class="eight">O</span>
           </h2>
         </a>
-        <img th:src="@{/imgStatic/fondoLetras1.png}" alt="Imagen al hover" class="hover-image" />
+        <img th:src="@{/imgStatic/fondos/fondoLetras.png}" alt="Imagen al hover" class="hover-image" />
       </div>
-
   </section>
 
 
   <script th:src="@{/js/modal.js}"></script>
+<script th:src="@{/js/configuracion.js}"></script>
+
+<script>
+  function toggleMenu() {
+    var dropdownMenu = document.getElementById("dropdownMenu");
+    if (dropdownMenu.style.display === "flex") {
+      dropdownMenu.style.display = "none";
+    } else {
+      dropdownMenu.style.display = "flex";
+    }
+  }
+</script>
+
 </body>
 
 </html>

@@ -1,3 +1,4 @@
+
 // Función para cerrar el modal
 function closeModal(modalId) {
     var modal = document.getElementById(modalId);
@@ -51,8 +52,7 @@ function cargarValorInput() {
 document.getElementById('configuracionModal').addEventListener('show', function() {
     cargarValorInput();
 });
+ HEAD
 
-document.querySelectorAll('input[name="dimensionTablero"]').forEach(function(element) {
-    element.addEventListener('change', guardarValorInput);
-});
-
+document.querySelectorAll('input[name="dimensionTablero"]').forEach(function (element) {
+       })

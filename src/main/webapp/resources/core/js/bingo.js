@@ -175,7 +175,7 @@ function lanzarConfetti() {
 
 function mostrarModalSeleccionTipoPartidaBingoBot(event) {
     event.preventDefault();
-    document.getElementById("modalTipoPartida").style.display = "block";
+    document.getElementById("modalTipoPartida").style.display = "flex";
 }
 
 
