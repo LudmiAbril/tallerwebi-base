@@ -153,7 +153,6 @@ public class ControladorBingoBot {
             session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
         }
         if (numerosEntregados.size() == tiradaLimiteDeLaSesion) {
-            session.setAttribute("seHizoLinea", false);
             session.setAttribute("seHizoBingo", false);
             limiteAlcanzado = true;
             respuesta.put("limiteAlcanzado", limiteAlcanzado);
@@ -196,69 +195,18 @@ public class ControladorBingoBot {
         return respuesta;
     }
 
-    // @RequestMapping(path = "/obtenerNumeroActual", method = RequestMethod.GET)
-    // @ResponseBody
-    // public Map<String, Integer> obtenerNumeroActual(HttpSession session) {
-    // Integer numeroActual = (Integer)
-    // session.getAttribute("numeroAleatorioCantado");
-    // Map<String, Integer> respuesta = new HashMap<>();
-    // respuesta.put("numeroActual", numeroActual);
-    // return respuesta;
-    // }
-
-    // @RequestMapping(path = "/bingo", method = RequestMethod.POST)
-    // @ResponseBody
-    // public Map<String, Object> hacerBingo(HttpSession session) {
-    // Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>)
-    // session.getAttribute("numerosMarcadosDeLaSesion");
-    // Integer dimension = (Integer)
-    // session.getAttribute("dimensionDelCartonDeLaSesion");
-    // Boolean seHizoBingo = this.servicioBingo.bingo(numerosMarcadosDeLaSesion,
-    // dimension);
-    // session.setAttribute("seHizoBingo", seHizoBingo);
-    // session.setAttribute("seHizoLinea", false);
-    // Map<String, Object> respuesta = new HashMap<String, Object>();
-    // respuesta.put("seHizoBingo", seHizoBingo);
-    // return respuesta;
-    // }
-
-    // @RequestMapping(path = "/obtenerLosNumerosEntregados", method =
-    // RequestMethod.GET)
-    // @ResponseBody
-    // public Map<String, Object> obtenerLosNumerosEntregados(HttpSession session) {
-    // Set<Integer> numerosEntregadosDeLaSesion = (Set<Integer>)
-    // session.getAttribute("numerosEntregadosDeLaSesion");
-    // Map<String, Object> respuesta = new HashMap<String, Object>();
-    // respuesta.put("numerosEntregadosDeLaSesion", numerosEntregadosDeLaSesion);
-    // return respuesta;
-    // }
-
-    // @RequestMapping(path = "/obtenerLosNumerosMarcados", method =
-    // RequestMethod.GET)
-    // @ResponseBody
-    // public Map<String, Object> obtenerLosNumerosMarcados(HttpSession session) {
-    // Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>)
-    // session.getAttribute("numerosMarcadosDeLaSesion");
-    // Map<String, Object> respuesta = new HashMap<String, Object>();
-    // if (numerosMarcadosDeLaSesion == null) {
-    // numerosMarcadosDeLaSesion = new HashSet<>();
-    // session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
-    // }
-    // respuesta.put("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
-    // return respuesta;
-    // }
-
-    // @RequestMapping(path = "/obtenerUltimoNumeroEntregado", method =
-    // RequestMethod.GET)
-    // @ResponseBody
-    // public Map<String, Object> obtenerUltimoNumeroEntregado(HttpSession session)
-    // {
-    // Integer ultimoNumeroEntregado = (Integer)
-    // session.getAttribute("numeroAleatorioCantado");
-    // Map<String, Object> respuesta = new HashMap<String, Object>();
-    // respuesta.put("ultimoNumeroEntregado", ultimoNumeroEnstregado);
-    // return respuesta;
-    // }
+    @RequestMapping(path = "/bingoUser", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> hacerBingo(HttpSession session) {
+        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+        Integer dimension = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
+        Boolean seHizoBingo = this.servicioBingo.bingo(numerosMarcadosDeLaSesion,
+                dimension);
+        session.setAttribute("seHizoBingo", seHizoBingo);
+        Map<String, Object> respuesta = new HashMap<String, Object>();
+        respuesta.put("seHizoBingo", seHizoBingo);
+        return respuesta;
+    }
 
     @RequestMapping(path = "/obtenerCincoUltimosNumerosEntregadosBot", method = RequestMethod.GET)
     @ResponseBody
@@ -280,48 +228,10 @@ public class ControladorBingoBot {
         return respuesta;
     }
 
-    // @RequestMapping(path = "/linea", method = RequestMethod.GET)
-    // @ResponseBody
-    // public Map<String, Object> hacerlinea(HttpSession session) {
-    // Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>)
-    // session.getAttribute("numerosMarcadosDeLaSesion");
-    // CartonBingo cartonDeLaSesion = (CartonBingo) session.getAttribute("carton");
-    // Boolean seHizoLinea = this.servicioBingo.linea(numerosMarcadosDeLaSesion,
-    // cartonDeLaSesion);
-    // session.setAttribute("seHizoLinea", seHizoLinea);
-    // session.setAttribute("seHizoBingo", false);
-    // Map<String, Object> respuesta = new HashMap<String, Object>();
-    // respuesta.put("seHizoLinea", seHizoLinea);
-    // return respuesta;
-    // }
-
     @RequestMapping(path = "/finalizarPartidaBot", method = RequestMethod.POST)
     public ModelAndView finalizar(HttpSession session) throws PartidaConPuntajeNegativoException,
             IllegalArgumentException {
-        ModelAndView mav = new ModelAndView();
-        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-        Boolean seHizoLinea = (Boolean) session.getAttribute("seHizoLinea");
-        Boolean seHizoBingo = (Boolean) session.getAttribute("seHizoBingo");
-        TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session
-                .getAttribute("tipoPartidaBingo");
-        Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
-        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-        Integer cantidadDeCasillerosMarcados = numerosMarcadosDeLaSesion.size();
-        Boolean ganoBot = (Boolean) session.getAttribute("seHizoBingoBot");
-        try {
-            servicioPlataforma
-                    .agregarPartida(
-                            new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, seHizoLinea,
-                                    seHizoBingo,
-                                    tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados,
-                                    ganoBot));
-            mav.setViewName("redirect:/irAlBingo");
-        } catch (Exception e) {
-            mav.setViewName("bingo");
-            mav.addObject("mensajeError", "Ocurrió un error al intentar guardar la partida.");
-        }
-
-        return mav;
+        return new ModelAndView("irAlBingo");
     }
 
 }

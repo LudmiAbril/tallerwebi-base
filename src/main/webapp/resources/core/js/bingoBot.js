@@ -189,7 +189,7 @@ function obtenerLosNumerosEntregados() {
 }
 
 function bingo() {
-  $.post("bingo", function (data) {
+  $.post("bingoUser", function (data) {
     if (data.seHizoBingo) {
       abrirModal();
       clearInterval(intervaloRefresco); // Detener la actualización del número
@@ -216,7 +216,7 @@ function abrirModal() {
 
 function abrirModalBot() {
   $(".tituloModal").text("Perdiste!");
-  $(".textoModal").text("suerte para la proxima pete");
+  $(".textoModal").text("Suerte para la proxima!");
   document.getElementById("modalBingo").style.display = "block";
 }
 

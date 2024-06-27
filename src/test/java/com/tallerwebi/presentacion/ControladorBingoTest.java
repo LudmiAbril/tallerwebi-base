@@ -356,7 +356,7 @@ public class ControladorBingoTest {
         List<PartidaBingo> partidasBingoEsperadas = new ArrayList<PartidaBingo>();
         int cantidadDeNumerosMarcados = numerosMarcados.size();
         PartidaBingo partida = new PartidaBingo(1L, Juego.BINGO, numerosMarcados, seHizoLinea, seHizoBingo,
-                tipoPartidaBingo, tiradaLimite, cantidadDeNumerosMarcados, false);
+                tipoPartidaBingo, tiradaLimite, cantidadDeNumerosMarcados);
 
         partidasBingoEsperadas.add(partida);
 
@@ -414,7 +414,7 @@ public class ControladorBingoTest {
         List<PartidaBingo> partidasBingoEsperadas = new ArrayList<PartidaBingo>();
         int cantidadDeNumerosMarcados = numerosMarcados.size();
         PartidaBingo partida = new PartidaBingo(1L, Juego.BINGO, numerosMarcados, seHizoLinea, seHizoBingo,
-                tipoPartidaBingo, tiradaLimite, cantidadDeNumerosMarcados, false);
+                tipoPartidaBingo, tiradaLimite, cantidadDeNumerosMarcados);
 
         partidasBingoEsperadas.add(partida);
 

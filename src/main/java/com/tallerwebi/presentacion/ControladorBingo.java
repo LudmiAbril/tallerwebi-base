@@ -272,7 +272,7 @@ public class ControladorBingo {
 					.agregarPartida(
 							new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, seHizoLinea,
 									seHizoBingo,
-									tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados, false));
+									tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados));
 			mav.setViewName("redirect:/irAlBingo");
 		} catch (Exception e) {
 			mav.setViewName("bingo");
