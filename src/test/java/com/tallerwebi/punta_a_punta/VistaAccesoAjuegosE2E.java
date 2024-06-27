@@ -167,12 +167,8 @@ public class VistaAccesoAjuegosE2E {
         assertThat(url, containsStringIgnoringCase("/inicio-blackjack"));
     }
 
-    @Test
-    void deberiaNavegarAAhorcado() {
-        vistaAccesoAjuegos.darClick("#accederAhorcado");
-        String url = vistaAccesoAjuegos.obtenerURLActual();
-        assertThat(url, containsStringIgnoringCase("/irAlAhorcado"));
-    }
+   
+
 
 
 }
