@@ -53,8 +53,9 @@ $(document).ready(function () {
                 console.error('Error del servidor:', data.error);
                 return;
             }
-
-            if (data.seGano) {
+    
+       
+            if (data.seGano || data.movimientosRealizados >= 15) {
                 document.getElementById('modalSenkuFinish').style.display = 'block';
                 document.querySelector('#modalSenkuFinish span').textContent = data.nombreJugador;
                 mostrarMensajeMovimientos(data);
@@ -68,7 +69,8 @@ $(document).ready(function () {
             $(".mensaje").text("Error en la solicitud: " + error.message);
         });
     }
-
+    
+    
     function mostrarMensajeMovimientos(respuesta) {
         if (respuesta.movimientosDisponibles === false) {
             document.getElementById("mensajeMovimientos").textContent = "No hay movimientos válidos disponibles.";

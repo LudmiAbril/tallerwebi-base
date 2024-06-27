@@ -23,16 +23,16 @@
 
     <script th:src="@{/js/customModal.js}"></script>
     <script type="module" th:src="@{/js/senku.js}"></script>
-
+    <script th:src="@{/js/musica.js}"></script>
 
 </head>
 
 <body>
 <div class="nav-bar">
     <div class="nav-left">
-        <a href="javascript:void(0)" class="back-arrow">
-            <i class="fas fa-arrow-left"></i>
-        </a>
+        <a href="volverAlMenu">
+            <span class="material-symbols-outlined icono">arrow_back</span>
+          </a>
     </div>
     <div class="nav-right">
         <div class="nombre-jugador">
@@ -69,7 +69,8 @@
             <p>Contador Movimientos : <span class="mov" th:text="${contadorMovimientos}">00</span></p>
         </div>
     </div>
-
+      <!-- Mensaje Actualizacion Movimientos -->
+      <p class="mensaje" ><span class="mensaje" th:text="${mensaje}"></span></p>
             <!-- Tablero -->
             <div class="tablero-fondo">
                 <div class="tablero"></div>
@@ -118,7 +119,8 @@
     Tu navegador no soporta la reproducción de audio.
 </audio>
 
-<script th:src="@{/js/musica.js}"></script>
+
+
 </body>
 
 </html>
