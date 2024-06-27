@@ -13,7 +13,7 @@ $(document).ready(function () {
         //Obtiene el número de casillero en la posición (i, j) del cartón.
         var numeroCasillero = data.cartonBot.numeros[i][j];
         cartonhtmlbot +=
-          "<td><button id='botonCasillero" +
+          "<td><button id='botonCasilleroBot" +
           numeroCasillero +
           "' >" +
           numeroCasillero +
@@ -43,6 +43,7 @@ $(document).ready(function () {
     }
     $(".cartonUser").html(cartonhtmluser);
     $(".cartonUser").addClass("w3-animate-bottom");
+
 
     $(".numeroCantadoContenedor").addClass("w3-animate-top");
 
@@ -86,9 +87,9 @@ function refrescarNumero() {
       }
       // ver si se marco en el bot
       if (data.seMarcoBot) {
-        $("#botonCasillero" + data.nuevoNumero).css(
+        $("#botonCasilleroBot" + data.nuevoNumero).css(
           "background-color",
-          "purple"
+          "#28e4d4"
         );
       }
       if (data.seHizoBingoBot) {
@@ -196,10 +197,10 @@ function bingo() {
     } else if (!data.seHizoBingo) {
       var botonBingo = document.querySelector("#botonBingo");
       botonBingo.style.color = "black";
-      botonBingo.classList.add("animate__animated", "animate__shakeX");
+      botonBingo.classList.add("animate_animated", "animate_shakeX");
       botonBingo.style.backgroundColor = "gray";
       setTimeout(function () {
-        botonBingo.classList.remove("animate__animated", "animate__shakeX");
+        botonBingo.classList.remove("animate_animated", "animate_shakeX");
         botonBingo.style.backgroundColor = "#8a2be2";
       }, 1000);
     }
@@ -265,10 +266,10 @@ function lanzarConfetti() {
 //         } else if (!data.seHizoLinea) {
 //             var botonLinea = document.querySelector("#botonLinea");
 //             botonLinea.style.color = 'black';
-//             botonLinea.classList.add('animate__animated', 'animate__shakeX');
+//             botonLinea.classList.add('animate_animated', 'animate_shakeX');
 //             botonLinea.style.backgroundColor = 'gray';
 //             setTimeout(function () {
-//                 botonLinea.classList.remove('animate__animated', 'animate__shakeX');
+//                 botonLinea.classList.remove('animate_animated', 'animate_shakeX');
 //                 botonLinea.style.backgroundColor = '#8a2be2';
 //             }, 1000);
 //         }

@@ -17,9 +17,10 @@ public class PartidaBingo extends Partida {
     private TipoPartidaBingo tipoPartidaBingo;
     private Integer tirada;
     private Integer cantidadDeCasillerosMarcados;
+    private Boolean ganoBot;
 
     public PartidaBingo(Long idJugador, Juego juego, Set<Integer> casillerosMarcados, Boolean seHizoLinea, Boolean seHizoBingo,
-            TipoPartidaBingo tipoPartidaBingo, Integer tirada, Integer cantidadDeCasillerosMarcados) {
+            TipoPartidaBingo tipoPartidaBingo, Integer tirada, Integer cantidadDeCasillerosMarcados, Boolean ganoBot) {
                 super(idJugador, juego);
         this.casillerosMarcados = casillerosMarcados;
         this.seHizoLinea = seHizoLinea;
@@ -27,6 +28,7 @@ public class PartidaBingo extends Partida {
         this.tipoPartidaBingo = tipoPartidaBingo;
         this.tirada = tirada;
         this.cantidadDeCasillerosMarcados = cantidadDeCasillerosMarcados;
+        this.ganoBot = ganoBot;
     }
 
     public PartidaBingo() {
@@ -78,6 +80,14 @@ public class PartidaBingo extends Partida {
 
     public void setCantidadDeCasillerosMarcados(Integer cantidadDeCasillerosMarcados) {
         this.cantidadDeCasillerosMarcados = cantidadDeCasillerosMarcados;
+    }
+
+    public Boolean getGanoBot() {
+        return ganoBot;
+    }
+
+    public void setGanoBot(Boolean ganoBot) {
+        this.ganoBot = ganoBot;
     }
 
     

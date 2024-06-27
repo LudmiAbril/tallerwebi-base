@@ -46,8 +46,7 @@ public class ControladorBingoBot {
             usuario = (Usuario) session.getAttribute("jugadorActual");
         }
 
-        Integer maxTirada = 99;
-        session.setAttribute("tiradaLimiteDeLaSesion", maxTirada);
+        session.setAttribute("tiradaLimiteDeLaSesion", 99);
         session.setAttribute("dimensionDelCartonDeLaSesion", usuario.getConfig().getDimensionCarton());
 
         Integer dimensionDelCartonDeLaSesion = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
@@ -80,7 +79,7 @@ public class ControladorBingoBot {
     @RequestMapping(path = "/obtenerDatosInicialesBot", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> obtenerDatosIniciales(HttpSession session) {
-       
+
         CartonBingo carton = (CartonBingo) session.getAttribute("carton");
         CartonBingo cartonBot = (CartonBingo) session.getAttribute("cartonBot");
         Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
@@ -153,6 +152,7 @@ public class ControladorBingoBot {
             session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
         }
         if (numerosEntregados.size() == tiradaLimiteDeLaSesion) {
+            session.setAttribute("seHizoLinea", false);
             session.setAttribute("seHizoBingo", false);
             limiteAlcanzado = true;
             respuesta.put("limiteAlcanzado", limiteAlcanzado);
@@ -166,7 +166,7 @@ public class ControladorBingoBot {
             session.setAttribute("numeroAleatorioCantado", nuevoNumero);
             session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
 
-            // respuesta.put("nuevoNumero", nuevoNumero);
+            respuesta.put("nuevoNumero", nuevoNumero);
             respuesta.put("limiteAlcanzado", false);
             respuesta.put("numerosRestantesParaCompletarLaTirada",
                     numerosRestantesParaCompletarLaTirada);
@@ -186,11 +186,11 @@ public class ControladorBingoBot {
         }
 
         numerosMarcadosBot = (Set<Integer>) session.getAttribute("numerosMarcadosBot");
+        session.setAttribute("seHizoBingoBot", seHizoBingoBot);
 
         respuesta.put("numerosMarcadosBot", numerosMarcadosBot);
         respuesta.put("seMarcoBot", seMarcoBot);
         respuesta.put("seHizoBingoBot", seHizoBingoBot);
-        
 
         return respuesta;
     }
@@ -306,13 +306,14 @@ public class ControladorBingoBot {
         Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         Integer cantidadDeCasillerosMarcados = numerosMarcadosDeLaSesion.size();
-
+        Boolean ganoBot = (Boolean) session.getAttribute("seHizoBingoBot");
         try {
             servicioPlataforma
                     .agregarPartida(
                             new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, seHizoLinea,
                                     seHizoBingo,
-                                    tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados));
+                                    tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados,
+                                    ganoBot));
             mav.setViewName("redirect:/irAlBingo");
         } catch (Exception e) {
             mav.setViewName("bingo");

@@ -83,13 +83,13 @@ public class RepositorioPartidaTest {
         Integer cantidadDeCasillerosMarcados = casillerosMarcados.size();
 
         Partida p1 = new PartidaBingo(idJugador, juego, casillerosMarcados, seHizoLinea, seHizoBingo, tipoPartidaBingo,
-                tirada, cantidadDeCasillerosMarcados);
+                tirada, cantidadDeCasillerosMarcados, false);
 
         casillerosMarcados.add(7);
         casillerosMarcados.add(6);
         // PARTIDA DOS
         Partida p2 = new PartidaBingo(idJugador, Juego.BINGO, casillerosMarcados, false, true, TipoPartidaBingo.BINGO,
-                25, 9);
+                25, 9, false);
 
         List<Partida> partidasEsperadas = new ArrayList<Partida>();
         partidasEsperadas.add(p2);
