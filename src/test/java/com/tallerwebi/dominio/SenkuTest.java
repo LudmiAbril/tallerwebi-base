@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SenkuTest {
 
-    //TEST POR COSTUMBRE PARA EMPEZAR A MODELAR LAS CLASES PRINCIPALES
+
     @Test
     public void queSePuedaCrearUnSenku() {
         //Given
@@ -56,14 +56,11 @@ public class SenkuTest {
     @Test
     public void queSePuedaSeleccionarUnCasilleroMedianteCoordenadas() throws CasilleroVacio, CasilleroInexistenteException {
      //GIVEN
-        // TENGO UN TABLERO
         Senku nuevo = new Senku(5);
         Tablero tablero = nuevo.getTablero();
         ServicioSenkuImpl servicio= new ServicioSenkuImpl();
-        //CREO CASILLERO
         Casillero esperado=new Casillero(4,2);
     //WHEN
-        //SELECCIONO FICHA
         Casillero seleccionado=servicio.seleccionarCasillero(tablero,4,2);
     //THEN
         assertEquals(esperado.getCoordenadaX(),seleccionado.getCoordenadaX());
@@ -184,8 +181,6 @@ public class SenkuTest {
         
         ServicioSenkuImpl servicioSenku = new ServicioSenkuImpl();
         Casillero seleccionado, destino;
-    
-    
         // WHEN
         boolean hayMovimientosValidos = tablero.hayMovimientoDisponibleEnTablero();
     

@@ -68,7 +68,7 @@ public class ControladorSenkuTest {
         ModelMap modelMap = modelAndView.getModelMap();
         assertNotNull(modelMap);
         assertEquals("senku", modelAndView.getViewName());
-        assertEquals("¡Bienvenido user! Comienza tu juego.", modelMap.get("mensaje"));
+        assertEquals("¡Bienvenido user!", modelMap.get("mensaje"));
         assertEquals("user", modelMap.get("nombreJugador"));
         assertEquals(0, modelMap.get("contadorMovimientos"));
 
@@ -141,7 +141,6 @@ public class ControladorSenkuTest {
         int x = 2;
         int y = 3;
 
-        // supuesto -casillero vacio- (* - *)
         when(servicioSenku.seleccionarCasillero(tablero, x, y)).thenThrow(new CasilleroVacio(null));
 
         // WHEN
@@ -162,11 +161,11 @@ public class ControladorSenkuTest {
         ServicioPlataforma servicioPlataforma = mock(ServicioPlataforma.class);
         ControladorSenku controladorSenku = new ControladorSenku(servicioSenku, servicioPlataforma);
         Tablero tablero = new Tablero(5);
-        // CREO LOS CASILLEROS Y LOS SETEO PARA HACER UN MOV VALIDO
+
         Casillero casilleroOrigen = new Casillero(0, 2);
-        casilleroOrigen.setOcupado(true); // LO MOCKEO EN OCUPADO --TRUE
+        casilleroOrigen.setOcupado(true);
         Casillero casilleroDestino = new Casillero(2, 2);
-        casilleroDestino.setOcupado(false); // MOCKEO A VACIO --FALSE
+        casilleroDestino.setOcupado(false);
 
         when(servicioSenku.seleccionarCasillero(tablero, 0, 2)).thenReturn(casilleroOrigen);
         when(servicioSenku.getCasillero(tablero, 2, 2)).thenReturn(casilleroDestino);
@@ -179,7 +178,7 @@ public class ControladorSenkuTest {
         // WHEN
         Map<String, Object> respuesta = controladorSenku.moverOSeleccionar(2, 2, session);
 
-        // THEN --SE HACE ELMOVIMIENTO Y LA LOGICA DEL SUCCES
+        // THEN
         assertNotNull(respuesta);
         assertTrue((Boolean) respuesta.get("success"));
         assertEquals("Movimiento realizado con éxito.", respuesta.get("mensaje"));
@@ -196,15 +195,15 @@ public class ControladorSenkuTest {
         ServicioPlataforma servicioPlataforma = mock(ServicioPlataforma.class);
         ControladorSenku controladorSenku = new ControladorSenku(servicioSenku, servicioPlataforma);
         Tablero tablero = new Tablero(5);
-        // Creo los casilleros y los seteo para un movimiento inválido
+
         Casillero casilleroOrigen = new Casillero(0, 2);
-        casilleroOrigen.setOcupado(true); // MOCKEO A OCUPADO --FALSE
+        casilleroOrigen.setOcupado(true);
         Casillero casilleroDestino = new Casillero(2, 2);
-        casilleroDestino.setOcupado(true); // MOCKEO A OCUPADO --FALSE
+        casilleroDestino.setOcupado(true);
 
         when(servicioSenku.seleccionarCasillero(tablero, 0, 2)).thenReturn(casilleroOrigen);
         when(servicioSenku.getCasillero(tablero, 2, 2)).thenReturn(casilleroDestino);
-        // SIMULAMOS LA EXCEPCION YA QUE EL MOVIMIENTO NO ES CORRECTO
+
         doThrow(new MovimientoInvalidoException("Movimiento inválido")).when(servicioSenku).realizarMovimiento(tablero,
                 casilleroOrigen, casilleroDestino);
 
@@ -214,7 +213,7 @@ public class ControladorSenkuTest {
         // WHEN
         Map<String, Object> respuesta = controladorSenku.moverOSeleccionar(2, 2, session);
 
-        // THEN -- SINO SE MOVIO,NO SINREMENTA Y SE LIMPIA LA SELECCCION EN LA SESSION
+        // THEN
         assertNotNull(respuesta);
         assertFalse((Boolean) respuesta.get("success"));
         assertEquals("El casillero de destino debe estar vacío.", respuesta.get("mensaje"));
@@ -241,8 +240,7 @@ public class ControladorSenkuTest {
         verify(session).setAttribute(eq("tablero"), any(Tablero.class));
         verify(session).setAttribute("contadorMovimientos", 0);
         verify(session).removeAttribute("casilleroSeleccionado");
-        // NO SE CREA UN NUEVO USER.NO SE REASIGNA,YA QUE SE RECUPERA EL QUE YA ESTA EN
-        // LA SESSION
+
         verify(session, never()).setAttribute(eq("jugadorActual"), any(Usuario.class));
 
         ModelMap model = modelAndView.getModelMap();
@@ -269,7 +267,7 @@ public class ControladorSenkuTest {
         verify(session).setAttribute(eq("tablero"), any(Tablero.class));
         verify(session).setAttribute("contadorMovimientos", 0);
         verify(session).removeAttribute("casilleroSeleccionado");
-        // SI NO EXISTE EL USER,ENTONCES SI SE CREA
+
         verify(session).setAttribute(eq("jugadorActual"), any(Usuario.class));
 
         ModelMap model = modelAndView.getModelMap();

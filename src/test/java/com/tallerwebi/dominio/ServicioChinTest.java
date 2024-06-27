@@ -75,14 +75,17 @@ public class ServicioChinTest {
     @Test
     public void elJugador1GanaSiNoTieneMasCartas(){
         ArrayList<Carta> mazoJugador1 = new ArrayList<>();
-
-        assertThat(mazoJugador1.size(), is(0));
+        ServicioChin chin = new ServicioChinImpl();
+        Boolean gano = chin.chequearGanador(mazoJugador1);
+        assertThat(gano, is(true));
     }
     @Test
     public void elJugador2GanaSiNoTieneMasCartas(){
         ArrayList<Carta> mazoJugador2 = new ArrayList<>();
 
-        assertThat(mazoJugador2.size(), is(0));
+        ServicioChin chin = new ServicioChinImpl();
+        Boolean gano = chin.chequearGanador(mazoJugador2);
+        assertThat(gano, is(true));
     }
     @Test
     public void devuelveLasCartasDelMazoACadaJugador(){

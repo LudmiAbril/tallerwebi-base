@@ -113,4 +113,12 @@ public class ServicioChinImpl implements ServicioChin {
         }
         return sePuede;
     }
+
+    @Override
+    public Boolean chequearGanador(ArrayList<Carta> mazoJugador1) {
+        if(mazoJugador1.isEmpty())
+            return true;
+
+        return false;
+    }
 }

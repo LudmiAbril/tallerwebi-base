@@ -47,14 +47,12 @@ public class ControladorSenku {
         this.servicioPlataforma = servicioPlataforma;
     }
 
-    // PANTALLA DE IR AL SENKU
     @RequestMapping(path = "/irAlSenku", method = RequestMethod.GET)
     public ModelAndView inicioSenku() {
         ModelMap modelo = new ModelMap();
         modelo.put("nuevoJugador", new Jugador());
         return new ModelAndView("irAlSenku", modelo);
     }
-    // BOTON DE JUGAR
 
     @RequestMapping(path = "/comenzarJuegoSenku", method = RequestMethod.POST)
     public ModelAndView comenzarJuegoSenku(HttpSession session) {
@@ -71,7 +69,7 @@ public class ControladorSenku {
         }
         Tablero tablero = new Tablero(5);
         session.setAttribute("tablero", tablero);
-        // PONGO LOS DATOS EN EL MODELO ASI LOS PUEDO RENDERIZAR CON THIMELEAF
+
         model.put("mensaje", "¡Bienvenido " + usuario.getNombre() + "!");
         model.put("mensaje2", "¡QUE COMIENCE EL JUEGO!");
         model.put("nombreJugador", usuario.getNombre());
