@@ -55,7 +55,7 @@ $(document).ready(function () {
             }
     
        
-            if (data.seGano || data.movimientosRealizados >= 15) {
+            if (data.seGano || data.movimientosRealizados >= 20) {
                 document.getElementById('modalSenkuFinish').style.display = 'block';
                 document.querySelector('#modalSenkuFinish span').textContent = data.nombreJugador;
                 mostrarMensajeMovimientos(data);
