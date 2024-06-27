@@ -38,14 +38,6 @@ public class ServicioChinImpl implements ServicioChin {
         for(int i =0; i< 26; i++){
             mazoJugador2.add(baraja.sacarCarta());
         }
-//        for(int i =0; i< this.baraja.getSize(); i++){
-//            if(i % 2 ==0){
-//                mazoJugador1.add(baraja.sacarCarta());
-//            }else{
-//                mazoJugador2.add(baraja.sacarCarta());
-//            }
-//        }
-//        }
     }
 
     @Override
