@@ -110,10 +110,9 @@
          CartonBingo carton = (CartonBingo) session.getAttribute("carton");
          Integer numeroCantado = (Integer) session.getAttribute("numeroAleatorioCantado");
 
-         servicioBingoMock.marcarCasilleroBot(numeroCantado, carton);
-         Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-         //assertThat(numerosMarcadosDeLaSesion.contains(numeroCantado), equalTo(true));
-         //verify(servicioBingoMock, times(1)).marcarCasillero(numeroCantado, carton);
+         Boolean seMarco =servicioBingoMock.marcarCasilleroBot(numeroCantado, carton);
+         assertThat(!seMarco, is(true));
+
      }
 
      @Test
@@ -126,51 +125,6 @@
          verify(servicioBingoMock, times(2)).entregarNumeroAleatorio(anySet());
      }
 
-     @Test
-      public void queSeObtengaNumeroActualCorrectamente() {
-          controladorBingoBot.comenzarJuegoBingoBot( session);
-          //Map<String, Integer> numeroActual = controladorBingoBot.obtenerNumeroActual(session);
-          //assertThat(numeroActual.get("numeroActual"),equalTo(session.getAttribute("numeroAleatorioCantado")));
-      }
-
-      @Test
-      public void queSeHagaBingoCorrectamente(){
-      controladorBingoBot.comenzarJuegoBingoBot( session);
-      Set<Integer> numerosMarcados = new HashSet<>();
-      numerosMarcados.add((Integer)
-      session.getAttribute("numeroAleatorioCantado"));
-      session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcados);
-      session.setAttribute("dimensionDelCartonDeLaSesion", 3);
-
-      //Map<String, Object> respuesta = controladorBingoBot.hacerBingo(session);
-
-      //assertThat(respuesta.get("seHizoBingo"), notNullValue());
-      //verify(servicioBingoMock, times(1)).bingo(numerosMarcados, 3);
-      }
-
-      @Test
-      public void queSeObtenganLosNumerosEntregadosCorrectamente(){
-      controladorBingoBot.comenzarJuegoBingoBot( session);
-      //Map<String, Object> numerosEntregados = controladorBingoBot.obtenerLosNumerosEntregados(session);
-
-      //assertThat(numerosEntregados.get("numerosEntregadosDeLaSesion"),notNullValue());
-      }
-
-      @Test
-      public void queSeObtenganLosNumerosMarcadosCorrectamente() {
-          controladorBingoBot.comenzarJuegoBingoBot( session);
-          //Map<String, Object> numerosMarcados = controladorBingoBot.obtenerLosNumerosMarcados(session);
-
-          //assertThat(numerosMarcados.get("numerosMarcadosDeLaSesion"), notNullValue());
-      }
-
-      @Test
-      public void queSeObtengaElUltimoNumeroEntregadoCorrectamente(){
-      controladorBingoBot.comenzarJuegoBingoBot( session);
-      //Map<String, Object> ultimoNumero = controladorBingoBot.obtenerUltimoNumeroEntregado(session);
-
-      //assertThat(ultimoNumero.get("ultimoNumeroEntregado"), equalTo(session.getAttribute("numeroAleatorioCantado")));
-      }
 
       @Test
       public void queSeObtenganLosCincoUltimosNumerosEntregadosCorrectamente(){
@@ -190,28 +144,14 @@
       assertThat(numerosParaMostrar.get(0), equalTo(6));
       }
 
-      @Test
-      public void queSeHagaLineaCorrectamente(){
-      controladorBingoBot.comenzarJuegoBingoBot( session);
-      Set<Integer> numerosMarcados = new HashSet<>();
-      numerosMarcados.add((Integer)
-      session.getAttribute("numeroAleatorioCantado"));
-      session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcados);
-      session.setAttribute("dimensionDelCartonDeLaSesion", 3);
-      CartonBingo carton = (CartonBingo) session.getAttribute("carton");
-      //Map<String, Object> respuesta = controladorBingoBot.hacerlinea(session);
 
-      //assertThat(respuesta.get("seHizoLinea"), notNullValue());
-      //verify(servicioBingoMock, times(1)).linea(numerosMarcados, carton);
-      }
 
      @Test
      public void queSeObtenganLosNumerosFaltantesParaBingoCorrectamente() {
          controladorBingoBot.comenzarJuegoBingoBot( session);
          Map<String, Object> datosIniciales = controladorBingoBot.obtenerDatosIniciales(session);
          Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
-         Integer faltantes = (Integer) datosIniciales.get("numerosRestantesParaCompletarLaTirada"); // (Integer)
-                                                                                                    // session.getAttribute("numerosRestantesParaCompletarLaTiradaDeLaSesion");
+         Integer faltantes = (Integer) datosIniciales.get("numerosRestantesParaCompletarLaTirada");
 
          Integer limiteMinimo = 0;
          assertThat(faltantes, is(org.hamcrest.Matchers.greaterThanOrEqualTo(limiteMinimo)));
@@ -222,8 +162,7 @@
          controladorBingoBot.comenzarJuegoBingoBot( session);
          Map<String, Object> datosIniciales = controladorBingoBot.obtenerDatosIniciales(session);
          Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
-         Integer faltantes = (Integer) datosIniciales.get("numerosRestantesParaCompletarLaTirada"); // (Integer)
-                                                                                                    // session.getAttribute("numerosRestantesParaCompletarLaTiradaDeLaSesion");
+         Integer faltantes = (Integer) datosIniciales.get("numerosRestantesParaCompletarLaTirada");
 
          Integer limiteMinimo = 0;
          assertThat(faltantes, is(org.hamcrest.Matchers.greaterThanOrEqualTo(limiteMinimo)));

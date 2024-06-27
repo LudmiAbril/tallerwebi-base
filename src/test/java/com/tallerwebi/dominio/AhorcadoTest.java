@@ -33,25 +33,17 @@ public class AhorcadoTest {
         Integer partesAhorcado = 6;
         String palabraParaAdivinar = "perro";
         Character letra = 'e';
-
-       
         partesAhorcado = servicio.intentarLetra(letra, palabraParaAdivinar, partesAhorcado);
-
-
         assertThat(partesAhorcado, equalTo(6));
     }
 
     @Test
     public void queSeReduzcanLosIntentosSiIngresamosUnaLetraIncorrecta() {
-  
         Integer partesAhorcado = 6;
         String palabraParaAdivinar = "perro";
         Character letra = 'x';
-
-   
         partesAhorcado = servicio.intentarLetra(letra, palabraParaAdivinar, partesAhorcado);
 
-    
         assertThat(partesAhorcado, equalTo(5));
     }
 
@@ -62,14 +54,10 @@ public class AhorcadoTest {
         String palabraParaAdivinar = "perro";
         Character letraCorrecta = 'p';
         Character letraIncorrecta = 'x';
-
-      
         partesAhorcado = servicio.intentarLetra(letraCorrecta, palabraParaAdivinar, partesAhorcado);
         partesAhorcado = servicio.intentarLetra(letraIncorrecta, palabraParaAdivinar, partesAhorcado);
 
         String palabraOculta = mostrarPalabraOculta(palabraParaAdivinar, "p");
-
-       
         assertThat(palabraOculta, equalTo("p____"));
         assertFalse(servicio.Perdio(partesAhorcado));
     }
@@ -80,11 +68,7 @@ public class AhorcadoTest {
         Integer partesAhorcado = 1;
         String palabraParaAdivinar = "perro";
         Character letraIncorrecta = 'x';
-
-
         partesAhorcado = servicio.intentarLetra(letraIncorrecta, palabraParaAdivinar, partesAhorcado);
-
- 
         assertTrue(servicio.Perdio(partesAhorcado));
     }
 

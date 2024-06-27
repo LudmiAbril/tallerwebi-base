@@ -13,4 +13,6 @@ public interface ServicioChin {
     void guardarResultadoDePartida(Juego CHIN, Integer puntaje);
     void sacarDelMazoYPonerEnMano(ArrayList<Carta> mazoJugador1, ArrayList<Carta> manoJugador1);
     boolean sePuedenAgregarCartasAlDescarte(ArrayList<Carta> descarte1, ArrayList<Carta> descarte2, ArrayList<Carta> manoJugador1, ArrayList<Carta> manoJugador2);
+
+    Boolean chequearGanador(ArrayList<Carta> mazoJugador1);
 }
