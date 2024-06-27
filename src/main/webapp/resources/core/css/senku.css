@@ -113,7 +113,10 @@ main{
 
     }
 
-
+.mensaje{
+text-align: center;
+margin: 1%;
+}
 
 
 .highlight {
@@ -392,7 +395,3 @@ main{
     background-color: #132a3d;
 }
 
-.mensaje{
-text-align: center;
-margin: 1%;
-}
