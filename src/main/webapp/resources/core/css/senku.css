@@ -113,7 +113,10 @@ main{
 
     }
 
-
+.mensaje{
+text-align: center;
+margin: 1%;
+}
 
 
 .highlight {
@@ -391,3 +394,4 @@ main{
 .modal-contentSenku button:hover {
     background-color: #132a3d;
 }
+

@@ -72,7 +72,7 @@ public class ControladorSenku {
         Tablero tablero = new Tablero(5);
         session.setAttribute("tablero", tablero);
         // PONGO LOS DATOS EN EL MODELO ASI LOS PUEDO RENDERIZAR CON THIMELEAF
-        model.put("mensaje", "¡Bienvenido " + usuario.getNombre() + "!");
+        model.put("mensaje", "¡ARRANCA " + usuario.getNombre() + "!");
         model.put("mensaje2", "¡QUE COMIENCE EL JUEGO!");
         model.put("nombreJugador", usuario.getNombre());
         model.put("contadorMovimientos", 0);
@@ -204,17 +204,19 @@ public class ControladorSenku {
             }
         }
     
+        int movimientosRealizados = tablero.getContadorMovimientos();
+    
         session.setAttribute("seGano", seGano);
         session.setAttribute("movimientosDisponibles", movimientosDisponibles);
     
         respuesta.put("seGano", seGano);
         respuesta.put("movimientosDisponibles", movimientosDisponibles);
-        String nombreJugador = (jugador != null) ? jugador.getNombre() : "Jugador Desconocido";
+        respuesta.put("movimientosRealizados", movimientosRealizados);
+        String nombreJugador = (jugador != null) ? jugador.getNombre() : "Jugador Anonimo";
         respuesta.put("nombreJugador", nombreJugador);
     
         return respuesta;
     }
-    
     
     @RequestMapping(path = "/senkuFinalizarPartida", method = RequestMethod.POST)
 public ModelAndView finalizarPartida(HttpSession session) {
