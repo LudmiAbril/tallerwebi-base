@@ -46,7 +46,8 @@ public class ControladorBingoBot {
             usuario = (Usuario) session.getAttribute("jugadorActual");
         }
 
-        session.setAttribute("tiradaLimiteDeLaSesion", 99);
+        Integer maxTirada = 99;
+        session.setAttribute("tiradaLimiteDeLaSesion", maxTirada);
         session.setAttribute("dimensionDelCartonDeLaSesion", usuario.getConfig().getDimensionCarton());
 
         Integer dimensionDelCartonDeLaSesion = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
