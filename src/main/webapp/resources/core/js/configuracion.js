@@ -58,7 +58,7 @@ function validarFormulario() {
     var cantidadPelotas = parseInt(document.getElementById('cant-numeros').value);
 
     if (isNaN(cantidadPelotas) || cantidadPelotas < dimensionCarton * dimensionCarton) {
-        var errorMensaje = 'Ingrese al menos ' + dimensionCarton * dimensionCarton + ' numeros.';
+        var errorMensaje = 'Ingrese al menos ' + dimensionCarton * dimensionCarton + ' numeros en la tirada.';
         document.getElementById('mensajeError').innerText = errorMensaje;
         return false;
     }
