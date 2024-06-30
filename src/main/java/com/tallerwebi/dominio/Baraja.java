@@ -95,5 +95,12 @@ public class Baraja {
     public void setValorAs(Integer valorAs) {
         this.valorAs = valorAs;
     }
+    public String toString(){
+            StringBuilder sb = new StringBuilder();
+            for (Carta carta : cartas) {
+                sb.append(carta.toString()).append("\n");
+            }
+            return sb.toString();
+        }
 
 }

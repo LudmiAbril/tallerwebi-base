@@ -35,4 +35,27 @@ public class Carta {
         this.valor = valor;
     }
 
+    @Override
+    public String toString() {
+        return valor + " de " + palo;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Carta carta = (Carta) o;
+
+        if (valor != carta.valor) return false;
+        if (!simbolo.equals(carta.simbolo)) return false;
+        return palo == carta.palo;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = simbolo.hashCode();
+        result = 31 * result + valor;
+        result = 31 * result + (palo != null ? palo.hashCode() : 0);
+        return result;
+    }
 }

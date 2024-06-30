@@ -37,12 +37,10 @@ public class ControladorBingoBot {
         Usuario usuario;
         if (session.getAttribute("jugadorActual") == null
                 || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
-            // Si no está o no es un Usuario, crea un nuevo Usuario y ponlo en la sesión
             usuario = new Usuario();
             usuario.setNombre("user");
             session.setAttribute("jugadorActual", usuario);
         } else {
-            // Si está, recupéralo de la sesión
             usuario = (Usuario) session.getAttribute("jugadorActual");
         }
 
@@ -115,28 +113,7 @@ public class ControladorBingoBot {
         return respuesta;
     }
 
-    // @RequestMapping(path = "/marcarCasillero/{numeroCasillero}", method =
-    // RequestMethod.POST)
-    // @ResponseBody
-    // public void marcarCasillero(@PathVariable Integer numeroCasillero,
-    // HttpSession session) {
-    // CartonBingo carton = (CartonBingo) session.getAttribute("carton");
-    // Integer numeroCantado = (Integer)
-    // session.getAttribute("numeroAleatorioCantado");
 
-    // servicioBingo.marcarCasillero(numeroCasillero, carton);
-
-    // Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>)
-    // session.getAttribute("numerosMarcadosDeLaSesion");
-    // if(numerosMarcadosDeLaSesion == null){
-    // numerosMarcadosDeLaSesion = new HashSet<>();
-    // //session.setAttribute("numerosMarcadosDeLaSesion",
-    // numerosMarcadosDeLaSesion);
-    // }
-    // numerosMarcadosDeLaSesion.add(numeroCasillero);
-    // session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
-
-    // }
 
     @RequestMapping(path = "/obtenerNuevoNumeroBot", method = RequestMethod.GET)
     @ResponseBody
@@ -147,12 +124,13 @@ public class ControladorBingoBot {
         Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
         Boolean limiteAlcanzado = false;
         Map<String, Object> respuesta = new HashMap<>();
-        // this.servicioBingo.obtenerTirada(tiradaLimiteDeLaSesion);
+
         if (numerosEntregados == null) {
             numerosEntregados = new LinkedHashSet<>();
             session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
         }
         if (numerosEntregados.size() == tiradaLimiteDeLaSesion) {
+            session.setAttribute("seHizoLinea", false);
             session.setAttribute("seHizoBingo", false);
             limiteAlcanzado = true;
             respuesta.put("limiteAlcanzado", limiteAlcanzado);
@@ -195,18 +173,6 @@ public class ControladorBingoBot {
         return respuesta;
     }
 
-    @RequestMapping(path = "/bingoUser", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> hacerBingo(HttpSession session) {
-        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-        Integer dimension = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
-        Boolean seHizoBingo = this.servicioBingo.bingo(numerosMarcadosDeLaSesion,
-                dimension);
-        session.setAttribute("seHizoBingo", seHizoBingo);
-        Map<String, Object> respuesta = new HashMap<String, Object>();
-        respuesta.put("seHizoBingo", seHizoBingo);
-        return respuesta;
-    }
 
     @RequestMapping(path = "/obtenerCincoUltimosNumerosEntregadosBot", method = RequestMethod.GET)
     @ResponseBody
