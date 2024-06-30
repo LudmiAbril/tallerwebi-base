@@ -376,8 +376,8 @@ public class ControladorBlackjackTest {
         // ejecucion
         Map<String, Object> datosSalida = controladorBlackjack.plantarse(session);
         List<Carta> manoFinalCRupier = (List<Carta>) datosSalida.get("manoFinalCrupier");
-
-        //assertThat(manoFinalCRupier.size(), greaterThan(2));
+        Integer limite = 2;
+        assertThat(manoFinalCRupier.size(), org.hamcrest.Matchers.greaterThanOrEqualTo(limite));
 
     }
 

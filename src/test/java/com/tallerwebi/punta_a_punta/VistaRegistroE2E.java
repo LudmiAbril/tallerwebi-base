@@ -84,7 +84,7 @@ public class VistaRegistroE2E {
     @Test
     void deberiaNavegarALoginSiTodosLosCamposSonCorrectos() {
         vistaRegistro.ingresarNombre("Celeste");
-        vistaRegistro.ingresarEmail("celes@gmail.com");
+        vistaRegistro.ingresarEmail("celes4@gmail.com");
         vistaRegistro.ingresarContrasenia("1212");
         vistaRegistro.darClick("#btn-registrarme");
         String url = vistaRegistro.obtenerURLActual();

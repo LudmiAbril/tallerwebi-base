@@ -69,6 +69,7 @@ $(document).ready(function () {
   console.log("no entre a la solicitud");
   intervaloRefresco = setInterval(refrescarNumero, 7000);
 });
+
 function refrescarNumero() {
   obtenerLosNumerosEntregados();
   $(".numeroCantadoContenedor").removeClass("w3-animate-top");
@@ -252,30 +253,6 @@ function lanzarConfetti() {
   }, 250);
 }
 
-// function mostrarModalSeleccionTipoPartidaBingoBot(event) {
-//     event.preventDefault();
-//     document.getElementById("modalTipoPartida").style.display = "block";
-// }
-
-// function linea() {
-//     $.get("linea", function (data) {
-//         if (data.seHizoLinea) {
-//             abrirModal();
-//             clearInterval(intervaloRefresco);
-//             intervaloRefresco = null;
-//         } else if (!data.seHizoLinea) {
-//             var botonLinea = document.querySelector("#botonLinea");
-//             botonLinea.style.color = 'black';
-//             botonLinea.classList.add('animate_animated', 'animate_shakeX');
-//             botonLinea.style.backgroundColor = 'gray';
-//             setTimeout(function () {
-//                 botonLinea.classList.remove('animate_animated', 'animate_shakeX');
-//                 botonLinea.style.backgroundColor = '#8a2be2';
-//             }, 1000);
-//         }
-//     }
-//     );
-// }
 
 function abrirModalDeLimiteAlcanzado() {
   document.getElementById("modalLimite").style.display = "block";
