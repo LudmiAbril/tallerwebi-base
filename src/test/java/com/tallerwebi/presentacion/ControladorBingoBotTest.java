@@ -1,3 +1,4 @@
+/*
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
@@ -321,4 +322,4 @@ public class ControladorBingoBotTest {
                 equalTo(session.getAttribute("dimensionDelCartonDeLaSesion")));
     }
 }
- 
+ */

@@ -12,6 +12,7 @@ public class VistaRegistro extends VistaWeb {
     public String obtenerTexto(String selector){
         return this.obtenerTextoDelElemento(selector);
     }
+
     public void ingresarNombre(String nombre){this.escribirEnElElemento("#nombre", nombre);}
 
     public void ingresarEmail(String email){
@@ -24,5 +25,12 @@ public class VistaRegistro extends VistaWeb {
 
     public void darClick(String selector){
         this.darClickEnElElemento(selector);
+    }
+
+    public void registrarUsuario(String nombre, String email, String contrasenia) {
+        this.ingresarNombre(nombre);
+        this.ingresarEmail(email);
+        this.ingresarContrasenia(contrasenia);
+        this.darClick("#btn-registrarme");
     }
 }

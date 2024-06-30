@@ -16,138 +16,142 @@
   <link rel="stylesheet" th:href="@{/css/bingo.css}" />
   <link rel="stylesheet" th:href="@{/css/abandonarPartida.css}" />
 
-  <!----link google fonts--->
+  <!-- Google Fonts -->
   <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
   <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
-
   <link th:href="@{https://fonts.googleapis.com/css2?family=Honk&family=Rammetto+One&display=swap}" rel="stylesheet">
-
   <link rel="stylesheet"
-    th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
+        th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
   <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}">
-
   <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}">
+
+  <!-- Confetti JS -->
   <script th:src="@{https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js}"></script>
 
+  <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script th:src="@{/js/customModal.js}"></script>
 </head>
 
 <body>
-  <section id="fondoBingo">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-  </section>
-  <nav class="nav-bar mt">
-    <a href="javascript:void(0)" id="openCustomExitModal">
-      <span class="material-symbols-outlined icono">arrow_back</span>
-    </a>
-    <!-- Icono para reproducir/pausar música -->
-    <i id="toggleMusica" class="fas fa-music boton-musica"></i>
-  </nav>
+<section id="fondoBingo">
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+  <span></span>
+</section>
+<nav class="nav-bar mt">
+  <a href="javascript:void(0)" id="openCustomExitModal">
+    <span class="material-symbols-outlined icono">arrow_back</span>
+  </a>
+  <!-- Icono para reproducir/pausar música -->
+  <i id="toggleMusica" class="fas fa-music boton-musica" onclick="togglePlaylist()"></i>
 
-  <main role="main" class="container">
-    <!----NUMERO QUE SALE---->
-    <div class="numeroCantadoContenedor">
-      <p id="numeroCantado"></p>
+  <!-- Contenedor de la playlist -->
+  <div class="playlist-container" th:classappend="${playlistVisible} ? '' : 'hidden'">
+    <iframe id="playlist" style="border-radius:12px" th:src="@{https://open.spotify.com/embed/playlist/62emNerb9lRrq16i4NGT91?utm_source=generator&theme=0}" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  </div>
+</nav>
+
+<main role="main" class="container">
+  <!-- Número que sale -->
+  <div class="numeroCantadoContenedor">
+    <p id="numeroCantado"></p>
+  </div>
+
+  <!-- Números que salieron -->
+  <div class="numerosEntregados">
+    <p id="numeroCantadoColeccion"></p>
+  </div>
+
+  <!-- Números que faltan -->
+  <p id="numerosRestantesParaCompletarLaTirada"></p>
+
+  <!-- Cartón de Bingo -->
+  <table id="tablaUser">
+    <tbody class="carton">
+    </tbody>
+  </table>
+
+  <!-- Botones de Bingo y Línea -->
+  <div class="w3-container">
+    <button id="botonBingo" type="submit" class="w3-button w3-xlarge w3-wide w3-purple w3-cel" onclick="bingo()">BINGO</button>
+    <button id="botonLinea" class="w3-button w3-xlarge w3-wide w3-purple w3-cel" onclick="linea()">LINEA</button>
+  </div>
+
+
+
+</main>
+
+<!-- Bootstrap y Bingo JS -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/bingo.js}"></script>
+
+<!-- Modal de Bingo -->
+<div id="modalBingo" class="modal w3-animate-top">
+  <div class="modal-content">
+    <h3>Hiciste <span th:text="${tipoPartidaBingoDeLaSesion}"></span></h3>
+    <p>¡Felicidades, <span th:text="${nombreJugador}"></span>!</p>
+    <form th:action="@{/finalizarPartida}" method="post">
+      <button type="submit">Volver al inicio</button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal de Confirmación -->
+<div id="customExitModal" class="modal-custom">
+  <div class="modal-content-custom">
+    <div class="modal-header-custom">
+      <h5>Confirmar Abandono</h5>
+      <span class="close-custom" id="closeCustomExitModal">&times;</span>
     </div>
-
-    <!----NUMEROS QUE SALIERON---->
-    <div class="numerosEntregados">
-      <p id="numeroCantadoColeccion"></p>
+    <div class="modal-body-custom">
+      ¿Estás seguro de que deseas abandonar la partida?
     </div>
-
-    <!---NUMEROS QUE FALTAN----->
-
-    <p id="numerosRestantesParaCompletarLaTirada"></p>
-    <!----CARTON DE BINGO---->
-    <table id="tablaUser">
-      <tbody class="carton">
-      </tbody>
-    </table>
-
-
-    <div class="w3-container">
-      <button id="botonBingo" type="submit" class="w3-button w3-xlarge w3-wide w3-purple w3-cel"
-        onclick="bingo()">BINGO</button>
-      <button id="botonLinea" class="w3-button w3-xlarge w3-wide w3-purple w3-cel" onclick="linea()">LINEA</button>
-    </div>
-
-
-
-
-  </main>
-
-  <!-- /.container -->
-
-  <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
-  <script th:src="@{/js/bingo.js}"></script>
-  <!-- Modal de Bingo -->
-  <div id="modalBingo" class="modal w3-animate-top">
-    <div class="modal-content">
-      <h3>Hiciste <span th:text="${tipoPartidaBingoDeLaSesion}"></span></h3>
-      <p>¡Felicidades, <span th:text="${nombreJugador}"></span>!</p>
-      <form th:action="@{/finalizarPartida}" method="post">
-        <button type="submit">Volver al inicio</button>
-      </form>
+    <div class="modal-footer-custom">
+      <button id="customCancelButton" class="boton-cancelar-custom">
+        Cancelar
+      </button>
+      <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom">Abandonar</a>
     </div>
   </div>
-  <!-- Modal de Confirmación -->
-  <div id="customExitModal" class="modal-custom">
-    <div class="modal-content-custom">
-      <div class="modal-header-custom">
-        <h5>Confirmar Abandono</h5>
-        <span class="close-custom" id="closeCustomExitModal">&times;</span>
-      </div>
-      <div class="modal-body-custom">
-        ¿Estás seguro de que deseas abandonar la partida?
-      </div>
-      <div class="modal-footer-custom">
-        <button id="customCancelButton" class="boton-cancelar-custom">
-          Cancelar
-        </button>
-        <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom">Abandonar</a>
-      </div>
-    </div>
-  </div>
-  <!-- Modal de limite alcanzado de bolas
-  <div id="modalLimite" class="modal w3-animate-top">
-    <div class="modal-content">
-      <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el límite de numeros cantados!</h3>
+</div>
+
+<!-- Modal de límite alcanzado de bolas -->
+<div id="modalLimite" class="modal">
+  <div class="modal-content2">
+    <img th:src="@{/imgStatic/gatitoTriste.png}" alt="gato triste" class="gatoTriste">
+    <div class="text-container">
+      <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el límite de números cantados!</h3>
       <form th:action="@{/finalizarPartida}" method="post">
         <button type="submit" class="boton-volver">Finalizar</button>
       </form>
-      <p th:text="${mensajeError}" class="mensajeErrorPartidaBingo w3-animate-top"></p>
-    </div>
-  </div>-->
-
-  <div id="modalLimite" class="modal">
-    <div class="modal-content2">
-      <img th:src="@{/imgStatic/gatitoTriste.png}" alt="gato triste" class="gatoTriste">
-      <div class="text-container">
-        <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el límite de números cantados!</h3>
-        <form th:action="@{/finalizarPartida}" method="post">
-          <button type="submit" class="boton-volver">Finalizar</button>
-        </form>
-        <p th:text="${mensajeError}" class="mensajeErrorPartidaBingo"></p>
-      </div>
+      <p th:text="${mensajeError}" class="mensajeErrorPartidaBingo"></p>
     </div>
   </div>
+</div>
 
-  <audio id="musicaFondo" loop>
-    <source th:src="@{/imgStatic/TaylorWildestDreams.mp3}" type="audio/mpeg">
-    Tu navegador no soporta la reproducción de audio.
-  </audio>
-
-  <script th:src="@{/js/musica.js}"></script>
+<!-- Reproductor de música
+<audio id="musicaFondo" loop>
+  <source th:src="@{/imgStatic/TaylorWildestDreams.mp3}" type="audio/mpeg">
+  Tu navegador no soporta la reproducción de audio.
+</audio>-->
+<script>
+  function togglePlaylist() {
+    var playlist = document.getElementById('playlist');
+    if (playlist.style.display === 'none') {
+      playlist.style.display = 'block';
+    } else {
+      playlist.style.display = 'none';
+    }
+  }
+</script>
 
 </body>
 
