@@ -208,6 +208,7 @@ function bingo() {
   });
 }
 
+// GANO USER
 function abrirModal() {
   $(".tituloModal").text("Ganaste!");
   $(".textoModal").text("felicidades");
@@ -215,6 +216,7 @@ function abrirModal() {
   lanzarConfetti();
 }
 
+// GANO BOT
 function abrirModalBot() {
   $(".tituloModal").text("Perdiste!");
   $(".textoModal").text("Suerte para la proxima!");
@@ -256,4 +258,8 @@ function lanzarConfetti() {
 
 function abrirModalDeLimiteAlcanzado() {
   document.getElementById("modalLimite").style.display = "block";
+}
+
+function abrirModalDeCompra(){
+  document.getElementById("modalCompra").style.display="block";
 }

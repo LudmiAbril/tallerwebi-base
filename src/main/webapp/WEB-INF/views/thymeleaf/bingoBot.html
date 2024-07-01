@@ -55,11 +55,15 @@
 
         <!-- Contenedor de la playlist -->
         <div class="playlist-container" th:classappend="${playlistVisible} ? '' : 'hidden'">
-            <iframe id="playlist" style="border-radius:12px" th:src="@{https://open.spotify.com/embed/playlist/62emNerb9lRrq16i4NGT91?utm_source=generator&theme=0}" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+            <iframe id="playlist" style="border-radius:12px"
+                th:src="@{https://open.spotify.com/embed/playlist/62emNerb9lRrq16i4NGT91?utm_source=generator&theme=0}"
+                width="100%" height="152" frameBorder="0" allowfullscreen=""
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"></iframe>
         </div>
     </nav>
 
-    <main  class="container">
+    <main class="container">
         <!----NUMERO QUE SALE---->
         <div class="numeroCantadoContenedor">
             <p id="numeroCantado"></p>
@@ -108,7 +112,7 @@
 
     <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/bingoBot.js}"></script>
-   
+
     <!-- Modal de Bingo -->
     <div id="modalBingo" class="modal w3-animate-top">
         <div class="modal-content">
@@ -147,8 +151,51 @@
                 <form th:action="@{/finalizarPartidaBot}" method="post">
                     <button type="submit" class="boton-volver">Finalizar</button>
                 </form>
+                <form action="#" method="post">
+                    <button type="submit" class="boton-volver" onclick="abrirModalDeCompra()">Comprar una
+                        tirada</button>
+                </form>
                 <p th:text="${mensajeError}" class="mensajeErrorPartidaBingo"></p>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal de compra de tirada -->
+    <div class="modal" id="modalCompra">
+        <h3>Compra tirada</h3>
+        <form action="" method="post" class="formCompra">
+            <div>
+                <label>
+                    <input type="radio" name="opcion" value="99" required>
+                    99 números
+                </label><br>
+                <p>8000 ARGS</p>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="opcion" value="50" required>
+                    50 números
+                </label><br>
+                <p>5000 ARGS</p>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="opcion" value="20" required>
+                    20 números
+                </label><br>
+                <p>2000 ARGS</p>
+            </div>
+            <br>
+            <button type="submit">Comprar</button>
+        </form>
+
+        <div class="modalCompraIngresoTarjeta">
+            <form action="" method="post">
+                <input type="text" placeholder="Ingresá el nombre del titular de la tarjeta">
+                <input type="number" name="" id="" value="" placeholder="Ingresá el número">
+                <input type="date" name="" id="" placeholder="Ingresá la fecha de vencimiento">
+                <input type="number" name="" id="" placeholder="Ingresá el código de seguridad" maxlength="4">
+            </form>
         </div>
     </div>
 
