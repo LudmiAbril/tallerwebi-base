@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.BingoBotEsNullException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
 
@@ -353,7 +354,7 @@ public class ControladorBlackjackTest {
     }
 
     @Test
-    public void queAlFinalizarSeGuardeLaPartidaYseVuelvaALaVistaInicial() throws PartidaConPuntajeNegativoException, IllegalArgumentException {
+    public void queAlFinalizarSeGuardeLaPartidaYseVuelvaALaVistaInicial() throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException {
 
         List<Carta> mano = new ArrayList<>();
         mano.add(mock(Carta.class));
@@ -381,7 +382,7 @@ public class ControladorBlackjackTest {
 
     @Test
     public void queAlReiniciarSeSeRestablescanLosValoresInicialesYSeReinicieLaVista()
-            throws PartidaDeUsuarioNoEncontradaException, PartidaConPuntajeNegativoException, IllegalArgumentException {
+            throws PartidaDeUsuarioNoEncontradaException, PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException {
 
         List<Carta> mano = new ArrayList<>();
         mano.add(mock(Carta.class));

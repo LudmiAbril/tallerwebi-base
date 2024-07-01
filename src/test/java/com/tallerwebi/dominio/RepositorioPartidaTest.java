@@ -18,6 +18,7 @@ import org.hibernate.SessionFactory;
 
 import javax.transaction.Transactional;
 
+import com.tallerwebi.dominio.excepcion.BingoBotEsNullException;
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 
@@ -59,7 +60,7 @@ public class RepositorioPartidaTest {
     }
 
     @Test
-    public void queSeGuardeUnaPartida() throws PartidaConPuntajeNegativoException, IllegalArgumentException {
+    public void queSeGuardeUnaPartida() throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException {
         Partida p = crearPartida("jugador", Juego.BINGO);
         repositorio.guardar(p);
         assertThat(session.getCurrentSession().contains(p), equalTo(true));
@@ -68,7 +69,7 @@ public class RepositorioPartidaTest {
     @Test
     public void queSeObtengaUnRankingOrdenadoDePartidasParaElBingo()
             throws PartidasDelJuegoNoEncontradasException, PartidaConPuntajeNegativoException,
-            IllegalArgumentException {
+            IllegalArgumentException, BingoBotEsNullException {
         Long idJugador = 2L;
         Juego juego = Juego.BINGO;
         Set<Integer> casillerosMarcados = new HashSet<Integer>();
@@ -82,18 +83,17 @@ public class RepositorioPartidaTest {
         Integer cantidadDeCasillerosMarcados = casillerosMarcados.size();
 
         Partida p1 = new PartidaBingo(idJugador, juego, casillerosMarcados, seHizoLinea, seHizoBingo, tipoPartidaBingo,
-                tirada, cantidadDeCasillerosMarcados);
+                tirada, cantidadDeCasillerosMarcados, false);
 
         casillerosMarcados.add(7);
         casillerosMarcados.add(6);
         // PARTIDA DOS
         Partida p2 = new PartidaBingo(idJugador, Juego.BINGO, casillerosMarcados, false, true, TipoPartidaBingo.BINGO,
-                25, 9);
+                25, 9, false);
 
         List<Partida> partidasEsperadas = new ArrayList<Partida>();
         partidasEsperadas.add(p2);
         partidasEsperadas.add(p1);
-
 
         repositorio.guardar(p2);
         repositorio.guardar(p1);
@@ -118,7 +118,7 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queSePuedanObtenerLasPartidasDeUnJugador() throws PartidaConPuntajeNegativoException,
-            IllegalArgumentException {
+            IllegalArgumentException, BingoBotEsNullException {
         Long usuarioId = 000L;
 
         Partida partida1 = crearPartida("Prueba", Juego.BLACKJACK);
@@ -147,7 +147,7 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queSePuedanObtenerLasUltimasPartidasOrdenadasPorFecha() throws PartidaConPuntajeNegativoException,
-            IllegalArgumentException {
+            IllegalArgumentException, BingoBotEsNullException {
         Long usuarioId = 000L;
         List<Partida> partidasEsperadas = new ArrayList<Partida>();
         Partida a = crearPartida("user", Juego.BINGO);
@@ -237,7 +237,7 @@ public class RepositorioPartidaTest {
 
     @Test
     public void queSeObtenganPartidasPorRangoDeFechas()
-            throws PartidaConPuntajeNegativoException, PartidaDeUsuarioNoEncontradaException, IllegalArgumentException {
+            throws PartidaConPuntajeNegativoException, PartidaDeUsuarioNoEncontradaException, IllegalArgumentException, BingoBotEsNullException {
         Long usuarioId = 000L;
         Juego juego = Juego.BINGO;
         Partida partida1 = crearPartida("jugador1", juego);
@@ -258,7 +258,7 @@ public class RepositorioPartidaTest {
     }
 
     @Test
-    public void queSeGuardeUnaPartidaSenku() throws PartidaConPuntajeNegativoException, IllegalArgumentException {
+    public void queSeGuardeUnaPartidaSenku() throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException {
         // GIVEN
         Long idJugador = 1L;
         Juego juego = Juego.SENKU;
@@ -284,4 +284,55 @@ public class RepositorioPartidaTest {
         });
     }
 
+    @Test
+    public void queSeGuardeUnaPartidaBingoDeBot() throws IllegalArgumentException, PartidaConPuntajeNegativoException, BingoBotEsNullException {
+        Long idJugador = 2L;
+        Juego juego = Juego.BINGO;
+        Set<Integer> casillerosMarcados = new HashSet<Integer>();
+        casillerosMarcados.add(1);
+        casillerosMarcados.add(3);
+        casillerosMarcados.add(5);
+        TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.BINGO;
+        Integer tirada = 50;
+        Integer cantidadDeCasillerosMarcados = casillerosMarcados.size();
+
+        Partida p1 = new PartidaBingo(idJugador, juego, casillerosMarcados, false, false, tipoPartidaBingo,
+                tirada, cantidadDeCasillerosMarcados, true);
+
+        List<Partida> partidasEsperadas = new ArrayList<Partida>();
+
+        partidasEsperadas.add(p1);
+
+        repositorio.guardar(p1);
+
+        List<Partida> partidasObtenidas = new ArrayList<Partida>();
+
+        try {
+            partidasObtenidas.addAll(repositorio.generarRankingDePartidasDeBingo(idJugador));
+        } catch (NoHayPartidasDeBingoException e) {
+
+        }
+        assertNotNull(partidasObtenidas);
+        assertThat(partidasObtenidas, equalTo(partidasEsperadas));
+    }
+
+    @Test
+    public void queSeLanzeLaExcepcionAlIntentarGuardarUnaPartidaBingoDeBotSinQueElBotHayaHechoBingo() {
+        Long idJugador = 2L;
+        Juego juego = Juego.BINGO;
+        Set<Integer> casillerosMarcados = new HashSet<Integer>();
+        casillerosMarcados.add(1);
+        casillerosMarcados.add(3);
+        casillerosMarcados.add(5);
+        TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.BINGO;
+        Integer tirada = 50;
+        Integer cantidadDeCasillerosMarcados = casillerosMarcados.size();
+
+        Partida p1 = new PartidaBingo(idJugador, juego, casillerosMarcados, false, false, tipoPartidaBingo,
+                tirada, cantidadDeCasillerosMarcados, null);
+
+        assertThrows(BingoBotEsNullException.class, () -> {
+            repositorio.guardar(p1);
+        });
+    }
 }

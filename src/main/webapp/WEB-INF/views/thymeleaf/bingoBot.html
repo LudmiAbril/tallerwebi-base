@@ -109,7 +109,7 @@
         <div class="modal-content">
             <h3 class="tituloModal"></h3>
             <p class="textoModal"></p>
-            <form th:action="@{/finalizarPartida}" method="post">
+            <form th:action="@{/finalizarPartidaBot}" method="post">
                 <button type="submit" class="boton-volver">Volver al inicio</button>
             </form>
         </div>
@@ -132,7 +132,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal de limite alcanzado de bolas
+    <!-- Modal de limite alcanzado de bolas -->
 
     <div id="modalLimite" class="modal">
         <div class="modal-content2">
@@ -145,11 +145,11 @@
                 <p th:text="${mensajeError}" class="mensajeErrorPartidaBingo"></p>
             </div>
         </div>
-    </div>-->
+    </div>
 
     <audio id="musicaFondo" loop>
         <source th:src="@{/imgStatic/TaylorWildestDreams.mp3}" type="audio/mpeg">
-        Tu navegador no soporta la reproducción de audio.
+        Tu navegador no soporta la reproducci\u00F3n de audio.
     </audio>
 
     <script th:src="@{/js/musica.js}"></script>

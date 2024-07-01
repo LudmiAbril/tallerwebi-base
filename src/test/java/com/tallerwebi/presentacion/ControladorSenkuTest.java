@@ -7,6 +7,7 @@ import com.tallerwebi.dominio.ServicioPlataforma;
 import com.tallerwebi.dominio.ServicioSenku;
 import com.tallerwebi.dominio.Tablero;
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.excepcion.BingoBotEsNullException;
 import com.tallerwebi.dominio.excepcion.CasilleroInexistenteException;
 import com.tallerwebi.dominio.excepcion.CasilleroVacio;
 import com.tallerwebi.dominio.excepcion.MovimientoInvalidoException;
@@ -280,7 +281,7 @@ public class ControladorSenkuTest {
 
     @Test
     public void queAlFinalizarPartidaSeGuardeLaPartidaSiSeGano()
-            throws IllegalArgumentException, PartidaConPuntajeNegativoException {
+            throws IllegalArgumentException, PartidaConPuntajeNegativoException, BingoBotEsNullException {
         // GIVEN
         HttpSession session = mock(HttpSession.class);
         ServicioSenku servicioSenku = mock(ServicioSenku.class);
@@ -307,7 +308,7 @@ public class ControladorSenkuTest {
 
     @Test
     public void queAlFinalizarPartidaNoSeGuardeLaPartidaSiNoSeGano() throws IllegalArgumentException,
-            PartidaConPuntajeNegativoException {
+            PartidaConPuntajeNegativoException, BingoBotEsNullException {
         // GIVEN
         HttpSession session = mock(HttpSession.class);
         ServicioSenku servicioSenku = mock(ServicioSenku.class);

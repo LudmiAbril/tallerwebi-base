@@ -54,10 +54,10 @@
                                     <span th:text="${casillero}"></span>
                                 </li>
                             </ul>
-                            <!-- <p>Ganó el bot: <span th:text="${partida.ganoBot ? 'si' : 'no'}"></span></p> -->
+                            <p>Gan\u00F3 el bot: <span th:text="${partida.seHizoBingoBot ? 'si' : 'no'}"></span></p>
                         </div>
                         <div th:case="'PartidaBlackJack'">
-                            <p>Ganó: <span th:text="${partida.gano ? 'Sí' : 'No'}"></span></p>
+                            <p>Gan\u00F3: <span th:text="${partida.gano ? 'Sí' : 'No'}"></span></p>
                             <p>Puntaje: <span th:text="${partida.puntaje}"></span></p>
                         </div>
                         <div th:case="*">
