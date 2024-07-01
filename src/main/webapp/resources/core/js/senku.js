@@ -34,7 +34,8 @@ $(document).ready(function () {
                                     });
                                  start();
     }
-
+    //SE RECUPERA DE LA CONFI MEDIANTE UN CAMPO OCULTO LOS MOVS MAX
+    var MovimientosMaxEnLaSesion = document.getElementById('max-movimientos-hidden').value;
     function comprobarSiSeGano() {
         fetch("http://localhost:8080/spring/senkuGano", {
             method: "POST",
@@ -54,8 +55,8 @@ $(document).ready(function () {
                 return;
             }
     
-       
-            if (data.seGano || data.movimientosRealizados >= 20) {
+          
+            if (data.seGano || data.movimientosRealizados >= MovimientosMaxEnLaSesion) {
                 document.getElementById('modalSenkuFinish').style.display = 'block';
                 document.querySelector('#modalSenkuFinish span').textContent = data.nombreJugador;
                 mostrarMensajeMovimientos(data);
