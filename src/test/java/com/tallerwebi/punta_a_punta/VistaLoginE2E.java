@@ -45,12 +45,6 @@ public class VistaLoginE2E {
         context.close();
     }
 
-    /**@Test
-    void deberiaDecirBienvenidoDeNuevoJefe() {
-        String texto = vistaLogin.obtenerTexto("#texto1");
-        assertThat("¡Bienvenido de nuevo, jefe!", equalToIgnoringCase(texto));
-    }*/
-
     @Test
     void deberiaNavegarAAccesoJuegosSiElUsuarioExiste() {
         vistaLogin.ingresarEmail("mm@gmail.com");
