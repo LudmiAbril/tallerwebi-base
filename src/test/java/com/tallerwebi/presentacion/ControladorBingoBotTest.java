@@ -1,4 +1,5 @@
-// package com.tallerwebi.presentacion;
+/*
+package com.tallerwebi.presentacion;
 
 // import com.tallerwebi.dominio.*;
 // import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
@@ -298,10 +299,10 @@
 //         ConfiguracionesJuego configuracionesJuegoMock = mock(ConfiguracionesJuego.class);
 //         when(this.jugadorMock.getConfig()).thenReturn(configuracionesJuegoMock);
 
-//         Integer dimension = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
-//         when(configuracionesJuegoMock.getDimensionCarton()).thenReturn(dimension);
-//         assertThat(jugadorMock.getConfig().getDimensionCarton(),
-//                 equalTo(session.getAttribute("dimensionDelCartonDeLaSesion")));
-//     }
-// }
- 
+        Integer dimension = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
+        when(configuracionesJuegoMock.getDimensionCarton()).thenReturn(dimension);
+        assertThat(jugadorMock.getConfig().getDimensionCarton(),
+                equalTo(session.getAttribute("dimensionDelCartonDeLaSesion")));
+    }
+}
+ */

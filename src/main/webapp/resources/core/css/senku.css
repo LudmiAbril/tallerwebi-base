@@ -297,6 +297,17 @@ margin: 1%;
 
 }
 
+.playlist-container {
+    position: fixed;
+    top: 70px;
+    right: 10px;
+    z-index: 1000;
+}
+
+
+#playlist{
+    display:none;
+}
 .boton-musica:hover {
     color: rgba(207, 76, 234, 0.81);
     transform: scale(1.2);

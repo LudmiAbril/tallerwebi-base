@@ -1,6 +1,7 @@
 package com.tallerwebi.punta_a_punta;
 
 import com.microsoft.playwright.*;
+import com.tallerwebi.punta_a_punta.vistas.VistaHome;
 import com.tallerwebi.punta_a_punta.vistas.VistaLogin;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -18,14 +19,13 @@ public class VistaLoginE2E {
     static Browser browser;
     BrowserContext context;
     VistaLogin vistaLogin;
+    VistaHome vistaHome;
     Page page;
 
     @BeforeAll
     static void abrirNavegador() {
         playwright = Playwright.create();
         browser = playwright.chromium().launch();
-        // browser = playwright.chromium().launch(new
-        // BrowserType.LaunchOptions().setHeadless(false).setSlowMo(50));
     }
 
     @AfterAll
@@ -37,7 +37,7 @@ public class VistaLoginE2E {
     void crearContextoYPagina() {
         context = browser.newContext();
         page = context.newPage();
-        vistaLogin = new VistaLogin(page);
+        vistaHome = new VistaHome(page);
     }
 
     @AfterEach
@@ -47,18 +47,18 @@ public class VistaLoginE2E {
 
     @Test
     void deberiaNavegarAAccesoJuegosSiElUsuarioExiste() {
-        vistaLogin.ingresarEmail("mm@gmail.com");
-        vistaLogin.ingresarContrasenia("boca");
-        vistaLogin.darClick("#btn-login");
+        vistaHome.irALogin();
+        vistaLogin = new VistaLogin(page);
+        vistaLogin.login("mm@gmail.com", "boca");
         String url = vistaLogin.obtenerURLActual();
         assertThat(url, containsStringIgnoringCase("/spring/acceso-juegos"));
     }
 
     @Test
     void deberiaDecirUsuarioOClaveIncorrectaSiSeIngresaUnaContraseniaIncorrecta() {
-        vistaLogin.ingresarEmail("mica@gmail.com");
-        vistaLogin.ingresarContrasenia("mica");
-        vistaLogin.darClick("#btn-login");
+        vistaHome.irALogin();
+        vistaLogin = new VistaLogin(page);
+        vistaLogin.login("mica@gmail.com", "mica");
         String textoEsperado = "Usuario o clave incorrecta";
         String textoActual = vistaLogin.obtenerTexto("div.error p");
         assertThat(textoEsperado, equalToIgnoringCase(textoActual));
@@ -66,16 +66,18 @@ public class VistaLoginE2E {
 
     @Test
     void deberiaDecirUsuarioOClaveIncorrectaSiSeIngresaUnEmailIncorrecto() {
-        vistaLogin.ingresarEmail("micaelazara@gmail.com");
-        vistaLogin.ingresarContrasenia("1234");
-        vistaLogin.darClick("#btn-login");
+        vistaHome.irALogin();
+        vistaLogin = new VistaLogin(page);
+        vistaLogin.login("micaelazara@gmail.com", "1234");
         String textoEsperado = "Usuario o clave incorrecta";
         String textoActual = vistaLogin.obtenerTexto("div.error p");
         assertThat(textoEsperado, equalToIgnoringCase(textoActual));
     }
 
     @Test
-    void deberiaNavegarARegistroCuandoSeClickeaRegistrarse(){
+    void deberiaNavegarARegistroCuandoSeClickeaRegistrarse() {
+        vistaHome.irALogin();
+        vistaLogin = new VistaLogin(page);
         vistaLogin.darClick(".boton-margen");
         String url = vistaLogin.obtenerURLActual();
         assertThat(url, containsStringIgnoringCase("/spring/registro"));
@@ -83,6 +85,8 @@ public class VistaLoginE2E {
 
     @Test
     void deberiaPrevenirEnvioDeFormularioSiEmailEstaVacio() {
+        vistaHome.irALogin();
+        vistaLogin = new VistaLogin(page);
         vistaLogin.ingresarContrasenia("boca");
         vistaLogin.darClick("#btn-login");
         String urlActual = vistaLogin.obtenerURLActual();
@@ -91,10 +95,11 @@ public class VistaLoginE2E {
 
     @Test
     void deberiaPrevenirEnvioDeFormularioSiContraseniaEstaVacia() {
+        vistaHome.irALogin();
+        vistaLogin = new VistaLogin(page);
         vistaLogin.ingresarEmail("mm2@gmail.com");
         vistaLogin.darClick("#btn-login");
         String urlActual = vistaLogin.obtenerURLActual();
         assertThat(urlActual, containsStringIgnoringCase("/spring/login"));
     }
-
 }

@@ -2,11 +2,16 @@ package com.tallerwebi.punta_a_punta.vistas;
 
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.WaitForSelectorState;
+import com.tallerwebi.punta_a_punta.vistas.VistaHome;
+import com.tallerwebi.punta_a_punta.vistas.VistaLogin;
 
 public class VistaAccesoAjuegos extends VistaWeb {
+    private Page page;
+
     public VistaAccesoAjuegos(Page page) {
         super(page);
-        page.navigate("localhost:8080/spring/acceso-juegos");
+        this.page = page;
+        page.navigate("http://localhost:8080/spring/acceso-juegos");
     }
 
     public String obtenerTitulo() {
@@ -86,5 +91,12 @@ public class VistaAccesoAjuegos extends VistaWeb {
 
     public void esperarElementoVisible(String selector) {
         this.page.waitForSelector(selector, new Page.WaitForSelectorOptions().setState(WaitForSelectorState.VISIBLE));
+    }
+
+    public void irAccesoAjuegos(String email, String contrasenia) {
+        VistaHome vistaHome = new VistaHome(page);
+        vistaHome.irALogin(); // Navegar desde la página de inicio a la página de login
+        VistaLogin vistaLogin = new VistaLogin(page);
+        vistaLogin.login(email, contrasenia); // Iniciar sesión con las credenciales proporcionadas
     }
 }
