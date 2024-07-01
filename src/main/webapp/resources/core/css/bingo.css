@@ -31,7 +31,7 @@ nav {
     background-color: #B49FCC;
     font-size: 1.5em;
     color: #fff;
-    position: fixed; /* Cambiado a posición fija para que se mantenga en su lugar */
+    position: fixed;
     top: 5%;
     right: 20px;
     cursor: pointer;
@@ -47,7 +47,7 @@ nav {
 
 .playlist-container {
     position: fixed;
-    top: 80px;
+    top: 82px;
     right: 10px;
     z-index: 1000;
 }

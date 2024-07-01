@@ -142,16 +142,7 @@
   <source th:src="@{/imgStatic/TaylorWildestDreams.mp3}" type="audio/mpeg">
   Tu navegador no soporta la reproducción de audio.
 </audio>-->
-<script>
-  function togglePlaylist() {
-    var playlist = document.getElementById('playlist');
-    if (playlist.style.display === 'none') {
-      playlist.style.display = 'block';
-    } else {
-      playlist.style.display = 'none';
-    }
-  }
-</script>
+<script th:src="@{/js/musica.js}"></script>
 
 </body>
 
