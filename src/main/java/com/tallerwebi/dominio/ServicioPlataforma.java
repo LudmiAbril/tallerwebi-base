@@ -2,6 +2,7 @@ package com.tallerwebi.dominio;
 
 import java.util.List;
 
+import com.tallerwebi.dominio.excepcion.BingoBotEsNullException;
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
@@ -11,7 +12,7 @@ public interface ServicioPlataforma {
 
     List<Partida> generarRanking(Juego juego) throws PartidasDelJuegoNoEncontradasException;
 
-    void agregarPartida(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException;
+    void agregarPartida(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException;
 
     List<Partida> obtenerPartidasUsuario(Long id, Juego juego) throws PartidaDeUsuarioNoEncontradaException;
 

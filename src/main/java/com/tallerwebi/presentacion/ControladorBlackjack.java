@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.BingoBotEsNullException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -245,7 +246,7 @@ public class ControladorBlackjack {
 
     @RequestMapping("/finalizarBlackjack")
     public ModelAndView finalizar(HttpSession session)
-            throws PartidaConPuntajeNegativoException, IllegalArgumentException {
+            throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException {
 
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
@@ -263,7 +264,7 @@ public class ControladorBlackjack {
 
     @RequestMapping(path = "/reiniciarBlackjack")
     public ModelAndView reiniciar(HttpSession session)
-            throws PartidaConPuntajeNegativoException, IllegalArgumentException {
+            throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException {
 
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
