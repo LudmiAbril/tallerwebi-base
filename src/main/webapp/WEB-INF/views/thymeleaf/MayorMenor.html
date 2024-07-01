@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Mayor Menor</title>
+    <!-- Boostrap core css -->
+    <link
+            rel="stylesheet"
+            th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"
+    />
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/blackjack.css}" />
+    <link rel="stylesheet" th:href="@{/css/abandonarPartida.css}" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
+    <!-- javascript-->
+    <script th:src="@{/js/mayormenor.js}"></script>
+    <script th:src="@{/js/cronometro.js}"></script>
+    <script th:src="@{/js/customModal.js}"></script>
+    <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+</head>
+
+<body>
+<nav class="nav-bar mt">
+    <a href="javascript:void(0)" id="openCustomExitModal">
+        <span class="material-symbols-outlined icono">arrow_back</span>
+    </a>
+</nav>
+
+<!-- El modal que se abre al finalizar la partida -->
+<div id="modalFinPartida" class="modal">
+    <!-- Contenido del modal -->
+    <div class="modal-content">
+        <h2 id="resultadoPartida"></h2>
+        <div class="botones-modal">
+            <form th:action="@{/reiniciarMayorMenor}" method="post">
+                <button type="submit" class="boton-reiniciar">
+                    Jugar otra partida
+                </button>
+            </form>
+            <form th:action="@{/finalizarMayorMenor}" method="post">
+                <button type="submit" class="boton-volver-inicio">
+                    Volver al inicio
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<!--<h1>Juego de Mayor o Menor</h1>
+<div id="nombre"></div>
+<div id="cartasJugador" class="cartas"></div>-->
+<div id="aciertos">Aciertos: 0</div>
+<button id="btnMayor" class="btn btn-primary">Mayor</button>
+<button id="btnMenor" class="btn btn-secondary">Menor</button>
+<main class="container-main">
+    <div class="container-left">
+        <div class="container-principal">
+            <div class="cartas-container" id="cartasJugador"></div>
+        </div>
+    </div>
+    <div class="container-right">
+        <div class="jugador-info">
+            <h3 class="nombre-jugador">Jugador: <span id="nombre"></span></h3>
+            <div class="time">
+            <span style="color: white" class="material-symbols-outlined"
+            >access_time
+            </span>
+                <p style="color: white" class="tiempo">
+                    Tiempo transcurrido: <span class="reloj">00:00:00</span>
+                </p>
+            </div>
+        </div>
+        <div class="partidas">
+            <p class="titulin">Tu historial de partidas</p>
+            <p th:text="${mensajePartidas}" class="mensaje-partidas"></p>
+            <div class="c-partidas"></div>
+        </div>
+    </div>
+</main>
+<!-- Modal de Confirmación -->
+<div id="customExitModal" class="modal-custom">
+    <div class="modal-content-custom">
+        <div class="modal-header-custom">
+            <h5>Confirmar Abandono</h5>
+            <span class="close-custom" id="closeCustomExitModal">&times;</span>
+        </div>
+        <div class="modal-body-custom">
+            ¿Estás seguro de que deseas abandonar la partida?
+        </div>
+        <div class="modal-footer-custom">
+            <button id="customCancelButton" class="boton-cancelar-custom">
+                Cancelar
+            </button>
+            <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom"
+            >Abandonar</a
+            >
+        </div>
+    </div>
+</div>
+</body>
+</html>

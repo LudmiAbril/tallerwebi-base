@@ -18,4 +18,6 @@ public interface ServicioMayorMenor {
     Integer cantidadCartasRestantesEnMazo();
     Baraja getBaraja();
     Integer getPuntaje();
+    Valor getValorElegido();
+    void setValorElegido(Valor valorElegido);
 }
