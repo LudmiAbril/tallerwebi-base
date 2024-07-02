@@ -48,7 +48,7 @@
     <span class="close2" onclick="closeModal('configuracionModal')">&times;</span>
     <h2>CONFIGURACIÓN</h2>
     <form id="configForm" th:action="@{/guardarCambios}" method="post" onsubmit="return validarFormulario()">
-      <div class="section">
+     <div class="section">
         <h3>BLACKJACK</h3>
         <div class="icon-container">
           <i class="material-icons">access_time</i>
@@ -94,7 +94,7 @@
           <input type="number" id="cant-numeros" name="cantidadPelotas" th:value="${usuarioConfig.cantidadDePelotas}"
                  min="1" max="99" required/>
         </div>
-      </div>
+      </div> 
       <hr />
       <div class="section">
         <h3>SENKU</h3>

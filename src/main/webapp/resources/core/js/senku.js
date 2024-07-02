@@ -2,6 +2,7 @@ import { start, stop } from './cronometro.js';
 
 $(document).ready(function () {
     
+    
     function actualizarTablero() {
         $.get("obtenerTablero", function (data) {
             var tableroHtml = '';
@@ -34,8 +35,7 @@ $(document).ready(function () {
                                     });
                                  start();
     }
-    //SE RECUPERA DE LA CONFI MEDIANTE UN CAMPO OCULTO LOS MOVS MAX
-    var MovimientosMaxEnLaSesion = document.getElementById('max-movimientos-hidden').value;
+    
     function comprobarSiSeGano() {
         fetch("http://localhost:8080/spring/senkuGano", {
             method: "POST",
@@ -54,7 +54,7 @@ $(document).ready(function () {
                 console.error('Error del servidor:', data.error);
                 return;
             }
-    
+            var MovimientosMaxEnLaSesion = data.maxMovimientos;
           
             if (data.seGano || data.movimientosRealizados >= MovimientosMaxEnLaSesion) {
                 document.getElementById('modalSenkuFinish').style.display = 'block';
