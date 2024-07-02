@@ -1,12 +1,13 @@
 package com.tallerwebi.punta_a_punta;
 
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserContext;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
-import com.tallerwebi.punta_a_punta.vistas.VistaLogin;
+import com.microsoft.playwright.*;
+import com.tallerwebi.punta_a_punta.vistas.VistaHome;
 import com.tallerwebi.punta_a_punta.vistas.VistaRegistro;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsStringIgnoringCase;
@@ -18,6 +19,7 @@ public class VistaRegistroE2E {
     static Browser browser;
     BrowserContext context;
     VistaRegistro vistaRegistro;
+    VistaHome vistaHome;
     Page page;
 
     @BeforeAll
@@ -35,7 +37,7 @@ public class VistaRegistroE2E {
     void crearContextoYPagina() {
         context = browser.newContext();
         page = context.newPage();
-        vistaRegistro = new VistaRegistro(page);
+        vistaHome = new VistaHome(page);
     }
 
     @AfterEach
@@ -45,10 +47,9 @@ public class VistaRegistroE2E {
 
     @Test
     void deberiaDecirUsuarioExistenteSiSeIngresaUnaCorreoYaIngresado() {
-        vistaRegistro.ingresarNombre("Celeste");
-        vistaRegistro.ingresarEmail("mm@gmail.com");
-        vistaRegistro.ingresarContrasenia("1212");
-        vistaRegistro.darClick("#btn-registrarme");
+        vistaHome.irARegistro();
+        vistaRegistro = new VistaRegistro(page);
+        vistaRegistro.registrarUsuario("Celeste", "mm@gmail.com", "1212");
         String textoEsperado = "Ya existe un usuario con ese email";
         String textoActual = vistaRegistro.obtenerTexto("div.error p");
         assertThat(textoEsperado, equalToIgnoringCase(textoActual));
@@ -56,6 +57,8 @@ public class VistaRegistroE2E {
 
     @Test
     void deberiaPrevenirEnvioDeFormularioSiNombreEstaVacio() {
+        vistaHome.irARegistro();
+        vistaRegistro = new VistaRegistro(page);
         vistaRegistro.ingresarEmail("celes@gmail.com");
         vistaRegistro.ingresarContrasenia("1212");
         vistaRegistro.darClick("#btn-registrarme");
@@ -65,6 +68,8 @@ public class VistaRegistroE2E {
 
     @Test
     void deberiaPrevenirEnvioDeFormularioSiEmailEstaVacio() {
+        vistaHome.irARegistro();
+        vistaRegistro = new VistaRegistro(page);
         vistaRegistro.ingresarNombre("Celeste");
         vistaRegistro.ingresarContrasenia("1212");
         vistaRegistro.darClick("#btn-registrarme");
@@ -74,6 +79,8 @@ public class VistaRegistroE2E {
 
     @Test
     void deberiaPrevenirEnvioDeFormularioSiContraseniaEstaVacia() {
+        vistaHome.irARegistro();
+        vistaRegistro = new VistaRegistro(page);
         vistaRegistro.ingresarNombre("Celeste");
         vistaRegistro.ingresarEmail("celes@gmail.com");
         vistaRegistro.darClick("#btn-registrarme");
@@ -83,13 +90,10 @@ public class VistaRegistroE2E {
 
     @Test
     void deberiaNavegarALoginSiTodosLosCamposSonCorrectos() {
-        vistaRegistro.ingresarNombre("Celeste");
-        vistaRegistro.ingresarEmail("celes@gmail.com");
-        vistaRegistro.ingresarContrasenia("1212");
-        vistaRegistro.darClick("#btn-registrarme");
+        vistaHome.irARegistro();
+        vistaRegistro = new VistaRegistro(page);
+        vistaRegistro.registrarUsuario("Celeste", "celes5@gmail.com", "1212");
         String url = vistaRegistro.obtenerURLActual();
         assertThat(url, containsStringIgnoringCase("/spring/login"));
     }
-
-
 }

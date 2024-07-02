@@ -1,78 +1,76 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
   <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title>Blackjack</title>
     <link rel="stylesheet" th:href="@{/css/estilos-IrA.css}" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-    />
-  </head>
-  <body>
-    <nav class="nav-bar">
-      <a href="volverAlMenu">
-        <span class="material-symbols-outlined icono">arrow_back</span>
-      </a>
-    </nav>
-    <main class="container">
-      <img
-        th:src="@{/imgStatic/BjTitulo2.png}"
-        alt="titulo"
-        class="imagen-home"
-      />
-      <form
-        th:action="@{/blackjack}"
-        method="post"
-        th:object="${nuevoJugador}"
-        class="text-center"
-      >
-        <input type="hidden" name="contrareloj" value="false" />
-        <input type="hidden" name="tiempoLimite" value="2" />
-        <button type="submit" class="btn btn-primary">
-          <span class="material-symbols-outlined">play_circle</span>JUGAR
-        </button>
-      </form>
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}">
+    <link rel="preconnect" th:href="@{https://fonts.googleapis.com}" />
+    <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin />
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}"
+            rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/icon?family=Material+Icons}">
 
-      <button class="btn btn-primary" id="playWithTimeButton">
-        <span class="material-symbols-outlined">timer</span>JUGAR CON TIEMPO
-      </button>
-      <form th:action="@{/blackjackDificil}" method="get">
-        <button type="submit" class="btn btn-primary">
-          <span class="material-symbols-outlined">group</span>MODO DIFICIL
-        </button>
-      </form>
-      <form th:action="@{/verRanking}" method="post">
-        <input type="hidden" name="tipoJuego" value="BLACKJACK" />
-        <button type="submit" class="btn btn-primary">
-          <span class="material-symbols-outlined">bar_chart</span>RANKING
-        </button>
-      </form>
-    </main>
-    <!-- Modal -->
-    <div id="timeModal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h3>Ingresa el tiempo en el que quieras jugar:</h3>
-        <form th:action="@{/blackjack}" method="post">
-          <input type="hidden" value="true" name="contrareloj" />
-          <input
-            type="number"
-            id="gameTime"
-            name="tiempoLimite"
-            placeholder="Tiempo en minutos"
-            th:value="${tiempoDefault}"
-          />
-          <button class="btn" type="submit" id="startGameWithTime">
-            JUGAR
-          </button>
-        </form>
-      </div>
+    <link rel="stylesheet"
+          th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}"/>
+  </head>
+
+  <body>
+  <div class="rain-container" id="rainContainer"></div>
+  <nav class="nav-bar">
+    <a href="volverAlMenu">
+      <span class="material-symbols-outlined icono">arrow_back</span>
+    </a>
+
+    <div class="brand">
+      <div class="sign">CATSINO</div>
+      <img th:src="@{/imgStatic/logo.png}" alt="Logo"/>
     </div>
+  </nav>
+
+
+  <main class="container" >
+    <img th:src="@{/imgStatic/BjTitulo2.png}" alt="titulo" class="imagen-home" />
+    <form th:action="@{/blackjack}" method="post" th:object="${nuevoJugador}" class="text-center">
+      <input type="hidden" name="contrareloj" value="false" />
+      <input type="hidden" name="tiempoLimite" value="2" />
+      <button type="submit" class="btn btn-primary" id="jugarBlackjack">
+        <span class="material-symbols-outlined">play_circle</span>JUGAR
+      </button>
+    </form>
+    <button class="btn btn-primary" id="playWithTimeButton">
+      <span class="material-symbols-outlined">timer</span>JUGAR CON TIEMPO
+    </button>
+    <form th:action="@{/blackjackDificil}" method="get">
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-skull-crossbones"></i>MODO DIFICIL
+      </button>
+    </form>
+    <form th:action="@{/verRanking}" method="post">
+      <input type="hidden" name="tipoJuego" value="BLACKJACK" />
+      <button type="submit" class="btn btn-primary" id="rankingBlackjack">
+        <span class="material-symbols-outlined">bar_chart</span>RANKING
+      </button>
+    </form>
+  </main>
+
+
+  <!-- Modal -->
+  <div id="timeModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>¿Cuánto tiempo quieres jugar?</h2>
+      <form th:action="@{/blackjack}" method="post" th:object="${nuevoJugador}">
+        <input type="hidden" name="contrareloj" value="true" />
+        <label for="tiempoLimite">Tiempo en minutos:</label>
+        <input type="number" id="tiempoLimite" name="tiempoLimite" min="1" max="5" required />
+        <button type="submit" class="btn">JUGAR</button>
+      </form>
+    </div>
+  </div>
+
+
     <script>
       // Obtener elementos del DOM
       const modal = document.getElementById("timeModal");
@@ -107,5 +105,7 @@
         }
       };
     </script>
+
+  <script th:src="@{/js/animacionLluvia.js}"></script>
   </body>
 </html>

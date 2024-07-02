@@ -7,13 +7,14 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 
-public class ChinTest {
+public class ServicioChinTest {
+    private ServicioChin servicioChin;
+
 
     @BeforeEach
     public void init(){
-
+        this.servicioChin = new ServicioChinImpl();
 
     }
     @Test
@@ -74,41 +75,41 @@ public class ChinTest {
     @Test
     public void elJugador1GanaSiNoTieneMasCartas(){
         ArrayList<Carta> mazoJugador1 = new ArrayList<>();
-
-        assertThat(mazoJugador1.size(), is(0));
+        ServicioChin chin = new ServicioChinImpl();
+        Boolean gano = chin.chequearGanador(mazoJugador1);
+        assertThat(gano, is(true));
     }
     @Test
     public void elJugador2GanaSiNoTieneMasCartas(){
         ArrayList<Carta> mazoJugador2 = new ArrayList<>();
 
-        assertThat(mazoJugador2.size(), is(0));
+        ServicioChin chin = new ServicioChinImpl();
+        Boolean gano = chin.chequearGanador(mazoJugador2);
+        assertThat(gano, is(true));
     }
-//    @Test
-//    public void devuelveLasCartasDelMazoACadaJugador(){
-//        ArrayList<Carta> mazoJugador1 = new ArrayList<>();
-//        ArrayList<Carta> mazoJugador2 = new ArrayList<>();
-//
-//        ServicioChin chin = new ServicioChinImpl();
-//        chin.repartirTodasLasCartas(mazoJugador1, mazoJugador2);
-//
-//        assertThat(mazoJugador1.size(), is(26));
-//        assertThat(mazoJugador2.size(), is(26));
-//    }
-    /*@Test
+    @Test
+    public void devuelveLasCartasDelMazoACadaJugador(){
+        ArrayList<Carta> mazoJugador1 = new ArrayList<>();
+        ArrayList<Carta> mazoJugador2 = new ArrayList<>();
+
+        ServicioChin chin = new ServicioChinImpl();
+        chin.repartirTodasLasCartas(mazoJugador1, mazoJugador2);
+
+        assertThat(mazoJugador1.size(), is(26));
+        assertThat(mazoJugador2.size(), is(26));
+    }
+    @Test
     public void soloSePuedenTenerHasta4CartasEnLaMano(){
 
         ArrayList<Carta> mazoJugador1 = new ArrayList<>();
         ArrayList<Carta> mazoJugador2 = new ArrayList<>();
         ArrayList<Carta> manoJugador1 = new ArrayList<>();
-        ServicioChin chin = new ServicioChinImpl();
-        chin.repartirTodasLasCartas(mazoJugador1, mazoJugador2);
-
+        servicioChin.repartirTodasLasCartas(mazoJugador1, mazoJugador2);
         while(manoJugador1.size()<4){
-            chin.sacarDelMazoYPonerEnMano(mazoJugador1, manoJugador1);
+            servicioChin.sacarDelMazoYPonerEnMano(mazoJugador1, manoJugador1);
         }
         assertThat(manoJugador1.size(), is(4));
-
-    }*/
+    }
     @Test
     public void siHayCHINElMazoDeDescarteVaAlMazoDelPerdedor(){
         ArrayList<Carta> mazoJugador1 = new ArrayList<>();
@@ -134,39 +135,36 @@ public class ChinTest {
         assertThat(descarte2.isEmpty(), is(true));
 
     }
-    /*@Test
+    @Test
     public void siNoHayCartasDisponiblesParaPonerEnElDescarteSeAgreganMas(){
         ArrayList<Carta> mazoJugador1 = new ArrayList<>();
         ArrayList<Carta> mazoJugador2 = new ArrayList<>();
         ArrayList<Carta> manoJugador1 = new ArrayList<>();
         ArrayList<Carta> manoJugador2 = new ArrayList<>();
-        ServicioChin chin = new ServicioChinImpl();
 
         ArrayList<Carta> descarte1 = new ArrayList<>();
         ArrayList<Carta> descarte2 = new ArrayList<>();
-        chin.repartirTodasLasCartas(mazoJugador1, mazoJugador2);
-        chin.repartirCuatroCartasDeFrente(mazoJugador1, manoJugador1);
-        chin.repartirCuatroCartasDeFrente(mazoJugador2, manoJugador2);
+        servicioChin.repartirTodasLasCartas(mazoJugador1, mazoJugador2);
+        servicioChin.repartirCuatroCartasDeFrente(mazoJugador1, manoJugador1);
+        servicioChin.repartirCuatroCartasDeFrente(mazoJugador2, manoJugador2);
         descarte1.add(mazoJugador1.remove(mazoJugador1.size()-1));
         descarte2.add(mazoJugador2.remove(mazoJugador2.size()-1));
-        assertThat(chin.sePuedenAgregarCartasAlDescarte(descarte1, descarte2, manoJugador1, manoJugador2),is(true));
-    }*/
+        assertThat(servicioChin.sePuedenAgregarCartasAlDescarte(descarte1, descarte2, manoJugador1, manoJugador2),is(true));
+    }
 
-
-
-    /*@Test
+    @Test
     public void queArranqueCon4CartasEnElCentro(){
         ArrayList<Carta> mazoJugador1 = new ArrayList<>();
         ArrayList<Carta> mazoJugador2 = new ArrayList<>();
         ArrayList<Carta> manoJugador1 = new ArrayList<>();
         ArrayList<Carta> manoJugador2 = new ArrayList<>();
-        ServicioChin chin = new ServicioChinImpl();
-        chin.repartirTodasLasCartas(mazoJugador1, mazoJugador2);
-        chin.repartirCuatroCartasDeFrente(mazoJugador1, manoJugador1);
-        chin.repartirCuatroCartasDeFrente(mazoJugador2, manoJugador2);
+
+        servicioChin.repartirTodasLasCartas(mazoJugador1, mazoJugador2);
+        servicioChin.repartirCuatroCartasDeFrente(mazoJugador1, manoJugador1);
+        servicioChin.repartirCuatroCartasDeFrente(mazoJugador2, manoJugador2);
 
         assertThat(manoJugador1.size(), is(4));
         assertThat(manoJugador2.size(), is(4));
-    }*/
+    }
 
 }

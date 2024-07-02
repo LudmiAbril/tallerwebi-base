@@ -14,18 +14,103 @@ body, html {
 
 body {
     background-image: url(../imgStatic/fondoLoguin.png);
+    font-family: 'Arial', sans-serif;
     background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
-.nav-bar{
-    height:15px;
+
+/* ESTILOS NAVEGADOR */
+.nav-bar {
+    width: 100%;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
+
+.nav-bar a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.nav-bar .brand {
+    display: flex;
+    align-items: center;
+    margin-right:10px;
+}
+
+.nav-bar .brand img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.icono {
+    font-size: 30px;
+    margin-left: 10px;
+    transition: text-shadow 0.3s ease;
+}
+
+.icono:hover {
+    text-shadow: 0 0 10px #e140ec, 0 0 20px #e140ec, 0 0 30px #e140ec, 0 0 40px #e140ec;
+}
+
+.sign {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: radial-gradient(ellipse 50% 35% at 50% 50%, #6b1839, transparent);
+    font-family: "Clip";
+    text-transform: uppercase;
+    font-size: 2em;
+    color: #ffe6ff;
+    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd, -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd, 0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+    animation: shine 2s forwards, flicker 3s infinite;
+}
+
+@keyframes shine {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes flicker {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    max-height: 100vh;
+    text-align: center;
+    max-width: 800px;
+    margin: auto;
+    color: white;
 }
 
 .form-control {
@@ -35,34 +120,34 @@ body {
     border-radius: 10px;
     height: 40px;
 }
-
+/*BOTONES DEL FORM*/
 .btn-primary {
     border: none;
     background-color: #2D2A49;
     border-radius: 10px;
-    height: 40px;
+    height: 50px;
     width: 300px;
     text-decoration: none;
     color: white;
     text-transform: uppercase;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 10px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.btn-primary span {
+.btn-primary span , .btn-primary i{
     margin-right: 8px;
-    display: flex;
-    align-items: center;
-    text-decoration: none;
+    font-size: 24px;
 }
 
-.btn-primary:hover {
+.btn-primary:hover{
     background-color: #CF4CEA;
-    box-shadow: 0 4px 8px rgba(255, 105, 180, 0.3);
+    box-shadow: 0 4px 8px rgba(255, 105, 180, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.8);
 }
+
 
 .text-center img {
     border: 4px solid #2D2A49;
@@ -79,8 +164,7 @@ body {
     color: white;
     font-size: 20px;
     z-index: 1000;
-    margin-left: 15px;
-    padding-top: 10px;
+    margin-left: 10px;
     text-decoration: none;
 }
 
@@ -91,23 +175,22 @@ body {
 
 .imagen-home {
     border-radius: 15px;
-    width: 700px;
+    width: 550px;
 }
 
 /*----ESTILOS MODAL----------*/
-
 .modal {
-    display: none; /* Oculto por defecto */
+    display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 1001;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.8);
     padding-top: 60px;
+    font-family: 'Arial', sans-serif;
 }
 
 .modal-content {
@@ -120,19 +203,22 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
+.modal-content h2{
+    margin-bottom: 10px;
+}
 
 .close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
 .close:hover,
 .close:focus {
     color: black;
-    text-decoration: none;
-    cursor: pointer;
 }
 
 .modal input[type="number"] {
@@ -153,7 +239,8 @@ body {
     color: white;
     text-transform: uppercase;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3),inset 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .modal .btn:hover {
@@ -161,7 +248,112 @@ body {
     box-shadow: 0 4px 8px rgba(255, 105, 180, 0.3);
 }
 
+
+/*----ANIMACION LLUVIA ----------*/
+
+.rain-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -10;
+}
+
+.rain-chip {
+    position: absolute;
+    top: -50px;
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(45vh);
+    }
+}
+
 .logoSenku{
     width: 8em;
     
+}
+/* -----------------------------MODAL TIPO DE BINGO---------------------*/
+
+#modalTipoPartida .radio-group input[type="radio"] {
+    display: none;
+}
+
+#modalTipoPartida  .modal-content{
+    height:200px;
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+#modalTipoPartida .radio-group label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 50px;
+    border: 1px solid #888;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    background-color: white;
+    transition: background-color 0.3s, border-color 0.3s;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#modalTipoPartida .radio-group input[type="radio"]:checked+label {
+    background-color: #B367A9;
+    color: white;
+}
+
+#modalTipoPartida .radio-group label:hover {
+    background-color: #b367a9a2;
+}
+
+#modalTipoPartida .radio-group {
+    justify-content: center;
+    display: flex;
+    margin: 10px;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Estilos CSS para el botón de enviar */
+#modalTipoPartida .btn-enviar {
+    font-family: 'Teko', sans-serif;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 15px;
+    width: 100%;
+    color: white;
+    border-radius: 10px;
+    border: 1px solid #6d2194;
+    padding: 10px 25px;
+    background-color: #7f369a;
+    display: block;
+    margin: 0 auto;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+#modalTipoPartida .btn-enviar:hover {
+    background-color: #2D2A49;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+#modalTipoPartida .modal-content h3 {
+    text-align: center;
 }

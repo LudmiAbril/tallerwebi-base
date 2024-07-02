@@ -33,7 +33,6 @@ public class ControladorChin {
         if(jugador.getConfig()==null){
             jugador.setConfig(new ConfiguracionesJuego());
         }
-        //modelo.put("tiempoDefault", jugador.getConfig().getDuracionChin());
         return new ModelAndView("irAlChin", modelo);
     }
 
@@ -44,46 +43,25 @@ public class ControladorChin {
         model.put("nuevoJugador", new Usuario());
         return new ModelAndView(viewName, model);
     }
-    //public ModelAndView repartirCartas(){
 
-    //}
 
-//    @RequestMapping(path = "/chin", method = RequestMethod.POST)
-//    public ModelAndView comenzarChin(@ModelAttribute("nuevoJugador") Usuario nuevoJugador,
-//                                          HttpSession session) {
-//
-//        ModelMap model = new ModelMap();
-//        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-//        String nombreJugador = jugador.getNombre();
-//        ArrayList<Carta> mazo1 = new ArrayList<Carta> ();
-//        ArrayList<Carta> mazo2 = new ArrayList<Carta> ();
-//        servicioChin.repartirTodasLasCartas(mazo1, mazo2);
-//        List<Carta> mano1;
-//        servicioChin.entregarCartasPrincipales();
-//        //List<Carta> mano2; = servicioChin.//entregarCartasPrincipales();
-//
-//        session.setAttribute("jugadorActual", nuevoJugador.getNombre());
-//        session.setAttribute("cartasJugador", cartasJugador);
-//        session.setAttribute("cartasCasa", cartasCasa);
-//        session.setAttribute("estadoPartida", servicioBlackjack.estadoPartida(cartasJugador, cartasCasa, false));
-//        session.setAttribute("ganador",
-//                servicioBlackjack.ganador(cartasJugador, cartasCasa, nuevoJugador.getNombre(), false));
-//
-//        // si estado partida "finalizado" llamo al servicioplataforma y guardo en la
-//        // base
-//        return new ModelAndView("chin");
-//
-//    }
     @RequestMapping(path = "/comenzarJuegoChin", method = RequestMethod.POST)
-    public ModelAndView comenzarJuegoChin(@ModelAttribute("nuevoJugador") Jugador nuevoJugador, HttpSession session) {
-        //CartonBingo carton = servicioChin.generarCarton();
-        Set<Integer> numerosEntregados = new LinkedHashSet<Integer>();
-        //Integer numeroNuevo = this.servicioChin.entregarNumeroAleatorio(numerosEntregados);
-        //Integer numeroCantadoAleatorio = numeroNuevo;
-        //numerosEntregados.add(numeroNuevo);
-        //session.setAttribute("carton", carton);
-        session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
-        //session.setAttribute("numeroAleatorioCantado", numeroCantadoAleatorio);
+    public ModelAndView comenzarJuegoChin(@ModelAttribute("nuevoJugador") Usuario nuevoJugador, HttpSession session) {
+        ArrayList<Carta> mazo1 = new ArrayList<>();
+        ArrayList<Carta> mazo2 = new ArrayList<>();
+        servicioChin.repartirTodasLasCartas(mazo1, mazo2);
+        ArrayList<Carta> manoJugador1 = new ArrayList<>();
+        ArrayList<Carta> manoJugador2 = new ArrayList<>();
+        servicioChin.repartirCuatroCartasDeFrente(mazo1, manoJugador1);
+        servicioChin.repartirCuatroCartasDeFrente(mazo2, manoJugador2);
+        ArrayList<Carta> descarte1 = new ArrayList<>();
+        ArrayList<Carta> descarte2 = new ArrayList<>();
+        session.setAttribute("mazoJugador1", mazo1);
+        session.setAttribute("mazoJugador2", mazo2);
+        session.setAttribute("manoJugador1", manoJugador1);
+        session.setAttribute("manoJugador2", manoJugador2);
+        session.setAttribute("descarte1", descarte1);
+        session.setAttribute("descarte2", descarte2);
         ModelMap model = new ModelMap();
         String nombreJugador = nuevoJugador.getNombre();
         model.put("nombreJugador", nombreJugador);

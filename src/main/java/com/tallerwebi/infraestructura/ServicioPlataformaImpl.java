@@ -6,6 +6,7 @@ import com.tallerwebi.dominio.PartidaBingo;
 import com.tallerwebi.dominio.RepositorioPartida;
 import com.tallerwebi.dominio.RepositorioUsuario;
 import com.tallerwebi.dominio.ServicioPlataforma;
+import com.tallerwebi.dominio.excepcion.BingoBotEsNullException;
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
@@ -35,7 +36,7 @@ public class ServicioPlataformaImpl implements ServicioPlataforma {
     }
 
     @Override
-    public void agregarPartida(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException {
+    public void agregarPartida(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException {
         this.repositorioPartida.guardar(partida);
     }
 

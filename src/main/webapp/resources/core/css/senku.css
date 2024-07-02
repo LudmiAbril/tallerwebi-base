@@ -113,7 +113,10 @@ main{
 
     }
 
-
+.mensaje{
+text-align: center;
+margin: 1%;
+}
 
 
 .highlight {
@@ -294,6 +297,17 @@ main{
 
 }
 
+.playlist-container {
+    position: fixed;
+    top: 70px;
+    right: 10px;
+    z-index: 1000;
+}
+
+
+#playlist{
+    display:none;
+}
 .boton-musica:hover {
     color: rgba(207, 76, 234, 0.81);
     transform: scale(1.2);
@@ -334,7 +348,7 @@ main{
     top: 0;
     width: 100%;
     height: 100%;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
 }
@@ -391,3 +405,4 @@ main{
 .modal-contentSenku button:hover {
     background-color: #132a3d;
 }
+

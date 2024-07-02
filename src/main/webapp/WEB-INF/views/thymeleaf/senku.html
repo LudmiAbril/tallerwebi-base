@@ -23,24 +23,30 @@
 
     <script th:src="@{/js/customModal.js}"></script>
     <script type="module" th:src="@{/js/senku.js}"></script>
-
+    <script th:src="@{/js/musica.js}"></script>
 
 </head>
 
 <body>
 <div class="nav-bar">
     <div class="nav-left">
-        <a href="javascript:void(0)" class="back-arrow">
-            <i class="fas fa-arrow-left"></i>
-        </a>
+        <a href="volverAlMenu">
+            <span class="material-symbols-outlined icono">arrow_back</span>
+          </a>
     </div>
     <div class="nav-right">
         <div class="nombre-jugador">
             Jugador: <span th:text="${nombreJugador}"></span>
         </div>
         <div class="boton-musica">
-            <i class="fas fa-music"></i>
+            <i id="toggleMusica" class="fas fa-music" onclick="togglePlaylist()"></i>
         </div>
+        <!-- Contenedor de la playlist -->
+        <div class="playlist-container" th:classappend="${playlistVisible} ? '' : 'hidden'">
+            <iframe id="playlist" style="border-radius:12px" th:src="@{https://open.spotify.com/embed/playlist/62emNerb9lRrq16i4NGT91?utm_source=generator&theme=0}" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+
+
         <div class="boton-ayuda">
             <i class="fas fa-question-circle"></i>
         </div>
@@ -69,7 +75,8 @@
             <p>Contador Movimientos : <span class="mov" th:text="${contadorMovimientos}">00</span></p>
         </div>
     </div>
-
+      <!-- Mensaje Actualizacion Movimientos -->
+      <p class="mensaje" ><span class="mensaje" th:text="${mensaje}"></span></p>
             <!-- Tablero -->
             <div class="tablero-fondo">
                 <div class="tablero"></div>
@@ -103,9 +110,10 @@
                     <h3>¡FINISH!</h3>
                     <p>¡Felicidades, <span th:text="${nombreJugador}"></span>!</p>
                     <p id="mensajeMovimientos">No hay movimientos válidos disponibles.</p>
-                    <form th:action="@{/senku/finalizarPartida}" method="post">
+                    <form th:action="@{/senkuFinalizarPartida}" method="post">
                         <button type="submit">Volver al inicio</button>
                     </form>
+                    
                 </div>
             </div>
         </main>
@@ -114,11 +122,12 @@
 
 
 <audio id="musicaFondo" loop>
-    <source th:src="@{/imgStatic/Veo.mp3}" type="audio/mpeg">
+    <source th:src="@{/imgStatic/TaylorWildestDreams.mp3}" type="audio/mpeg">
     Tu navegador no soporta la reproducción de audio.
 </audio>
 
-<script th:src="@{/js/musica.js}"></script>
+
+
 </body>
 
 </html>
