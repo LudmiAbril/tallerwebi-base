@@ -94,6 +94,9 @@ public class ControladorAccesoJuegos {
     public ModelAndView volverAlMenuDeJuegos(HttpSession session) {
         ModelMap model = new ModelMap();
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        if(jugador == null){
+            return new ModelAndView("redirect:/login", model);
+        }
         model.addAttribute("jugador", jugador.getNombre());
         model.addAttribute("usuarioConfig", jugador.getConfig());
 

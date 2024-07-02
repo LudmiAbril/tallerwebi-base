@@ -3,7 +3,8 @@ $(document).ready(function () {
     let aciertos = 0;
 
     function agregarCarta(contenedor, nombreCarta, jugador) {
-        contenedor.append(
+        //contenedor.append(
+        contenedor.html(
             "<img src='./imgStatic/cartas/" +
             nombreCarta +
             ".png' width='140px' class='carta nueva-carta-" +
@@ -11,8 +12,26 @@ $(document).ready(function () {
             "'>"
         );
     }
+    function agregarDosCartas(contenedor, cartaAnterior, cartaNueva, jugador) {
+            contenedor.html(
+                "<img src='./imgStatic/cartas/" +
+                cartaAnterior +
+                ".png' width='140px' class='carta carta-anterior-" +
+                jugador +
+                "'>" +
+                "<img src='./imgStatic/cartas/" +
+                cartaNueva +
+                ".png' width='140px' class='carta nueva-carta-" +
+                jugador +
+                "'>"
+            );
+        }
+        //seagrego
+function iniciarPartida() {
     $.get("ComenzarMayorMenor", function (data) {
         cartaActual = data.cartaInicial;
+        aciertos = 0;
+        actualizarAciertos(aciertos);
         $("#nombre").text(data.jugadorActual);
         agregarCarta(
             $("#cartasJugador"),
@@ -20,6 +39,7 @@ $(document).ready(function () {
             "jugador"
         );
     });
+}
     $("#btnMayor").click(function () {
         evaluarCarta("MAYOR");
     });
@@ -32,11 +52,17 @@ $(document).ready(function () {
             let acierto = data.acierto;
             aciertos = data.aciertos;
 
-            agregarCarta(
+            /*agregarCarta(
                 $("#cartasJugador"),
                 cartaNueva.simbolo + "_" + cartaNueva.palo,
                 "jugador"
-            );
+            );*/
+            agregarDosCartas(
+                            $("#cartasJugador"),
+                            cartaActual.simbolo + "_" + cartaActual.palo,
+                            cartaNueva.simbolo + "_" + cartaNueva.palo,
+                            "jugador"
+                        );
 
             if (acierto) {
                 cartaActual = cartaNueva;
@@ -56,6 +82,7 @@ $(document).ready(function () {
     }
 
     $("#btnReiniciar").click(function () {
-        location.reload();
+        iniciarPartida();
     });
+    iniciarPartida();
 });

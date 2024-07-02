@@ -46,26 +46,29 @@ public class ControladorMayorMenor {
         return new ModelAndView("irAMayorMenor", modelo);
     }
     //return new ModelAndView("redirect:/inicio-blackjack");
-    /*@RequestMapping(path = "/ComenzarMayorMenor")
-    public ModelAndView comenzarMayorMenor(HttpSession session) {
-        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-        ModelMap modelo = new ModelMap();
-        return new ModelAndView("MayorMenor", modelo);
-    }*/
+
     @RequestMapping(path = "/ComenzarMayorMenor", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> comenzarMayorMenor(HttpSession session,
                                                   @RequestParam(value = "contrareloj", defaultValue = "false") boolean contrareloj,
                                                   @RequestParam(value = "tiempoLimite", required = false) Integer tiempoLimiteMinutos) {
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        List<Partida> partidasAnteriores = new ArrayList<Partida>();
 
         String nombreJugador = jugador.getNombre();
         ModelMap modelo = new ModelMap();
+        try {
+            partidasAnteriores = servicioPlataforma.obtenerUltimasPartidasDelUsuario(jugador.getId(),
+                    Juego.MAYOR_MENOR);
+        } catch (PartidaDeUsuarioNoEncontradaException e) {
+            modelo.addAttribute("mensajePartidas", "aun no hay partidas registradas.");
+        }
         servicioMayorMenor.inicializarBaraja();
         servicioMayorMenor.barajar();
         Carta cartaInicial = servicioMayorMenor.sacarCarta();
         session.setAttribute("cartaJugador", cartaInicial);
         session.setAttribute("nombre", nombreJugador);
+        session.setAttribute("aciertos", 0);
         Map<String, Object> response = new HashMap<>();
         response.put("jugadorActual", session.getAttribute("nombre"));
         response.put("cartaInicial", cartaInicial);
@@ -124,9 +127,7 @@ public class ControladorMayorMenor {
         String ganador = (String) session.getAttribute("ganador");
         Boolean gano = false;
         LocalTime duracion = LocalTime.of(3, 00);
-        if (ganador.equals(jugador.getNombre()) || ganador.equals("empate")) {
-            gano = true;
-        }
+
         servicioPlataforma.agregarPartida(
                 new PartidaMayorMenor(jugador.getId(), Juego.MAYOR_MENOR, puntajeFinal));
         return new ModelAndView("redirect:/inicioMayorMenor");
