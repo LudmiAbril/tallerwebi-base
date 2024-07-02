@@ -64,6 +64,23 @@
     </nav>
 
     <main class="container">
+
+        <div>
+            <h3>Últimas compras</h3>
+            <div th:if="${compras}">
+                <ul>
+                    <li th:each="compra : ${compras}">
+                        <p>Descripción: <span th:text="${compra.descripcion}"></span></p>
+                        <p>Precio: <span th:text="${compra.precio}"></span></p>
+                        <p>Fecha: <span th:text="${#dates.format(compra.fecha, 'dd-MM-yyyy HH:mm')}"></span></p>
+                    </li>
+                </ul>
+            </div>
+            <div th:if="${mensajeError}">
+                <p th:text="${mensajeError}"></p>
+            </div>
+        </div>
+
         <!----NUMERO QUE SALE---->
         <div class="numeroCantadoContenedor">
             <p id="numeroCantado"></p>

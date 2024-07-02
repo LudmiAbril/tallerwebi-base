@@ -7,6 +7,9 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import com.tallerwebi.dominio.excepcion.BingoBotEsNullException;
+import com.tallerwebi.dominio.excepcion.NoHayCompras;
+import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseJuego;
+import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseUsuario;
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 
@@ -14,6 +17,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tallerwebi.dominio.Compra;
 import com.tallerwebi.dominio.Juego;
 import com.tallerwebi.dominio.Partida;
 import com.tallerwebi.dominio.PartidaBingo;
@@ -34,7 +38,8 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
     }
 
     @Override
-    public void guardar(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException {
+    public void guardar(Partida partida)
+            throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException {
         if (partida == null || partida.getJuego() == null) {
             throw new IllegalArgumentException();
         } else if (partida instanceof PartidaBlackJack && (((PartidaBlackJack) partida).getPuntaje()) < 0) {
@@ -135,6 +140,22 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
         }
 
         return partidasBingo;
+    }
+
+    @Override
+    public List<Compra> obtenerCompras(Long id, Juego juego) throws NoHayCompras {
+        String hql = "FROM Compra c WHERE c.user.id = :userId AND c.juego = :juego";
+        Query query = this.sessionFactory.getCurrentSession().createQuery(hql);
+        query.setParameter("userId", id);
+        query.setParameter("juego", juego);
+
+        List<Compra> compras = query.getResultList(); // Utiliza list() en lugar de getResultList()
+
+        if (compras.isEmpty()) {
+            throw new NoHayCompras();
+        }
+
+        return compras;
     }
 
 }

@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.List;
 
 import com.tallerwebi.dominio.excepcion.BingoBotEsNullException;
+import com.tallerwebi.dominio.excepcion.NoHayCompras;
+import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseJuego;
+import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseUsuario;
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
@@ -23,4 +26,6 @@ public interface RepositorioPartida {
     List<PartidaBingo> generarRankingDePartidasDeBingo(Long userId) throws NoHayPartidasDeBingoException;
 
     List<Partida> obtenerPartidasPorFechaRango(Long usuarioId, Juego juego, LocalDateTime of, LocalDateTime of2) throws PartidaDeUsuarioNoEncontradaException;
+
+    List<Compra> obtenerCompras(Long id, Juego juego) throws NoHayCompras;
 }
