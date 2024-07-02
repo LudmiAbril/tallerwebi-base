@@ -1,8 +1,14 @@
 import { start, stop } from './cronometro.js';
 
 $(document).ready(function () {
-    
-    
+    $('.carrusel').slick({
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 2000,
+    });
+    var tiempo = false;
     function actualizarTablero() {
         $.get("obtenerTablero", function (data) {
             var tableroHtml = '';
@@ -35,7 +41,32 @@ $(document).ready(function () {
                                     });
                                  start();
     }
-    
+
+    setInterval(function () {
+        let tiempoLimite = "01:00"; // Ejemplo de tiempo límite
+        verificarTiempo(tiempoLimite);
+        console.log("Verificando tiempo: hora actual=" + obtenerHoraActual() + ", tiempo límite=" + tiempoLimite);
+    }, 60000);
+
+    function obtenerHoraActual() {
+        var tiempoActual = new Date();
+        var horas = tiempoActual.getHours();
+        var minutos = tiempoActual.getMinutes();
+        horas = horas < 10 ? "0" + horas : horas;
+        minutos = minutos < 10 ? "0" + minutos : minutos;
+        return horas + ":" + minutos;
+    }
+
+    function verificarTiempo(tiempoLimite) {
+        let horaActual = obtenerHoraActual();
+        if (horaActual === tiempoLimite) {
+            tiempo = true;
+            stop();
+            $(".reloj").addClass("puntaje-limite");
+            comprobarSiSeGano();
+        }
+    }
+
     function comprobarSiSeGano() {
         fetch("http://localhost:8080/spring/senkuGano", {
             method: "POST",
@@ -55,8 +86,7 @@ $(document).ready(function () {
                 return;
             }
             var MovimientosMaxEnLaSesion = data.maxMovimientos;
-          
-            if (data.seGano || data.movimientosRealizados >= MovimientosMaxEnLaSesion) {
+            if (data.seGano || data.movimientosRealizados >= MovimientosMaxEnLaSesion || tiempo === true) {
                 document.getElementById('modalSenkuFinish').style.display = 'block';
                 document.querySelector('#modalSenkuFinish span').textContent = data.nombreJugador;
                 mostrarMensajeMovimientos(data);
@@ -71,14 +101,34 @@ $(document).ready(function () {
         });
     }
     
+    function addMinutes(time, minutes) {
+        var timeParts = time.split(":");
+        var hours = parseInt(timeParts[0]);
+        var mins = parseInt(timeParts[1]);
+    
+        mins += minutes;
+    
+        if (mins >= 60) {
+            hours += Math.floor(mins / 60);
+            mins = mins % 60;
+        }
+    
+        hours = hours % 24; 
+    
+        var newTime = ("0" + hours).slice(-2) + ":" + ("0" + mins).slice(-2);
+        return newTime;
+    }
     
     function mostrarMensajeMovimientos(respuesta) {
         if (respuesta.movimientosDisponibles === false) {
             document.getElementById("mensajeMovimientos").textContent = "No hay movimientos válidos disponibles.";
             document.getElementById("modalSenkuFinish").style.display = "block";
+        } else if(tiempo==true) {
+            document.getElementById("mensajeMovimientos").textContent = "No hay más tiempo.";
+            document.getElementById("modalSenkuFinish").style.display = "block";
         }
     }
-
+    verificarTiempo("01:00"); 
     actualizarTablero();
     setInterval(comprobarSiSeGano, 5000);
 });

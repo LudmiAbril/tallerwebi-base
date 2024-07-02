@@ -67,6 +67,7 @@ document.getElementById('configuracionModal').addEventListener('show', function(
     cargarMaxMovimientos();
 });
 
+
 // Guardar los valores si cambian
 document.getElementById('cant-numeros').addEventListener('input', guardarValorInput);
 document.querySelectorAll('input[name="dimensionTablero"]').forEach(function(input) {

@@ -8,7 +8,6 @@
 
     <!-- Custom Styles -->
     <link rel="stylesheet" th:href="@{/css/senku.css}" />
-
     <link rel="stylesheet" th:href="@{/css/abandonarPartida.css}" />
     <link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
 
@@ -16,7 +15,9 @@
     <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
     <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap}" />
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}" />
-
+<!-- Slick CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
     <!-- JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="module" th:src="@{/js/cronometro.js}"></script>
@@ -34,6 +35,12 @@
             <span class="material-symbols-outlined icono">arrow_back</span>
           </a>
     </div>
+    <div class="carrusel">
+        <div><img th:src="@{/imgStatic/mensajeSenku.png}" alt="Slide 1"></div>
+        <div><img th:src="@{/imgStatic/mensajeSenku.png}" alt="Slide 2"></div>
+        <div><img th:src="@{/imgStatic/mensajeSenku.png}" alt="Slide 3"></div>
+    </div>
+    
     <div class="nav-right">
         <div class="nombre-jugador">
             Jugador: <span th:text="${nombreJugador}"></span>
@@ -113,7 +120,7 @@
                     <form th:action="@{/senkuFinalizarPartida}" method="post">
                         <button type="submit">Volver al inicio</button>
                     </form>
-                    
+                
                 </div>
             </div>
         </main>
@@ -127,7 +134,9 @@
 </audio>
 
 
-
+  <!-- jQuery and Slick JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 </body>
 
 </html>
