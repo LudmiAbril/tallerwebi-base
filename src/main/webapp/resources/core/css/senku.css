@@ -406,3 +406,12 @@ margin: 1%;
     background-color: #132a3d;
 }
 
+.puntaje-limite {
+    color: red;
+    transition: 0.5s;
+}
+/* ------------------------ESTILOS CARRUSEL--------------------------- */
+.slick-slide img {
+    display: block;
+    width: 20%;
+}
