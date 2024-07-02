@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.BingoBotEsNullException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
 import org.springframework.stereotype.Controller;
@@ -120,7 +121,7 @@ public class ControladorMayorMenor {
 
     @RequestMapping("/finalizarMayorMenor")
     public ModelAndView finalizarMayorMenor(HttpSession session)
-            throws PartidaConPuntajeNegativoException, IllegalArgumentException {
+            throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException {
 
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
         Integer puntajeFinal = (Integer) session.getAttribute("puntaje");
