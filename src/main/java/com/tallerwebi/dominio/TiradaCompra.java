@@ -1,5 +1,5 @@
 package com.tallerwebi.dominio;
 
 public enum TiradaCompra {
-    NUM_99, NUM_50, NUM_20;
+    DIEZ_NUMEROS, VEINTE_NUMEROS, TREINTA_NUMEROS;
 }

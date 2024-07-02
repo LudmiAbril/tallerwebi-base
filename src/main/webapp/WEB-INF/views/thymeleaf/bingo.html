@@ -86,23 +86,23 @@
 
       <!-- historial de compras -->
       <div id="contenedorHistorial">
-        <h3>Últimas compras</h3>
+        <h3>&Uacute;ltimas compras</h3>
         <div th:if="${compras}">
-          <ul>
-            <li th:each="compra : ${compras}">
-              <p>Descripción: <span th:text="${compra.descripcion}"></span></p>
-              <p>Precio: <span th:text="${compra.precio}"></span></p>
-              <p>Fecha: <span th:text="${#dates.format(compra.fecha, 'dd-MM-yyyy HH:mm')}"></span></p>
-              <!-- Ajusta el formato de fecha según tus necesidades -->
-            </li>
-          </ul>
+          <div th:each="compra : ${compras}">
+            <h4>Compra: <span th:text="${compra.id}"></span></h4>
+            <p>Descripci&oacute;n:
+              <span th:if="${compra.descripcion == 'DIEZ_NUMEROS'}">10 n&uacute;meros</span>
+              <span th:if="${compra.descripcion == 'VEINTE_NUMEROS'}">20 n&uacute;meros</span>
+              <span th:if="${compra.descripcion == 'TREINTA_NUMEROS'}">30 n&uacute;meros</span>
+            </p>
+            <p>Precio: <span th:text="${compra.precio}"></span></p>
+            <p>Fecha: <span th:text="${#dates.format(compra.fecha, 'dd-MM-yyyy')}"></span></p>
+          </div>
         </div>
         <div th:if="${mensajeError}">
           <p th:text="${mensajeError}"></p>
         </div>
       </div>
-
-
 
     </div>
 
