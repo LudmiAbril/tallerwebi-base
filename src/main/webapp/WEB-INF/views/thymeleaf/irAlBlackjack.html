@@ -35,7 +35,7 @@
     <form th:action="@{/blackjack}" method="post" th:object="${nuevoJugador}" class="text-center">
       <input type="hidden" name="contrareloj" value="false" />
       <input type="hidden" name="tiempoLimite" value="2" />
-      <button type="submit" class="btn btn-primary">
+      <button type="submit" class="btn btn-primary" id="jugarBlackjack">
         <span class="material-symbols-outlined">play_circle</span>JUGAR
       </button>
     </form>
@@ -49,7 +49,7 @@
     </form>
     <form th:action="@{/verRanking}" method="post">
       <input type="hidden" name="tipoJuego" value="BLACKJACK" />
-      <button type="submit" class="btn btn-primary">
+      <button type="submit" class="btn btn-primary" id="rankingBlackjack">
         <span class="material-symbols-outlined">bar_chart</span>RANKING
       </button>
     </form>

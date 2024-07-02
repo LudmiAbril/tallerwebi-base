@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import com.tallerwebi.dominio.excepcion.BingoBotEsNullException;
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 
@@ -33,11 +34,13 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
     }
 
     @Override
-    public void guardar(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException {
+    public void guardar(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException {
         if (partida == null || partida.getJuego() == null) {
             throw new IllegalArgumentException();
         } else if (partida instanceof PartidaBlackJack && (((PartidaBlackJack) partida).getPuntaje()) < 0) {
             throw new PartidaConPuntajeNegativoException();
+        } else if (partida instanceof PartidaBingo && ((PartidaBingo) partida).getSeHizoBingoBot() == null) {
+            throw new BingoBotEsNullException();
         }
         this.sessionFactory.getCurrentSession().save(partida);
     }

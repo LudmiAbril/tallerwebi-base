@@ -47,6 +47,7 @@ public class VistaAccesoAjuegosE2E {
 
     @Test
     void deberiaMostrarFrasesEnLaPagina() {
+        vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
         String frase1 = vistaAccesoAjuegos.obtenerTexto(".frase .animated-text:nth-of-type(1)");
         String frase2 = vistaAccesoAjuegos.obtenerTexto(".frase .animated-text:nth-of-type(2)");
         assertThat(frase1, equalToIgnoringCase("Todo la diversión y el descanso a su alcance"));
@@ -55,6 +56,7 @@ public class VistaAccesoAjuegosE2E {
 
     @Test
     void deberiaAbrirModalDeConfiguracion() {
+        vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
         vistaAccesoAjuegos.abrirMenu();
         vistaAccesoAjuegos.abrirModalConfiguracion();
         assertThat(vistaAccesoAjuegos.modalConfiguracionEstaVisible(),is(true));
@@ -62,7 +64,8 @@ public class VistaAccesoAjuegosE2E {
 
         @Test
    void deberiaEvitarEnviarFormularioConCampoVacio() {
-       vistaAccesoAjuegos.abrirMenu();
+        vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
+        vistaAccesoAjuegos.abrirMenu();
        vistaAccesoAjuegos.abrirModalConfiguracion();
        vistaAccesoAjuegos.ingresarDuracionBlackjack("1");
        vistaAccesoAjuegos.seleccionarValorAsBlackjack("11");
@@ -75,6 +78,7 @@ public class VistaAccesoAjuegosE2E {
 
     @Test
     void deberiaGuardarLaConfiguracionCorrectamenteSiIngresoQueLaTiradaSeaMayorAlCarton() {
+        vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
         vistaAccesoAjuegos.abrirMenu();
         vistaAccesoAjuegos.abrirModalConfiguracion();
         vistaAccesoAjuegos.seleccionarDimensionCarton("4");
@@ -88,6 +92,7 @@ public class VistaAccesoAjuegosE2E {
 
     @Test
     void deberiaEvitarEnviarFormularioConNumerosNegativos() {
+        vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
         vistaAccesoAjuegos.abrirMenu();
         vistaAccesoAjuegos.abrirModalConfiguracion();
         vistaAccesoAjuegos.seleccionarDimensionCarton("4");
@@ -100,6 +105,7 @@ public class VistaAccesoAjuegosE2E {
 
     @Test
     void deberiaEvitarEnviarFormularioBlackjackConDuracionNegativa() {
+        vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
         vistaAccesoAjuegos.abrirMenu();
         vistaAccesoAjuegos.abrirModalConfiguracion();
 
@@ -111,6 +117,7 @@ public class VistaAccesoAjuegosE2E {
     }
     @Test
     void deberiaSeleccionarValorAsBlackjack() {
+        vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
         vistaAccesoAjuegos.abrirMenu();
         vistaAccesoAjuegos.abrirModalConfiguracion();
         String valorSeleccionado = "11";
@@ -122,6 +129,7 @@ public class VistaAccesoAjuegosE2E {
 
     @Test
     void deberiaCerrarModalConfiguracion() {
+        vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
         vistaAccesoAjuegos.abrirMenu();
         vistaAccesoAjuegos.abrirModalConfiguracion();
         vistaAccesoAjuegos.cerrarModalConfiguracion();
@@ -132,6 +140,7 @@ public class VistaAccesoAjuegosE2E {
 
     @Test
     void deberiaAbrirModalDeSalida() {
+        vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
         vistaAccesoAjuegos.abrirMenu();
         vistaAccesoAjuegos.abrirModalSalida();
         assertThat(vistaAccesoAjuegos.modalSalidaEstaVisible(), is(true));
@@ -139,6 +148,7 @@ public class VistaAccesoAjuegosE2E {
 
     @Test
     void deberiaDirigirAlInicioDeLaPaginaSiApretasElBotnDeSalida() {
+        vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
         vistaAccesoAjuegos.abrirMenu();
         vistaAccesoAjuegos.abrirModalSalida();
         vistaAccesoAjuegos.darClick("#btn-salir");
@@ -148,6 +158,7 @@ public class VistaAccesoAjuegosE2E {
 
     @Test
     void deberiaNavegarABingo() {
+        vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
         vistaAccesoAjuegos.darClick("#accederBingo");
         String url = vistaAccesoAjuegos.obtenerURLActual();
         assertThat(url, containsStringIgnoringCase("/irAlBingo"));
@@ -155,6 +166,7 @@ public class VistaAccesoAjuegosE2E {
 
     @Test
     void deberiaNavegarASenku() {
+        vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
         vistaAccesoAjuegos.darClick("#accederSenku");
         String url = vistaAccesoAjuegos.obtenerURLActual();
         assertThat(url, containsStringIgnoringCase("/irAlSenku"));
@@ -162,6 +174,7 @@ public class VistaAccesoAjuegosE2E {
 
     @Test
     void deberiaNavegarABlackjack() {
+        vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
         vistaAccesoAjuegos.darClick("#accederBj");
         String url = vistaAccesoAjuegos.obtenerURLActual();
         assertThat(url, containsStringIgnoringCase("/inicio-blackjack"));

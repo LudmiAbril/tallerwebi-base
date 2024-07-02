@@ -106,7 +106,7 @@ public class ControladorAccesoJuegos {
     @RequestMapping(path = "/guardarCambios", method = RequestMethod.POST)
     public ModelAndView guardarCambios(@RequestParam("duracionBlackjack") Integer duracionBlackjack,
             @RequestParam("valorAs") Integer valorAs, @RequestParam("cantidadPelotas") Integer cantidadPelotas,
-            @RequestParam("dimensionCarton") Integer dimensionCarton, HttpSession session) {
+            @RequestParam("dimensionCarton") Integer dimensionCarton,  @RequestParam("dimensionTablero") Integer dimensionTablero, @RequestParam("maxMovimientos") Integer maxMovimientos, HttpSession session) {
         ModelMap model = new ModelMap();
         Usuario userActual = (Usuario) session.getAttribute("jugadorActual");
         if (duracionBlackjack == null || valorAs == null || cantidadPelotas == null
@@ -117,6 +117,9 @@ public class ControladorAccesoJuegos {
         userActual.getConfig().setValorDelAs(valorAs);
         userActual.getConfig().setCantidadDePelotas(cantidadPelotas);
         userActual.getConfig().setDimensionCarton(dimensionCarton);
+        userActual.getConfig().setDimensionTablero(dimensionTablero);
+        userActual.getConfig().setMaxMovimientos(maxMovimientos);
+
         try {
             servicioUsuario.actualizarConfiguracionesDePartida(userActual);
             model.addAttribute("mensaje", "se actualizaron las preferencias");
