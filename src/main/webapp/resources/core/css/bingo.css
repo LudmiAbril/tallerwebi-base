@@ -302,7 +302,7 @@ main .w3-button {
     text-align: left;
 }
 
-.modal-content img.gatoTriste {
+.gatoTriste {
     width: 150px;
     flex-shrink: 0;
 }
