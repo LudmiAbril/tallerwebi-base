@@ -116,7 +116,7 @@
                 <div class="modal-contentSenku">
                     <h3>¡FINISH!</h3>
                     <p>¡Felicidades, <span th:text="${nombreJugador}"></span>!</p>
-                    <p id="mensajeMovimientos"></p>
+                    <p id="mensajeMovimientos">No hay movimientos válidos disponibles.</p>
                     <form th:action="@{/senkuFinalizarPartida}" method="post">
                         <button type="submit">Volver al inicio</button>
                     </form>
