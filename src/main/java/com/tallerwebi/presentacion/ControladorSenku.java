@@ -202,7 +202,7 @@ public class ControladorSenku {
 
         Tablero tablero = (Tablero) session.getAttribute("tablero");
         Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-
+        Integer maxMovimientos = (Integer)session.getAttribute("maxMovimientos");
         Boolean seGano = servicioSenku.seGano(tablero);
         Boolean movimientosDisponibles = true;
 
@@ -224,7 +224,7 @@ public class ControladorSenku {
         respuesta.put("movimientosRealizados", movimientosRealizados);
         String nombreJugador = (jugador != null) ? jugador.getNombre() : "Jugador Anonimo";
         respuesta.put("nombreJugador", nombreJugador);
-
+        respuesta.put("maxMovimientos", maxMovimientos);
         return respuesta;
     }
 
