@@ -14,12 +14,17 @@ public class ConfiguracionesJuego {
     private Integer valorDelAs;
     private Integer cantidadDePelotas;
     private Integer dimensionCarton;
-
+    private Integer dimensionTablero;
+    private Integer maxMovimientos;
+    private Integer duracionSenku;
     public ConfiguracionesJuego() {
         this.duracionBlackjack = 5;
         this.valorDelAs = 11;
         this.cantidadDePelotas = 90;
         this.dimensionCarton = 5;
+        this.dimensionTablero = 5;
+        this.maxMovimientos = 20;
+        this.duracionSenku = 1;
     }
 
     public Integer getDuracionBlackjack() {
@@ -54,4 +59,26 @@ public class ConfiguracionesJuego {
         this.dimensionCarton = dimensionCarton;
     }
 
+    public Integer  getDimensionTablero() {
+       
+        return this.dimensionTablero;
+    }
+
+    public void setDimensionTablero(Integer dimensionTablero) {
+        this.dimensionTablero = dimensionTablero;
+    }
+    public Integer getMaxMovimientos() {
+       
+        return this.maxMovimientos;
+    }
+    public void setMaxMovimientos(Integer maxMovimientos) {
+        this.maxMovimientos = maxMovimientos;
+    }
+
+    public Object getDuracionSenku() {
+        return this.duracionSenku;
+    }
+    public void setDuracionSenku(Integer duracionSenku) {
+      this.duracionSenku=duracionSenku;
+    }
 }

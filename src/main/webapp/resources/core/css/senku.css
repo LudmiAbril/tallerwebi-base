@@ -339,6 +339,11 @@ margin: 1%;
 .boton-ayuda i {
     font-size: 38px;
 }
+.boton-ayuda i:hover {
+    font-size: 40px;
+    color: rgba(207, 76, 234, 0.81);
+  
+}
 /* Estilos para el modal */
 .modalSenku {
     background-color: rgba(0, 0, 0, 0.8);
@@ -406,3 +411,17 @@ margin: 1%;
     background-color: #132a3d;
 }
 
+.puntaje-limite {
+    color: red;
+    transition: 0.5s;
+}
+/* ------------------------ESTILOS CARRUSEL--------------------------- */
+.carousel-item img {
+    width: 80%;
+    object-fit: cover;
+}
+
+.close {
+    font-size: 2em;
+    color: white;
+}

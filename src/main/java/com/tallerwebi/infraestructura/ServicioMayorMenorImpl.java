@@ -1,16 +1,19 @@
 package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.*;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Service("servicioMayorMenor")
 public class ServicioMayorMenorImpl implements ServicioMayorMenor {
     Baraja baraja = new Baraja();
     List<Carta> cartas = new ArrayList();
     Integer puntaje = 0;
+    Valor valor;
 
 
     @Override
@@ -129,4 +132,6 @@ public class ServicioMayorMenorImpl implements ServicioMayorMenor {
     public void setPuntaje(Integer puntaje) {
         this.puntaje = puntaje;
     }
+    public void setValorElegido(Valor valorElegido){ this.valor = valorElegido;}
+    public Valor getValorElegido(){ return valor;}
 }
