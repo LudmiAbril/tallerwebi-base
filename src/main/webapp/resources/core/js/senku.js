@@ -92,7 +92,7 @@ $(document).ready(function () {
             document.getElementById("modalSenkuFinish").style.display = "block";
         }
     }
-    verificarTiempo("01:00"); 
+   
     actualizarTablero();
     setInterval(comprobarSiSeGano, 5000);
 });
