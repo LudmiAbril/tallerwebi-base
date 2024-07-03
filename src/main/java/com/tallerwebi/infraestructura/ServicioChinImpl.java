@@ -28,7 +28,6 @@ public class ServicioChinImpl implements ServicioChin {
         manoJugador1 = new ArrayList<>();
         manoJugador2 = new ArrayList<>();
         hayChin = false;
-        //repartirTodasLasCartas(mazoJugador1, mazoJugador2);
     }
 
     @Override
@@ -114,5 +113,13 @@ public class ServicioChinImpl implements ServicioChin {
             }
         }
         return sePuede;
+    }
+
+    @Override
+    public Boolean chequearGanador(ArrayList<Carta> mazoJugador1) {
+        if(mazoJugador1.isEmpty())
+            return true;
+
+        return false;
     }
 }

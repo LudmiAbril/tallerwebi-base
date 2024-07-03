@@ -147,4 +147,16 @@ public class ServicioBlackjackImpl implements ServicioBlackjack {
         return this.baraja;
     }
 
+    @Override
+    public List<Carta> entregarManoDeVeinte() {
+        List<Carta> mano = new ArrayList<>();
+        do {
+            Carta carta = pedirCarta();
+            if (carta.getSimbolo().equals("J") || carta.getSimbolo().equals("Q") || carta.getSimbolo().equals("K")) {
+                mano.add(carta);
+            }
+        } while (mano.size() < 2);
+
+        return mano;
+    }
 }

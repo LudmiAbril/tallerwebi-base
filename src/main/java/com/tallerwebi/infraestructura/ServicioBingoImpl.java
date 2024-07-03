@@ -25,12 +25,14 @@ public class ServicioBingoImpl implements ServicioBingo {
 	private Set<Integer> numerosEntregados;
 	private Boolean seHizoLinea;
 	private Integer dimension;
+	private Set<Integer> numerosMarcadosBot;
 
 	public ServicioBingoImpl() {
 		this.rand = new Random();
 		this.seHizobingo = false;
 		this.numerosMarcadosEnElCarton = new HashSet<Integer>();
 		this.numerosEntregados = new LinkedHashSet<Integer>();
+		this.numerosMarcadosBot = new HashSet<Integer>();
 	}
 
 	@Override
@@ -64,6 +66,21 @@ public class ServicioBingoImpl implements ServicioBingo {
 				}
 			}
 		}
+	}
+
+	@Override
+	public Boolean marcarCasilleroBot(Integer numeroCasillero, CartonBingo carton) {
+		Integer[][] numeros = carton.getNumeros();
+		Boolean seMarco = false;
+		for (int i = 0; i < numeros.length; i++) {
+			for (int j = 0; j < numeros[i].length; j++) {
+				if ((numeros[i][j].equals(numeroCasillero))) {
+					numerosMarcadosBot.add(numeroCasillero);
+					seMarco = true;
+				}
+			}
+		}
+		return seMarco;
 	}
 
 	@Override
@@ -253,6 +270,14 @@ public class ServicioBingoImpl implements ServicioBingo {
 	@Override
 	public Integer obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(Integer tirada, Integer numerosEntregados) {
 		return tirada - numerosEntregados;
+	}
+
+	public Set<Integer> getNumerosMarcadosBot() {
+		return numerosMarcadosBot;
+	}
+
+	public void setNumerosMarcadosBot(Set<Integer> numerosMarcadosBot) {
+		this.numerosMarcadosBot = numerosMarcadosBot;
 	}
 
 }

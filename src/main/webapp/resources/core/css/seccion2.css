@@ -246,7 +246,7 @@ body {
     align-items: center;
     width: 100%;
     border: 1px solid #ccc;
-    background-image: url('../imgStatic/fondoVerde.png');
+    background-image: url('../imgStatic/fondos/fondoVerde.png');
     height: 50%;
     position: relative;
 }

@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
+
 * {
     margin: 0;
     padding: 0;
@@ -9,30 +10,68 @@
 }
 
 body {
-    background-image: linear-gradient(rgb(17, 24, 39), rgb(88, 28, 135), rgb(124, 58, 237));
-    min-height: 100vh;
+    background: linear-gradient(270deg, rgb(124, 58, 237), rgb(88, 28, 135), rgb(17, 24, 39));
+    background-size: 600% 600%;
+    animation: gradientBackground 10s ease infinite;
+    min-height: 105vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #ffffff; 
+    color: #ffffff;
+    max-height: 110vh;
+    position: relative;
+}
+.nav-bar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
 }
 
-.margin {
-    margin: 5%;
-    width: 100%;
-    max-width: 75em; 
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+main{
+    padding-top: 50px;
+    z-index: 3000;
+}
+
+@keyframes gradientBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .titulo {
     text-align: center;
-    margin: 5%;
     border-radius: 0.313em;
     color: #ffffff;
 }
 
 .galactic-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: 3em;
+    font-size: 2em;
     color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -46,6 +85,60 @@ body {
     to {
         text-shadow: 0 0 1.25em #fff, 0 0 1.875em #ff00ff, 0 0 2.5em #ff00ff, 0 0 3.125em #ff00ff, 0 0 3.75em #ff00ff, 0 0 4.375em #ff00ff, 0 0 5em #ff00ff;
     }
+}
+
+
+.fas {
+    color: white;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+.back-arrow {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+
+    .nombre-jugador {
+        font-size: 1.2em;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: white;
+        margin-right: 10px;
+        box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+
+    }
+
+.mensaje{
+text-align: center;
+margin: 1%;
+}
+
+
+.highlight {
+    font-size: 2.2em;
+    color: rgb(167, 150, 177);
+    text-shadow: 0 0 10px rgb(167, 150, 177);
+    animation: highlight 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes highlight {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.1);
+    }
+}
+.gatoSenku{
+    width:250px;
+    position: absolute;
+    bottom:0;
+    right: 10px;
 }
 
 .barra {
@@ -65,7 +158,6 @@ body {
 .tablero-fondo {
     display: flex;
     align-items: center;
-    margin: 5%;
     justify-content: center;
 }
 .tablero{
@@ -84,7 +176,7 @@ body {
      rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
     width: 3.125em;
     height: 3.125em;
-  
+
     background-image: linear-gradient(161.15deg, #6974DC 12.73%, #9679DD 72.95%);
 
 
@@ -95,7 +187,7 @@ body {
 
 .ficha:hover {
     background-image: linear-gradient(161.15deg, #4251d4 12.73%, #6e44d8 72.95%);
-   
+
 }
 
 .ficha-seleccionada {
@@ -153,50 +245,164 @@ body {
 }
 
 .boton-reiniciar {
-    background-color: #64b5f6; 
+    background-color: #64b5f6;
     box-shadow: rgba(100, 181, 246, 0.4) -0.25em 0.25em, rgba(100, 181, 246, 0.3) -0.5em 0.5em, rgba(100, 181, 246, 0.2) -0.75em 0.75em, rgba(100, 181, 246, 0.1) -1em 1em, rgba(100, 181, 246, 0.05) -1.25em 1.25em;
 }
 
 
 
 .boton-reiniciar:hover {
-    background-color: #42a5f5; 
+    background-color: #42a5f5;
     transform: translateY(-0.1em);
 }
 
 
-
-.mt {
-    margin-top: 1.25em; 
-    margin-left: 1.25em; 
-}
-
 /* ------------------------ESTILOS MENSAJE--------------------------- */
 
+.info-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top:40px;
+    margin-bottom:20px ;
+}
 
-.mensaje {
-    text-align: center;
+.info-box {
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+
+}
+
+.info-box .fa {
+    margin-right: 10px;
+}
+
+/* ------------------------ESTILOS MUSICA--------------------------- */
+.boton-musica {
+    border: 1px solid white;
+    border-radius: 50%;
+    padding:5px;
+    background-color: #B49FCC;
+    font-size: 1em;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+    z-index: 1000;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+
+}
+
+.playlist-container {
+    position: fixed;
+    top: 70px;
+    right: 10px;
+    z-index: 1000;
+}
+
+
+#playlist{
+    display:none;
+}
+.boton-musica:hover {
+    color: rgba(207, 76, 234, 0.81);
+    transform: scale(1.2);
+}
+.boton-musica i{
+    margin: 0;
+    padding: 5px;
+    font-size: 18px;
 }
 
 /* ------------------------ESTILOS RESPONSIVOS--------------------------- */
-@media (max-width: 48em) { 
+@media (max-width: 48em) {
     .botones {
         flex-direction: column;
     }
-    
+
     .botones form {
         margin: 0.5em 0;
     }
-    
+
     .titulo h1 {
         font-size: 2em;
     }
-    
+
     .titulo h3, .titulo p {
         font-size: 1em;
     }
 }
+.boton-ayuda i {
+    font-size: 38px;
+}
+/* Estilos para el modal */
+.modalSenku {
+    background-color: rgba(0, 0, 0, 0.8);
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.modal-contentSenku {
+    background-color: #1b1b1b;
+    color: #fff;
+    min-width: 40%;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+}
+
+
+/* Estilos para el título y los textos */
+.modal-contentSenku h3 {
+    font-family: 'Orbitron', sans-serif;
+    color: rgb(88, 28, 135);
+    margin-bottom: 20px;
+}
+
+.modal-contentSenku p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+#mensajeMovimientos {
+    font-style: italic;
+    color: #aaa;
+    margin-bottom: 20px;
+}
+
+
+.modal-contentSenku form {
+    margin-top: 20px;
+}
+
+
+.modal-contentSenku button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    background-color: #64b5f6;
+    box-shadow: rgba(100, 181, 246, 0.4) -0.25em 0.25em, rgba(100, 181, 246, 0.3) -0.5em 0.5em, rgba(100, 181, 246, 0.2) -0.75em 0.75em, rgba(100, 181, 246, 0.1) -1em 1em, rgba(100, 181, 246, 0.05) -1.25em 1.25em;
+}
+
+.modal-contentSenku button:hover {
+    background-color: #132a3d;
+}
+

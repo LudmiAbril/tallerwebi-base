@@ -13,7 +13,9 @@ public class VistaWeb {
     public String obtenerURLActual(){
         return page.url();
     }
-
+    public void clickElement(String selector) {
+        page.click(selector);
+    }
     protected String obtenerTextoDelElemento(String selectorCSS){
         return this.obtenerElemento(selectorCSS).textContent();
     }
@@ -29,4 +31,7 @@ public class VistaWeb {
     private Locator obtenerElemento(String selectorCSS){
         return page.locator(selectorCSS);
     }
+
+
+
 }

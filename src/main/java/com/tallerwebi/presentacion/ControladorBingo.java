@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.servlet.http.HttpSession;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.NoHayCompras;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+@RestController
 public class ControladorBingo {
 
 	private ServicioBingo servicioBingo;
@@ -64,16 +68,13 @@ public class ControladorBingo {
 
 		Integer dimensionDelCartonDeLaSesion = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
 		CartonBingo carton = servicioBingo.generarCarton(dimensionDelCartonDeLaSesion);
-
+		session.setAttribute("carton", carton);
 		Set<Integer> numerosEntregados = new LinkedHashSet<Integer>();
 		Integer numeroNuevo = this.servicioBingo.entregarNumeroAleatorio(numerosEntregados);
 		Integer numeroCantadoAleatorio = numeroNuevo;
 		numerosEntregados.add(numeroNuevo);
 		session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
 		session.setAttribute("numeroAleatorioCantado", numeroCantadoAleatorio);
-
-		session.setAttribute("carton", carton);
-
 		String nombreJugador = usuario.getNombre();
 		model.put("nombreJugador", nombreJugador);
 
@@ -84,8 +85,16 @@ public class ControladorBingo {
 
 		TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session.getAttribute("tipoPartidaBingo");
 		model.put("tipoPartidaBingoDeLaSesion", tipoPartidaBingoDeLaSesion);
+
+		List<Compra> compras;
+		Long idUsuario = ((Usuario) session.getAttribute("jugadorActual")).getId();
+		try {
+			compras = this.servicioPlataforma.obtenerCompras(idUsuario, Juego.BINGO);
+			model.addAttribute("compras", compras);
+		} catch (NoHayCompras e) {
+			model.addAttribute("mensajeErrorCompra", "¡Todavía no compraste nada!");
+		}
 		return new ModelAndView("bingo", model);
-		// get config. get cantidad de bolas. guardar en la sesion.
 	}
 
 	@RequestMapping(path = "/obtenerDatosIniciales", method = RequestMethod.GET)
@@ -105,10 +114,20 @@ public class ControladorBingo {
 		session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcadosDeLaSesion);
 		TipoPartidaBingo tipoPartidaBingo = (TipoPartidaBingo) session.getAttribute("tipoPartidaBingo");
 
+		Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
+		Integer numerosRestantesParaCompletarLaTirada = this.servicioBingo
+				.obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(tirada,
+						numerosEntregados.size());
+
+		session.setAttribute("numerosRestantesParaCompletarLaTiradaDeLaSesion",
+				numerosRestantesParaCompletarLaTirada);
+
 		Map<String, Object> respuesta = new HashMap<>();
 		respuesta.put("carton", carton);
 		respuesta.put("numeroAleatorioCantado", numeroCantadoAleatorio);
 		respuesta.put("tipoPartidaBingo", tipoPartidaBingo);
+		respuesta.put("numerosRestantesParaCompletarLaTirada",
+				numerosRestantesParaCompletarLaTirada);
 		return respuesta;
 	}
 
@@ -145,18 +164,18 @@ public class ControladorBingo {
 			respuesta.put("limiteAlcanzado", limiteAlcanzado);
 		} else {
 			Integer nuevoNumero = servicioBingo.entregarNumeroAleatorio(numerosEntregados);
-			Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
+			// Integer tirada = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
 			Integer numerosRestantesParaCompletarLaTirada = this.servicioBingo
-					.obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(tirada,
+					.obtenerCantidadDeNumerosRestantesParaCompletarLaTirada(tiradaLimiteDeLaSesion,
 							numerosEntregados.size());
 			numerosEntregados.add(nuevoNumero);
 			session.setAttribute("numeroAleatorioCantado", nuevoNumero);
 			session.setAttribute("numerosEntregadosDeLaSesion", numerosEntregados);
-			session.setAttribute("numerosRestantesParaCompletarLaTiradaDeLaSesion",
-					numerosRestantesParaCompletarLaTirada);
+
 			respuesta.put("nuevoNumero", nuevoNumero);
 			respuesta.put("limiteAlcanzado", false);
-			respuesta.put("numerosRestantesParaCompletarLaTirada", numerosRestantesParaCompletarLaTirada);
+			respuesta.put("numerosRestantesParaCompletarLaTirada",
+					numerosRestantesParaCompletarLaTirada);
 		}
 		return respuesta;
 	}
@@ -262,7 +281,8 @@ public class ControladorBingo {
 					.agregarPartida(
 							new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, seHizoLinea,
 									seHizoBingo,
-									tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados));
+									tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados,
+									false));
 			mav.setViewName("redirect:/irAlBingo");
 		} catch (Exception e) {
 			mav.setViewName("bingo");
@@ -271,5 +291,13 @@ public class ControladorBingo {
 
 		return mav;
 	}
+	@PostMapping("/reiniciarTirada/{tirada}")
+    public Map<String, Object> reiniciarTirada(@PathVariable("tirada") Integer tirada, HttpSession session) throws PartidaConPuntajeNegativoException {
+        session.setAttribute("tiradaLimiteDeLaSesion", tirada);
+        this.obtenerNuevoNumero(session);
 
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Tirada reiniciada correctamente");
+        return response;
+    }
 }

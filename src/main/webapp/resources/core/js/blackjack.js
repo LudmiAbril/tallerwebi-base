@@ -2,13 +2,14 @@ import { start, stop } from "./cronometro.js";
 
 $(document).ready(function () {
   // Variable para almacenar la última carta del crupier con el dorso
+  let modoDificil;
   let cartaDorsoMostrar = null;
   let hayContrareloj = false;
   let tiempoLimite = "";
   // Función para agregar una nueva carta a un contenedor dado
   function agregarCarta(contenedor, nombreCarta, jugador) {
     contenedor.append(
-      "<img src='./img/cartas/" +
+      "<img src='./imgStatic/cartas/" +
         nombreCarta +
         ".png' width='140px' class='carta nueva-carta-" +
         jugador +
@@ -19,6 +20,10 @@ $(document).ready(function () {
   // MOSTRAR DATOS INICIALES
   $.get("comenzar", function (data) {
     // nombre y valor de la mano
+
+    modoDificil = data.modoDificil;
+    console.log(modoDificil);
+
     if (data.contrareloj) {
       hayContrareloj = true;
       tiempoLimite = data.tiempoLimite;
@@ -42,9 +47,17 @@ $(document).ready(function () {
     data.cartasCasa.forEach(function (carta, index) {
       // Mostrar el dorso de la carta inicialmente
       if (index === data.cartasCasa.length - 1) {
-        agregarCarta($("#cartasCasa"), "DORSO", "casa");
-        // Guardar la referencia a la carta con dorso
-        cartaDorsoMostrar = carta.simbolo + "_" + carta.palo;
+        if (modoDificil === true) {
+          agregarCarta(
+            $("#cartasCasa"),
+            carta.simbolo + "_" + carta.palo,
+            "casa"
+          );
+        } else {
+          agregarCarta($("#cartasCasa"), "DORSO", "casa");
+          // Guardar la referencia a la carta con dorso
+          cartaDorsoMostrar = carta.simbolo + "_" + carta.palo;
+        }
       } else {
         agregarCarta(
           $("#cartasCasa"),
@@ -86,6 +99,8 @@ $(document).ready(function () {
         setTimeout(function () {
           mostrarModalfinalizar(data.ganador, data.jugadorActual);
         }, 1000);
+      } else if (modoDificil === true) {
+        $("#plantarse").click();
       }
     });
   });
@@ -93,33 +108,35 @@ $(document).ready(function () {
   // PLANTARSE
   $("#plantarse").click(function () {
     $.get("plantarse", function (data) {
-      let cartaDorsoCrupier = $("#cartasCasa img:last-child");
-      cartaDorsoCrupier.addClass("flip-animation");
+      if (modoDificil === false) {
+        let cartaDorsoCrupier = $("#cartasCasa img:last-child");
+        cartaDorsoCrupier.addClass("flip-animation");
 
-      // Después de 0.25 segundos (mitad de la duración de la animación), cambiar la imagen
-      setTimeout(function () {
-        cartaDorsoCrupier.attr(
-          "src",
-          "./img/cartas/" + cartaDorsoMostrar + ".png"
-        );
-      }, 120); // 250 milisegundos = 0.25 segundos
+        // Después de 0.25 segundos (mitad de la duración de la animación), cambiar la imagen
+        setTimeout(function () {
+          cartaDorsoCrupier.attr(
+            "src",
+            "./img/cartas/" + cartaDorsoMostrar + ".png"
+          );
+        }, 120); // 250 milisegundos = 0.25 segundos
 
-      // Después de 0.5 segundos (duración completa de la animación), quitar la clase de animación
-      setTimeout(function () {
-        cartaDorsoCrupier.removeClass("nueva-carta-casa");
-        cartaDorsoCrupier.removeClass("flip-animation");
-      }, 500); // 500 milisegundos = 0.5 segundos
-      // Mostrar las nuevas cartas del crupier
-      setTimeout(function () {
-        data.manoFinalCrupier.forEach(function (carta, index) {
-          let nombreCarta = carta.simbolo + "_" + carta.palo;
-          agregarCarta($("#cartasCasa"), nombreCarta, "casa");
-        });
-      }, 800);
+        // Después de 0.5 segundos (duración completa de la animación), quitar la clase de animación
+        setTimeout(function () {
+          cartaDorsoCrupier.removeClass("nueva-carta-casa");
+          cartaDorsoCrupier.removeClass("flip-animation");
+        }, 500); // 500 milisegundos = 0.5 segundos
+        // Mostrar las nuevas cartas del crupier
+        setTimeout(function () {
+          data.manoFinalCrupier.forEach(function (carta, index) {
+            let nombreCarta = carta.simbolo + "_" + carta.palo;
+            agregarCarta($("#cartasCasa"), nombreCarta, "casa");
+          });
+        }, 800);
+      }
 
       setTimeout(function () {
         mostrarModalfinalizar(data.ganador, data.jugadorActual);
-      }, 3000); // Esperar 3 segundos antes de finalizar
+      }, 2000); // Esperar 3 segundos antes de finalizar
     });
   });
 

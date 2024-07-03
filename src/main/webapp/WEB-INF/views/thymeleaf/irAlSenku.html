@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -6,17 +6,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <title>Senku</title>
   <link rel="stylesheet" th:href="@{/css/estilos-IrA.css}" />
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}">
+  <link rel="preconnect" th:href="@{https://fonts.googleapis.com}" />
+  <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin />
+  <link th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}"
+        rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/icon?family=Material+Icons}">
+
   <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}"/>
+
 </head>
 
 <body>
-  <nav class="nav-bar">
-    <a href="volverAlMenu">
-      <span class="material-symbols-outlined icono">arrow_back</span>
-    </a>
-  </nav>
+<div class="rain-container" id="rainContainer"></div>
+
+<nav class="nav-bar">
+  <a href="volverAlMenu">
+    <span class="material-symbols-outlined icono">arrow_back</span>
+  </a>
+
+  <div class="brand">
+    <div class="sign">CATSINO</div>
+    <img th:src="@{/imgStatic/logo.png}" alt="Logo"/>
+  </div>
+</nav>
   <main class="container">
     <img th:src="@{/imgStatic/tituloSenku.png}" alt="titulo" class="imagen-home" />
     <form th:action="@{/comenzarJuegoSenku}" method="post"class="text-center">
@@ -32,7 +46,7 @@
       </button>
     </form>
   </main>
- 
+  <script th:src="@{/js/animacionLluvia.js}"></script>
   <script th:src="@{/js/senku.js}"></script>
 </body>
 

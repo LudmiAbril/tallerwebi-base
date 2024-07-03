@@ -316,13 +316,13 @@ main {
 }
 
 .btn-container {
-    background-color: #6b1839;
+
     text-align: center;
     margin: 2%;
 }
 #mostrar-mas-btn {
     text-transform: uppercase;
-    margin-right: 5%;
+
     background-color: #3f06a8;
     box-shadow: rgba(12, 1, 19, 0.733) 0px 0px 0px 2px inset, rgba(0, 0, 0, 0.856) 10px -10px 0px -3px,
         #e92ac0d5 10px -10px, rgba(0, 0, 0, 0.781) 20px -20px 0px -3px,

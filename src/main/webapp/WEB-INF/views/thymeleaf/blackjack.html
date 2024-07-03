@@ -41,7 +41,7 @@
       <div class="modal-content">
         <h2 id="resultadoPartida"></h2>
         <div class="botones-modal">
-          <form th:action="@{/reiniciar}" method="post">
+          <form th:action="@{/reiniciarBlackjack}" method="post">
             <button type="submit" class="boton-reiniciar">
               Jugar otra partida
             </button>
@@ -56,6 +56,7 @@
     </div>
 
     <main class="container-main">
+
       <div class="container-left">
         <div class="container-principal">
           <div class="cartas-container" id="cartasCasa"></div>
@@ -79,7 +80,7 @@
             <span style="color: white" class="material-symbols-outlined"
               >access_time
             </span>
-            <p style="color: white" class="tiempo">
+            <p style="color: white" class="tiempo" id="tiempoBj">
               Tiempo transcurrido: <span class="reloj">00:00:00</span>
             </p>
           </div>
@@ -111,5 +112,8 @@
         </div>
       </div>
     </div>
+  <script>
+
+  </script>
   </body>
 </html>
