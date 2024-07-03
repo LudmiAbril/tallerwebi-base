@@ -1,94 +1,77 @@
-/*
 // Función para cerrar el modal
 function closeModal(modalId) {
     var modal = document.getElementById(modalId);
     modal.style.display = "none";
 }
 
-// Función para validar el formulario
+// Valida el formulario
 function validarFormulario() {
     var dimensionCarton = parseInt(document.querySelector('input[name="dimensionCarton"]:checked').value);
     var cantidadPelotas = parseInt(document.getElementById('cant-numeros').value);
 
     if (isNaN(cantidadPelotas) || cantidadPelotas < dimensionCarton * dimensionCarton) {
         var errorMensaje = 'Ingrese al menos ' + dimensionCarton * dimensionCarton + ' números.';
-        document.getElementById('error-cant-numeros').innerText = errorMensaje;
-        return false;
-    }
-
-    // Limpiar mensaje de error si pasa la validación
-    document.getElementById('error-cant-numeros').innerText = '';
-
-    // Limpiar localStorage al enviar el formulario
-    localStorage.removeItem('cantidadPelotas');
-
-    // Si la validación pasa, se envía el formulario
-    return true;
-}
-
-// Función para guardar el valor del input en localStorage
-function guardarValorInput() {
-    var cantidadPelotas = document.getElementById('cant-numeros').value;
-    localStorage.setItem('cantidadPelotas', cantidadPelotas);
-}
-
-// Función para cargar el valor del input desde localStorage
-function cargarValorInput() {
-    var cantidadPelotas = localStorage.getItem('cantidadPelotas');
-    if (cantidadPelotas !== null) {
-        document.getElementById('cant-numeros').value = cantidadPelotas;
-    }
-}
-
-// Cargar el valor del input cuando se abre el modal
-document.getElementById('configuracionModal').addEventListener('show', function() {
-    cargarValorInput();
-});
-*/
-
-// Función para cerrar el modal
-function closeModal(modalId) {
-    var modal = document.getElementById(modalId);
-    modal.style.display = "none";
-}
-
-// Función para validar el formulario
-function validarFormulario() {
-    var dimensionCarton = parseInt(document.querySelector('input[name="dimensionCarton"]:checked').value);
-    var cantidadPelotas = parseInt(document.getElementById('cant-numeros').value);
-
-    if (isNaN(cantidadPelotas) || cantidadPelotas < dimensionCarton * dimensionCarton) {
-        var errorMensaje = 'Ingrese al menos ' + dimensionCarton * dimensionCarton + ' numeros en la tirada.';
         document.getElementById('mensajeError').innerText = errorMensaje;
         return false;
     }
 
-    // Limpiar mensaje de error si pasa la validación
+    // Limpiar mensaje de error
     document.getElementById('mensajeError').innerText = '';
 
-    // Limpiar localStorage al enviar el formulario
+    // Limpiar localStorage del formulario
     localStorage.removeItem('cantidadPelotas');
+    localStorage.removeItem('dimensionTablero');
+    localStorage.removeItem('maxMovimientos');
 
-    // Si la validación pasa, se envía el formulario
     return true;
 }
 
-// Función para guardar el valor del input en localStorage
+// Guardar el valor de los inputs
 function guardarValorInput() {
     var cantidadPelotas = document.getElementById('cant-numeros').value;
     localStorage.setItem('cantidadPelotas', cantidadPelotas);
 }
+function guardarDimensionTablero() {
+    var dimensionTablero = document.querySelector('input[name="dimensionTablero"]:checked').value;
+    localStorage.setItem('dimensionTablero', dimensionTablero);
+}
+function guardarMaxMovimientos() {
+    var maxMovimientos = document.getElementById('max-movimientos').value;
+    localStorage.setItem('maxMovimientos', maxMovimientos);
+}
 
-// Función para cargar el valor del input desde localStorage
+// Funciones para cargar datos
 function cargarValorInput() {
     var cantidadPelotas = localStorage.getItem('cantidadPelotas');
     if (cantidadPelotas !== null) {
         document.getElementById('cant-numeros').value = cantidadPelotas;
     }
 }
+function cargarDimensionTablero() {
+    var dimensionTablero = localStorage.getItem('dimensionTablero');
+    if (dimensionTablero !== null) {
+        document.querySelector('input[name="dimensionTablero"][value="' + dimensionTablero + '"]').checked = true;
+    }
+}
+function cargarMaxMovimientos() {
+    var maxMovimientos = localStorage.getItem('maxMovimientos');
+    if (maxMovimientos !== null) {
+        document.getElementById('max-movimientos').value = maxMovimientos;
+    }
+}
 
-// Cargar el valor del input cuando se abre el modal
+// Cargar datos del localStorage cuando se muestra el modal
 document.getElementById('configuracionModal').addEventListener('show', function() {
     cargarValorInput();
+    cargarDimensionTablero();
+    cargarMaxMovimientos();
 });
+
+
+// Guardar los valores si cambian
+document.getElementById('cant-numeros').addEventListener('input', guardarValorInput);
+document.querySelectorAll('input[name="dimensionTablero"]').forEach(function(input) {
+    input.addEventListener('change', guardarDimensionTablero);
+});
+document.getElementById('max-movimientos').addEventListener('input', guardarMaxMovimientos);
 

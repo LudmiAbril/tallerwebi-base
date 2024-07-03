@@ -23,4 +23,6 @@ public interface RepositorioPartida {
     List<PartidaBingo> generarRankingDePartidasDeBingo(Long userId) throws NoHayPartidasDeBingoException;
 
     List<Partida> obtenerPartidasPorFechaRango(Long usuarioId, Juego juego, LocalDateTime of, LocalDateTime of2) throws PartidaDeUsuarioNoEncontradaException;
+
+    //List<PartidaMayorMenor> generarRankingDePartidasMayorMenor(Long userId) throws PartidasDelJuegoNoEncontradasException;
 }

@@ -48,7 +48,7 @@
     <span class="close2" onclick="closeModal('configuracionModal')">&times;</span>
     <h2>CONFIGURACIÓN</h2>
     <form id="configForm" th:action="@{/guardarCambios}" method="post" onsubmit="return validarFormulario()">
-      <div class="section">
+     <div class="section">
         <h3>BLACKJACK</h3>
         <div class="icon-container">
           <i class="material-icons">access_time</i>
@@ -94,13 +94,37 @@
           <input type="number" id="cant-numeros" name="cantidadPelotas" th:value="${usuarioConfig.cantidadDePelotas}"
                  min="1" max="99" required/>
         </div>
+      </div> 
+      <hr />
+      <div class="section">
+        <h3>SENKU</h3>
+        <label>Dimensión del Tablero:</label>
+        <div class="radio-group">
+     
+          <input type="radio" id="senku-dimension-5x5" name="dimensionTablero"
+                 th:checked="${usuarioConfig.dimensionTablero == 5}" value="5" />
+          <label for="senku-dimension-5x5">5x5</label>
+          <input type="radio" id="senku-dimension-7x7" name="dimensionTablero"
+                 th:checked="${usuarioConfig.dimensionTablero == 7}" value="7" />
+          <label for="senku-dimension-7x7">7x7</label>
+          <input type="radio" id="senku-dimension-9x9" name="dimensionTablero"
+          th:checked="${usuarioConfig.dimensionTablero == 9}" value="9" />
+   <label for="senku-dimension-9x9">9x9</label>
+        </div>
+  
+        <label for="max-movimientos">Cantidad máxima de movimientos:</label>
+        <input type="number" id="max-movimientos" name="maxMovimientos"
+               th:value="${usuarioConfig.maxMovimientos}" min="1" required/>
+
       </div>
+
       <div class="button-container">
         <button class="save-button" type="submit" id="guardar"><span class="material-symbols-outlined">check</span>GUARDAR</button>
         <button type="button" class="cancel-button" onclick="closeModal('configuracionModal')"><span
                 class="material-symbols-outlined">close</span>CANCELAR</button>
         <div class="error">
           <p th:text="${mensajeError}" class="mensajeError" id="mensajeError"></p>
+
         </div>
       </div>
     </form>
