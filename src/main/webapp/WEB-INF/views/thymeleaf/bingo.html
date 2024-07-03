@@ -160,7 +160,7 @@
                 <td>10 números</td>
                 <td>$10</td>
                 <td><button class="botonComprarTirada" id="btn1"
-                    onclick="abrirSeccionCompra('10 números', '$10', 10)">Comprar Tirada</button></td>
+                    onclick="abrirSeccionCompra('10 números', '10', 10)">Comprar Tirada</button></td>
               </tr>
               <tr>
                 <td>20 números</td>
@@ -204,6 +204,7 @@
                 <input type="number" id="codigoSeguridad" name="codigoSeguridad" maxlength="3" required>
               </div>
               <input type="hidden" name="tirada" id="tiradaComprada">
+              <input type="hidden" name="precio" id="precioTirada">
               <div id="error">
                 <p class="error"></p>
 

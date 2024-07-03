@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.NoHayCompras;
+import com.tallerwebi.dominio.excepcion.NoSePudoGuardarLaCompraException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,7 +148,7 @@ public class ControladorBingo {
 
 	@RequestMapping(path = "/obtenerNuevoNumero", method = RequestMethod.GET)
 	@ResponseBody
-	public Map<String, Object> obtenerNuevoNumero(HttpSession session) throws PartidaConPuntajeNegativoException {
+	public Map<String, Object> obtenerNuevoNumero(HttpSession session) {
 		Set<Integer> numerosEntregados = (Set<Integer>) session.getAttribute("numerosEntregadosDeLaSesion");
 		Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
 		Boolean limiteAlcanzado = false;
@@ -291,13 +292,22 @@ public class ControladorBingo {
 
 		return mav;
 	}
-	@PostMapping("/reiniciarTirada/{tirada}")
-    public Map<String, Object> reiniciarTirada(@PathVariable("tirada") Integer tirada, HttpSession session) throws PartidaConPuntajeNegativoException {
-        session.setAttribute("tiradaLimiteDeLaSesion", tirada);
-        this.obtenerNuevoNumero(session);
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "Tirada reiniciada correctamente");
-        return response;
-    }
+	@PostMapping("/reiniciarTirada/{tirada}/{precio}")
+	public Map<String, Object> reiniciarTirada(@PathVariable("tirada") Integer tirada,
+			@PathVariable("precio") Double precio, HttpSession session) throws NoSePudoGuardarLaCompraException {
+		session.setAttribute("tiradaLimiteDeLaSesion", tirada);
+
+		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+		Boolean seGuardo = this.servicioPlataforma.guardarCompra(new Compra(precio, tirada.toString(), jugador, Juego.BINGO));
+
+		Map<String, Object> response = new HashMap<>();
+		response.put("message", "Compra realiza con exito");
+		response.put("seGuardo", seGuardo);
+		return response;
+	}
+
+	// public seguirJugando(){
+	// 	this.obtenerNuevoNumero(session);
+	// }
 }

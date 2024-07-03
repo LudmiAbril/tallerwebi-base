@@ -30,5 +30,5 @@ public interface RepositorioPartida {
 
     List<Compra> obtenerCompras(Long id, Juego juego) throws NoHayCompras;
 
-    void guardarCompra(Compra compra) throws NoSePudoGuardarLaCompraException;
+    Boolean guardarCompra(Compra compra) throws NoSePudoGuardarLaCompraException;
 }

@@ -160,12 +160,15 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
     }
 
     @Override
-    public void guardarCompra(Compra compra) throws NoSePudoGuardarLaCompraException {
+    public Boolean guardarCompra(Compra compra) throws NoSePudoGuardarLaCompraException {
+        Boolean seGuardo;
         if (compra == null) {
             throw new NoSePudoGuardarLaCompraException();
         }
 
         this.sessionFactory.getCurrentSession().save(compra);
+        seGuardo = true;
+        return seGuardo;
     }
 
 }
