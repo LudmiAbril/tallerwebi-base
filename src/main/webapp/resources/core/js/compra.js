@@ -101,30 +101,30 @@ function procesarCompra(event) {
         const tirada = document.getElementById("tiradaComprada").value;
 
         num = 15;
-        fetch(`/reiniciarTirada/${tirada}`, {
+        fetch(`http://localhost:8080/spring/reiniciarTirada/${tirada}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: num
+            body: JSON.stringify({ num: num })//num
         })
             .then(response => response.json())
             .then(data => {
                 // Manejo de la respuesta del servidor
                 console.log("Solicitud POST enviada correctamente", data);
                 console.log(data.respuesta)
-                // const resumenCompra = document.getElementById('resumenCompra');
-                // resumenCompra.innerHTML = `
-                //     <p><strong>Tirada:</strong> ${document.getElementById('datosCompra').children[0].innerText.split(': ')[1]}</p>
-                //     <p><strong>Precio:</strong> ${document.getElementById('datosCompra').children[1].innerText.split(': ')[1]}</p>
-                //     <p><strong>Nombre del titular:</strong> ${nombreTitular}</p>
-                //     <p><strong>Número de tarjeta:</strong> ${numeroTarjeta}</p>
-                //     <p><strong>DNI del titular:</strong> ${dni}</p>
-                //     <p><strong>Fecha de caducidad:</strong> ${fechaCaducidad}</p>
-                //     <p><strong>Código de seguridad:</strong> XXX</p>
-                // `;
+                 const resumenCompra = document.getElementById('resumenCompra');
+                 resumenCompra.innerHTML = `
+                     <p><strong>Tirada:</strong> ${document.getElementById('datosCompra').children[0].innerText.split(': ')[1]}</p>
+                     <p><strong>Precio:</strong> ${document.getElementById('datosCompra').children[1].innerText.split(': ')[1]}</p>
+                     <p><strong>Nombre del titular:</strong> ${nombreTitular}</p>
+                     <p><strong>Número de tarjeta:</strong> ${numeroTarjeta}</p>
+                     <p><strong>DNI del titular:</strong> ${dni}</p>
+                     <p><strong>Fecha de caducidad:</strong> ${fechaCaducidad}</p>
+                     <p><strong>Código de seguridad:</strong> XXX</p>
+                 `;
 
-                // irASeccion(2);
+                 irASeccion(2);
             });
     }
 

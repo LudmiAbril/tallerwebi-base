@@ -291,12 +291,8 @@ public class ControladorBingo {
 
 		return mav;
 	}
-
-	// esperen de nuvo xddd sorryyyyy
-
-	
 	@PostMapping("/reiniciarTirada/{tirada}")
-    public Map<String, Object> reiniciarTirada(@PathVariable("tirada") String tirada, HttpSession session) throws PartidaConPuntajeNegativoException {
+    public Map<String, Object> reiniciarTirada(@PathVariable("tirada") Integer tirada, HttpSession session) throws PartidaConPuntajeNegativoException {
         session.setAttribute("tiradaLimiteDeLaSesion", tirada);
         this.obtenerNuevoNumero(session);
 
