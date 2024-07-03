@@ -6,10 +6,7 @@ function abrirModalCompra() {
     document.querySelector('.flecha-atras').style.display = 'none';
 }
 
-function cerrarModalCompra() {
-    document.getElementById('modalCompra').style.display = 'none';
-    resetSecciones();
-}
+
 
 function abrirSeccionCompra(tirada, precio) {
     const datosCompra = document.getElementById('datosCompra');
@@ -41,6 +38,23 @@ function mostrarError(mensaje) {
     errorP.textContent = mensaje;
 }
 
+function cerrarModalDeLimiteAlcanzado() {
+    document.getElementById("modalLimite").style.display = "none";
+}
+
+function resetFormularioCompra() {
+    document.getElementById('nombreTitular').value = '';
+    document.getElementById('numeroTarjeta').value = '';
+    document.getElementById('dni').value = '';
+    document.getElementById('fechaCaducidad').value = '';
+    document.getElementById('codigoSeguridad').value = '';
+    mostrarError('');
+}
+
+function resetResumenCompra() {
+    const resumenCompra = document.getElementById('resumenCompra');
+    resumenCompra.innerHTML = '';
+}
 function procesarCompra(event) {
     event.preventDefault();
     const nombreTitular = document.getElementById('nombreTitular').value;
@@ -50,6 +64,11 @@ function procesarCompra(event) {
     const codigoSeguridad = document.getElementById('codigoSeguridad').value;
 
     // Validaciones
+    if (!nombreTitular || !numeroTarjeta || !dni || !fechaCaducidad || !codigoSeguridad) {
+        mostrarError('Completa todos los campos, por favor.');
+        return;
+    }
+
     if (numeroTarjeta.length !== 16) {
         mostrarError('El número de tarjeta debe tener 16 dígitos.');
         return;
@@ -87,10 +106,19 @@ function procesarCompra(event) {
 
     irASeccion(2);
 }
+function cerrarModalCompra() {
+    document.getElementById('modalCompra').style.display = 'none';
+    resetSecciones();
+    resetFormularioCompra();
+    resetResumenCompra();
+}
 
 function aceptarCompra() {
-    alert('Compra aceptada. ¡Gracias por tu compra!');
+    /*alert('Compra aceptada. ¡Gracias por tu compra!');*/
     cerrarModalCompra();
+    cerrarModalDeLimiteAlcanzado();
+    resetFormularioCompra();
+    resetResumenCompra();
 }
 
 function resetSecciones() {
