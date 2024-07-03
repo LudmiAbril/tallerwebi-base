@@ -70,6 +70,12 @@ body {
     grid-template-rows: 1fr ;
     width: 100%;
 }
+.fila:nth-child(2) {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr ;
+    width: 100%;
+}
 
 .container .columna .sign {
     display: flex;
@@ -252,6 +258,18 @@ body {
     animation: glow 2s ease-in-out infinite alternate;
     text-align: center;
 }
+.h4 {
+    color: white;
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 1;
+    font-family: 'Teko', sans-serif;
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    animation: glow 2s ease-in-out infinite alternate;
+    text-align: center;
+}
+
 @media (max-width: 768px) {
     .h2 {
         font-size: 2rem;
