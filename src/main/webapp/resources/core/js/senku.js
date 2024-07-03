@@ -1,13 +1,20 @@
 import { start, stop } from './cronometro.js';
 
 $(document).ready(function () {
-    $('.carrusel').slick({
-        infinite: true,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 2000,
+    const tutoBtn = document.getElementById("boton-ayuda");
+    const carousel = document.getElementById("carouselExampleIndicators");
+    
+
+    tutoBtn.addEventListener("click", function() {
+        if (carousel.style.display === "none" || carousel.style.display === "") {
+            carousel.style.display = "block";
+        } else {
+            carousel.style.display = "none";
+        }
     });
+
+ 
+   
     var tiempo = false;
     function actualizarTablero() {
         $.get("obtenerTablero", function (data) {
@@ -101,23 +108,6 @@ $(document).ready(function () {
         });
     }
     
-    function addMinutes(time, minutes) {
-        var timeParts = time.split(":");
-        var hours = parseInt(timeParts[0]);
-        var mins = parseInt(timeParts[1]);
-    
-        mins += minutes;
-    
-        if (mins >= 60) {
-            hours += Math.floor(mins / 60);
-            mins = mins % 60;
-        }
-    
-        hours = hours % 24; 
-    
-        var newTime = ("0" + hours).slice(-2) + ":" + ("0" + mins).slice(-2);
-        return newTime;
-    }
     
     function mostrarMensajeMovimientos(respuesta) {
         if (respuesta.movimientosDisponibles === false) {
