@@ -316,4 +316,20 @@ public Map<String, Object> comprobarSiSeGano(HttpSession session) {
         return new ModelAndView("redirect:/acceso-juegos");
     }
 
+    @RequestMapping(path = "/comprarMovimientos/{cantidad}", method = RequestMethod.POST)
+@ResponseBody
+public Map<String, Object> comprarMovimientos(@PathVariable Integer cantidad, HttpSession session) {
+    Map<String, Object> respuesta = new HashMap<>();
+
+    Integer maxMovimientos = (Integer) session.getAttribute("maxMovimientos");
+    maxMovimientos += cantidad;
+    session.setAttribute("maxMovimientos", maxMovimientos);
+
+    respuesta.put("success", true);
+    respuesta.put("mensaje", "Se han comprado " + cantidad + " movimientos adicionales.");
+    respuesta.put("nuevoMaxMovimientos", maxMovimientos);
+
+    return respuesta;
+}
+
 }

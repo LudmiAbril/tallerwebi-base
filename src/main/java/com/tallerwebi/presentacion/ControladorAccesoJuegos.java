@@ -119,7 +119,6 @@ public class ControladorAccesoJuegos {
         userActual.getConfig().setDimensionCarton(dimensionCarton);
         userActual.getConfig().setDimensionTablero(dimensionTablero);
         userActual.getConfig().setMaxMovimientos(maxMovimientos);
-        userActual.getConfig().setDuracionSenku(3);
         try {
             servicioUsuario.actualizarConfiguracionesDePartida(userActual);
             model.addAttribute("mensaje", "se actualizaron las preferencias");

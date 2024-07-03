@@ -145,18 +145,121 @@
                     </div>
                 </div>
             </div>
-            <!-- O GANO O NO QUEDAN MOV -->
-            <div id="modalSenkuFinish" class="modalSenku w3-animate-top" >
-                <div class="modal-contentSenku">
-                    <h3>¡FINISH!</h3>
-                    <p>¡Felicidades, <span th:text="${nombreJugador}"></span>!</p>
-                    <p id="mensajeMovimientos">No hay movimientos válidos disponibles.</p>
-                    <form th:action="@{/senkuFinalizarPartida}" method="post">
-                        <button type="submit">Volver al inicio</button>
-                    </form>
-                
+           <!-- O GANO O NO QUEDAN MOV -->
+<div id="modalSenkuFinish" class="modalSenku w3-animate-top">
+    <div class="modal-contentSenku">
+        <h3>¡FINISH!</h3>
+        <p>¡Se acabó, <span th:text="${nombreJugador}"></span>!</p>
+        <p id="mensajeMovimientos">No hay movimientos válidos disponibles.</p>
+        <a href="javascript:void(0)" class="boton-ayuda abrir-modal" onclick="abrirModalCompra()">
+            <span class="material-symbols-outlined">monetization_on</span> COMPRAR TIRADA
+        </a>
+        
+        <form th:action="@{/senkuFinalizarPartida}" method="post">
+            <button type="submit">Volver al inicio</button>
+        </form>
+    
+    </div>
+</div>
+
+<!-- Modal Compra -->
+<div id="modalCompra" class="modal-ayuda">
+    <div class="modal-contenido">
+        <div class="modal-header">
+            <h2>Compra de Movimientos</h2>
+            <span class="cerrar-modal" onclick="cerrarModalCompra()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <span class="flecha-atras" onclick="irAtras()" style="display: none;">
+                <span class="material-symbols-outlined" id="iconoModal">arrow_back</span>
+            </span>
+            <section class="seccion seccion-activa" id="seccionOpciones">
+                <div class="card-group">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">10 movimientos</h5>
+                            <p class="card-text">Precio: $100ARS</p>
+                            <button class="btn btn-primary" onclick="abrirSeccionCompra(10, '$100')">
+                                <i class="fas fa-money-bill-wave"></i> Comprar Movimientos
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">20 movimientos</h5>
+                            <p class="card-text">Precio: $200ARS</p>
+                            <button class="btn btn-primary" onclick="abrirSeccionCompra(20, '$200')">
+                                <i class="fas fa-money-bill-wave"></i> Comprar Movimientos
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">30 movimientos</h5>
+                            <p class="card-text">Precio: $300ARS</p>
+                            <button class="btn btn-primary" onclick="abrirSeccionCompra(30, '$300')">
+                                <i class="fas fa-money-bill-wave"></i> Comprar Movimientos
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
+
+            <section class="seccion" id="seccionDatosTarjeta" style="display: none;">
+                <div class="contenidoTarjeta">
+                    <h2 class="tituloTarjeta"><i class="fas fa-credit-card"></i> Ingresa los datos de la tarjeta</h2>
+                    <div id="datosCompra"></div>
+                    <form class="formTarjeta" onsubmit="procesarCompra(event)">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="nombreTitular"><i class="fas fa-user"></i> Nombre del titular:</label>
+                                <input type="text" id="nombreTitular" name="nombreTitular" class="form-control">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="numeroTarjeta"><i class="fas fa-credit-card"></i> Número de tarjeta:</label>
+                                <input type="text" id="numeroTarjeta" name="numeroTarjeta" class="form-control" maxlength="16">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="dni"><i class="fas fa-id-card"></i> DNI del titular:</label>
+                                <input type="number" id="dni" name="dni" class="form-control" maxlength="8">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="fechaCaducidad"><i class="fas fa-calendar-alt"></i> Fecha de caducidad:</label>
+                                <input type="month" id="fechaCaducidad" name="fechaCaducidad" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="codigoSeguridad"><i class="fas fa-lock"></i> Código de seguridad:</label>
+                                <input type="number" id="codigoSeguridad" name="codigoSeguridad" class="form-control" maxlength="3">
+                            </div>
+                        </div>
+                        <div id="error">
+                            <p class="error"></p>
+                        </div>
+                        <div class="boton-comprar-container">
+                            <button type="submit" class="btn btn-primary" id="btn">Comprar</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section class="seccion" id="seccionResumenCompra" style="display: none;">
+                <div class="contenidoResumen">
+                    <h2>Resumen de la compra</h2>
+                    <div id="resumenCompra"></div>
+                    <div class="botonesResumen">
+                        <button class="btn btn-secondary" onclick="cerrarModalCompra()">CANCELAR</button>
+                        <button class="btn btn-success" onclick="aceptarCompra()">Sí, acepto</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
         </main>
 
 <img th:src="@{/imgStatic/mensajeSenku.png}" class="gatoSenku" alt="imagen-bienvenida" />
@@ -169,7 +272,7 @@
 
 
 
-
+<script th:src="@{/js/compraSenku.js}"></script>
 
 </body>
 

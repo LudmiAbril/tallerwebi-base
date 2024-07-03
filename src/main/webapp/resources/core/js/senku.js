@@ -93,6 +93,10 @@ $(document).ready(function () {
         }
     }
    
+
+    
+
+
     actualizarTablero();
     setInterval(comprobarSiSeGano, 5000);
 });

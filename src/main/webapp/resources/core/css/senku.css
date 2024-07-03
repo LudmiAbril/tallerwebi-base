@@ -433,3 +433,11 @@ margin: 1%;
 .d-block{
 width: 50%;
 }
+#modalCompra {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; /* Ajusta el z-index según sea necesario para estar por encima de otros modales */
+}
