@@ -13,9 +13,6 @@ $(document).ready(function () {
         }
     });
 
- 
-   
-    var tiempo = false;
     function actualizarTablero() {
         $.get("obtenerTablero", function (data) {
             var tableroHtml = '';
@@ -49,30 +46,7 @@ $(document).ready(function () {
                                  start();
     }
 
-    setInterval(function () {
-        let tiempoLimite = "01:00"; // Ejemplo de tiempo límite
-        verificarTiempo(tiempoLimite);
-        console.log("Verificando tiempo: hora actual=" + obtenerHoraActual() + ", tiempo límite=" + tiempoLimite);
-    }, 60000);
-
-    function obtenerHoraActual() {
-        var tiempoActual = new Date();
-        var horas = tiempoActual.getHours();
-        var minutos = tiempoActual.getMinutes();
-        horas = horas < 10 ? "0" + horas : horas;
-        minutos = minutos < 10 ? "0" + minutos : minutos;
-        return horas + ":" + minutos;
-    }
-
-    function verificarTiempo(tiempoLimite) {
-        let horaActual = obtenerHoraActual();
-        if (horaActual === tiempoLimite) {
-            tiempo = true;
-            stop();
-            $(".reloj").addClass("puntaje-limite");
-            comprobarSiSeGano();
-        }
-    }
+   
 
     function comprobarSiSeGano() {
         fetch("http://localhost:8080/spring/senkuGano", {
@@ -93,7 +67,7 @@ $(document).ready(function () {
                 return;
             }
             var MovimientosMaxEnLaSesion = data.maxMovimientos;
-            if (data.seGano || data.movimientosRealizados >= MovimientosMaxEnLaSesion || tiempo === true) {
+            if (data.seGano || data.movimientosRealizados >= MovimientosMaxEnLaSesion ) {
                 document.getElementById('modalSenkuFinish').style.display = 'block';
                 document.querySelector('#modalSenkuFinish span').textContent = data.nombreJugador;
                 mostrarMensajeMovimientos(data);
@@ -113,8 +87,8 @@ $(document).ready(function () {
         if (respuesta.movimientosDisponibles === false) {
             document.getElementById("mensajeMovimientos").textContent = "No hay movimientos válidos disponibles.";
             document.getElementById("modalSenkuFinish").style.display = "block";
-        } else if(tiempo==true) {
-            document.getElementById("mensajeMovimientos").textContent = "No hay más tiempo.";
+        } else if (respuesta.seGano) {
+            document.getElementById("mensajeMovimientos").textContent = "¡Felicidades! Has ganado la partida.";
             document.getElementById("modalSenkuFinish").style.display = "block";
         }
     }
