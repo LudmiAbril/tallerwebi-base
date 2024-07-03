@@ -11,6 +11,7 @@ import com.tallerwebi.dominio.excepcion.NoHayCompras;
 import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseJuego;
 import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseUsuario;
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
+import com.tallerwebi.dominio.excepcion.NoSePudoGuardarLaCompraException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 
 import org.hibernate.SessionFactory;
@@ -156,6 +157,15 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
         }
 
         return compras;
+    }
+
+    @Override
+    public void guardarCompra(Compra compra) throws NoSePudoGuardarLaCompraException {
+        if (compra == null) {
+            throw new NoSePudoGuardarLaCompraException();
+        }
+
+        this.sessionFactory.getCurrentSession().save(compra);
     }
 
 }

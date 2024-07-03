@@ -19,13 +19,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+@RestController
 public class ControladorBingo {
 
 	private ServicioBingo servicioBingo;
@@ -89,7 +92,7 @@ public class ControladorBingo {
 			compras = this.servicioPlataforma.obtenerCompras(idUsuario, Juego.BINGO);
 			model.addAttribute("compras", compras);
 		} catch (NoHayCompras e) {
-			model.addAttribute("mensajeError", "¡Todavía no compraste nada!");
+			model.addAttribute("mensajeErrorCompra", "¡Todavía no compraste nada!");
 		}
 		return new ModelAndView("bingo", model);
 	}
@@ -289,4 +292,16 @@ public class ControladorBingo {
 		return mav;
 	}
 
+	// esperen de nuvo xddd sorryyyyy
+
+	
+	@PostMapping("/reiniciarTirada/{tirada}")
+    public Map<String, Object> reiniciarTirada(@PathVariable("tirada") String tirada, HttpSession session) throws PartidaConPuntajeNegativoException {
+        session.setAttribute("tiradaLimiteDeLaSesion", tirada);
+        this.obtenerNuevoNumero(session);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Tirada reiniciada correctamente");
+        return response;
+    }
 }

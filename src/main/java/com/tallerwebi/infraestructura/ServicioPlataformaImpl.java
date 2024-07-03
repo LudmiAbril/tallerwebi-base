@@ -12,6 +12,7 @@ import com.tallerwebi.dominio.excepcion.NoHayCompras;
 import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseJuego;
 import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseUsuario;
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
+import com.tallerwebi.dominio.excepcion.NoSePudoGuardarLaCompraException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
 import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
@@ -40,7 +41,8 @@ public class ServicioPlataformaImpl implements ServicioPlataforma {
     }
 
     @Override
-    public void agregarPartida(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException {
+    public void agregarPartida(Partida partida)
+            throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException {
         this.repositorioPartida.guardar(partida);
     }
 
@@ -64,6 +66,11 @@ public class ServicioPlataformaImpl implements ServicioPlataforma {
     public List<Compra> obtenerCompras(Long id, Juego juego)
             throws NoHayCompras {
         return this.repositorioPartida.obtenerCompras(id, juego);
+    }
+
+    @Override
+    public void guardarCompra(Compra compra) throws NoSePudoGuardarLaCompraException {
+        this.repositorioPartida.guardarCompra(compra);
     }
 
 }

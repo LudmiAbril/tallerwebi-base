@@ -100,8 +100,8 @@
             <p>Fecha: <span th:text="${#dates.format(compra.fecha, 'dd-MM-yyyy')}"></span></p>
           </div>
         </div>
-        <div th:if="${mensajeError}">
-          <p th:text="${mensajeError}"></p>
+        <div th:if="${mensajeErrorCompra}">
+          <p th:text="${mensajeErrorCompra}"></p>
         </div>
       </div>
 
@@ -130,9 +130,6 @@
       <form th:action="@{/finalizarPartida}" method="post">
         <div class="botones">
           <button type="submit" class="boton-volver">Finalizar</button>
-          <a href="javascript:void(0)" class="boton-compra abrir-modal" onclick="abrirModalCompra()">
-            <span class="material-symbols-outlined">monetization_on</span> COMPRAR TIRADA
-          </a>
         </div>
       </form>
     </div>
@@ -163,19 +160,19 @@
                 <td>10 números</td>
                 <td>$10</td>
                 <td><button class="botonComprarTirada" id="btn1"
-                    onclick="abrirSeccionCompra('10 números', '$10')">Comprar Tirada</button></td>
+                    onclick="abrirSeccionCompra('10 números', '$10', 10)">Comprar Tirada</button></td>
               </tr>
               <tr>
                 <td>20 números</td>
                 <td>$20</td>
                 <td><button class="botonComprarTirada" id="btn2"
-                    onclick="abrirSeccionCompra('20 números', '$20')">Comprar Tirada</button></td>
+                    onclick="abrirSeccionCompra('20 números', '$20', 20)">Comprar Tirada</button></td>
               </tr>
               <tr>
                 <td>30 números</td>
                 <td>$30</td>
                 <td><button class="botonComprarTirada" id="btn3"
-                    onclick="abrirSeccionCompra('30 números', '$30')">Comprar Tirada</button></td>
+                    onclick="abrirSeccionCompra('30 números', '$30', 30)">Comprar Tirada</button></td>
               </tr>
             </tbody>
           </table>
@@ -185,7 +182,7 @@
           <div class="contenidoTarjeta">
             <h2>Ingresa los datos de la tarjeta</h2>
             <div id="datosCompra"></div>
-            <form class="formTarjeta" onsubmit="procesarCompra(event)">
+            <form class="formTarjeta" onsubmit="procesarCompra(event)" method="post">
               <div class="form-group">
                 <label for="nombreTitular">Nombre del titular:</label>
                 <input type="text" id="nombreTitular" name="nombreTitular" required>
@@ -206,9 +203,12 @@
                 <label for="codigoSeguridad">Código de seguridad:</label>
                 <input type="number" id="codigoSeguridad" name="codigoSeguridad" maxlength="3" required>
               </div>
+              <input type="hidden" name="tirada" id="tiradaComprada">
               <div id="error">
                 <p class="error"></p>
+
               </div>
+              <button class="btn btn-secondary" onclick="irAtras()">Volver</button>
               <button type="submit" class="btn" id="btn">Comprar</button>
             </form>
           </div>
@@ -219,8 +219,7 @@
             <h2>Resumen de la compra</h2>
             <div id="resumenCompra"></div>
             <div class="botonesResumen">
-              <button class="btn btn-secondary" onclick="irAtras()">No, ir atrás</button>
-              <button class="btn btn-success" onclick="aceptarCompra()">Sí, acepto</button>
+              <button class="btn btn-success" onclick="aceptarCompra()">Seguir jugando</button>
             </div>
           </div>
         </section>
@@ -228,7 +227,21 @@
     </div>
   </div>
 
-
+  <div id="modalLimite" class="modal">
+    <div class="modal-content2">
+      <img th:src="@{/imgStatic/gatitoTriste.png}" alt="gato triste" class="gatoTriste">
+      <div class="text-container">
+        <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el límite de números cantados!</h3>
+        <form th:action="@{/finalizarPartida}" method="post">
+          <button type="submit" class="boton-volver">Finalizar</button>
+        </form>
+        <a href="javascript:void(0)" class="boton-compra abrir-modal" onclick="abrirModalCompra()">
+          <span class="material-symbols-outlined">monetization_on</span> COMPRAR TIRADA
+        </a>
+        <p th:text="${mensajeError}" class="mensajeErrorPartidaBingo"></p>
+      </div>
+    </div>
+  </div>
 
   <script th:src="@{/js/musica.js}"></script>
   <script th:src="@{/js/compra.js}"></script>

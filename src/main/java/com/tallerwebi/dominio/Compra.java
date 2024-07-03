@@ -26,8 +26,15 @@ public class Compra {
     @Enumerated(EnumType.STRING)
     private Juego juego;
 
-    public Compra() {
+    public Compra(){
+        
+    }
 
+    public Compra(Double precio, String descripcion, Usuario user, Juego juego) {
+        this.precio = precio;
+        this.descripcion = descripcion;
+        this.user = user;
+        this.juego = juego;
     }
 
     public Long getId() {

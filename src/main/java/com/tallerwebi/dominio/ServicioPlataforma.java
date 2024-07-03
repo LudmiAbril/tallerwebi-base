@@ -7,6 +7,7 @@ import com.tallerwebi.dominio.excepcion.NoHayCompras;
 import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseJuego;
 import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseUsuario;
 import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
+import com.tallerwebi.dominio.excepcion.NoSePudoGuardarLaCompraException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
 import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
@@ -25,4 +26,6 @@ public interface ServicioPlataforma {
     List<PartidaBingo> generarRankingDePartidasDeBingo(Long userId) throws NoHayPartidasDeBingoException;
 
     List<Compra> obtenerCompras(Long id, Juego juego) throws NoHayCompras;
+
+    void guardarCompra(Compra compra) throws NoSePudoGuardarLaCompraException;
 }
