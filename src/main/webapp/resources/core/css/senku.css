@@ -416,12 +416,20 @@ margin: 1%;
     transition: 0.5s;
 }
 /* ------------------------ESTILOS CARRUSEL--------------------------- */
-.carousel-item img {
-    width: 80%;
-    object-fit: cover;
-}
-
+.carousel-item {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .carousel-item video {
+    max-width: 100%;
+    height: auto;
+  }
 .close {
     font-size: 2em;
     color: white;
+}
+
+.d-block{
+width: 50%;
 }

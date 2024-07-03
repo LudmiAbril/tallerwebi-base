@@ -4,7 +4,7 @@ $(document).ready(function () {
     const tutoBtn = document.getElementById("boton-ayuda");
     const carousel = document.getElementById("carouselExampleIndicators");
     
-
+   
     tutoBtn.addEventListener("click", function() {
         if (carousel.style.display === "none" || carousel.style.display === "") {
             carousel.style.display = "block";
