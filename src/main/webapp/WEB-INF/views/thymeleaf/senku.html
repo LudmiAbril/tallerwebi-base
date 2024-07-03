@@ -15,9 +15,16 @@
     <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
     <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap}" />
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}" />
-<!-- Slick CSS -->
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- jQuery (Bootstrap depende de jQuery) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
     <!-- JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="module" th:src="@{/js/cronometro.js}"></script>
@@ -35,11 +42,7 @@
             <span class="material-symbols-outlined icono">arrow_back</span>
           </a>
     </div>
-    <div class="carrusel">
-        <div><img th:src="@{/imgStatic/mensajeSenku.png}" alt="Slide 1"></div>
-        <div><img th:src="@{/imgStatic/mensajeSenku.png}" alt="Slide 2"></div>
-        <div><img th:src="@{/imgStatic/mensajeSenku.png}" alt="Slide 3"></div>
-    </div>
+   
     
     <div class="nav-right">
         <div class="nombre-jugador">
@@ -52,9 +55,7 @@
         <div class="playlist-container" th:classappend="${playlistVisible} ? '' : 'hidden'">
             <iframe id="playlist" style="border-radius:12px" th:src="@{https://open.spotify.com/embed/playlist/62emNerb9lRrq16i4NGT91?utm_source=generator&theme=0}" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
-
-
-        <div class="boton-ayuda">
+        <div class="boton-ayuda" id="boton-ayuda">
             <i class="fas fa-question-circle"></i>
         </div>
     </div>
@@ -68,7 +69,34 @@
         <p><span class="galactic-title" th:text="${mensaje}"></span></p>
         <p class="highlight" th:text="${mensaje2}"></p>
     </div>
-
+  
+    <div  id="carouselExampleIndicators"class="carousel slide" style="display:none;" data-ride="carousel">
+    
+      <div class="carousel-inner">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+        <div class="carousel-item active">
+          <img class="d-block foto" th:src="@{/imgStatic/mensajeSenku.png}" alt="First slide">
+        </div>
+        <div class="carousel-item">
+          <img class="d-block foto" th:src="@{/imgStatic/gatos-crear-perfil.png}" alt="Second slide">
+        </div>
+        <div class="carousel-item">
+          <img class="d-block foto" th:src="@{/imgStatic/gatos-bienvenida.png}" alt="Third slide">
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    </div>
 
     <div class="info-container">
         <div class="info-box">
@@ -134,9 +162,9 @@
 </audio>
 
 
-  <!-- jQuery and Slick JS -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+
+
 </body>
 
 </html>
