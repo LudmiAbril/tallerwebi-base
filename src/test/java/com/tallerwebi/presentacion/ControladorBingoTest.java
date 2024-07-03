@@ -132,21 +132,19 @@ public class ControladorBingoTest {
 
     @Test
     public void queNoSePuedaHacerBingoSiElNumeroEntregadoNoFueMarcado() {
-        // necesito un carton
+
         CartonBingo cartonMock = mock(CartonBingo.class);
         when(this.servicioBingoMock.generarCarton(5)).thenReturn(cartonMock);
-        // necesito que el servicio me de un numero aleatorio
+
         Set<Integer> numerosEntregados = new LinkedHashSet<>();
         Integer numeroAleatorio = 10;
         when(this.servicioBingoMock.entregarNumeroAleatorio(numerosEntregados)).thenReturn(numeroAleatorio);
-        // ahora ese numero no lo voy a marcar, es decir, no lo voy a agregar a los
-        // numeros marcados
+
         Map<String, Object> respuesta = controladorBingo.hacerBingo(session);
         Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-        // el bingo del mapa de la respuesta tiene que ser false
+
         Boolean seHizoBingo = (Boolean) respuesta.get("seHizoBingo");
-        // los numeros marcados de la sesion tienen que ser nulos porque no se marco
-        // ninguno
+
         assertThat(seHizoBingo, is(false));
         assertThat(numerosMarcadosDeLaSesion, is(nullValue()));
     }
@@ -356,10 +354,10 @@ public class ControladorBingoTest {
 
         List<PartidaBingo> partidasBingoEsperadas = new ArrayList<PartidaBingo>();
         int cantidadDeNumerosMarcados = numerosMarcados.size();
-        //PartidaBingo partida = new PartidaBingo(1L, Juego.BINGO, numerosMarcados, seHizoLinea, seHizoBingo,
-        //        tipoPartidaBingo, tiradaLimite, cantidadDeNumerosMarcados);
+        PartidaBingo partida = new PartidaBingo(1L, Juego.BINGO, numerosMarcados, seHizoLinea, seHizoBingo,
+                tipoPartidaBingo, tiradaLimite, cantidadDeNumerosMarcados, false);
 
-        //partidasBingoEsperadas.add(partida);
+        partidasBingoEsperadas.add(partida);
 
         when(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1l)).thenReturn(partidasBingoEsperadas);
 
@@ -380,86 +378,63 @@ public class ControladorBingoTest {
         assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0)
                 .getCantidadDeCasillerosMarcados(), equalTo(cantidadDeNumerosMarcados));
 
-    //     partidasBingoEsperadas.add(partida);
 
-    //     when(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1l)).thenReturn(partidasBingoEsperadas);
+    }
+     @Test
+     public void queAlSolicitarFinalizarPartidaSeGuardeLaPartidaBingoCorrectamenteHabiendoHechoBingo()
+             throws IllegalArgumentException, PartidaConPuntajeNegativoException, NoHayPartidasDeBingoException {
+         // P R E P A R A C I O N
+         Set<Integer> numerosMarcados = new HashSet<Integer>();
+         numerosMarcados.add(1);
+         numerosMarcados.add(2);
+         numerosMarcados.add(3);
+         session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcados);
 
-    //     // V E R I F I C A C I O N
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getIdJugador(), equalTo(1L));
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getJuego(),
-    //             equalTo(Juego.BINGO));
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getCasillerosMarcados(),
-    //             equalTo(numerosMarcados));
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getSeHizoLinea(),
-    //             equalTo(seHizoLinea));
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getSeHizoBingo(),
-    //             equalTo(seHizoBingo));
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getTipoPartidaBingo(),
-    //             equalTo(tipoPartidaBingo));
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getTirada(),
-    //             equalTo(tiradaLimite));
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0)
-    //             .getCantidadDeCasillerosMarcados(), equalTo(cantidadDeNumerosMarcados));
+         Boolean seHizoLinea = false;
+         session.setAttribute("seHizoLinea", seHizoLinea);
 
-    // }
+         Boolean seHizoBingo = true;
+         session.setAttribute("seHizoBingo", seHizoBingo);
 
-    // @Test
-    // public void queAlSolicitarFinalizarPartidaSeGuardeLaPartidaBingoCorrectamenteHabiendoHechoBingo()
-    //         throws IllegalArgumentException, PartidaConPuntajeNegativoException, NoHayPartidasDeBingoException {
+         TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.LINEA;
+         session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
 
-    //     // P R E P A R A C I O N
-    //     Set<Integer> numerosMarcados = new HashSet<Integer>();
-    //     numerosMarcados.add(1);
-    //     numerosMarcados.add(2);
-    //     numerosMarcados.add(3);
-    //     session.setAttribute("numerosMarcadosDeLaSesion", numerosMarcados);
+         Integer tiradaLimite = 90;
+         session.setAttribute("tiradaLimiteDeLaSesion", tiradaLimite);
 
-    //     Boolean seHizoLinea = false;
-    //     session.setAttribute("seHizoLinea", seHizoLinea);
-
-    //     Boolean seHizoBingo = true;
-    //     session.setAttribute("seHizoBingo", seHizoBingo);
-
-    //     TipoPartidaBingo tipoPartidaBingo = TipoPartidaBingo.LINEA;
-    //     session.setAttribute("tipoPartidaBingo", tipoPartidaBingo);
-
-    //     Integer tiradaLimite = 90;
-    //     session.setAttribute("tiradaLimiteDeLaSesion", tiradaLimite);
-
-    //     Usuario jugador = new Usuario();
-    //     jugador.setId(1l);
-    //     session.setAttribute("jugadorActual", jugador);
+         Usuario jugador = new Usuario();
+         jugador.setId(1l);
+         session.setAttribute("jugadorActual", jugador);
 
     //     // E J E C U C I O N
-    //     this.controladorBingo.finalizar(session);
+         this.controladorBingo.finalizar(session);
 
-    //     List<PartidaBingo> partidasBingoEsperadas = new ArrayList<PartidaBingo>();
-    //     int cantidadDeNumerosMarcados = numerosMarcados.size();
-    //     PartidaBingo partida = new PartidaBingo(1L, Juego.BINGO, numerosMarcados, seHizoLinea, seHizoBingo,
-    //             tipoPartidaBingo, tiradaLimite, cantidadDeNumerosMarcados);
+         List<PartidaBingo> partidasBingoEsperadas = new ArrayList<PartidaBingo>();
+         int cantidadDeNumerosMarcados = numerosMarcados.size();
+         PartidaBingo partida = new PartidaBingo(1L, Juego.BINGO, numerosMarcados, seHizoLinea, seHizoBingo,
+                 tipoPartidaBingo, tiradaLimite, cantidadDeNumerosMarcados, false);
 
-    //     partidasBingoEsperadas.add(partida);
+         partidasBingoEsperadas.add(partida);
 
-    //     when(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1l)).thenReturn(partidasBingoEsperadas);
+         when(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1l)).thenReturn(partidasBingoEsperadas);
 
     //     // V E R I F I C A C I O N
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getIdJugador(), equalTo(1L));
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getJuego(),
-    //             equalTo(Juego.BINGO));
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getCasillerosMarcados(),
-    //             equalTo(numerosMarcados));
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getSeHizoLinea(),
-    //             equalTo(seHizoLinea));
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getSeHizoBingo(),
-    //             equalTo(seHizoBingo));
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getTipoPartidaBingo(),
-    //             equalTo(tipoPartidaBingo));
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getTirada(),
-    //             equalTo(tiradaLimite));
-    //     assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0)
-    //             .getCantidadDeCasillerosMarcados(), equalTo(cantidadDeNumerosMarcados));
+         assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getIdJugador(), equalTo(1L));
+         assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getJuego(),
+                 equalTo(Juego.BINGO));
+         assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getCasillerosMarcados(),
+                 equalTo(numerosMarcados));
+         assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getSeHizoLinea(),
+                 equalTo(seHizoLinea));
+         assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getSeHizoBingo(),
+                 equalTo(seHizoBingo));
+         assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getTipoPartidaBingo(),
+                 equalTo(tipoPartidaBingo));
+         assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0).getTirada(),
+                 equalTo(tiradaLimite));
+         assertThat(this.servicioPlataformaMock.generarRankingDePartidasDeBingo(1L).get(0)
+                 .getCantidadDeCasillerosMarcados(), equalTo(cantidadDeNumerosMarcados));
 
-    // }
     }
     @Test
     public void queSePuedaObtenerLaCantidadDeNumerosRestantesParaCompletarLaTirada()
