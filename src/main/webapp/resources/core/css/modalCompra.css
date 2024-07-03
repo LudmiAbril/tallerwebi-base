@@ -46,8 +46,7 @@
     color: white;
     font-size: 20px;
     z-index: 1000;
-    margin-left: 15px;
-    padding-top: 70px;
+
 }
 .modal-header h2 {
     margin: 0;
@@ -224,7 +223,7 @@ form{
     display: flex;
     justify-content: space-between;
     background-color: #ffffffed;
-    padding: 0 15px;
+    padding: 5px 15px;
     border-radius: 10px;
     margin-bottom: 10px;
 }

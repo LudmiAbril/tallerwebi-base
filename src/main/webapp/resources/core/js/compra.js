@@ -105,6 +105,8 @@ function procesarCompra(event) {
     `;
 
     irASeccion(2);
+    mostrarError(''); // Limpiar errores al cerrar el modal
+
 }
 function cerrarModalCompra() {
     document.getElementById('modalCompra').style.display = 'none';
