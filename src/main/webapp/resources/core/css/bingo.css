@@ -44,6 +44,19 @@ nav {
     transform: scale(1.2);
 }
 
+
+.playlist-container {
+    position: fixed;
+    top: 82px;
+    right: 10px;
+    z-index: 1000;
+}
+
+
+#playlist {
+    display: none;
+}
+
 .icono {
     color: white;
     font-size: 20px;
