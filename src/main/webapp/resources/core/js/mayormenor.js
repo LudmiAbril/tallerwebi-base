@@ -78,7 +78,7 @@ function iniciarPartida() {
     }
     function finalizarPartida(aciertos) {
         $("#modalFinPartida").show();
-        $("#resultadoPartida").text("Partida finalizada. Aciertos: " + aciertos);
+        $("#resultadoPartida").text("Aciertos:" + aciertos);
     }
 
     $("#btnReiniciar").click(function () {

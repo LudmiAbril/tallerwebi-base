@@ -15,7 +15,7 @@
             th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"
     />
     <!-- custom style -->
-    <link rel="stylesheet" th:href="@{/css/blackjack.css}" />
+    <link rel="stylesheet" th:href="@{/css/menorOmayor.css}" />
     <link rel="stylesheet" th:href="@{/css/abandonarPartida.css}" />
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
@@ -40,7 +40,8 @@
 <div id="modalFinPartida" class="modal">
     <!-- Contenido del modal -->
     <div class="modal-content">
-        <h2 id="resultadoPartida"></h2>
+        <h2> ¡Partida Finalizada!</h2>
+        <h3 id="resultadoPartida"></h3>
         <div class="botones-modal">
             <form th:action="@{/reiniciarMayorMenor}" method="post">
                 <button type="submit" class="boton-reiniciar">
@@ -56,21 +57,25 @@
     </div>
 </div>
 
-<div id="aciertos">Aciertos: 0</div>
-<button id="btnMayor" class="btn btn-primary">Mayor</button>
-<button id="btnMenor" class="btn btn-secondary">Menor</button>
+
 <main class="container-main">
     <div class="container-left">
+        <div id="aciertos" class="aciertos-container">Aciertos:
+            <span class="material-symbols-outlined">check_circle</span> Aciertos: 0
+        </div>
         <div class="container-principal">
             <div class="cartas-container" id="cartasJugador"></div>
+        </div>
+        <div class="botones">
+            <button id="btnMayor" class="btn btn-mayor">Mayor</button>
+            <button id="btnMenor" class="btn btn-menor">Menor</button>
         </div>
     </div>
     <div class="container-right">
         <div class="jugador-info">
             <h3 class="nombre-jugador">Jugador: <span id="nombre"></span></h3>
             <div class="time">
-            <span style="color: white" class="material-symbols-outlined"
-            >access_time
+            <span style="color: white" class="material-symbols-outlined">access_time
             </span>
                 <p style="color: white" class="tiempo">
                     Tiempo transcurrido: <span class="reloj">00:00:00</span>
@@ -84,6 +89,8 @@
         </div>
     </div>
 </main>
+
+
 <!-- Modal de Confirmación -->
 <div id="customExitModal" class="modal-custom">
     <div class="modal-content-custom">
