@@ -307,3 +307,97 @@ button {
     display: flex;
     justify-content: center;
 }
+
+.modal-ayuda {
+    display: none;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    padding: 20px;
+    margin-top: 10px;
+    backdrop-filter: blur(5px);
+}
+
+.modal-contenido {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    width: 60%;
+    max-width: 1000px;
+    min-height: 60%;
+    overflow: auto;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+    border: 2px solid #555;
+    background-image: url("../imgStatic/gatos-bienvenida.png");
+    background-size: cover;
+    background-blend-mode: multiply;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #555;
+    padding-bottom: 10px;
+}
+
+.modal-header div {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-family: 'Special Elite', cursive;
+    color: rgba(207, 76, 234, 0.81);
+    font-size: 2em;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-family: 'Special Elite', cursive;
+    color: rgba(207, 76, 234, 0.81);
+    font-size: 1.1em;
+}
+
+.cerrar-modal {
+    cursor: pointer;
+    font-size: 24px;
+    color: rgba(207, 76, 234, 0.81);
+}
+
+.cerrar-modal:hover {
+    color: #fff;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.infografia {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 10px;
+    border: 2px solid #555;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.boton-ayuda{
+    position:absolute;
+    color:white;
+    top:20px;
+    right:20px;
+}
