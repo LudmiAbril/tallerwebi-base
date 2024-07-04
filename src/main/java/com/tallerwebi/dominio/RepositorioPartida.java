@@ -4,7 +4,15 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
-import com.tallerwebi.dominio.excepcion.*;
+import com.tallerwebi.dominio.excepcion.BingoBotEsNullException;
+import com.tallerwebi.dominio.excepcion.NoHayCompras;
+import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseJuego;
+import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseUsuario;
+import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
+import com.tallerwebi.dominio.excepcion.NoSePudoGuardarLaCompraException;
+import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
+import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
+import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
 
 public interface RepositorioPartida {
     void guardar(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException;
@@ -22,7 +30,5 @@ public interface RepositorioPartida {
 
     List<Compra> obtenerCompras(Long id, Juego juego) throws NoHayCompras;
 
-    void guardarCompra(Compra compra) throws NoSePudoGuardarLaCompraException;
-
-    //List<PartidaMayorMenor> generarRankingDePartidasMayorMenor(Long userId) throws PartidasDelJuegoNoEncontradasException;
+    Boolean guardarCompra(Compra compra) throws NoSePudoGuardarLaCompraException;
 }

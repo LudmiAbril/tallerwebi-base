@@ -68,6 +68,19 @@
         <p><span class="galactic-title" th:text="${mensaje}"></span></p>
         <p class="highlight" th:text="${mensaje2}"></p>
     </div>
+
+    <div class="info-container">
+        <div class="info-box">
+            <i class="fa fa-clock"></i>
+            <p style="color: white" class="tiempo">
+                Tiempo transcurrido: <span class="reloj">00:00:00</span>
+            </p>
+        </div>
+        <div class="info-box">
+            <i class="fa fa-circle"></i>
+            <p>Contador Movimientos : <span class="mov" th:text="${contadorMovimientos}">00</span></p>
+        </div>
+    </div>
     <div id="carouselExampleIndicators" class="carousel slide text-center" style="display:none;" >
         <div class="carousel-inner">
           <ol class="carousel-indicators">
@@ -104,18 +117,7 @@
         </a>
       </div>
       
-    <div class="info-container">
-        <div class="info-box">
-            <i class="fa fa-clock"></i>
-            <p style="color: white" class="tiempo">
-                Tiempo transcurrido: <span class="reloj">00:00:00</span>
-            </p>
-        </div>
-        <div class="info-box">
-            <i class="fa fa-circle"></i>
-            <p>Contador Movimientos : <span class="mov" th:text="${contadorMovimientos}">00</span></p>
-        </div>
-    </div>
+ 
       <!-- Mensaje Actualizacion Movimientos -->
       <p class="mensaje" ><span class="mensaje" th:text="${mensaje}"></span></p>
             <!-- Tablero -->

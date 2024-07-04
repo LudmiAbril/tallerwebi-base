@@ -69,8 +69,8 @@ public class ServicioPlataformaImpl implements ServicioPlataforma {
     }
 
     @Override
-    public void guardarCompra(Compra compra) throws NoSePudoGuardarLaCompraException {
-        this.repositorioPartida.guardarCompra(compra);
+    public Boolean guardarCompra(Compra compra) throws NoSePudoGuardarLaCompraException {
+        return this.repositorioPartida.guardarCompra(compra);
     }
 
 }

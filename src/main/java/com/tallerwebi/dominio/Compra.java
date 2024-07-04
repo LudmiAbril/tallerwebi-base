@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -18,7 +19,7 @@ public class Compra {
     private Long id;
     private Double precio;
     private String descripcion;
-    private Date fecha;
+    private LocalDate fecha;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -26,15 +27,16 @@ public class Compra {
     @Enumerated(EnumType.STRING)
     private Juego juego;
 
-    public Compra(){
-        
-    }
-
-    public Compra(Double precio, String descripcion, Usuario user, Juego juego) {
+    public Compra(Double precio, String descripcion, LocalDate fecha, Usuario user, Juego juego) {
         this.precio = precio;
         this.descripcion = descripcion;
+        this.fecha = fecha;
         this.user = user;
         this.juego = juego;
+    }
+
+    public Compra() {
+
     }
 
     public Long getId() {
@@ -61,14 +63,6 @@ public class Compra {
         this.descripcion = descripcion;
     }
 
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
     public Usuario getUser() {
         return user;
     }
@@ -83,6 +77,14 @@ public class Compra {
 
     public void setJuego(Juego juego) {
         this.juego = juego;
+    }
+
+    public LocalDate getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(LocalDate fecha) {
+        this.fecha = fecha;
     }
 
 }

@@ -6,12 +6,26 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
-import com.tallerwebi.dominio.*;
-import com.tallerwebi.dominio.excepcion.*;
+import com.tallerwebi.dominio.excepcion.BingoBotEsNullException;
+import com.tallerwebi.dominio.excepcion.NoHayCompras;
+import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseJuego;
+import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseUsuario;
+import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
+import com.tallerwebi.dominio.excepcion.NoSePudoGuardarLaCompraException;
+import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.tallerwebi.dominio.Compra;
+import com.tallerwebi.dominio.Juego;
+import com.tallerwebi.dominio.Partida;
+import com.tallerwebi.dominio.PartidaBingo;
+import com.tallerwebi.dominio.PartidaBlackJack;
+import com.tallerwebi.dominio.RepositorioPartida;
+import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
+import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
 
 @Repository("repositorioPartida")
 @Transactional
@@ -25,7 +39,8 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
     }
 
     @Override
-    public void guardar(Partida partida) throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException {
+    public void guardar(Partida partida)
+            throws PartidaConPuntajeNegativoException, IllegalArgumentException, BingoBotEsNullException {
         if (partida == null || partida.getJuego() == null) {
             throw new IllegalArgumentException();
         } else if (partida instanceof PartidaBlackJack && (((PartidaBlackJack) partida).getPuntaje()) < 0) {
@@ -118,10 +133,13 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
         Query query = this.sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter("juego", Juego.BINGO);
         query.setParameter("userId", userId);
+
         List<PartidaBingo> partidasBingo = query.getResultList();
+
         if (partidasBingo.isEmpty()) {
             throw new NoHayPartidasDeBingoException();
         }
+
         return partidasBingo;
     }
 
@@ -142,25 +160,15 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
     }
 
     @Override
-    public void guardarCompra(Compra compra) throws NoSePudoGuardarLaCompraException {
+    public Boolean guardarCompra(Compra compra) throws NoSePudoGuardarLaCompraException {
+        Boolean seGuardo;
         if (compra == null) {
             throw new NoSePudoGuardarLaCompraException();
         }
 
         this.sessionFactory.getCurrentSession().save(compra);
+        seGuardo = true;
+        return seGuardo;
     }
-
-    /*@Override
-    public List<PartidaMayorMenor> generarRankingDePartidasMayorMenor(Long userId) throws PartidasDelJuegoNoEncontradasException {
-        String hql = "SELECT DISTINCT pmm FROM PartidaMayorMenor pmm LEFT JOIN FETCH pmm.aciertos WHERE pmm.juego = :juego AND pmm.idJugador = :userId ORDER BY pmm.fechaYhora DESC";
-        Query query = this.sessionFactory.getCurrentSession().createQuery(hql);
-        query.setParameter("juego", Juego.MAYOR_MENOR);
-        query.setParameter("userId", userId);
-        List<PartidaMayorMenor> partidasMayorMenor = query.getResultList();
-        if (partidasMayorMenor.isEmpty()) {
-            throw new PartidasDelJuegoNoEncontradasException();
-        }
-        return partidasMayorMenor;
-    }*/
 
 }
