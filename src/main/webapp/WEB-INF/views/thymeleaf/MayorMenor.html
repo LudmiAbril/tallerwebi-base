@@ -28,6 +28,23 @@
             <span class="material-symbols-outlined icono">arrow_back</span>
         </a>
     </nav>
+    <a href="javascript:void(0)" class="boton-ayuda" onclick="abrirModalAyuda()">
+        <span class="material-symbols-outlined">help</span>
+    </a>
+
+    <!-- Modal de ayuda -->
+    <div id="modalAyuda" class="modal-ayuda">
+        <div class="modal-contenido">
+            <div class="modal-header">
+                <h2>¿CÓMO JUGAR?</h2>
+                <span class="cerrar-modal" onclick="cerrarModalAyuda()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <img th:src="@{/imgStatic/infoMoM.png}" class="infografia">
+            </div>
+        </div>
+    </div>
+
 
     <!-- El modal que se abre al finalizar la partida -->
     <div id="modalFinPartida" class="modal">
