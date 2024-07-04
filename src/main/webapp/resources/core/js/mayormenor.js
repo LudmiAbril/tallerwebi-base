@@ -5,6 +5,7 @@ $(document).ready(function () {
     let aciertos = 0;
     let tiempoLimiteMilisegundos = 1 * 60 * 1000;
 
+
     function agregarCarta(contenedor, nombreCarta, jugador) {
         contenedor.html(
             "<img src='./imgStatic/cartas/" +
@@ -34,6 +35,10 @@ $(document).ready(function () {
         $.get("ComenzarMayorMenor", function (data) {
             cartaActual = data.cartaInicial;
             aciertos = 0;
+            console.log(data.contrareloj);
+            if(data.contrareloj){
+                    tiempoLimiteMilisegundos = 1 * 10 * 1000;
+                }
             actualizarAciertos(aciertos);
             $("#nombre").text(data.jugadorActual);
             agregarCarta(

@@ -160,7 +160,7 @@ public class ControladorMayorMenor {
         boolean contrareloj = true;
         Integer tiempoLimiteMinutos = 1;
         if (contrareloj) {
-            long tiempoLimiteMilisegundos = tiempoLimiteMinutos * 60 * 1000;
+            long tiempoLimiteMilisegundos = tiempoLimiteMinutos * 10 * 1000;
             long tiempoExpiracion = System.currentTimeMillis() + tiempoLimiteMilisegundos;
             Date fechaExpiracion = new Date(tiempoExpiracion);
             SimpleDateFormat formato = new SimpleDateFormat("HH:mm");
@@ -174,6 +174,7 @@ public class ControladorMayorMenor {
         }
         ModelMap model = new ModelMap();
         model.addAttribute("contrareloj", contrareloj);
+        model.addAttribute("titulomensaje", "Mayor Menor dificil");
         return new ModelAndView("MayorMenor", model);
     }
 
