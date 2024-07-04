@@ -416,6 +416,10 @@ margin: 1%;
     transition: 0.5s;
 }
 /* ------------------------ESTILOS CARRUSEL--------------------------- */
+.carousel{
+    margin: 5%;
+    z-index: 900000000000000000000000000000000000000000000;
+}
 .carousel-item {
     display: flex;
     justify-content: center;
