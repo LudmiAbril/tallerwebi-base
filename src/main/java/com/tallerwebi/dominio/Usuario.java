@@ -1,11 +1,14 @@
 package com.tallerwebi.dominio;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -20,6 +23,9 @@ public class Usuario {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "config_id", referencedColumnName = "id")
     private ConfiguracionesJuego config;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Compra> compras;
 
     public Usuario() {
         this.config = new ConfiguracionesJuego();
@@ -63,6 +69,14 @@ public class Usuario {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public List<Compra> getCompras() {
+        return compras;
+    }
+
+    public void setCompras(List<Compra> compras) {
+        this.compras = compras;
     }
 
 }
