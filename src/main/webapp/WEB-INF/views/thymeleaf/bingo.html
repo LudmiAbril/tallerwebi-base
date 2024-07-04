@@ -91,13 +91,9 @@
         <div th:if="${compras}">
           <div th:each="compra : ${compras}">
             <h4>Compra: <span th:text="${compra.id}"></span></h4>
-            <p>Descripci&oacute;n:
-              <span th:if="${compra.descripcion == 'DIEZ_NUMEROS'}">10 n&uacute;meros</span>
-              <span th:if="${compra.descripcion == 'VEINTE_NUMEROS'}">20 n&uacute;meros</span>
-              <span th:if="${compra.descripcion == 'TREINTA_NUMEROS'}">30 n&uacute;meros</span>
-            </p>
+            <p>Descripci&oacute;n: <span th:text="${compra.descripcion + ' n&uacute;meros'}">n&uacute;meros</span></p>
             <p>Precio: <span th:text="${compra.precio}"></span></p>
-            <p>Fecha: <span th:text="${#dates.format(compra.fecha, 'dd-MM-yyyy')}"></span></p>
+            <p>Fecha: <span th:text="${compra.fecha}"></span></p>
           </div>
         </div>
         <div th:if="${mensajeErrorCompra}">
