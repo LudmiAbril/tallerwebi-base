@@ -159,7 +159,7 @@ function obtenerNuevoNumero() {
                 console.log("Nuevo número entregado:", data.nuevoNumero);
                 document.getElementById('numeroActual').textContent = data.nuevoNumero;
             } else {
-                console.log("Límite de tiradas alcanzado.");
+                console.log("Limite de tiradas alcanzado.");
                 alert('Límite de tiradas alcanzado.');
             }
         })
