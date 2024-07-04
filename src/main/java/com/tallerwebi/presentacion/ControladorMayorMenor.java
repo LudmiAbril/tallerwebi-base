@@ -105,6 +105,7 @@ public class ControladorMayorMenor {
                 aciertos++;
                 session.setAttribute("cartaJugador", cartaNueva);
             } else {
+                //servicioPlataforma.agregarPartida();
                 session.setAttribute("partidaTerminada", true);
                 session.setAttribute("aciertos", aciertos);
             }
@@ -172,6 +173,7 @@ public class ControladorMayorMenor {
         } else {
             session.setAttribute("contrareloj", false);
         }
+
         ModelMap model = new ModelMap();
         model.addAttribute("contrareloj", contrareloj);
         model.addAttribute("titulomensaje", "Mayor Menor dificil");

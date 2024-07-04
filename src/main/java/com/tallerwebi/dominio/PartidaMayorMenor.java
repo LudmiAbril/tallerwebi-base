@@ -2,9 +2,11 @@ package com.tallerwebi.dominio;
 
 
 import javax.persistence.Column;
+import javax.persistence.Table;
 import javax.persistence.Entity;
 
 @Entity
+@Table(name = "partida_MoM")
 public class PartidaMayorMenor extends Partida{
     @Column(name = "aciertos")
     private Integer puntaje;

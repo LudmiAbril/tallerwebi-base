@@ -23,35 +23,7 @@ public class ServicioMayorMenorImpl implements ServicioMayorMenor {
 
     @Override
     public void inicializarBaraja() {
-        /*for (Palo palo : Palo.values()) {
-            for (int valor = 1; valor <= 13; valor++) {
-                String nombreCarta;
-                int valorCarta;
-                switch (valor) {
-                    case 1:
-                        nombreCarta = "A";
-                        valorCarta = 11;
-                        break;
-                    case 11:
-                        nombreCarta = "J";
-                        valorCarta = 10;
-                        break;
-                    case 12:
-                        nombreCarta = "Q";
-                        valorCarta = 10;
-                        break;
-                    case 13:
-                        nombreCarta = "K";
-                        valorCarta = 10;
-                        break;
-                    default:
-                        nombreCarta = Integer.toString(valor);
-                        valorCarta = valor;
-                        break;
-                }
-                cartas.add(new Carta(nombreCarta, valorCarta, palo));
-            }
-        }*/
+
         baraja = new Baraja(11);
         cartas = baraja.getCartas();
     }
