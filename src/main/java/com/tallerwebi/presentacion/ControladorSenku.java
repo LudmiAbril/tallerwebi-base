@@ -52,6 +52,7 @@ public class ControladorSenku {
     public ModelAndView inicioSenku() {
         ModelMap modelo = new ModelMap();
         modelo.put("nuevoJugador", new Jugador());
+       
         return new ModelAndView("irAlSenku", modelo);
     }
 
@@ -59,6 +60,7 @@ public class ControladorSenku {
     public ModelAndView comenzarJuegoSenku(HttpSession session) {
         ModelMap model = new ModelMap();
         Usuario usuario;
+       
         if (session.getAttribute("jugadorActual") == null
                 || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
 
@@ -67,26 +69,87 @@ public class ControladorSenku {
             session.setAttribute("jugadorActual", usuario);
         } else {
             usuario = (Usuario) session.getAttribute("jugadorActual");
+           
         }
-        Tablero tablero = new Tablero(5);
-        session.setAttribute("tablero", tablero);
 
-        model.put("mensaje", "¡Bienvenido " + usuario.getNombre() + "!");
+        session.setAttribute("dimensionDelTablero", usuario.getConfig().getDimensionTablero());
+        session.setAttribute("maxMovimientos", usuario.getConfig().getMaxMovimientos());
+        Integer dimensionTablero = (Integer) session.getAttribute("dimensionDelTablero");
+  
+        if (dimensionTablero == null || dimensionTablero % 2 == 0) {
+            dimensionTablero = 5;
+        }
+        Senku senku = new Senku(dimensionTablero);
+        Tablero tablero = senku.getTablero();
+        session.setAttribute("tablero", tablero);
         // PONGO LOS DATOS EN EL MODELO ASI LOS PUEDO RENDERIZAR CON THIMELEAF
-        model.put("mensaje", "¡ARRANCA " + usuario.getNombre() + "!");
+        model.put("mensaje", "¡Bienvenido " + usuario.getNombre() + "!");
         model.put("mensaje2", "¡QUE COMIENCE EL JUEGO!");
         model.put("nombreJugador", usuario.getNombre());
         model.put("contadorMovimientos", 0);
+
         session.setAttribute("contadorMovimientos", 0);
         return new ModelAndView("senku", model);
     }
+    @RequestMapping(path = "/senkuDificil", method = RequestMethod.GET)
+    public ModelAndView comenzarSenkuModoDificil(HttpSession session,
+            @RequestParam(value = "tiempoLimite", required = false) Integer tiempoLimiteMinutos) {
+                ModelMap model = new ModelMap();
+                Usuario usuario;
+       
+                if (session.getAttribute("jugadorActual") == null
+                        || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
+        
+                    usuario = new Usuario();
+                    usuario.setNombre("user");
+                    session.setAttribute("jugadorActual", usuario);
+                } else {
+                    usuario = (Usuario) session.getAttribute("jugadorActual");
+                   
+                }
+        
+                //MODO DIFÍCIL=CONTRARELOJ
+                long tiempoLimiteMilisegundos = tiempoLimiteMinutos * 60 * 1000;
+                long tiempoExpiracion = System.currentTimeMillis() + tiempoLimiteMilisegundos;
+                Date fechaExpiracion = new Date(tiempoExpiracion);
+                SimpleDateFormat formato = new SimpleDateFormat("HH:mm");
+                String tiempoExpiracionFormateado = formato.format(fechaExpiracion);
+                //GUARDAR EN SESION
+                session.setAttribute("contrareloj", true);
+                session.setAttribute("tiempoLimite", tiempoExpiracionFormateado);
+                session.setAttribute("minutos", tiempoLimiteMinutos);
+                session.setAttribute("contadorMovimientos", 0);
+                session.setAttribute("dimensionDelTablero", usuario.getConfig().getDimensionTablero());
+                session.setAttribute("maxMovimientos", usuario.getConfig().getMaxMovimientos());
+                Integer dimensionTablero = (Integer) session.getAttribute("dimensionDelTablero");
+                if (dimensionTablero == null || dimensionTablero % 2 == 0) {
+                    dimensionTablero = 5;
+                }
+                Senku senku = new Senku(dimensionTablero);
+                Tablero tablero = senku.getTablero();
+                session.setAttribute("tablero", tablero);
+                
+                
+                
+                // AGREGANDO AL MODEL
+                model.put("mensaje", "¡Bienvenido " + usuario.getNombre() + "!");
+                model.put("mensaje2", "¡QUE COMIENCE EL JUEGO!");
+                model.put("nombreJugador", usuario.getNombre());
+                model.put("contadorMovimientos", 0);
+                model.put("tiempoDefault", usuario.getConfig().getDuracionSenku());
+                model.put("tiempoLimite", tiempoLimiteMinutos);
+        return new ModelAndView("senku", model);
 
+
+      }
     @RequestMapping(path = "/obtenerTablero", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> obtenerTablero(HttpSession session) {
         Tablero tablero = (Tablero) session.getAttribute("tablero");
+        Integer maxMovimientos = (Integer)session.getAttribute("maxMovimientos");
         Map<String, Object> respuesta = new HashMap<>();
         respuesta.put("tablero", tablero);
+        respuesta.put("maxMovimientos", maxMovimientos);
         return respuesta;
     }
 
@@ -182,46 +245,51 @@ public class ControladorSenku {
     }
 
     @RequestMapping(path = "/senkuGano", method = RequestMethod.POST)
-    @ResponseBody
-    public Map<String, Object> comprobarSiSeGano(HttpSession session) {
-        Map<String, Object> respuesta = new HashMap<>();
-
-        if (session.getAttribute("tablero") == null) {
-            respuesta.put("error", "No se encontró el tablero en la sesión");
-            return respuesta;
-        }
-
-        Tablero tablero = (Tablero) session.getAttribute("tablero");
-        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-
-        Boolean seGano = servicioSenku.seGano(tablero);
-        Boolean movimientosDisponibles = true;
-
-        if (!seGano) {
-            try {
-                movimientosDisponibles = servicioSenku.validarQueHayaMovimientosValidosDisponibles(tablero);
-            } catch (MovimientoInvalidoException e) {
-                e.printStackTrace();
-            }
-        }
-
-        int movimientosRealizados = tablero.getContadorMovimientos();
-
-        session.setAttribute("seGano", seGano);
-        session.setAttribute("movimientosDisponibles", movimientosDisponibles);
-
-        respuesta.put("seGano", seGano);
-        respuesta.put("movimientosDisponibles", movimientosDisponibles);
-        respuesta.put("movimientosRealizados", movimientosRealizados);
-        String nombreJugador = (jugador != null) ? jugador.getNombre() : "Jugador Anonimo";
-        respuesta.put("nombreJugador", nombreJugador);
-
+@ResponseBody
+public Map<String, Object> comprobarSiSeGano(HttpSession session) {
+    Map<String, Object> respuesta = new HashMap<>();
+   
+    if (session.getAttribute("tablero") == null) {
+        respuesta.put("error", "No se encontró el tablero en la sesión");
         return respuesta;
     }
 
+    Tablero tablero = (Tablero) session.getAttribute("tablero");
+    Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+    Integer maxMovimientos = (Integer) session.getAttribute("maxMovimientos");
+    Boolean seGano = servicioSenku.seGano(tablero);
+    Boolean movimientosDisponibles = true;
+
+    if (!seGano) {
+        try {
+            movimientosDisponibles = servicioSenku.validarQueHayaMovimientosValidosDisponibles(tablero);
+        } catch (MovimientoInvalidoException e) {
+            e.printStackTrace();
+        }
+    }
+
+    int movimientosRealizados = tablero.getContadorMovimientos();
+
+    // Obtener el tiempo límite de la sesión
+    Integer minutosLimite = (Integer) session.getAttribute("minutos");
+
+    session.setAttribute("seGano", seGano);
+    session.setAttribute("movimientosDisponibles", movimientosDisponibles);
+
+    respuesta.put("seGano", seGano);
+    respuesta.put("movimientosDisponibles", movimientosDisponibles);
+    respuesta.put("movimientosRealizados", movimientosRealizados);
+    respuesta.put("nombreJugador", (jugador != null) ? jugador.getNombre() : "Jugador Anonimo");
+    respuesta.put("maxMovimientos", maxMovimientos);
+    respuesta.put("minutosLimite", 1); 
+
+    return respuesta;
+}
+
+
     @RequestMapping(path = "/senkuFinalizarPartida", method = RequestMethod.POST)
     public ModelAndView finalizarPartida(HttpSession session) throws BingoBotEsNullException{
-        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+       
         Tablero tablero = (Tablero) session.getAttribute("tablero");
 
         Boolean seGano = servicioSenku.seGano(tablero);

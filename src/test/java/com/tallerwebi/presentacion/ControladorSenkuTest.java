@@ -69,7 +69,7 @@ public class ControladorSenkuTest {
         ModelMap modelMap = modelAndView.getModelMap();
         assertNotNull(modelMap);
         assertEquals("senku", modelAndView.getViewName());
-        assertEquals("¡ARRANCA user!", modelMap.get("mensaje"));
+        assertEquals("¡Bienvenido user!", modelMap.get("mensaje"));
         assertEquals("user", modelMap.get("nombreJugador"));
         assertEquals(0, modelMap.get("contadorMovimientos"));
 

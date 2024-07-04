@@ -8,7 +8,6 @@
 
     <!-- Custom Styles -->
     <link rel="stylesheet" th:href="@{/css/senku.css}" />
-
     <link rel="stylesheet" th:href="@{/css/abandonarPartida.css}" />
     <link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
 
@@ -16,11 +15,19 @@
     <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
     <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap}" />
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}" />
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <!-- JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <!-- JavaScript Local-->
     <script type="module" th:src="@{/js/cronometro.js}"></script>
-
     <script th:src="@{/js/customModal.js}"></script>
     <script type="module" th:src="@{/js/senku.js}"></script>
     <script th:src="@{/js/musica.js}"></script>
@@ -34,6 +41,8 @@
             <span class="material-symbols-outlined icono">arrow_back</span>
           </a>
     </div>
+   
+    
     <div class="nav-right">
         <div class="nombre-jugador">
             Jugador: <span th:text="${nombreJugador}"></span>
@@ -45,9 +54,7 @@
         <div class="playlist-container" th:classappend="${playlistVisible} ? '' : 'hidden'">
             <iframe id="playlist" style="border-radius:12px" th:src="@{https://open.spotify.com/embed/playlist/62emNerb9lRrq16i4NGT91?utm_source=generator&theme=0}" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
-
-
-        <div class="boton-ayuda">
+        <div class="boton-ayuda" id="boton-ayuda">
             <i class="fas fa-question-circle"></i>
         </div>
     </div>
@@ -61,8 +68,42 @@
         <p><span class="galactic-title" th:text="${mensaje}"></span></p>
         <p class="highlight" th:text="${mensaje2}"></p>
     </div>
-
-
+    <div id="carouselExampleIndicators" class="carousel slide text-center" style="display:none;" >
+        <div class="carousel-inner">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-item active">
+            <video class="d-block mx-auto" autoplay loop muted controls>
+              <source th:src="@{/imgStatic/senkuTuto/objetivoSenku.mp4}" type="video/mp4">
+              Tu navegador no soporta el elemento de video.
+            </video>
+          </div>
+          <div class="carousel-item">
+            <video class="d-block mx-auto" autoplay loop muted controls>
+              <source th:src="@{/imgStatic/senkuTuto/reglasSenku.mp4}" type="video/mp4">
+              Tu navegador no soporta el elemento de video.
+            </video>
+          </div>
+          <div class="carousel-item">
+            <video class="d-block mx-auto" autoplay loop muted controls>
+              <source th:src="@{/imgStatic/senkuTuto/muestraSenku.mp4}" type="video/mp4">
+              Tu navegador no soporta el elemento de video.
+            </video>
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+      
     <div class="info-container">
         <div class="info-box">
             <i class="fa fa-clock"></i>
@@ -113,7 +154,7 @@
                     <form th:action="@{/senkuFinalizarPartida}" method="post">
                         <button type="submit">Volver al inicio</button>
                     </form>
-                    
+                
                 </div>
             </div>
         </main>
@@ -125,6 +166,8 @@
     <source th:src="@{/imgStatic/TaylorWildestDreams.mp3}" type="audio/mpeg">
     Tu navegador no soporta la reproducción de audio.
 </audio>
+
+
 
 
 
