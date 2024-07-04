@@ -547,6 +547,61 @@ table {
     background-color: #B49FCC;
 }
 
+/* Estilos para el botón de música */
+.boton-musica {
+    border: 1px solid white;
+    border-radius: 50%;
+    padding: 10px;
+    background-color: #B49FCC;
+    font-size: 1.5em;
+    color: #fff;
+    position: fixed;
+    top: 5%;
+    right: 20px;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+    z-index: 1000;
+}
+
+.boton-musica:hover {
+    color: rgba(207, 76, 234, 0.81);
+    transform: scale(1.2);
+}
+
+.playlist-container {
+    position: fixed;
+    top: 82px;
+    right: 10px;
+    z-index: 1000;
+}
+
+
+#playlist {
+    display: none;
+}
+
+/*--------------BOTON COMPRA-----------*/
+.boton-ayuda {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #6D466B;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1),inset 0 0 15px rgba(0, 0, 0, 0.5);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.boton-ayuda:hover {
+    color:white;
+    background-color: rgba(115, 11, 11, 0.54);
+}
+
+.material-symbols-outlined {
+    margin-right: 5px;
+}
+
 #contenedorHistorial {
     justify-content: center;
     align-items: center;
