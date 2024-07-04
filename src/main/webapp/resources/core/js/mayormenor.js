@@ -89,7 +89,7 @@ $(document).ready(function () {
     function finalizarPartida(aciertos) {
         stop();
         $("#modalFinPartida").show();
-        $("#resultadoPartida").text("Partida finalizada. Aciertos: " + aciertos);
+        $("#resultadoPartida").text("Aciertos:" + aciertos);
     }
 
     function finalizarPartidaPorTiempo() {
