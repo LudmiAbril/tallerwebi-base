@@ -293,21 +293,24 @@ public class ControladorBingo {
 		return mav;
 	}
 
+	
 	@PostMapping("/reiniciarTirada/{tirada}/{precio}")
-	public Map<String, Object> reiniciarTirada(@PathVariable("tirada") Integer tirada,
+    public Map<String, Object> reiniciarTirada(@PathVariable("tirada") Integer tirada,
 			@PathVariable("precio") Double precio, HttpSession session) throws NoSePudoGuardarLaCompraException {
-		session.setAttribute("tiradaLimiteDeLaSesion", tirada);
+												
+		// AGREGAMOS LA TIRADA 
+		Integer tiradaLimiteActual = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
+        Integer nuevaTiradaLimite = tiradaLimiteActual + tirada;  
+        session.setAttribute("tiradaLimiteDeLaSesion", nuevaTiradaLimite);
 
-		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-		Boolean seGuardo = this.servicioPlataforma.guardarCompra(new Compra(precio, tirada.toString(), jugador, Juego.BINGO));
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        Boolean seGuardo = this.servicioPlataforma.guardarCompra(new Compra(precio, tirada.toString(), jugador, Juego.BINGO));
 
-		Map<String, Object> response = new HashMap<>();
-		response.put("message", "Compra realiza con exito");
-		response.put("seGuardo", seGuardo);
-		return response;
-	}
-
-	// public seguirJugando(){
-	// 	this.obtenerNuevoNumero(session);
-	// }
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Compra realizada con éxito");
+        response.put("seGuardo", seGuardo);
+        response.put("nuevaTiradaLimite", nuevaTiradaLimite);
+        return response;
+    }
+	
 }
