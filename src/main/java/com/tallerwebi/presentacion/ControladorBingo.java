@@ -1,5 +1,6 @@
 package com.tallerwebi.presentacion;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -296,6 +297,7 @@ public class ControladorBingo {
 	@PostMapping("/reiniciarTirada/{tirada}/{precio}")
 	public Map<String, Object> reiniciarTirada(@PathVariable("tirada") Integer tirada,
 			@PathVariable("precio") Double precio, HttpSession session) throws NoSePudoGuardarLaCompraException {
+		LocalDate fechaActual = LocalDate.now();
 		Integer tiradaLimiteActual = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
 		Integer nuevaTiradaLimite = tiradaLimiteActual + tirada;
 		session.setAttribute("tiradaLimiteDeLaSesion", nuevaTiradaLimite);
@@ -305,7 +307,7 @@ public class ControladorBingo {
 
 		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
 		Boolean seGuardo = this.servicioPlataforma
-				.guardarCompra(new Compra(precio, tirada.toString(), jugador, Juego.BINGO));
+				.guardarCompra(new Compra(precio, tirada.toString(), fechaActual, jugador, Juego.BINGO));
 
 		Map<String, Object> response = new HashMap<>();
 		response.put("message", "Compra realizada con éxito");

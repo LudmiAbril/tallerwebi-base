@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
-import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.BingoBotEsNullException;
 import com.tallerwebi.dominio.excepcion.NoHayCompras;
 import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseJuego;
@@ -134,10 +133,13 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
         Query query = this.sessionFactory.getCurrentSession().createQuery(hql);
         query.setParameter("juego", Juego.BINGO);
         query.setParameter("userId", userId);
+
         List<PartidaBingo> partidasBingo = query.getResultList();
+
         if (partidasBingo.isEmpty()) {
             throw new NoHayPartidasDeBingoException();
         }
+
         return partidasBingo;
     }
 
