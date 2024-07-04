@@ -22,7 +22,7 @@
   <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
   <link th:href="@{https://fonts.googleapis.com/css2?family=Honk&family=Rammetto+One&display=swap}" rel="stylesheet">
   <link rel="stylesheet"
-        th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
+    th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200}" />
   <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}">
   <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}">
 
@@ -32,27 +32,28 @@
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script th:src="@{/js/customModal.js}"></script>
+
 </head>
 
 <body>
-<section id="fondoBingo">
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-  <span></span>
-</section>
-<nav class="nav-bar mt">
-  <a href="javascript:void(0)" id="openCustomExitModal">
-    <span class="material-symbols-outlined icono">arrow_back</span>
-  </a>
-  <!-- Icono para reproducir/pausar música -->
-  <i id="toggleMusica" class="fas fa-music boton-musica" onclick="togglePlaylist()"></i>
+  <section id="fondoBingo">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </section>
+  <nav class="nav-bar mt">
+    <a href="javascript:void(0)" id="openCustomExitModal">
+      <span class="material-symbols-outlined icono">arrow_back</span>
+    </a>
+    <!-- Icono para reproducir/pausar música -->
+    <i id="toggleMusica" class="fas fa-music boton-musica" onclick="togglePlaylist()"></i>
 
     <!-- Contenedor de la playlist -->
     <div class="playlist-container" th:classappend="${playlistVisible} ? '' : 'hidden'">
@@ -87,16 +88,18 @@
 
       <!-- historial de compras -->
       <div id="contenedorHistorial">
-        <h3>&Uacute;ltimas compras</h3>
-        <div th:if="${compras}">
-          <div th:each="compra : ${compras}">
-            <h4>Compra: <span th:text="${compra.id}"></span></h4>
+        <h3><i class="fas fa-history"></i>&Uacute;ltimas compras</h3>
+        <div th:if="${compras}" style="min-width: 100%;">
+          <div th:each="compra : ${compras}" class="compra">
+            <h4><i class="fas fa-shopping-cart" id="iconCarro"></i>Compra: <span th:text="${compra.id}"></span></h4>
             <p>Descripci&oacute;n: <span th:text="${compra.descripcion + ' n&uacute;meros'}">n&uacute;meros</span></p>
-            <p>Precio: <span th:text="${compra.precio}"></span></p>
-            <p>Fecha: <span th:text="${compra.fecha}"></span></p>
+            <p><i class="fas fa-dollar-sign"></i> Precio: <span th:text="${compra.precio}"></span></p>
+            <p><i class="fas fa-calendar-alt"></i> Fecha: <span th:text="${compra.fecha}"></span></p>
           </div>
+
+
         </div>
-        <div th:if="${mensajeErrorCompra}">
+        <div th:if="${mensajeErrorCompra}" class="mensaje-error">
           <p th:text="${mensajeErrorCompra}"></p>
         </div>
       </div>
@@ -113,6 +116,25 @@
 
 
   </main>
+  <!-- Modal de abandono -->
+  <div id="customExitModal" class="modal-custom">
+    <div class="modal-content-custom">
+      <div class="modal-header-custom">
+        <h5>Confirmar Abandono</h5>
+        <span class="close-custom" id="closeCustomExitModal">&times;</span>
+      </div>
+      <div class="modal-body-custom">
+        ¿Estás seguro de que deseas abandonar la partida?
+      </div>
+      <div class="modal-footer-custom">
+        <button id="customCancelButton" class="boton-cancelar-custom">
+          Cancelar
+        </button>
+        <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom">Abandonar</a>
+      </div>
+    </div>
+  </div>
+
 
   <!-- Bootstrap y Bingo JS -->
   <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
@@ -143,96 +165,135 @@
           <span class="material-symbols-outlined icono">arrow_back</span>
         </span>
         <section class="seccion seccion-activa" id="seccionOpciones">
-          <table class="table">
-            <thead>
-              <tr>
-                <th scope="col">Tirada</th>
-                <th scope="col">Precio</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>10 números</td>
-                <td>$10</td>
-                <td><button class="botonComprarTirada" id="btn1"
-                    onclick="abrirSeccionCompra('10 números', '10', 10)">Comprar Tirada</button></td>
-              </tr>
-              <tr>
-                <td>20 números</td>
-                <td>$20</td>
-                <td><button class="botonComprarTirada" id="btn2"
-                    onclick="abrirSeccionCompra('20 números', '20', 20)">Comprar Tirada</button></td>
-              </tr>
-              <tr>
-                <td>30 números</td>
-                <td>$30</td>
-                <td><button class="botonComprarTirada" id="btn3"
-                    onclick="abrirSeccionCompra('30 números', '30', 30)">Comprar Tirada</button></td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="card-group">
+            <div class="card">
+              <img th:src="@{/imgStatic/tirada10.png}" class="card-img-top" alt="10 números">
+              <div class="card-body">
+                <h5 class="card-title">10 números</h5>
+                <p class="card-text">Precio: $100ARS</p>
+                <button class="botonComprarTirada" id="btn1" onclick="abrirSeccionCompra('10 números', '100', 10)">
+                  <i class="fas fa-money-bill-wave"></i> Comprar Tirada
+                </button>
+
+              </div>
+            </div>
+            <div class="card">
+              <img th:src="@{/imgStatic/tirada20.png}" class="card-img-top" alt="20 números">
+              <div class="card-body">
+                <h5 class="card-title">20 números</h5>
+                <p class="card-text">Precio: $200ARS</p>
+                <button class="botonComprarTirada" id="btn2" onclick="abrirSeccionCompra('20 números', '200', 20)">
+                  <i class="fas fa-money-bill-wave"></i> Comprar Tirada
+                </button>
+              </div>
+            </div>
+            <div class="card">
+              <img th:src="@{/imgStatic/tirada30.png}" class="card-img-top" alt="30 números">
+              <div class="card-body">
+                <h5 class="card-title">30 números</h5>
+                <p class="card-text">Precio: $300ARS</p>
+
+                <button class="botonComprarTirada" id="btn3" onclick="abrirSeccionCompra('30 números', '300', 30)">
+                  <i class="fas fa-money-bill-wave"></i> Comprar Tirada
+                </button>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section class="seccion" id="seccionDatosTarjeta" style="display: none;">
           <div class="contenidoTarjeta">
-            <h2>Ingresa los datos de la tarjeta</h2>
+            <h2 class="tituloTarjeta"><i class="fas fa-credit-card"></i> Ingresa los datos de la tarjeta</h2>
             <div id="datosCompra"></div>
-            <form class="formTarjeta" onsubmit="procesarCompra(event)" method="post">
-              <div class="form-group">
-                <label for="nombreTitular">Nombre del titular:</label>
-                <input type="text" id="nombreTitular" name="nombreTitular" required>
+            <form class="formTarjeta" onsubmit="procesarCompra(event)" method="post" id="form">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="nombreTitular"><i class="fas fa-user"></i> Nombre del titular:</label>
+                    <input type="text" id="nombreTitular" name="nombreTitular" class="form-control" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="numeroTarjeta"><i class="fas fa-credit-card"></i> Número de tarjeta:</label>
+                    <input type="text" id="numeroTarjeta" name="numeroTarjeta" class="form-control" maxlength="16"
+                      required>
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <label for="numeroTarjeta">Número de tarjeta:</label>
-                <input type="text" id="numeroTarjeta" name="numeroTarjeta" maxlength="16" required>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="dni"><i class="fas fa-id-card"></i> DNI del titular:</label>
+                    <input type="number" id="dni" name="dni" class="form-control" maxlength="8" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="fechaCaducidad"><i class="fas fa-calendar-alt"></i> Fecha de caducidad:</label>
+                    <input type="month" id="fechaCaducidad" name="fechaCaducidad" class="form-control" required>
+                  </div>
+                </div>
               </div>
-              <div class="form-group">
-                <label for="dni">DNI del titular:</label>
-                <input type="number" id="dni" name="dni" maxlength="8" required>
-              </div>
-              <div class="form-group">
-                <label for="fechaCaducidad">Fecha de caducidad:</label>
-                <input type="month" id="fechaCaducidad" name="fechaCaducidad" required>
-              </div>
-              <div class="form-group">
-                <label for="codigoSeguridad">Código de seguridad:</label>
-                <input type="number" id="codigoSeguridad" name="codigoSeguridad" maxlength="3" required>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="codigoSeguridad"><i class="fas fa-lock"></i> Código de seguridad:</label>
+                    <input type="number" id="codigoSeguridad" name="codigoSeguridad" class="form-control" maxlength="3"
+                      required>
+                  </div>
+                </div>
               </div>
               <input type="hidden" name="tirada" id="tiradaComprada">
               <input type="hidden" name="precio" id="precioTirada">
               <div id="error">
                 <p class="error"></p>
-
               </div>
-              <button class="btn btn-secondary" onclick="irAtras()">Volver</button>
-              <button type="submit" class="btn" id="btn">Comprar</button>
+              <div class="boton-comprar-container">
+                <button type="submit" class="btn btn-primary" id="btn">Comprar</button>
+              </div>
             </form>
           </div>
+        </section>
+
+
+        <section class="seccion" id="seccionResumenCompra" style="display: none;">
+          <div class="contenidoResumen">
+            <h2>Resumen de la compra</h2>
+            <div id="resumenCompra"></div>
+            <div class="botonesResumen">
+              <button class="btn btn-secondary" onclick="cerrarModalCompra()">CANCELAR</button>
+              <button class="btn btn-success" onclick="aceptarCompra()">Sí, acepto</button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+  <div id="modalLimite" class="modal">
+    <div class="modal-content2">
+      <div class="text-container">
+        <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el limite de numeros cantados!</h3>
+        <div class="botones">
+          <form th:action="@{/finalizarPartida}" method="post">
+            <div class="botones">
+              <button type="submit" class="boton-volver">Finalizar</button>
+            </div>
+          </form>
+          <a href="javascript:void(0)" class="boton-compra abrir-modal" onclick="abrirModalCompra()">
+            <span class="material-symbols-outlined">monetization_on</span> COMPRAR TIRADA
+          </a>
         </div>
-      </section>
+        <p th:text="${mensajeError}" class="mensajeErrorPartidaBingo"></p>
+      </div>
     </div>
   </div>
-</div>
 
-<div id="modalLimite" class="modal">
-  <div class="modal-content2">
-    <img th:src="@{/imgStatic/gatitoTriste.png}" alt="gato triste" class="gatoTriste">
-    <div class="text-container">
-      <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el limite de numeros cantados!</h3>
-      <form th:action="@{/finalizarPartida}" method="post">
-        <button type="submit" class="boton-volver">Finalizar</button>
-      </form>
-      <a href="javascript:void(0)" class="boton-compra abrir-modal" onclick="abrirModalCompra()">
-        <span class="material-symbols-outlined">monetization_on</span> COMPRAR TIRADA
-      </a>
-      <p th:text="${mensajeError}" class="mensajeErrorPartidaBingo"></p>
-    </div>
-  </div>
-</div>
+  <script th:src="@{/js/musica.js}"></script>
+  <script th:src="@{/js/compra.js}"></script>
 
-<script th:src="@{/js/musica.js}"></script>
-<script th:src="@{/js/compra.js}"></script>
+
 
 </body>
 
