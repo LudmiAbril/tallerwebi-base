@@ -6,7 +6,10 @@ function abrirModalCompra() {
     document.querySelector('.flecha-atras').style.display = 'none';
 }
 
-
+function cerrarModalCompra() {
+    document.getElementById('modalCompra').style.display = 'none';
+    resetSecciones();
+}
 
 function resetSecciones() {
     seccionActual = 0;
@@ -48,23 +51,6 @@ function mostrarError(mensaje) {
     errorP.textContent = mensaje;
 }
 
-function cerrarModalDeLimiteAlcanzado() {
-    document.getElementById("modalLimite").style.display = "none";
-}
-
-function resetFormularioCompra() {
-    document.getElementById('nombreTitular').value = '';
-    document.getElementById('numeroTarjeta').value = '';
-    document.getElementById('dni').value = '';
-    document.getElementById('fechaCaducidad').value = '';
-    document.getElementById('codigoSeguridad').value = '';
-    mostrarError('');
-}
-
-function resetResumenCompra() {
-    const resumenCompra = document.getElementById('resumenCompra');
-    resumenCompra.innerHTML = '';
-}
 function procesarCompra(event) {
     event.preventDefault();
     let numeroTarjetaValida = false;
