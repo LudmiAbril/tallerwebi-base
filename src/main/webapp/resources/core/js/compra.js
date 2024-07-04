@@ -144,20 +144,21 @@ function procesarCompra(event) {
 function aceptarCompra() {
     cerrarModalLimiteTirada();
     cerrarModalCompra();
-    setTimeout(obtenerNuevoNumero, 5000); // Espera 5 segundos antes de obtener el nuevo número
+    // setTimeout(obtenerNuevoNumeroCompra(), 5000); // Espera 5 segundos antes de obtener el nuevo número
+    obtenerNuevoNumeroCompra();
 }
 
 function cerrarModalLimiteTirada() {
     document.getElementById('modalLimite').style.display = 'none';
 }
 
-function obtenerNuevoNumero() {
+function obtenerNuevoNumeroCompra() {
     fetch(`http://localhost:8080/spring/obtenerNuevoNumero`)
         .then(response => response.json())
         .then(data => {
             if (!data.limiteAlcanzado) {
                 console.log("Nuevo número entregado:", data.nuevoNumero);
-                document.getElementById('numeroActual').textContent = data.nuevoNumero;
+                $("#numeroCantado").text(data.nuevoNumero);
             } else {
                 console.log("Limite de tiradas alcanzado.");
                 alert('Límite de tiradas alcanzado.');
