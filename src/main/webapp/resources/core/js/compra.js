@@ -10,6 +10,7 @@ function cerrarModalCompra() {
     document.getElementById('modalCompra').style.display = 'none';
     resetSecciones();
 }
+
 function resetSecciones() {
     seccionActual = 0;
     secciones.forEach((seccion, index) => {
@@ -18,6 +19,7 @@ function resetSecciones() {
     document.querySelector('.flecha-atras').style.display = 'none';
     mostrarError(''); // Limpiar errores al cerrar el modal
 }
+
 function abrirSeccionCompra(texto, precio, tirada) {
     const datosCompra = document.getElementById('datosCompra');
     datosCompra.innerHTML = `<p>Tirada: ${texto}</p><p>Precio: ${precio}</p>`;
@@ -113,60 +115,55 @@ function procesarCompra(event) {
             },
             body: JSON.stringify({})
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.seGuardo) {
-                console.log("Compra realizada con éxito", data);
-                const resumenCompra = document.getElementById('resumenCompra');
-    resumenCompra.innerHTML = `
-        <p><strong>Tirada:</strong> ${document.getElementById('datosCompra').children[0].innerText.split(': ')[1]}</p>
-        <p><strong>Precio:</strong> ${document.getElementById('datosCompra').children[1].innerText.split(': ')[1]}</p>
-        <p><strong>Nombre del titular:</strong> ${nombreTitular}</p>
-        <p><strong>Número de tarjeta:</strong> ${numeroTarjeta}</p>
-        <p><strong>DNI del titular:</strong> ${dni}</p>
-        <p><strong>Fecha de caducidad:</strong> ${fechaCaducidad}</p>
-        <p><strong>Código de seguridad:</strong> XXX</p>
-    `;
-    irASeccion(2);
-               
-               
-            } else {
+            .then(response => response.json())
+            .then(data => {
+                if (data.seGuardo) {
+                    console.log("Compra realizada con éxito", data);
+                    const resumenCompra = document.getElementById('resumenCompra');
+                    resumenCompra.innerHTML = `
+                    <p><strong>Tirada:</strong> ${document.getElementById('datosCompra').children[0].innerText.split(': ')[1]}</p>
+                    <p><strong>Precio:</strong> ${document.getElementById('datosCompra').children[1].innerText.split(': ')[1]}</p>
+                    <p><strong>Nombre del titular:</strong> ${nombreTitular}</p>
+                    <p><strong>Número de tarjeta:</strong> ${numeroTarjeta}</p>
+                    <p><strong>DNI del titular:</strong> ${dni}</p>
+                    <p><strong>Fecha de caducidad:</strong> ${fechaCaducidad}</p>
+                    <p><strong>Código de seguridad:</strong> XXX</p>
+                `;
+                    irASeccion(2);
+                } else {
+                    mostrarError('Hubo un problema al realizar la compra.');
+                }
+            })
+            .catch(error => {
+                console.error("Error al realizar la compra:", error);
                 mostrarError('Hubo un problema al realizar la compra.');
-            }
-        })
-        .catch(error => {
-            console.error("Error al realizar la compra:", error);
-            mostrarError('Hubo un problema al realizar la compra.');
-        });
+            });
     }
 }
 
- 
- 
 function aceptarCompra() {
     cerrarModalLimiteTirada();
     cerrarModalCompra();
-    obtenerNuevoNumero();
+    setTimeout(obtenerNuevoNumero, 5000); // Espera 5 segundos antes de obtener el nuevo número
 }
- 
-function cerrarModalLimiteTirada(){
+
+function cerrarModalLimiteTirada() {
     document.getElementById('modalLimite').style.display = 'none';
 }
- 
+
 function obtenerNuevoNumero() {
     fetch(`http://localhost:8080/spring/obtenerNuevoNumero`)
-    .then(response => response.json())
-    .then(data => {
-        if (!data.limiteAlcanzado) {
-            console.log("Nuevo número entregado:", data.nuevoNumero);
-           
-            document.getElementById('numeroActual').textContent = data.nuevoNumero;
-        } else {
-            console.log("Límite de tiradas alcanzado.");
-            alert('Límite de tiradas alcanzado.');
-        }
-    })
-    .catch(error => {
-        console.error("Error al obtener nuevo número:", error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (!data.limiteAlcanzado) {
+                console.log("Nuevo número entregado:", data.nuevoNumero);
+                document.getElementById('numeroActual').textContent = data.nuevoNumero;
+            } else {
+                console.log("Límite de tiradas alcanzado.");
+                alert('Límite de tiradas alcanzado.');
+            }
+        })
+        .catch(error => {
+            console.error("Error al obtener nuevo número:", error);
+        });
 }
