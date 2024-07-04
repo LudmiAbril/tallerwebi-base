@@ -290,13 +290,10 @@ public Map<String, Object> comprobarSiSeGano(HttpSession session) {
 public ModelAndView finalizarPartida(HttpSession session) throws BingoBotEsNullException{
    
     Tablero tablero = (Tablero) session.getAttribute("tablero");
-
     Boolean seGano = servicioSenku.seGano(tablero);
-
     Partida partidaSenku = new PartidaSenku();
     Usuario jugadorActual = (Usuario) session.getAttribute("jugadorActual");
     Long id = jugadorActual.getId();
-
     partidaSenku.setIdJugador(id);
     partidaSenku.setJuego(Juego.SENKU);
     ((PartidaSenku) partidaSenku).setGanado(seGano);
