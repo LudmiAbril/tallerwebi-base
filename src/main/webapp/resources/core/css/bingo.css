@@ -549,3 +549,14 @@ table{
 .material-symbols-outlined {
     margin-right: 5px;
 }
+
+#contenedorHistorial {
+    justify-content: center;
+    align-items: center;
+    top: 120px;
+    right: 20px;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: white;
+    padding: 25px
+}
