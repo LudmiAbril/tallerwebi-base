@@ -26,6 +26,7 @@ public class ControladorMayorMenor {
     private ServicioMayorMenor servicioMayorMenor;
     private ServicioPlataforma servicioPlataforma;
     private HttpSession session;
+    private static Integer id = 0;
 
     public ControladorMayorMenor(ServicioMayorMenor servicioMayorMenorMock, ServicioPlataforma servicioPlataformaMock) {
         this.servicioMayorMenor = servicioMayorMenorMock;
@@ -89,7 +90,8 @@ public class ControladorMayorMenor {
     @RequestMapping(path = "/comparar-carta", method = RequestMethod.GET)
         @ResponseBody
         public Map<String, Object> compararCarta(HttpSession session,
-                                                 @RequestParam(value = "eleccion") Valor eleccion) {
+                                                 @RequestParam(value = "eleccion") Valor eleccion) throws BingoBotEsNullException, PartidaConPuntajeNegativoException {
+            Usuario jugador = (Usuario) session.getAttribute("nombreJugador");
             Carta cartaDelMedio = (Carta) session.getAttribute("cartaJugador");
             Carta cartaNueva = servicioMayorMenor.sacarCarta();
             String nombreJugador = (String) session.getAttribute("nombre");
@@ -105,7 +107,7 @@ public class ControladorMayorMenor {
                 aciertos++;
                 session.setAttribute("cartaJugador", cartaNueva);
             } else {
-                //servicioPlataforma.agregarPartida();
+
                 session.setAttribute("partidaTerminada", true);
                 session.setAttribute("aciertos", aciertos);
             }
@@ -129,7 +131,7 @@ public class ControladorMayorMenor {
         String ganador = (String) session.getAttribute("ganador");
         Boolean gano = false;
         LocalTime duracion = LocalTime.of(3, 00);
-
+        guardarPartida(session, false);
         servicioPlataforma.agregarPartida(
                 new PartidaMayorMenor(jugador.getId(), Juego.MAYOR_MENOR, puntajeFinal));
         return new ModelAndView("redirect:/inicioMayorMenor");
@@ -178,6 +180,18 @@ public class ControladorMayorMenor {
         model.addAttribute("contrareloj", contrareloj);
         model.addAttribute("titulomensaje", "Mayor Menor dificil");
         return new ModelAndView("MayorMenor", model);
+    }
+    private void guardarPartida(HttpSession session, boolean ganado)
+            throws IllegalArgumentException, PartidaConPuntajeNegativoException, BingoBotEsNullException {
+        PartidaMayorMenor partida = new PartidaMayorMenor();
+        Usuario jugadorActual = (Usuario) session.getAttribute("jugadorActual");
+        Long id = jugadorActual.getId();
+
+        partida.setIdJugador(id);
+        partida.setJuego(Juego.SENKU);
+        partida.setPuntaje((Integer) session.getAttribute("puntaje"));
+
+        servicioPlataforma.agregarPartida(partida);
     }
 
 }
