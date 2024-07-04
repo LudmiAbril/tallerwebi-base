@@ -4,8 +4,11 @@ import javax.persistence.*;
 
 @Entity
 public class PartidaSenku extends Partida {
-    
+
+    @Column(nullable = false)
     private Boolean ganado;
+
+    @Column(nullable = false)
     private Integer cantidadMovimientos;
 
     public PartidaSenku(Long idJugador, Juego juego, Boolean ganado, Integer cantidadMovimientos) {

@@ -142,7 +142,7 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
 
         return partidasBingo;
     }
-    
+
     @Override
     public List<Compra> obtenerCompras(Long id, Juego juego) throws NoHayCompras {
         String hql = "FROM Compra c WHERE c.user.id = :userId AND c.juego = :juego";

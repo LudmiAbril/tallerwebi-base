@@ -12,9 +12,10 @@ body {
     font-family: Arial, sans-serif;
     /* Cambia la fuente según sea necesario */
 }
-.mt{
-    margin-top:20px;
-    margin-left:20px;
+
+.mt {
+    margin-top: 20px;
+    margin-left: 20px;
 }
 
 h3 {
@@ -193,6 +194,7 @@ button {
     color: red;
     transition: 0.5s;
 }
+
 /* Ajuste para el historial de partidas */
 .partidas {
     text-align: center;
@@ -206,6 +208,7 @@ button {
     flex-direction: column;
     align-items: center;
     width: 380px;
+    max-height: 250px;
 }
 
 .c-partidas {
@@ -275,6 +278,7 @@ button {
     font-weight: bold;
     text-transform: uppercase;
     font-size: larger;
+    margin-top: -35px;
     text-shadow: 2px 2px 4px rgba(116, 75, 139, 0.986);
 }
 
@@ -371,17 +375,4 @@ button {
 .boton-volver-inicio:hover {
     background-color: #7f369a;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 8px 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Estilos para el modo difícil */
-body.modo-dificil {
-    background-color: #333; /* Color de fondo diferente */
-}
-
-#tituloModoDificil {
-    display: none; /* Ocultar el título por defecto */
-    color: white; /* Color del texto */
-    text-align: center; /* Alineación del texto */
-    font-size: 24px; /* Tamaño de fuente */
-    margin-top: 20px; /* Margen superior */
 }

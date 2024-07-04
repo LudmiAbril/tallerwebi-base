@@ -41,7 +41,7 @@ public class ControladorMayorMenorTest {
 
 
     @Test
-    public void queSeDevuelvaLaVistaInicialDeBlackjackConElTiempoConfiguradoDelUsuarioPorDefecto() {
+    public void queSeDevuelvaLaVistaInicialDeMayorMenor() {
         Usuario jugador = new Usuario();
         session.setAttribute("jugadorActual", jugador);
         ModelAndView modelAndView = controladorMayorMenor.inicioMayorMenor(session);
@@ -65,6 +65,7 @@ public class ControladorMayorMenorTest {
         assertThat(cartaEsperada.size(), is(1));
 
     }
+
 
 
 }
