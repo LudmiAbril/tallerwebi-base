@@ -144,7 +144,7 @@ public class ControladorBlackjack {
         session.setAttribute("estadoPartida", servicioBlackjack.estadoPartida(cartasJugador, cartasCasa, false));
         session.setAttribute("ganador",
                 servicioBlackjack.ganador(cartasJugador, cartasCasa, nombreJugador, false));
-
+        model.addAttribute("tituloMensaje", "BlackjackLengendary");
         return new ModelAndView("blackjack", model);
 
     }

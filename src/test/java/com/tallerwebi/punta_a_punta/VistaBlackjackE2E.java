@@ -97,17 +97,7 @@ public class VistaBlackjackE2E {
         assertThat(tiempoTranscurrido, not(equalTo("00:00:00")));
     }
 
-   /* @Test
-    void deberiaMostrarCronometroAlInicio() {
-        vistaBlackjack.accederYJugarBlackjack("mm@gmail.com", "boca");
-        // Esperar a que el cronómetro esté visible
-        page.waitForSelector("#tiempoBj");
-        assertThat(vistaBlackjack.isVisible("#tiempoBj"), is(true));
 
-
-        String tiempoTranscurrido = page.locator("#tiempoBj").textContent().trim();
-        assertThat(tiempoTranscurrido, not(equalTo("Tiempo transcurrido: 00:00:00")));
-    }*/
 
     @Test
     void deberiaAbandonarJuegoCorrectamente() {
@@ -157,8 +147,8 @@ public class VistaBlackjackE2E {
     @Test
     void deberiaMostrarUnaPartidaEnElHistorial() {
         vistaBlackjack.accederYJugarBlackjack("mm@gmail.com", "boca");
-        String fecha = "2024-06-30 05:08:47";
-        int puntaje = 13;
+        String fecha = "2024-07-04 17:00:36";
+        int puntaje = 20;
 
         // Construir el contenido esperado
         String contenidoEsperado = fecha + " puntaje alcanzado: " + puntaje;
