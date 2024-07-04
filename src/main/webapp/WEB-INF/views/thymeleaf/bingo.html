@@ -232,7 +232,7 @@
     <div class="modal-content2">
       <img th:src="@{/imgStatic/gatitoTriste.png}" alt="gato triste" class="gatoTriste">
       <div class="text-container">
-        <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el límite de números cantados!</h3>
+        <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el limite de números cantados!</h3>
         <form th:action="@{/finalizarPartida}" method="post">
           <button type="submit" class="boton-volver">Finalizar</button>
         </form>
@@ -246,7 +246,6 @@
 
   <script th:src="@{/js/musica.js}"></script>
   <script th:src="@{/js/compra.js}"></script>
-
 
 </body>
 

@@ -164,6 +164,6 @@ function obtenerNuevoNumero() {
             }
         })
         .catch(error => {
-            console.error("Error al obtener nuevo número:", error);
+            console.error("Error al obtener nuevo numero:", error);
         });
 }

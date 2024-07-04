@@ -296,8 +296,6 @@ public class ControladorBingo {
 	@PostMapping("/reiniciarTirada/{tirada}/{precio}")
 	public Map<String, Object> reiniciarTirada(@PathVariable("tirada") Integer tirada,
 			@PathVariable("precio") Double precio, HttpSession session) throws NoSePudoGuardarLaCompraException {
-
-		// AGREGAMOS LA TIRADA
 		Integer tiradaLimiteActual = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
 		Integer nuevaTiradaLimite = tiradaLimiteActual + tirada;
 		session.setAttribute("tiradaLimiteDeLaSesion", nuevaTiradaLimite);
