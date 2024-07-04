@@ -88,20 +88,21 @@
 
     <!-- historial de compras -->
     <div id="contenedorHistorial">
-      <h3>&Uacute;ltimas compras</h3>
-      <div th:if="${compras}">
-        <div th:each="compra : ${compras}">
-          <h4>Compra: <span th:text="${compra.id}"></span></h4>
+      <h3><i class="fas fa-history"></i>&Uacute;ltimas compras</h3>
+      <div th:if="${compras}" style="min-width: 100%;">
+        <div th:each="compra : ${compras}" class="compra">
+          <h4><i class="fas fa-shopping-cart" id="iconCarro"></i>Compra: <span th:text="${compra.id}"></span></h4>
           <p>Descripci&oacute;n:
-            <span th:if="${compra.descripcion == 'DIEZ_NUMEROS'}">10 n&uacute;meros</span>
-            <span th:if="${compra.descripcion == 'VEINTE_NUMEROS'}">20 n&uacute;meros</span>
-            <span th:if="${compra.descripcion == 'TREINTA_NUMEROS'}">30 n&uacute;meros</span>
+            <span th:if="${compra.descripcion == 'DIEZ_NUMEROS'}"><i class="fas fa-file-alt"></i> 10 n&uacute;meros</span>
+
           </p>
-          <p>Precio: <span th:text="${compra.precio}"></span></p>
-          <p>Fecha: <span th:text="${#dates.format(compra.fecha, 'dd-MM-yyyy')}"></span></p>
+          <p><i class="fas fa-dollar-sign"></i> Precio: <span th:text="${compra.precio}"></span></p>
+          <p><i class="fas fa-calendar-alt"></i> Fecha: <span th:text="${#dates.format(compra.fecha, 'dd-MM-yyyy')}"></span></p>
         </div>
+
+
       </div>
-      <div th:if="${mensajeErrorCompra}">
+      <div th:if="${mensajeErrorCompra}" class="mensaje-error">
         <p th:text="${mensajeErrorCompra}"></p>
       </div>
     </div>
@@ -118,6 +119,25 @@
 
 
 </main>
+<!-- Modal de abandono -->
+<div id="customExitModal" class="modal-custom">
+  <div class="modal-content-custom">
+    <div class="modal-header-custom">
+      <h5>Confirmar Abandono</h5>
+      <span class="close-custom" id="closeCustomExitModal">&times;</span>
+    </div>
+    <div class="modal-body-custom">
+      ¿Estás seguro de que deseas abandonar la partida?
+    </div>
+    <div class="modal-footer-custom">
+      <button id="customCancelButton" class="boton-cancelar-custom">
+        Cancelar
+      </button>
+      <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom">Abandonar</a>
+    </div>
+  </div>
+</div>
+
 
 <!-- Bootstrap y Bingo JS -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
@@ -188,7 +208,7 @@
         <div class="contenidoTarjeta">
           <h2 class="tituloTarjeta"><i class="fas fa-credit-card"></i> Ingresa los datos de la tarjeta</h2>
           <div id="datosCompra"></div>
-          <form class="formTarjeta" onsubmit="procesarCompra(event)" method="post">
+          <form class="formTarjeta" onsubmit="procesarCompra(event)" method="post" id="form">
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -258,9 +278,11 @@
     <div class="text-container">
       <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el limite de numeros cantados!</h3>
       <div class="botones">
-      <form th:action="@{/finalizarPartida}" method="post">
-        <button type="submit" class="boton-volver">Finalizar</button>
-      </form>
+        <form th:action="@{/finalizarPartida}" method="post">
+          <div class="botones">
+            <button type="submit" class="boton-volver">Finalizar</button>
+          </div>
+        </form>
       <a href="javascript:void(0)" class="boton-compra abrir-modal" onclick="abrirModalCompra()">
         <span class="material-symbols-outlined">monetization_on</span> COMPRAR TIRADA
       </a>
@@ -268,9 +290,11 @@
       <p th:text="${mensajeError}" class="mensajeErrorPartidaBingo"></p>
   </div>
 </div>
+</div>
 
 <script th:src="@{/js/musica.js}"></script>
 <script th:src="@{/js/compra.js}"></script>
+
 
 </body>
 
