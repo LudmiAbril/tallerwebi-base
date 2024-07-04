@@ -334,7 +334,7 @@ public class ControladorSenkuTest {
     }
 
     @Test
-    public void queAlComprobarSiSeGanoSeEstablezcanLosAtributosCorrectamente() throws MovimientoInvalidoException {
+    public void queAlComprobarSiSeGanoSeEstablezcanLosAtributosCorrectamente() throws MovimientoInvalidoException, BingoBotEsNullException {
         // GIVEN
         HttpSession session = mock(HttpSession.class);
 
@@ -359,7 +359,7 @@ public class ControladorSenkuTest {
 
     @Test
     public void queAlComprobarSiSeGanoYNoEsAsiSeEstablezcanLosAtributosCorrectamenteSiNoSeGano()
-            throws MovimientoInvalidoException {
+            throws MovimientoInvalidoException, BingoBotEsNullException {
         // GIVEN
         HttpSession session = mock(HttpSession.class);
 
@@ -383,7 +383,7 @@ public class ControladorSenkuTest {
     }
 
     @Test
-    public void queSoloSeLlameAValidarMovimientosDispSiSeGanoEsFalse() throws MovimientoInvalidoException {
+    public void queSoloSeLlameAValidarMovimientosDispSiSeGanoEsFalse() throws MovimientoInvalidoException, BingoBotEsNullException {
         HttpSession session = mock(HttpSession.class);
         Tablero tablero = new Tablero(5);
         Usuario jugador = new Usuario();

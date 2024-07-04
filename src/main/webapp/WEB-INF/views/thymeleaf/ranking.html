@@ -46,19 +46,22 @@
                         <div th:case="'PartidaBingo'">
                             <p>Bingo: <span th:text="${partida.seHizoBingo ? 'si' : 'No'}"></span></p>
                             <p>Línea: <span th:text="${partida.seHizoLinea ? 'si' : 'No'}"></span></p>
-                            <p>Cantidad de numeros marcados: <span
-                                    th:text="${partida.cantidadDeCasillerosMarcados}"></span></p>
+                            <p>Cantidad de números marcados: <span th:text="${partida.cantidadDeCasillerosMarcados}"></span></p>
                             <p>Casilleros marcados:</p>
                             <ul class="casilleros-marcados">
                                 <li th:each="casillero : ${partida.casillerosMarcados}">
                                     <span th:text="${casillero}"></span>
                                 </li>
                             </ul>
-                            <p>Gan\u00F3 el bot: <span th:text="${partida.seHizoBingoBot ? 'si' : 'no'}"></span></p>
+                            <p>Ganó el bot: <span th:text="${partida.seHizoBingoBot ? 'si' : 'no'}"></span></p>
                         </div>
                         <div th:case="'PartidaBlackJack'">
-                            <p>Gan\u00F3: <span th:text="${partida.gano ? 'Sí' : 'No'}"></span></p>
+                            <p>Ganó: <span th:text="${partida.gano ? 'Sí' : 'No'}"></span></p>
                             <p>Puntaje: <span th:text="${partida.puntaje}"></span></p>
+                        </div>
+                        <div th:case="'PartidaSenku'">
+                            <p>Ganó: <span th:text="${partida.ganado ? 'Sí' : 'No'}"></span></p>
+                            <p>Cantidad de movimientos: <span th:text="${partida.cantidadMovimientos}"></span></p>
                         </div>
                         <div th:case="*">
                             <p>Puntaje: <span th:text="${partida.puntaje}"></span></p>
@@ -68,36 +71,10 @@
                 </div>
             </div>
         </div>
-        <div class="btn-container">
-            <button id="mostrar-mas-btn" class="w3-button  w3-round-large" onclick="mostrarMas()">Mostrar
-                más</button>
-            <button id="mostrar-menos-btn" class="w3-button  w3-round-large" onclick="mostrarMenos()">Mostrar
-                menos</button>
-        </div>
     </main>
-    <script>
-        function mostrarMas() {
-            var cajitasPartida = document.querySelectorAll('.cajita-partida.hidden');
-            cajitasPartida.forEach(function (cajita) {
-                cajita.classList.remove('hidden');
-            });
-            document.getElementById('mostrar-mas-btn').style.display = 'none';
-        }
-
-        function mostrarMenos() {
-            var cajitasPartida = document.querySelectorAll('.cajita-partida:not(.hidden)');
-            var cantidadCajitas = cajitasPartida.length;
-            var ocultarDesde = cantidadCajitas - 4;
-
-            for (var i = ocultarDesde; i < cantidadCajitas; i++) {
-                cajitasPartida[i].classList.add('hidden');
-            }
-            document.getElementById('mostrar-mas-btn').style.display = 'block';
-        }
-    </script>
 
 
-    </script>
+    
 </body>
 
 </html>
