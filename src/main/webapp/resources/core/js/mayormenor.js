@@ -3,7 +3,6 @@ $(document).ready(function () {
     let aciertos = 0;
 
     function agregarCarta(contenedor, nombreCarta, jugador) {
-        //contenedor.append(
         contenedor.html(
             "<img src='./imgStatic/cartas/" +
             nombreCarta +
@@ -52,11 +51,7 @@ function iniciarPartida() {
             let acierto = data.acierto;
             aciertos = data.aciertos;
 
-            /*agregarCarta(
-                $("#cartasJugador"),
-                cartaNueva.simbolo + "_" + cartaNueva.palo,
-                "jugador"
-            );*/
+
             agregarDosCartas(
                             $("#cartasJugador"),
                             cartaActual.simbolo + "_" + cartaActual.palo,

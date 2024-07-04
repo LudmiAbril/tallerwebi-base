@@ -153,5 +153,26 @@ public class ControladorMayorMenor {
         ModelMap model = new ModelMap();
         return new ModelAndView("MayorMenor", model);
     }
+    @RequestMapping("/comenzarCronometro")
+    public ModelAndView comenzarCronometro(HttpSession session, @RequestParam(value = "contrareloj", defaultValue = "false") boolean contrareloj,
+                                          @RequestParam(value = "tiempoLimite", required = false) Integer tiempoLimiteMinutos){
+        contrareloj = true;
+        tiempoLimiteMinutos = 1;
+        if (contrareloj) {
+            long tiempoLimiteMilisegundos = tiempoLimiteMinutos * 60 * 1000;
+            long tiempoExpiracion = System.currentTimeMillis() + tiempoLimiteMilisegundos;
+            Date fechaExpiracion = new Date(tiempoExpiracion);
+            SimpleDateFormat formato = new SimpleDateFormat("HH:mm");
+            String tiempoExpiracionFormateado = formato.format(fechaExpiracion);
+
+            session.setAttribute("contrareloj", true);
+            session.setAttribute("tiempoLimite", tiempoExpiracionFormateado);
+            session.setAttribute("minutos", tiempoLimiteMinutos);
+        } else {
+            session.setAttribute("contrareloj", false);
+        }
+        ModelMap model = new ModelMap();
+        return new ModelAndView("MayorMenor", model);
+    }
 
 }
