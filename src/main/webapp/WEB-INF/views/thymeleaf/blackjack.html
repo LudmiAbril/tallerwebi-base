@@ -74,6 +74,13 @@
         </div>
       </div>
       <div class="container-right">
+        <div th:if="${tituloMensaje == 'BlackjackLengendary'}">
+          <img th:src="@{/imgStatic/blegendary.gif}" alt="Blackjack Legendary GIF" style="
+max-width: 388px;
+border-radius: 10px;
+transform: translateY(-50px);
+"/>
+        </div>
         <div class="jugador-info">
           <h3 class="nombre-jugador">Jugador: <span id="nombre"></span></h3>
           <div class="time">

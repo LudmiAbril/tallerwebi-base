@@ -97,7 +97,6 @@ public class ControladorBlackjack {
         session.setAttribute("ganador",
                 servicioBlackjack.ganador(cartasJugador, cartasCasa, nombreJugador, false));
 
-
         return new ModelAndView("blackjack", model);
 
     }
@@ -116,7 +115,6 @@ public class ControladorBlackjack {
         List<Carta> cartasCasa = servicioBlackjack.entregarManoDeVeinte();
         Integer puntajeInicial = servicioBlackjack.calcularPuntuacion(cartasJugador);
         List<Partida> partidasAnteriores = new ArrayList<Partida>();
-
 
         long tiempoLimiteMilisegundos = 1 * 60 * 1000;
         long tiempoExpiracion = System.currentTimeMillis() + tiempoLimiteMilisegundos;
@@ -144,7 +142,7 @@ public class ControladorBlackjack {
         session.setAttribute("estadoPartida", servicioBlackjack.estadoPartida(cartasJugador, cartasCasa, false));
         session.setAttribute("ganador",
                 servicioBlackjack.ganador(cartasJugador, cartasCasa, nombreJugador, false));
-
+        model.addAttribute("tituloMensaje", "BlackjackLengendary");
         return new ModelAndView("blackjack", model);
 
     }
@@ -163,7 +161,6 @@ public class ControladorBlackjack {
         Boolean contrareloj = (Boolean) session.getAttribute("contrareloj");
         Boolean modoDificil = (Boolean) session.getAttribute("modoDificil");
 
-
         Map<String, Object> response = new HashMap<>();
         if (contrareloj) {
             response.put("contrareloj", true);
@@ -179,7 +176,6 @@ public class ControladorBlackjack {
         response.put("puntaje", puntaje);
         response.put("ganador", ganador);
         response.put("modoDificil", modoDificil);
-
 
         return response;
     }
@@ -208,7 +204,6 @@ public class ControladorBlackjack {
         session.setAttribute("ganador", ganadorActualizado);
         session.setAttribute("puntaje", puntajeActualizado);
 
-
         Map<String, Object> response = new HashMap<>();
         response.put("cartaNueva", cartaNueva);
         response.put("estadoPartida", nuevoEstado);
@@ -229,11 +224,9 @@ public class ControladorBlackjack {
         List<Carta> cartasCasaActualizadas = new ArrayList<>((List<Carta>) session.getAttribute("cartasCasa"));
         String jugador = (String) session.getAttribute("nombre");
 
-
         List<Carta> cartasNuevasCrupier = servicioBlackjack.plantarse(cartasCasaActualizadas);
         cartasCasaActualizadas.addAll(cartasNuevasCrupier);
         String ganador = servicioBlackjack.ganador(cartasJugador, cartasCasaActualizadas, jugador, true);
-
 
         Map<String, Object> response = new HashMap<String, Object>();
         response.put("manoFinalCrupier", cartasNuevasCrupier);
