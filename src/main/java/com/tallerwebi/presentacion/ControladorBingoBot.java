@@ -5,6 +5,9 @@ import java.util.*;
 import javax.servlet.http.HttpSession;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.dominio.excepcion.NoHayCompras;
+import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseJuego;
+import com.tallerwebi.dominio.excepcion.NoHayComprasParaEseUsuario;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import com.tallerwebi.infraestructura.ServicioBingoImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,8 +116,6 @@ public class ControladorBingoBot {
         return respuesta;
     }
 
-
-
     @RequestMapping(path = "/obtenerNuevoNumeroBot", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> obtenerNuevoNumero(HttpSession session) throws PartidaConPuntajeNegativoException {
@@ -173,7 +174,6 @@ public class ControladorBingoBot {
         return respuesta;
     }
 
-
     @RequestMapping(path = "/obtenerCincoUltimosNumerosEntregadosBot", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> obtenerCincoUltimosNumerosEntregados(HttpSession session) {
@@ -195,32 +195,39 @@ public class ControladorBingoBot {
     }
 
     @RequestMapping(path = "/finalizarPartidaBot", method = RequestMethod.POST)
-	public ModelAndView finalizar(HttpSession session) throws PartidaConPuntajeNegativoException,
-			IllegalArgumentException {
-		ModelAndView mav = new ModelAndView();
-		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-		// Boolean seHizoLinea = (Boolean) session.getAttribute("seHizoLinea");
-		// Boolean seHizoBingo = (Boolean) session.getAttribute("seHizoBingo");
-		TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session
-				.getAttribute("tipoPartidaBingo");
-		Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
-		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-		Integer cantidadDeCasillerosMarcados = numerosMarcadosDeLaSesion.size();
+    public ModelAndView finalizar(HttpSession session) throws PartidaConPuntajeNegativoException,
+            IllegalArgumentException {
+        ModelAndView mav = new ModelAndView();
+        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+        TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session
+                .getAttribute("tipoPartidaBingo");
+        Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        Integer cantidadDeCasillerosMarcados = numerosMarcadosDeLaSesion.size();
         Boolean seHizoBingoBot = (Boolean) session.getAttribute("seHizoBingoBot");
 
-		try {
-			servicioPlataforma
-					.agregarPartida(
-							new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, false,
-									false,
-									tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados, seHizoBingoBot));
-			mav.setViewName("redirect:/irAlBingo");
-		} catch (Exception e) {
-			mav.setViewName("bingo");
-			mav.addObject("mensajeError", "Ocurrió un error al intentar guardar la partida.");
-		}
+        try {
+            servicioPlataforma
+                    .agregarPartida(
+                            new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, false,
+                                    false,
+                                    tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados,
+                                    seHizoBingoBot));
+            mav.setViewName("redirect:/irAlBingo");
+        } catch (Exception e) {
+            mav.setViewName("bingo");
+            mav.addObject("mensajeError", "Ocurrió un error al intentar guardar la partida.");
+        }
 
-		return mav;
-	}
+        return mav;
+    }
+
+    // @RequestMapping(path = "/mostrarUltimasCompras", method = RequestMethod.GET)
+    // public ModelAndView mostrarUltimasCompras(HttpSession session) throws
+    // NoHayComprasParaEseUsuario, NoHayComprasParaEseJuego {
+    // ModelMap model = new ModelMap();
+
+    // return new ModelAndView("bingoBot", model);
+    // }
 
 }
