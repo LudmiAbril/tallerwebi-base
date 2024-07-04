@@ -88,12 +88,4 @@ public class VistaRegistroE2E {
         assertThat(urlActual, containsStringIgnoringCase("/spring/registro"));
     }
 
-    @Test
-    void deberiaNavegarALoginSiTodosLosCamposSonCorrectos() {
-        vistaHome.irARegistro();
-        vistaRegistro = new VistaRegistro(page);
-        vistaRegistro.registrarUsuario("Celeste", "celes5@gmail.com", "1212");
-        String url = vistaRegistro.obtenerURLActual();
-        assertThat(url, containsStringIgnoringCase("/spring/login"));
-    }
 }

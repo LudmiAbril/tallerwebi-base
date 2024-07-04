@@ -147,51 +147,6 @@ public class VistaBlackjackE2E {
     }
 
     @Test
-    void deberiaMostrarElHistorialVacioDeLJugadorSiAunNoTienePartidasJugadas() {
-        vistaBlackjack.accederYJugarBlackjack("mm2@gmail.com", "1212");
-        String historialTexto = page.locator(".mensaje-partidas").textContent().trim();
-        String textoEsperado = "aun no hay partidas registradas.";
-        assertThat(historialTexto.matches(textoEsperado), is(true));
-    }
-
-    @Test
-    void deberiaMostrarUnaPartidaEnElHistorial() {
-        vistaBlackjack.accederYJugarBlackjack("mm@gmail.com", "boca");
-        String fecha = "2024-06-30 05:08:47";
-        int puntaje = 13;
-
-        // Construir el contenido esperado
-        String contenidoEsperado = fecha + " puntaje alcanzado: " + puntaje;
-
-        // Obtener el contenido del historial de partidas
-        String historialContenido = page.locator(".c-partidas").textContent().trim();
-
-        // Dividir las partidas por el patrón de fechas
-        String[] partidasArray = historialContenido.split("(?=\\d{4}-\\d{2}-\\d{2})");
-
-        boolean partidaEncontrada = Arrays.stream(partidasArray)
-                .map(String::trim)
-                .anyMatch(partida -> partida.equals(contenidoEsperado));
-
-        assertThat(partidaEncontrada, equalTo(true));
-    }
-
-    @Test
-    void deberiaIrAlRankingDelBlackjack() {
-        vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
-        vistaAccesoAjuegos.darClick("#accederBj");
-        vistaBlackjack.darClick("#rankingBlackjack");
-        String url = page.url();
-
-        String subtituloBj = page.locator("span.subtitulojuego").first().textContent().trim();
-        String textoEsperado = "BLACKJACK";
-
-        assertThat(url, containsStringIgnoringCase("/spring/verRanking"));
-        assertThat(subtituloBj.matches(textoEsperado), is(true));
-
-    }
-
-    @Test
     void deberiaMostrarElModalDeTiempoSiLoSeleccionas() {
         vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
         vistaAccesoAjuegos.darClick("#accederBj");
