@@ -529,7 +529,7 @@ table{
 }
 
 /*--------------BOTON COMPRA-----------*/
-.boton-ayuda {
+.boton-compra {
     display: inline-flex;
     align-items: center;
     padding: 10px 20px;
@@ -541,7 +541,7 @@ table{
     transition: background-color 0.3s ease;
 }
 
-.boton-ayuda:hover {
+.boton-compra:hover {
     color:white;
     background-color: rgba(115, 11, 11, 0.54);
 }

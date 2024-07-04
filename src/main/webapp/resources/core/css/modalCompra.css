@@ -117,7 +117,6 @@
     cursor: pointer;
     min-width: 250px;
     min-height: 50px;
-    margin-left: 60px;
 }
 
 #btn:hover {
@@ -166,7 +165,7 @@
 
 .form-group {
     flex: 1;
-    margin: 10px;
+    margin: 10px 5px; /* Reducido el margen vertical */
 }
 
 .form-group label {
@@ -185,6 +184,7 @@
     border: 1px solid #555;
     background-color: #444;
     color: #fff;
+    margin-top: 5px; /* Ajustado el margen superior */
 }
 form{
     margin-left: -8px;
@@ -301,7 +301,7 @@ a{
     margin-bottom: 15px;
 }
 
-.btn-primary {
+.botonComprarTirada{
     background-color: #d32f2f;
     color: white;
     padding: 10px 8px;
@@ -320,7 +320,7 @@ a{
 
 }
 
-.btn-primary i {
+.botonComprarTirada i {
     margin-right:3px;
 }
 
