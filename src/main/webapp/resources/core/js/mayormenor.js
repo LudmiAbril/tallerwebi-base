@@ -7,6 +7,7 @@ $(document).ready(function () {
 
 
     function agregarCarta(contenedor, nombreCarta, jugador) {
+        //contenedor.append(
         contenedor.html(
             "<img src='./imgStatic/cartas/" +
             nombreCarta +
@@ -15,7 +16,6 @@ $(document).ready(function () {
             "'>"
         );
     }
-
     function agregarDosCartas(contenedor, cartaAnterior, cartaNueva, jugador) {
         contenedor.html(
             "<img src='./imgStatic/cartas/" +
@@ -30,15 +30,10 @@ $(document).ready(function () {
             "'>"
         );
     }
-
     function iniciarPartida() {
         $.get("ComenzarMayorMenor", function (data) {
             cartaActual = data.cartaInicial;
             aciertos = 0;
-            console.log(data.contrareloj);
-            if(data.contrareloj){
-                    tiempoLimiteMilisegundos = 1 * 10 * 1000;
-                }
             actualizarAciertos(aciertos);
             $("#nombre").text(data.jugadorActual);
             agregarCarta(
@@ -51,21 +46,23 @@ $(document).ready(function () {
             setTimeout(finalizarPartidaPorTiempo, tiempoLimiteMilisegundos);
         });
     }
-
     $("#btnMayor").click(function () {
         evaluarCarta("MAYOR");
     });
-
     $("#btnMenor").click(function () {
         evaluarCarta("MENOR");
     });
-
     function evaluarCarta(eleccion) {
         $.get("comparar-carta", { eleccion: eleccion }, function (data) {
             let cartaNueva = data.cartaNueva;
             let acierto = data.acierto;
             aciertos = data.aciertos;
 
+            /*agregarCarta(
+                $("#cartasJugador"),
+                cartaNueva.simbolo + "_" + cartaNueva.palo,
+                "jugador"
+            );*/
             agregarDosCartas(
                 $("#cartasJugador"),
                 cartaActual.simbolo + "_" + cartaActual.palo,
@@ -85,7 +82,6 @@ $(document).ready(function () {
     function actualizarAciertos(aciertos) {
         $("#aciertos").text(aciertos);
     }
-
     function finalizarPartida(aciertos) {
         stop();
         $("#modalFinPartida").show();
@@ -100,6 +96,13 @@ $(document).ready(function () {
     $("#btnReiniciar").click(function () {
         iniciarPartida();
     });
-
     iniciarPartida();
 });
+
+function abrirModalAyuda() {
+    document.getElementById('modalAyuda').style.display = 'flex';
+}
+
+function cerrarModalAyuda() {
+    document.getElementById('modalAyuda').style.display = 'none';
+}
