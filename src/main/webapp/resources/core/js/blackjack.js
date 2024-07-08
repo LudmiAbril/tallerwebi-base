@@ -203,3 +203,5 @@ function mostrarModalfinalizar(ganador, jugador) {
   $("#resultadoPartida").text(mensaje);
   stop();
 }
+
+
