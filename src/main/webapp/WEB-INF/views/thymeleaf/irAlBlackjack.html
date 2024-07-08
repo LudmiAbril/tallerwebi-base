@@ -62,7 +62,7 @@
   <div id="timeModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <h2>¿Cuánto tiempo quieres jugar?</h2>
+      <h2>¿Cu&aacute;nto tiempo quieres jugar?</h2>
       <form th:action="@{/blackjack}" method="post" th:object="${nuevoJugador}">
         <input type="hidden" name="contrareloj" value="true" />
         <label for="tiempoLimite">Tiempo en minutos:</label>
@@ -103,7 +103,7 @@
         if (time) {
           window.location.href = `/blackjack?time=${time}`; // Ajusta la URL según sea necesario
         } else {
-          alert("Por favor, ingresa un tiempo válido.");
+          alert("Por favor, ingresa un tiempo v&aacute;lido.");
         }
       };
     </script>

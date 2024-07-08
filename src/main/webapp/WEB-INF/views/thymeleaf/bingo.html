@@ -52,7 +52,7 @@
     <a href="javascript:void(0)" id="openCustomExitModal">
       <span class="material-symbols-outlined icono">arrow_back</span>
     </a>
-    <!-- Icono para reproducir/pausar música -->
+    <!-- Icono para reproducir/pausar m&uacute;sica -->
     <div class="boton-musica">
       <i id="toggleMusica" class="fas fa-music" onclick="togglePlaylist()"></i>
     </div>
@@ -73,7 +73,7 @@
   <div id="modalAyuda" class="modal-ayuda">
     <div class="modal-contenidoAyuda">
       <div class="modal-header">
-        <h2>¿CÓMO JUGAR?</h2>
+        <h2>¿C&oacute;MO JUGAR?</h2>
         <span class="cerrar-modal" onclick="cerrarModalAyuda()">&times;</span>
       </div>
       <div class="modal-body">
@@ -83,20 +83,20 @@
   </div>
 
   <main role="main" class="container">
-    <!-- Número que sale -->
+    <!-- N&uacute;mero que sale -->
     <div class="numeroCantadoContenedor">
       <p id="numeroCantado"></p>
     </div>
 
-    <!-- Números que salieron -->
+    <!-- N&uacute;meros que salieron -->
     <div class="numerosEntregados">
       <p id="numeroCantadoColeccion"></p>
     </div>
 
-    <!-- Números que faltan -->
+    <!-- N&uacute;meros que faltan -->
     <p id="numerosRestantesParaCompletarLaTirada"></p>
 
-    <!-- Cartón de Bingo -->
+    <!-- Cart&oacute;n de Bingo -->
     <div class="contenedorCartones">
       <!-- user -->
       <table id="tablaUser">
@@ -124,7 +124,7 @@
 
     </div>
 
-    <!-- Botones de Bingo y Línea -->
+    <!-- Botones de Bingo y L&iacute;nea -->
     <div class="w3-container">
       <button id="botonBingo" type="submit" class="w3-button w3-xlarge w3-wide w3-purple w3-cel"
         onclick="bingo()">BINGO</button>
@@ -142,7 +142,7 @@
         <span class="close-custom" id="closeCustomExitModal">&times;</span>
       </div>
       <div class="modal-body-custom">
-        ¿Estás seguro de que deseas abandonar la partida?
+        ¿Est&aacute;s seguro de que deseas abandonar la partida?
       </div>
       <div class="modal-footer-custom">
         <button id="customCancelButton" class="boton-cancelar-custom">
@@ -185,33 +185,33 @@
         <section class="seccion seccion-activa" id="seccionOpciones">
           <div class="card-group">
             <div class="card">
-              <img th:src="@{/imgStatic/tirada10.png}" class="card-img-top" alt="10 números">
+              <img th:src="@{/imgStatic/tirada10.png}" class="card-img-top" alt="10 n&uacute;meros">
               <div class="card-body">
-                <h5 class="card-title">10 números</h5>
+                <h5 class="card-title">10 n&uacute;meros</h5>
                 <p class="card-text">Precio: $100ARS</p>
-                <button class="botonComprarTirada" id="btn1" onclick="abrirSeccionCompra('10 números', '100', 10)">
+                <button class="botonComprarTirada" id="btn1" onclick="abrirSeccionCompra('10 n&uacute;meros', '100', 10)">
                   <i class="fas fa-money-bill-wave"></i> Comprar Tirada
                 </button>
 
               </div>
             </div>
             <div class="card">
-              <img th:src="@{/imgStatic/tirada20.png}" class="card-img-top" alt="20 números">
+              <img th:src="@{/imgStatic/tirada20.png}" class="card-img-top" alt="20 n&uacute;meros">
               <div class="card-body">
-                <h5 class="card-title">20 números</h5>
+                <h5 class="card-title">20 n&uacute;meros</h5>
                 <p class="card-text">Precio: $200ARS</p>
-                <button class="botonComprarTirada" id="btn2" onclick="abrirSeccionCompra('20 números', '200', 20)">
+                <button class="botonComprarTirada" id="btn2" onclick="abrirSeccionCompra('20 n&uacute;meros', '200', 20)">
                   <i class="fas fa-money-bill-wave"></i> Comprar Tirada
                 </button>
               </div>
             </div>
             <div class="card">
-              <img th:src="@{/imgStatic/tirada30.png}" class="card-img-top" alt="30 números">
+              <img th:src="@{/imgStatic/tirada30.png}" class="card-img-top" alt="30 n&uacute;meros">
               <div class="card-body">
-                <h5 class="card-title">30 números</h5>
+                <h5 class="card-title">30 n&uacute;meros</h5>
                 <p class="card-text">Precio: $300ARS</p>
 
-                <button class="botonComprarTirada" id="btn3" onclick="abrirSeccionCompra('30 números', '300', 30)">
+                <button class="botonComprarTirada" id="btn3" onclick="abrirSeccionCompra('30 n&uacute;meros', '300', 30)">
                   <i class="fas fa-money-bill-wave"></i> Comprar Tirada
                 </button>
               </div>
@@ -233,7 +233,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="numeroTarjeta"><i class="fas fa-credit-card"></i> Número de tarjeta:</label>
+                    <label for="numeroTarjeta"><i class="fas fa-credit-card"></i> N&uacute;mero de tarjeta:</label>
                     <input type="text" id="numeroTarjeta" name="numeroTarjeta" class="form-control" maxlength="16"
                       required>
                   </div>
@@ -256,7 +256,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label for="codigoSeguridad"><i class="fas fa-lock"></i> Código de seguridad:</label>
+                    <label for="codigoSeguridad"><i class="fas fa-lock"></i> C&oacute;digo de seguridad:</label>
                     <input type="number" id="codigoSeguridad" name="codigoSeguridad" class="form-control" maxlength="3"
                       required>
                   </div>
@@ -281,7 +281,7 @@
             <div id="resumenCompra"></div>
             <div class="botonesResumen">
               <button class="btn btn-secondary" onclick="cerrarModalCompra()">CANCELAR</button>
-              <button class="btn btn-success" onclick="aceptarCompra()">Sí, acepto</button>
+              <button class="btn btn-success" onclick="aceptarCompra()">S&iacute;, acepto</button>
             </div>
           </div>
         </section>
