@@ -391,7 +391,6 @@ button {
     align-items: center;
     overflow: auto;
     padding: 20px;
-    margin-top: 10px;
     backdrop-filter: blur(5px);
 }
 
@@ -399,7 +398,7 @@ button {
     background-color: #333;
     padding: 20px;
     border-radius: 10px;
-    width: 60%;
+    width: 80%;
     max-width: 1000px;
     min-height: 60%;
     overflow: auto;
@@ -431,19 +430,11 @@ button {
 
 .modal-header h2 {
     margin: 0;
-    font-family: 'Special Elite', cursive;
-    color: rgba(207, 76, 234, 0.81);
-    font-size: 2em;
-}
-
-.modal-header h3 {
-    margin: 0;
     font-family: "Clip";
-    color: rgba(207, 76, 234, 0.81);
-    font-size: 1.1em;
-    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
-    -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
-    0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+    color: rgb(243 187 255 / 81%);
+    font-size: 2em;
+    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd, -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd, 0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+
 }
 
 .cerrar-modal {
@@ -478,4 +469,37 @@ button {
     color:white;
     top:20px;
     right:20px;
+}
+
+.boton-ayuda i {
+    font-size: 38px;
+}
+.boton-ayuda i:hover {
+    font-size: 40px;
+    color: rgba(207, 76, 234, 0.81);
+
+}
+
+
+/* Estilo general para la barra de desplazamiento */
+.c-partidas::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Fondo de la barra de desplazamiento */
+.c-partidas::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+/* Thumb (la parte móvil de la barra de desplazamiento) */
+.c-partidas::-webkit-scrollbar-thumb {
+    background: #967196e3;
+    border-radius: 4px;
+    border: 3px solid rgba(0, 0, 0, 0.7);
+}
+
+/* Hover sobre el thumb */
+.c-partidas::-webkit-scrollbar-thumb:hover {
+    background: #d331c9;
 }

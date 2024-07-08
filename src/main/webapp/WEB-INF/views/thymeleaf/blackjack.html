@@ -14,6 +14,8 @@
   <link rel="stylesheet" th:href="@{/css/abandonarPartida.css}" />
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}" />
+
   <!-- javascript-->
   <script type="module" th:src="@{/js/blackjack.js}"></script>
   <script th:src="@{/js/cronometro.js}"></script>
@@ -30,7 +32,7 @@
   </nav>
 
   <a href="javascript:void(0)" class="boton-ayuda" onclick="abrirModalAyuda()">
-    <span class="material-symbols-outlined">help</span>
+    <i class="fas fa-question-circle"></i>
   </a>
 
   <!-- Modal de ayuda -->
