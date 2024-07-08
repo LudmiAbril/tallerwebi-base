@@ -775,3 +775,6 @@ table {
     color: rgba(207, 76, 234, 0.81);
 
 }
+.modal-header h2 {
+    font-size: 2em;
+}
