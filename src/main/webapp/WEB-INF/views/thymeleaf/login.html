@@ -24,7 +24,7 @@
 
 <body>
 <header>
-  <p>¿A&uacute;n no te has registrado?</p>
+  <p>&iquest;A&uacute;n no te has registrado?</p>
   <a href="registro" class="boton-margen">Registrarse</a>
 </header>
 <main>
@@ -32,7 +32,7 @@
   <div class="form-container">
     <h1>Iniciar Sesion</h1>
     <p>Est&aacute;s listo para continuar tu aventura con la pandilla de los gatos. Por favor, ingresa tu correo electr&oacute;nico y
-      contraseña para continuar.</p>
+      contrase&ntilde;a para continuar.</p>
     <form th:action="@{/validar-login}" method="POST" th:object="${datosLogin}">
       <div class="input-container">
         <span class="material-symbols-outlined icon">email</span>
@@ -41,7 +41,7 @@
       <div class="input-container">
         <span class="material-symbols-outlined icon">lock</span>
         <input th:field="*{password}" id="password" name="passwordJugador" type="password" required
-               placeholder="Contraseña" />
+               placeholder="Contrase&ntilde;a" />
       </div>
       <button id="btn-login" class="btn-primary" type="Submit">Ingresar</button>
     </form>
