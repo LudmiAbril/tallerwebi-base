@@ -279,59 +279,62 @@ public class ControladorSenkuTest {
         assertEquals("senku", modelAndView.getViewName());
     }
 
-    @Test
-    public void queAlFinalizarPartidaSeGuardeLaPartidaSiSeGano()
-            throws IllegalArgumentException, PartidaConPuntajeNegativoException, BingoBotEsNullException {
-        // GIVEN
-        HttpSession session = mock(HttpSession.class);
-        ServicioSenku servicioSenku = mock(ServicioSenku.class);
-        ServicioPlataforma servicioPlataforma = mock(ServicioPlataforma.class);
-        ControladorSenku controladorSenku = new ControladorSenku(servicioSenku, servicioPlataforma);
+  
 
-        Tablero tablero = new Tablero(5);
-        Usuario jugador = new Usuario();
-        jugador.setId(1L);
-        jugador.setNombre("user");
 
-        when(session.getAttribute("jugadorActual")).thenReturn(jugador);
-        when(session.getAttribute("tablero")).thenReturn(tablero);
-        when(session.getAttribute("contadorMovimientos")).thenReturn(10);
-        when(servicioSenku.seGano(tablero)).thenReturn(true);
 
-        // WHEN
-        ModelAndView modelAndView = controladorSenku.finalizarPartida(session);
+@Test
+public void queAlFinalizarPartidaSeGuardeLaPartidaSiSeGano() throws IllegalArgumentException, PartidaConPuntajeNegativoException, BingoBotEsNullException {
+    // GIVEN
+    HttpSession session = mock(HttpSession.class);
+    ServicioSenku servicioSenku = mock(ServicioSenku.class);
+    ServicioPlataforma servicioPlataforma = mock(ServicioPlataforma.class);
+    ControladorSenku controladorSenku = new ControladorSenku(servicioSenku, servicioPlataforma);
 
-        // THEN
-        verify(servicioPlataforma).agregarPartida(any(PartidaSenku.class));
-        assertEquals("redirect:/acceso-juegos", modelAndView.getViewName());
-    }
+    Tablero tablero = new Tablero(5);
+    Usuario jugador = new Usuario();
+    jugador.setId(1L);
+    jugador.setNombre("user");
 
-    @Test
-    public void queAlFinalizarPartidaNoSeGuardeLaPartidaSiNoSeGano() throws IllegalArgumentException,
-            PartidaConPuntajeNegativoException, BingoBotEsNullException {
-        // GIVEN
-        HttpSession session = mock(HttpSession.class);
-        ServicioSenku servicioSenku = mock(ServicioSenku.class);
-        ServicioPlataforma servicioPlataforma = mock(ServicioPlataforma.class);
-        ControladorSenku controladorSenku = new ControladorSenku(servicioSenku, servicioPlataforma);
+    when(session.getAttribute("jugadorActual")).thenReturn(jugador);
+    when(session.getAttribute("tablero")).thenReturn(tablero);
+    when(session.getAttribute("contadorMovimientos")).thenReturn(10);
+    when(servicioSenku.seGano(tablero)).thenReturn(true);
 
-        Tablero tablero = new Tablero(5);
-        Usuario jugador = new Usuario();
-        jugador.setId(1L);
-        jugador.setNombre("user");
+    // WHEN
+    ModelAndView modelAndView = controladorSenku.finalizarPartida(session);
 
-        when(session.getAttribute("jugadorActual")).thenReturn(jugador);
-        when(session.getAttribute("tablero")).thenReturn(tablero);
-        when(session.getAttribute("contadorMovimientos")).thenReturn(10);
-        when(servicioSenku.seGano(tablero)).thenReturn(false);
+    // THEN
+    verify(servicioPlataforma, times(1)).agregarPartida(any(PartidaSenku.class));
+    assertEquals("redirect:/acceso-juegos", modelAndView.getViewName());
+}
 
-        // WHEN
-        ModelAndView modelAndView = controladorSenku.finalizarPartida(session);
+@Test
+public void queAlFinalizarPartidaSeGuardeLaPartidaAunqueNoSeGano() throws IllegalArgumentException, PartidaConPuntajeNegativoException, BingoBotEsNullException {
+    // GIVEN
+    HttpSession session = mock(HttpSession.class);
+    ServicioSenku servicioSenku = mock(ServicioSenku.class);
+    ServicioPlataforma servicioPlataforma = mock(ServicioPlataforma.class);
+    ControladorSenku controladorSenku = new ControladorSenku(servicioSenku, servicioPlataforma);
 
-        // THEN
-        verify(servicioPlataforma, never()).agregarPartida(any(PartidaSenku.class));
-        assertEquals("redirect:/acceso-juegos", modelAndView.getViewName());
-    }
+    Tablero tablero = new Tablero(5);
+    Usuario jugador = new Usuario();
+    jugador.setId(1L);
+    jugador.setNombre("user");
+
+    when(session.getAttribute("jugadorActual")).thenReturn(jugador);
+    when(session.getAttribute("tablero")).thenReturn(tablero);
+    when(session.getAttribute("contadorMovimientos")).thenReturn(10);
+    when(servicioSenku.seGano(tablero)).thenReturn(false);
+
+    // WHEN
+    ModelAndView modelAndView = controladorSenku.finalizarPartida(session);
+
+    // THEN
+   
+    verify(servicioPlataforma).agregarPartida(any(PartidaSenku.class));
+    assertEquals("redirect:/acceso-juegos", modelAndView.getViewName());
+}
 
     @Test
     public void queAlComprobarSiSeGanoSeEstablezcanLosAtributosCorrectamente() throws MovimientoInvalidoException {

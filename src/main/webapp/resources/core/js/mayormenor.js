@@ -13,33 +13,33 @@ $(document).ready(function () {
         );
     }
     function agregarDosCartas(contenedor, cartaAnterior, cartaNueva, jugador) {
-            contenedor.html(
-                "<img src='./imgStatic/cartas/" +
-                cartaAnterior +
-                ".png' width='140px' class='carta carta-anterior-" +
-                jugador +
-                "'>" +
-                "<img src='./imgStatic/cartas/" +
-                cartaNueva +
-                ".png' width='140px' class='carta nueva-carta-" +
-                jugador +
-                "'>"
-            );
-        }
-        //seagrego
-function iniciarPartida() {
-    $.get("ComenzarMayorMenor", function (data) {
-        cartaActual = data.cartaInicial;
-        aciertos = 0;
-        actualizarAciertos(aciertos);
-        $("#nombre").text(data.jugadorActual);
-        agregarCarta(
-            $("#cartasJugador"),
-            cartaActual.simbolo + "_" + cartaActual.palo,
-            "jugador"
+        contenedor.html(
+            "<img src='./imgStatic/cartas/" +
+            cartaAnterior +
+            ".png' width='140px' class='carta carta-anterior-" +
+            jugador +
+            "'>" +
+            "<img src='./imgStatic/cartas/" +
+            cartaNueva +
+            ".png' width='140px' class='carta nueva-carta-" +
+            jugador +
+            "'>"
         );
-    });
-}
+    }
+    //seagrego
+    function iniciarPartida() {
+        $.get("ComenzarMayorMenor", function (data) {
+            cartaActual = data.cartaInicial;
+            aciertos = 0;
+            actualizarAciertos(aciertos);
+            $("#nombre").text(data.jugadorActual);
+            agregarCarta(
+                $("#cartasJugador"),
+                cartaActual.simbolo + "_" + cartaActual.palo,
+                "jugador"
+            );
+        });
+    }
     $("#btnMayor").click(function () {
         evaluarCarta("MAYOR");
     });
@@ -58,11 +58,11 @@ function iniciarPartida() {
                 "jugador"
             );*/
             agregarDosCartas(
-                            $("#cartasJugador"),
-                            cartaActual.simbolo + "_" + cartaActual.palo,
-                            cartaNueva.simbolo + "_" + cartaNueva.palo,
-                            "jugador"
-                        );
+                $("#cartasJugador"),
+                cartaActual.simbolo + "_" + cartaActual.palo,
+                cartaNueva.simbolo + "_" + cartaNueva.palo,
+                "jugador"
+            );
 
             if (acierto) {
                 cartaActual = cartaNueva;

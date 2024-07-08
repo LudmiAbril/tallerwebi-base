@@ -116,7 +116,7 @@ $(document).ready(function () {
         setTimeout(function () {
           cartaDorsoCrupier.attr(
             "src",
-            "./img/cartas/" + cartaDorsoMostrar + ".png"
+            "./imgStatic/cartas/" + cartaDorsoMostrar + ".png"
           );
         }, 120); // 250 milisegundos = 0.25 segundos
 
@@ -203,3 +203,5 @@ function mostrarModalfinalizar(ganador, jugador) {
   $("#resultadoPartida").text(mensaje);
   stop();
 }
+
+

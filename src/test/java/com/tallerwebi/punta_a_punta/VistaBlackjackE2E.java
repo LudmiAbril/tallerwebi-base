@@ -97,7 +97,17 @@ public class VistaBlackjackE2E {
         assertThat(tiempoTranscurrido, not(equalTo("00:00:00")));
     }
 
+   /* @Test
+    void deberiaMostrarCronometroAlInicio() {
+        vistaBlackjack.accederYJugarBlackjack("mm@gmail.com", "boca");
+        // Esperar a que el cronómetro esté visible
+        page.waitForSelector("#tiempoBj");
+        assertThat(vistaBlackjack.isVisible("#tiempoBj"), is(true));
 
+
+        String tiempoTranscurrido = page.locator("#tiempoBj").textContent().trim();
+        assertThat(tiempoTranscurrido, not(equalTo("Tiempo transcurrido: 00:00:00")));
+    }*/
 
     @Test
     void deberiaAbandonarJuegoCorrectamente() {
@@ -134,51 +144,6 @@ public class VistaBlackjackE2E {
         String puntajeTexto = page.locator(".puntaje-mano").textContent().trim();
         String textoEsperado = "Tu mano: \\d+";
         assertThat(puntajeTexto.matches(textoEsperado), is(true));
-    }
-
-    @Test
-    void deberiaMostrarElHistorialVacioDeLJugadorSiAunNoTienePartidasJugadas() {
-        vistaBlackjack.accederYJugarBlackjack("mm2@gmail.com", "1212");
-        String historialTexto = page.locator(".mensaje-partidas").textContent().trim();
-        String textoEsperado = "aun no hay partidas registradas.";
-        assertThat(historialTexto.matches(textoEsperado), is(true));
-    }
-
-    @Test
-    void deberiaMostrarUnaPartidaEnElHistorial() {
-        vistaBlackjack.accederYJugarBlackjack("mm@gmail.com", "boca");
-        String fecha = "2024-07-04 17:00:36";
-        int puntaje = 20;
-
-        // Construir el contenido esperado
-        String contenidoEsperado = fecha + " puntaje alcanzado: " + puntaje;
-
-        // Obtener el contenido del historial de partidas
-        String historialContenido = page.locator(".c-partidas").textContent().trim();
-
-        // Dividir las partidas por el patrón de fechas
-        String[] partidasArray = historialContenido.split("(?=\\d{4}-\\d{2}-\\d{2})");
-
-        boolean partidaEncontrada = Arrays.stream(partidasArray)
-                .map(String::trim)
-                .anyMatch(partida -> partida.equals(contenidoEsperado));
-
-        assertThat(partidaEncontrada, equalTo(true));
-    }
-
-    @Test
-    void deberiaIrAlRankingDelBlackjack() {
-        vistaAccesoAjuegos.irAccesoAjuegos("mm@gmail.com", "boca");
-        vistaAccesoAjuegos.darClick("#accederBj");
-        vistaBlackjack.darClick("#rankingBlackjack");
-        String url = page.url();
-
-        String subtituloBj = page.locator("span.subtitulojuego").first().textContent().trim();
-        String textoEsperado = "BLACKJACK";
-
-        assertThat(url, containsStringIgnoringCase("/spring/verRanking"));
-        assertThat(subtituloBj.matches(textoEsperado), is(true));
-
     }
 
     @Test

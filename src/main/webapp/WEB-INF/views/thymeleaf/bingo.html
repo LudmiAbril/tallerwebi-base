@@ -53,8 +53,9 @@
       <span class="material-symbols-outlined icono">arrow_back</span>
     </a>
     <!-- Icono para reproducir/pausar música -->
-    <i id="toggleMusica" class="fas fa-music boton-musica" onclick="togglePlaylist()"></i>
-
+    <div class="boton-musica">
+      <i id="toggleMusica" class="fas fa-music" onclick="togglePlaylist()"></i>
+    </div>
     <!-- Contenedor de la playlist -->
     <div class="playlist-container" th:classappend="${playlistVisible} ? '' : 'hidden'">
       <iframe id="playlist" style="border-radius:12px"
@@ -63,6 +64,23 @@
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
   </nav>
+  <a href="javascript:void(0)" class="boton-ayuda2" onclick="abrirModalAyuda()">
+    <i class="fas fa-question-circle"></i>
+  </a>
+
+
+  <!-- Modal de ayuda -->
+  <div id="modalAyuda" class="modal-ayuda">
+    <div class="modal-contenidoAyuda">
+      <div class="modal-header">
+        <h2>¿CÓMO JUGAR?</h2>
+        <span class="cerrar-modal" onclick="cerrarModalAyuda()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <img th:src="@{/imgStatic/infografiaBingo.png}" class="infografia" alt="infografiaBingo">
+      </div>
+    </div>
+  </div>
 
   <main role="main" class="container">
     <!-- Número que sale -->
@@ -293,6 +311,7 @@
   <script th:src="@{/js/musica.js}"></script>
   <script th:src="@{/js/compra.js}"></script>
 
+  <script th:src="@{/js/modalAyuda.js}"></script>
 
 
 </body>

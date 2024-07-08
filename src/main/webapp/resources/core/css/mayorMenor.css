@@ -1,0 +1,735 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #291033;
+    background-image: url("../imgStatic/fondos/fondoMoM.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+}
+
+.mt {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.nav-bar {
+    display: flex;
+    align-items: center;
+}
+
+.icono {
+    color: #e140ec;
+    font-size: 25px;
+    text-shadow: 0 0 10px #e140ec, 0 0 20px #e140ec, 0 0 30px #e140ec, 0 0 40px #e140ec, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE;
+}
+
+.icono:hover {
+    color: white;
+}
+
+.aciertos-container {
+    display: flex;
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+    background-color: #8c4ca9;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 0 0px 50px 0px;
+    font-size: 18px;
+    box-shadow: 0 0 10px rgba(140, 76, 169, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.8);
+
+    animation: pulse 2s infinite;
+}
+
+.aciertos-container .material-symbols-outlined {
+    margin-right: 10px;
+    margin-left: 10px;
+
+    font-size: 30px;
+}
+
+.aciertos-container .aciertos-icon {
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+@keyframes brillo {
+    0% {
+        text-shadow: 0 0 10px #e140ec, 0 0 20px #e140ec, 0 0 30px #e140ec, 0 0 40px #e140ec, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE;
+    }
+
+    100% {
+        text-shadow: 0 0 20px #e140ec, 0 0 30px #e140ec, 0 0 40px #e140ec, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE, 0 0 80px #F9EADE;
+    }
+}
+
+h3 {
+    text-align: center;
+}
+
+.container-main {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.container-left {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+}
+
+.container-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+}
+
+.time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.cartas-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+#cartasJugador img {
+    width: 150px;
+    height: 200px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: flip 0.5s ease;
+}
+
+@keyframes flip {
+    from {
+        transform: rotateY(180deg);
+    }
+
+    to {
+        transform: rotateY(0deg);
+    }
+}
+
+.botones {
+    display: flex;
+    gap: 20px;
+    margin-top: 150px;
+}
+
+button {
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    cursor: pointer;
+    color: white;
+    border-radius: 10px;
+    font-size: small;
+}
+
+.btn-mayor {
+    min-width: 200px;
+    background-image: linear-gradient(to bottom, #9c97cc, #8278ac, #53548b, #454174, #21284d);
+    padding: 15px 20px;
+    border: 2px solid #d8bfe6;
+    box-shadow: 0 0 10px rgba(140, 76, 169, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.8);
+    transition: transform 0.2s ease-in-out;
+}
+
+.btn-menor {
+    min-width: 200px;
+
+    background-image: linear-gradient(to bottom, #b28dd6, #a678c7, #9962b8, #8c4ca9, #7f369a);
+    padding: 15px 20px;
+    border: 2px solid #b28dd6;
+    box-shadow: 0 0 10px rgba(140, 76, 169, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.8);
+    transition: transform 0.2s ease-in-out;
+}
+
+.btn-mayor:hover,
+.btn-menor:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.partidas {
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #18062765;
+    color: white;
+    border-radius: 10px;
+    width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    min-height: 350px;
+    max-height: 350px;
+}
+
+.titulin {
+    margin: 10px;
+    color: #F9EADE;
+    font-size: 18px;
+    border-bottom: 1px solid white;
+}
+
+.mensaje-partidas {
+    color: #8c5894;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.jugador-info {
+    text-align: center;
+    margin-bottom: 10px;
+    background-color: #18062765;
+    border-radius: 10px;
+    width: 90%;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nombre-jugador {
+    font-size: 24px;
+    color: white;
+    text-shadow: 0 0 10px #e140ec, 0 0 20px #e140ec, 0 0 30px #e140ec, 0 0 40px #e140ec, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE;
+    margin: 20px;
+}
+
+.tiempo {
+    font-size: 18px;
+}
+
+.material-symbols-outlined {
+    font-size: 24px;
+    margin-right: 5px;
+}
+
+/* Estilo general para la barra de desplazamiento */
+.partidas::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Fondo de la barra de desplazamiento */
+.partidas::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+/* Thumb (la parte móvil de la barra de desplazamiento) */
+.partidas::-webkit-scrollbar-thumb {
+    background: #d331c8b0;
+    border-radius: 10px;
+    border: 3px solid rgba(0, 0, 0, 0.7);
+}
+
+/* Hover sobre el thumb */
+.partidas::-webkit-scrollbar-thumb:hover {
+    background: #d331c9;
+}
+
+/* Estilos del modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #291033;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.boton-reiniciar,
+.boton-volver-inicio {
+    background-color: #8c5894;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.boton-reiniciar:hover,
+.boton-volver-inicio:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    .container-main {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .container-left,
+    .container-right {
+        width: 100%;
+        padding: 0;
+    }
+}
+
+.botones-modal {
+    display: flex;
+    justify-content: center;
+}
+
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #291033;
+    background-image: url("../imgStatic/fondos/fondoMoM.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+}
+
+.mt {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.nav-bar {
+    display: flex;
+    align-items: center;
+}
+
+.icono {
+    color: #e140ec;
+    font-size: 25px;
+    text-shadow: 0 0 10px #e140ec, 0 0 20px #e140ec, 0 0 30px #e140ec, 0 0 40px #e140ec, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE;
+}
+
+.icono:hover {
+    color: white;
+}
+
+.aciertos-container {
+    display: flex;
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+    background-color: #8c4ca9;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 0 0px 50px 0px;
+    font-size: 18px;
+    box-shadow: 0 0 10px rgba(140, 76, 169, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.8);
+
+    animation: pulse 2s infinite;
+}
+
+.aciertos-container .material-symbols-outlined {
+    margin-right: 10px;
+    margin-left: 10px;
+
+    font-size: 30px;
+}
+
+.aciertos-container .aciertos-icon {
+    margin-left: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+@keyframes brillo {
+    0% {
+        text-shadow: 0 0 10px #e140ec, 0 0 20px #e140ec, 0 0 30px #e140ec, 0 0 40px #e140ec, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE;
+    }
+
+    100% {
+        text-shadow: 0 0 20px #e140ec, 0 0 30px #e140ec, 0 0 40px #e140ec, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE, 0 0 80px #F9EADE;
+    }
+}
+
+h3 {
+    text-align: center;
+}
+
+.container-main {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.container-left {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+}
+
+.container-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em;
+}
+
+.time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.cartas-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+#cartasJugador img {
+    width: 150px;
+    height: 200px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: flip 0.5s ease;
+}
+
+@keyframes flip {
+    from {
+        transform: rotateY(180deg);
+    }
+
+    to {
+        transform: rotateY(0deg);
+    }
+}
+
+.botones {
+    display: flex;
+    gap: 20px;
+    margin-top: 150px;
+}
+
+button {
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    cursor: pointer;
+    color: white;
+    border-radius: 10px;
+    font-size: small;
+}
+
+.btn-mayor {
+    min-width: 200px;
+    background-image: linear-gradient(to bottom, #9c97cc, #8278ac, #53548b, #454174, #21284d);
+    padding: 15px 20px;
+    border: 2px solid #d8bfe6;
+    box-shadow: 0 0 10px rgba(140, 76, 169, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.8);
+    transition: transform 0.2s ease-in-out;
+}
+
+.btn-menor {
+    min-width: 200px;
+
+    background-image: linear-gradient(to bottom, #b28dd6, #a678c7, #9962b8, #8c4ca9, #7f369a);
+    padding: 15px 20px;
+    border: 2px solid #b28dd6;
+    box-shadow: 0 0 10px rgba(140, 76, 169, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.8);
+    transition: transform 0.2s ease-in-out;
+}
+
+.btn-mayor:hover,
+.btn-menor:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.partidas {
+    text-align: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #18062765;
+    color: white;
+    border-radius: 10px;
+    width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    min-height: 350px;
+    max-height: 350px;
+}
+
+.titulin {
+    margin: 10px;
+    color: #F9EADE;
+    font-size: 18px;
+    border-bottom: 1px solid white;
+}
+
+.mensaje-partidas {
+    color: #8c5894;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.jugador-info {
+    text-align: center;
+    margin-bottom: 10px;
+    background-color: #18062765;
+    border-radius: 10px;
+    width: 90%;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nombre-jugador {
+    font-size: 24px;
+    color: white;
+    text-shadow: 0 0 10px #e140ec, 0 0 20px #e140ec, 0 0 30px #e140ec, 0 0 40px #e140ec, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE;
+    margin: 20px;
+}
+
+.tiempo {
+    font-size: 18px;
+}
+
+.material-symbols-outlined {
+    font-size: 24px;
+    margin-right: 5px;
+}
+
+/* Estilo general para la barra de desplazamiento */
+.partidas::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Fondo de la barra de desplazamiento */
+.partidas::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+/* Thumb (la parte móvil de la barra de desplazamiento) */
+.partidas::-webkit-scrollbar-thumb {
+    background: #d331c8b0;
+    border-radius: 10px;
+    border: 3px solid rgba(0, 0, 0, 0.7);
+}
+
+/* Hover sobre el thumb */
+.partidas::-webkit-scrollbar-thumb:hover {
+    background: #d331c9;
+}
+
+/* Estilos del modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #291033;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 40%;
+    border-radius: 10px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.boton-reiniciar,
+.boton-volver-inicio {
+    background-color: #8c5894;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: transform 0.2s ease-in-out;
+}
+
+.boton-reiniciar:hover,
+.boton-volver-inicio:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    .container-main {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .container-left,
+    .container-right {
+        width: 100%;
+        padding: 0;
+    }
+}
+
+.botones-modal {
+    display: flex;
+    justify-content: center;
+}
+
+
+/**--------------------ESTILOS INFOGRAFIA---------*/
+.modal-ayuda {
+    display: none;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.modal-contenido {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 1000px;
+    min-height: 60%;
+    overflow: auto;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+    border: 2px solid #555;
+    background-image: url("../imgStatic/gatos-bienvenida.png");
+    background-size: cover;
+    background-blend-mode: multiply;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #555;
+    padding-bottom: 10px;
+}
+
+.modal-header div {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-family: "Clip";
+    color: rgb(243 187 255 / 81%);
+    font-size: 2em;
+    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd, -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd, 0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+
+}
+
+.cerrar-modal {
+    cursor: pointer;
+    font-size: 24px;
+    color: rgba(207, 76, 234, 0.81);
+}
+
+.cerrar-modal:hover {
+    color: #fff;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.infografia {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 10px;
+    border: 2px solid #555;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+.boton-ayuda{
+    position:absolute;
+    color:white;
+    top:20px;
+    right:20px;
+}
+
+.boton-ayuda i {
+    font-size: 38px;
+}
+.boton-ayuda i:hover {
+    font-size: 40px;
+    color: rgba(207, 76, 234, 0.81);
+
+}
