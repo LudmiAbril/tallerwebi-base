@@ -900,6 +900,7 @@ hr {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 50%;
+    height: 80%;
     max-height: 80%;
     overflow: auto;
     background-color: white;
@@ -917,6 +918,7 @@ hr {
     width: 500px;
     text-align: center;
     border-collapse: collapse;
+    margin: 10px 10px;
 }
 
 .tabla-historial-encabezados th {
@@ -927,7 +929,7 @@ hr {
 
 .tabla-historial-cuerpo {
     display: block;
-    height: 500px;
+   
     overflow-y: auto; 
 }
 
@@ -948,4 +950,10 @@ td {
     display: flex;
     justify-content: space-around;
     gap: 30px;
+}
+
+#mensaje-partidas{
+    color: red;
+    font-size: 16px;
+    font-style: italic;
 }
