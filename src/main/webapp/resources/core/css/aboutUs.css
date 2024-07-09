@@ -1,0 +1,353 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  background: linear-gradient(76.8deg, rgb(121, 45, 129) 3.6%, rgb(36, 31, 98) 90.4%);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    font-family: 'Teko', sans-serif;
+  }
+  
+  main {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  .material-symbols-outlined {
+    text-decoration: none;
+}
+
+  .centrar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 2%;
+  }
+  .cards {
+    display: flex;
+    overflow-x: auto; /* Permite scroll horizontal en dispositivos pequeños */
+    gap: 15px;
+    padding: 15px 0; /* Espaciado para separar de los bordes */
+    -webkit-overflow-scrolling: touch; /* Para mejorar la experiencia en iOS */
+}
+
+.cards .card {
+    flex: 0 0 auto; /* No crecerán, mantendrán su tamaño */
+    width: 250px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: 400ms;
+    position: relative; /* Para posicionar las flechas */
+}
+
+  .cards .lilac-1 {
+    background-color: #D8BFD8; /* Thistle */
+  }
+  
+  .cards .lilac-2 {
+    background-color: #E6E6FA; /* Lavender */
+  }
+  
+  .cards .lilac-3 {
+    background-color: #DDA0DD; /* Plum */
+  }
+  
+  .cards .lilac-4 {
+    background-color: #DA70D6; /* Orchid */
+  }
+  
+  .cards .lilac-5 {
+    background-color: #BA55D3; /* Medium Orchid */
+  }
+  
+
+  
+  
+  .cards .card p.tip {
+    font-size: 1em;
+    color: rgb(36, 31, 98);
+    font-family: "Clip";
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+  
+  
+  .cards .card p.second-text {
+    font-size: .7em;
+  }
+  
+  .cards .card:hover {
+    transform: scale(1.1, 1.1);
+  }
+  
+  .cards:hover > .card:not(:hover) {
+    filter: blur(10px);
+    transform: scale(0.9, 0.9);
+  }
+  
+  .gatoCard{
+    width: 100%;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  }
+
+  .sign {
+    display: flex;
+    justify-content: center;
+    background-image: radial-gradient(ellipse 50% 35% at 50% 50%, #6b1839, transparent);
+    font-family: 'Teko', sans-serif;
+    text-transform: uppercase;
+    font-size: 4em;
+    color: #ffe6ff;
+    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+        -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+        0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+    animation: shine 2s forwards, flicker 3s infinite;
+}
+
+.fast-flicker {
+    animation: shine 2s forwards, blink 10s 1s infinite;
+}
+
+.flicker {
+    animation: shine 2s forwards, blink 3s 2s infinite;
+}
+.h2 {
+    color: white;
+    margin: 0;
+    font-family: 'Teko', sans-serif;
+    font-size: 1.5rem; 
+    text-transform: uppercase;
+    animation: glow 2s ease-in-out infinite alternate;
+    text-align: center;
+}
+
+@keyframes glow {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(255, 230, 255, 0.8), 0 0 20px rgba(255, 101, 189, 0.8), 0 0 30px rgba(255, 36, 131, 0.8);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(255, 230, 255, 0.8), 0 0 30px rgba(255, 101, 189, 0.8), 0 0 40px rgba(255, 36, 131, 0.8);
+    }
+
+    
+}
+@keyframes blink {
+
+  0%,
+  22%,
+  36%,
+  75% {
+      color: #ffe6ff;
+      text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+          -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+          0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+  }
+
+  28%,
+  33% {
+      color: #ff65bd;
+      text-shadow: none;
+  }
+
+  82%,
+  97% {
+      color: #ff2483;
+      text-shadow: none;
+  }
+}
+
+@keyframes shine {
+  0% {
+      color: #6b1839;
+      text-shadow: none;
+  }
+
+  100% {
+      color: #ffe6ff;
+      text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+          -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+          0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+  }
+}
+
+@keyframes shine2 {
+  0% {
+      color: #4b0082;
+      text-shadow: none;
+  }
+
+  100% {
+      color: #d8bfd8;
+      text-shadow: 0 0 0.6rem #d8bfd8, 0 0 1.5rem #8a2be2, -0.2rem 0.1rem 1rem #8a2be2, 0.2rem 0.1rem 1rem #8a2be2, 0 -0.5rem 2rem #9400d3, 0 0.5rem 3rem #9400d3;
+  }
+}
+
+
+@keyframes flicker {
+  from {
+      opacity: 1;
+  }
+
+  4% {
+      opacity: 0.9;
+  }
+
+  6% {
+      opacity: 0.85;
+  }
+
+  8% {
+      opacity: 0.95;
+  }
+
+  10% {
+      opacity: 0.9;
+  }
+
+  11% {
+      opacity: 0.922;
+  }
+
+  12% {
+      opacity: 0.9;
+  }
+
+  14% {
+      opacity: 0.95;
+  }
+
+  16% {
+      opacity: 0.98;
+  }
+
+  17% {
+      opacity: 0.9;
+  }
+
+  19% {
+      opacity: 0.93;
+  }
+
+  20% {
+      opacity: 0.99;
+  }
+
+  24% {
+      opacity: 1;
+  }
+
+  26% {
+      opacity: 0.94;
+  }
+
+  28% {
+      opacity: 0.98;
+  }
+
+  37% {
+      opacity: 0.93;
+  }
+
+  38% {
+      opacity: 0.5;
+  }
+
+  39% {
+      opacity: 0.96;
+  }
+
+  42% {
+      opacity: 1;
+  }
+
+  44% {
+      opacity: 0.97;
+  }
+
+  46% {
+      opacity: 0.94;
+  }
+
+  56% {
+      opacity: 0.9;
+  }
+
+  58% {
+      opacity: 0.9;
+  }
+
+  60% {
+      opacity: 0.99;
+  }
+
+  68% {
+      opacity: 1;
+  }
+
+  70% {
+      opacity: 0.9;
+  }
+
+  72% {
+      opacity: 0.95;
+  }
+
+  93% {
+      opacity: 0.93;
+  }
+
+  95% {
+      opacity: 0.95;
+  }
+
+  97% {
+      opacity: 0.93;
+  }
+
+  to {
+      opacity: 1;
+  }
+
+
+}
+
+.scroll-btn {
+  .scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 1; /* Para estar sobre las tarjetas */
+}
+
+.scroll-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.left-btn {
+    left: 10px;
+}
+
+.right-btn {
+    right: 10px;
+}
+
+.nav-bar {
+    height: 15px;
+}
+}
