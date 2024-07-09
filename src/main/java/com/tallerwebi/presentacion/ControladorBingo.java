@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -269,28 +270,7 @@ public class ControladorBingo {
 	public ModelAndView finalizar(HttpSession session) throws PartidaConPuntajeNegativoException,
 			IllegalArgumentException {
 		ModelAndView mav = new ModelAndView();
-		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
-		Boolean seHizoLinea = (Boolean) session.getAttribute("seHizoLinea");
-		Boolean seHizoBingo = (Boolean) session.getAttribute("seHizoBingo");
-		TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session
-				.getAttribute("tipoPartidaBingo");
-		Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
-		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-		Integer cantidadDeCasillerosMarcados = numerosMarcadosDeLaSesion.size();
-
-		try {
-			servicioPlataforma
-					.agregarPartida(
-							new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, seHizoLinea,
-									seHizoBingo,
-									tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados,
-									false));
-			mav.setViewName("redirect:/irAlBingo");
-		} catch (Exception e) {
-			mav.setViewName("bingo");
-			mav.addObject("mensajeError", "Ocurrió un error al intentar guardar la partida.");
-		}
-
+		guardarPartidaBingo(session, mav);
 		return mav;
 	}
 
@@ -314,6 +294,39 @@ public class ControladorBingo {
 		response.put("seGuardo", seGuardo);
 		response.put("nuevaTiradaLimite", nuevaTiradaLimite);
 		return response;
+	}
+
+	@RequestMapping(path = "/reiniciarPartidaBingo", method = RequestMethod.GET)
+	public ModelAndView reiniciarPartidaBingo(HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		guardarPartidaBingo(session, mav);
+		TipoPartidaBingo tipo = (TipoPartidaBingo) session.getAttribute("tipoPartidaBingo");
+		return this.comenzarJuegoBingo(tipo.toString(), session);
+
+	}
+
+	public void guardarPartidaBingo(HttpSession session, ModelAndView mav) {
+		Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+		Boolean seHizoLinea = (Boolean) session.getAttribute("seHizoLinea");
+		Boolean seHizoBingo = (Boolean) session.getAttribute("seHizoBingo");
+		TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session
+				.getAttribute("tipoPartidaBingo");
+		Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
+		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+		Integer cantidadDeCasillerosMarcados = numerosMarcadosDeLaSesion.size();
+
+		try {
+			servicioPlataforma
+					.agregarPartida(
+							new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, seHizoLinea,
+									seHizoBingo,
+									tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados,
+									false));
+			mav.setViewName("redirect:/irAlBingo");
+		} catch (Exception e) {
+			mav.setViewName("bingo");
+			mav.addObject("mensajeError", "Ocurrió un error al intentar guardar la partida.");
+		}
 	}
 
 }

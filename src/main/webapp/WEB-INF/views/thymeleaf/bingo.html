@@ -168,6 +168,11 @@
           <button type="submit" class="boton-volver">Finalizar</button>
         </div>
       </form>
+      <form th:action="@{/reiniciarPartidaBingo}" method="get">
+        <div class="botones">
+          <button type="submit" class="boton-volver">Reiniciar</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -189,7 +194,8 @@
               <div class="card-body">
                 <h5 class="card-title">10 n&uacute;meros</h5>
                 <p class="card-text">Precio: $100ARS</p>
-                <button class="botonComprarTirada" id="btn1" onclick="abrirSeccionCompra('10 n&uacute;meros', '100', 10)">
+                <button class="botonComprarTirada" id="btn1"
+                  onclick="abrirSeccionCompra('10 n&uacute;meros', '100', 10)">
                   <i class="fas fa-money-bill-wave"></i> Comprar Tirada
                 </button>
 
@@ -200,7 +206,8 @@
               <div class="card-body">
                 <h5 class="card-title">20 n&uacute;meros</h5>
                 <p class="card-text">Precio: $200ARS</p>
-                <button class="botonComprarTirada" id="btn2" onclick="abrirSeccionCompra('20 n&uacute;meros', '200', 20)">
+                <button class="botonComprarTirada" id="btn2"
+                  onclick="abrirSeccionCompra('20 n&uacute;meros', '200', 20)">
                   <i class="fas fa-money-bill-wave"></i> Comprar Tirada
                 </button>
               </div>
@@ -211,7 +218,8 @@
                 <h5 class="card-title">30 n&uacute;meros</h5>
                 <p class="card-text">Precio: $300ARS</p>
 
-                <button class="botonComprarTirada" id="btn3" onclick="abrirSeccionCompra('30 n&uacute;meros', '300', 30)">
+                <button class="botonComprarTirada" id="btn3"
+                  onclick="abrirSeccionCompra('30 n&uacute;meros', '300', 30)">
                   <i class="fas fa-money-bill-wave"></i> Comprar Tirada
                 </button>
               </div>
@@ -297,6 +305,11 @@
           <form th:action="@{/finalizarPartida}" method="post">
             <div class="botones">
               <button type="submit" class="boton-volver">Finalizar</button>
+            </div>
+          </form>
+          <form th:action="@{/reiniciarPartidaBingo}" method="get">
+            <div class="botones">
+              <button type="submit" class="boton-volver">Reiniciar</button>
             </div>
           </form>
           <a href="javascript:void(0)" class="boton-compra abrir-modal" onclick="abrirModalCompra()">
