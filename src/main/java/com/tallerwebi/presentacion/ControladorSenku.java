@@ -291,14 +291,10 @@ public ModelAndView finalizarPartida(HttpSession session) throws BingoBotEsNullE
    
     Tablero tablero = (Tablero) session.getAttribute("tablero");
     Boolean seGano = servicioSenku.seGano(tablero);
-    Partida partidaSenku = new PartidaSenku();
     Usuario jugadorActual = (Usuario) session.getAttribute("jugadorActual");
     Long id = jugadorActual.getId();
-    partidaSenku.setIdJugador(id);
-    partidaSenku.setJuego(Juego.SENKU);
-    ((PartidaSenku) partidaSenku).setGanado(seGano);
-    ((PartidaSenku) partidaSenku).setCantidadMovimientos((Integer) session.getAttribute("contadorMovimientos"));
-    ((PartidaSenku) partidaSenku).setPuntaje(setearPuntaje((Integer) session.getAttribute("contadorMovimientos")));
+    Partida partidaSenku = new PartidaSenku(id,Juego.SENKU,seGano,(Integer) session.getAttribute("contadorMovimientos"),setearPuntaje((Integer) session.getAttribute("contadorMovimientos")));
+    
     try {
         servicioPlataforma.agregarPartida(partidaSenku);
     } catch (IllegalArgumentException e) {

@@ -17,8 +17,7 @@ public class PartidaSenku extends Partida {
         super(idJugador, juego);
         this.ganado = ganado;
         this.cantidadMovimientos = cantidadMovimientos;
-        this.puntaje = puntaje;
-        this.setFechaYhora(LocalDateTime.now()); 
+        this.puntaje = puntaje;  
     }
 
     public PartidaSenku() {
