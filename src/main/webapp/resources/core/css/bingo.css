@@ -28,27 +28,33 @@ nav {
 .boton-musica {
     border: 1px solid white;
     border-radius: 50%;
-    padding: 10px;
     background-color: #B49FCC;
-    font-size: 1.5em;
     color: #fff;
     position: absolute;
-    top: 5%;
-    right: 20px;
+    top:3%;
+    right: 70px;
     cursor: pointer;
     transition: color 0.3s, transform 0.3s;
     z-index: 1000;
+    padding:5px;
+    font-size: 1.2em;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 .boton-musica:hover {
     color: rgba(207, 76, 234, 0.81);
     transform: scale(1.2);
 }
+.boton-musica i{
+    margin: 0;
+    padding: 5px;
+    font-size: 18px;
+}
 
 .playlist-container {
     position: fixed;
-    top: 82px;
-    right: 10px;
+    top: 62px;
+    right: 60px;
     z-index: 1000;
 }
 
@@ -546,38 +552,6 @@ table {
     background-color: #B49FCC;
 }
 
-/* Estilos para el botón de música */
-.boton-musica {
-    border: 1px solid white;
-    border-radius: 50%;
-    padding: 10px;
-    background-color: #B49FCC;
-    font-size: 1.5em;
-    color: #fff;
-    position: fixed;
-    top: 5%;
-    right: 20px;
-    cursor: pointer;
-    transition: color 0.3s, transform 0.3s;
-    z-index: 1000;
-}
-
-.boton-musica:hover {
-    color: rgba(207, 76, 234, 0.81);
-    transform: scale(1.2);
-}
-
-.playlist-container {
-    position: fixed;
-    top: 82px;
-    right: 10px;
-    z-index: 1000;
-}
-
-
-#playlist {
-    display: none;
-}
 
 /*--------------BOTON COMPRA-----------*/
 .boton-compra {
@@ -698,4 +672,106 @@ table {
 /* Hover sobre el thumb */
 #contenedorHistorial::-webkit-scrollbar-thumb:hover {
     background: #d331c9;
+}
+
+
+/**--------------------ESTILOS INFOGRAFIA---------*/
+.modal-ayuda {
+    display: none;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.modal-contenidoAyuda {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 1000px;
+    min-height: 60%;
+    overflow: auto;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+    border: 2px solid #555;
+    background-image: url("../imgStatic/gatos-bienvenida.png");
+    background-size: cover;
+    background-blend-mode: multiply;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #555;
+    padding-bottom: 10px;
+}
+
+.modal-header div {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-family: "Clip";
+    color: rgb(243 187 255 / 81%);
+    font-size: 2em;
+    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd, -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd, 0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+
+}
+
+.cerrar-modal {
+    cursor: pointer;
+    font-size: 24px;
+    color: rgba(207, 76, 234, 0.81);
+}
+
+.cerrar-modal:hover {
+    color: #fff;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.infografia {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 10px;
+    border: 2px solid #555;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+.boton-ayuda2{
+    position:absolute;
+    color:white;
+    top:20px;
+    right:20px;
+}
+.boton-ayuda2 i {
+    font-size: 38px;
+}
+.boton-ayuda2 i:hover {
+    font-size: 40px;
+    color: rgba(207, 76, 234, 0.81);
+
 }

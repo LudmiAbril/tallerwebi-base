@@ -171,4 +171,21 @@ public class RepositorioPartidaImpl implements RepositorioPartida {
         return seGuardo;
     }
 
+    @Override
+    public List<Partida> listarTodasLasPartidasDelUsuario(Long idUsuario) throws PartidaDeUsuarioNoEncontradaException {
+        String hql = "FROM Partida WHERE idJugador = :id ORDER BY puntaje DESC";
+        Query query = this.sessionFactory.getCurrentSession().createQuery(hql);
+        query.setParameter("id", idUsuario);
+
+        List<Partida> partidas = query.getResultList();
+
+        if (partidas.isEmpty()) {
+            throw new PartidaDeUsuarioNoEncontradaException();
+        } else if (idUsuario == null) {
+           throw new PartidaDeUsuarioNoEncontradaException();
+        } else {
+            return partidas;
+        }
+    }
+
 }

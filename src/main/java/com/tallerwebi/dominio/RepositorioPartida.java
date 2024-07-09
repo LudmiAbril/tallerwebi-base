@@ -31,4 +31,6 @@ public interface RepositorioPartida {
     List<Compra> obtenerCompras(Long id, Juego juego) throws NoHayCompras;
 
     Boolean guardarCompra(Compra compra) throws NoSePudoGuardarLaCompraException;
+
+    List<Partida> listarTodasLasPartidasDelUsuario(Long idUsuario) throws PartidaDeUsuarioNoEncontradaException;
 }

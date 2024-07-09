@@ -216,6 +216,7 @@ button {
     overflow-y: auto;
     text-align: center;
     align-items: center;
+    padding-right:10px;
 }
 
 .titulin {
@@ -375,4 +376,130 @@ button {
 .boton-volver-inicio:hover {
     background-color: #7f369a;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 8px 10px rgba(0, 0, 0, 0.3);
+}
+
+/**--------------------ESTILOS INFOGRAFIA---------*/
+.modal-ayuda {
+    display: none;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.modal-contenido {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 1000px;
+    min-height: 60%;
+    overflow: auto;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+    border: 2px solid #555;
+    background-image: url("../imgStatic/gatos-bienvenida.png");
+    background-size: cover;
+    background-blend-mode: multiply;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #555;
+    padding-bottom: 10px;
+}
+
+.modal-header div {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-family: "Clip";
+    color: rgb(243 187 255 / 81%);
+    font-size: 2em;
+    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd, -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd, 0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+
+}
+
+.cerrar-modal {
+    cursor: pointer;
+    font-size: 24px;
+    color: rgba(207, 76, 234, 0.81);
+}
+
+.cerrar-modal:hover {
+    color: #fff;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.infografia {
+    max-width: 100%;
+    max-height: 70vh;
+    border-radius: 10px;
+    border: 2px solid #555;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+}
+.boton-ayuda{
+    position:absolute;
+    color:white;
+    top:20px;
+    right:20px;
+}
+
+.boton-ayuda i {
+    font-size: 38px;
+}
+.boton-ayuda i:hover {
+    font-size: 40px;
+    color: rgba(207, 76, 234, 0.81);
+
+}
+
+
+/* Estilo general para la barra de desplazamiento */
+.c-partidas::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Fondo de la barra de desplazamiento */
+.c-partidas::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+/* Thumb (la parte móvil de la barra de desplazamiento) */
+.c-partidas::-webkit-scrollbar-thumb {
+    background: #967196e3;
+    border-radius: 4px;
+    border: 3px solid rgba(0, 0, 0, 0.7);
+}
+
+/* Hover sobre el thumb */
+.c-partidas::-webkit-scrollbar-thumb:hover {
+    background: #d331c9;
 }

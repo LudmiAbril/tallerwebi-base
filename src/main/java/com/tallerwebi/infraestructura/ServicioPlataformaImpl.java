@@ -73,4 +73,9 @@ public class ServicioPlataformaImpl implements ServicioPlataforma {
         return this.repositorioPartida.guardarCompra(compra);
     }
 
+    @Override
+    public List<Partida> obtenerTodasLasPartidasDelUsuario(Long idUsuario) throws PartidaDeUsuarioNoEncontradaException {
+        return this.repositorioPartida.listarTodasLasPartidasDelUsuario(idUsuario);
+    }
+
 }

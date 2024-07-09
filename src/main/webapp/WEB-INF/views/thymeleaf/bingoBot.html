@@ -28,6 +28,8 @@
 
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css}">
     <script th:src="@{https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js}"></script>
+    <link rel="stylesheet"
+        th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}" />
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script th:src="@{/js/customModal.js}"></script>
@@ -50,8 +52,11 @@
         <a href="javascript:void(0)" id="openCustomExitModal">
             <span class="material-symbols-outlined icono">arrow_back</span>
         </a>
+
         <!-- Icono para reproducir/pausar música -->
-        <i id="toggleMusica" class="fas fa-music boton-musica" onclick="togglePlaylist()"></i>
+        <div class="boton-musica">
+            <i id="toggleMusica" class="fas fa-music" onclick="togglePlaylist()"></i>
+        </div>
 
         <!-- Contenedor de la playlist -->
         <div class="playlist-container" th:classappend="${playlistVisible} ? '' : 'hidden'">
@@ -64,22 +69,6 @@
     </nav>
 
     <main class="container">
-
-        <div>
-            <h3>Últimas compras</h3>
-            <div th:if="${compras}">
-                <ul>
-                    <li th:each="compra : ${compras}">
-                        <p>Descripción: <span th:text="${compra.descripcion}"></span></p>
-                        <p>Precio: <span th:text="${compra.precio}"></span></p>
-                        <p>Fecha: <span th:text="${#dates.format(compra.fecha, 'dd-MM-yyyy HH:mm')}"></span></p>
-                    </li>
-                </ul>
-            </div>
-            <div th:if="${mensajeError}">
-                <p th:text="${mensajeError}"></p>
-            </div>
-        </div>
 
         <!----NUMERO QUE SALE---->
         <div class="numeroCantadoContenedor">
@@ -148,7 +137,7 @@
                 <span class="close-custom" id="closeCustomExitModal">&times;</span>
             </div>
             <div class="modal-body-custom">
-                ¿Estás seguro de que deseas abandonar la partida?
+                &iquest;Est&aacute;s seguro de que deseas abandonar la partida?
             </div>
             <div class="modal-footer-custom">
                 <button id="customCancelButton" class="boton-cancelar-custom">
@@ -164,20 +153,16 @@
         <div class="modal-content2">
             <img th:src="@{/imgStatic/gatitoTriste.png}" alt="gato triste" class="gatoTriste">
             <div class="text-container">
-                <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el límite de números cantados!</h3>
+                <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el l&iacute;mite de n&uacute;meros cantados!</h3>
                 <form th:action="@{/finalizarPartidaBot}" method="post">
                     <button type="submit" class="boton-volver">Finalizar</button>
-                </form>
-                <form action="#" method="post">
-                    <button type="submit" class="boton-volver" onclick="abrirModalDeCompra()">Comprar una
-                        tirada</button>
                 </form>
                 <p th:text="${mensajeError}" class="mensajeErrorPartidaBingo"></p>
             </div>
         </div>
     </div>
 
-    <!-- Modal de compra de tirada -->
+    <!-- Modal de compra de tirada
     <div class="modal" id="modalCompra">
         <h3>Compra tirada</h3>
         <form action="" method="post" class="formCompra">
@@ -208,13 +193,13 @@
 
         <div class="modalCompraIngresoTarjeta">
             <form action="" method="post">
-                <input type="text" placeholder="Ingresá el nombre del titular de la tarjeta">
-                <input type="number" name="" id="" value="" placeholder="Ingresá el número">
-                <input type="date" name="" id="" placeholder="Ingresá la fecha de vencimiento">
-                <input type="number" name="" id="" placeholder="Ingresá el código de seguridad" maxlength="4">
+                <input type="text" placeholder="Ingres&aacute; el nombre del titular de la tarjeta">
+                <input type="number" name="" id="" value="" placeholder="Ingres&aacute; el número">
+                <input type="date" name="" id="" placeholder="Ingres&aacute; la fecha de vencimiento">
+                <input type="number" name="" id="" placeholder="Ingres&aacute; el código de seguridad" maxlength="4">
             </form>
         </div>
-    </div>
+    </div> -->
 
 
     <script th:src="@{/js/musica.js}"></script>

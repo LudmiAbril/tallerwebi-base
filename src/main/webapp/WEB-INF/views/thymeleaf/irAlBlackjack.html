@@ -4,6 +4,8 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title>Blackjack</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
     <link rel="stylesheet" th:href="@{/css/estilos-IrA.css}" />
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}">
     <link rel="preconnect" th:href="@{https://fonts.googleapis.com}" />
@@ -60,7 +62,7 @@
   <div id="timeModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <h2>¿Cuánto tiempo quieres jugar?</h2>
+      <h2>&iquest;Cu&aacute;nto tiempo quieres jugar?</h2>
       <form th:action="@{/blackjack}" method="post" th:object="${nuevoJugador}">
         <input type="hidden" name="contrareloj" value="true" />
         <label for="tiempoLimite">Tiempo en minutos:</label>
@@ -101,7 +103,7 @@
         if (time) {
           window.location.href = `/blackjack?time=${time}`; // Ajusta la URL según sea necesario
         } else {
-          alert("Por favor, ingresa un tiempo válido.");
+          alert("Por favor, ingresa un tiempo v&aacute;lido.");
         }
       };
     </script>

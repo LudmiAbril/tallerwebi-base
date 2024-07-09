@@ -14,6 +14,8 @@
   <link rel="stylesheet" th:href="@{/css/abandonarPartida.css}" />
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}" />
+
   <!-- javascript-->
   <script type="module" th:src="@{/js/blackjack.js}"></script>
   <script th:src="@{/js/cronometro.js}"></script>
@@ -28,6 +30,24 @@
       <span class="material-symbols-outlined icono">arrow_back</span>
     </a>
   </nav>
+
+  <a href="javascript:void(0)" class="boton-ayuda" onclick="abrirModalAyuda()">
+    <i class="fas fa-question-circle"></i>
+  </a>
+
+  <!-- Modal de ayuda -->
+  <div id="modalAyuda" class="modal-ayuda">
+    <div class="modal-contenido">
+      <div class="modal-header">
+        <h2>&iquest;C&oacute;MO JUGAR?</h2>
+        <span class="cerrar-modal" onclick="cerrarModalAyuda()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <img th:src="@{/imgStatic/infografiaBj.png}" class="infografia" alt="infografiaBingo">
+      </div>
+    </div>
+  </div>
+
   <!-- El modal que se abre al finalizar la partida -->
   <div id="modalFinPartida" class="modal">
     <!-- Contenido del modal -->
@@ -91,7 +111,7 @@ transform: translateY(-50px);
       </div>
     </div>
   </main>
-  <!-- Modal de Confirmación -->
+  <!-- Modal de Confirmaci&oacute;n -->
   <div id="customExitModal" class="modal-custom">
     <div class="modal-content-custom">
       <div class="modal-header-custom">
@@ -99,7 +119,7 @@ transform: translateY(-50px);
         <span class="close-custom" id="closeCustomExitModal">&times;</span>
       </div>
       <div class="modal-body-custom">
-        ¿Estás seguro de que deseas abandonar la partida?
+        &iquest;Est&aacute;s seguro de que deseas abandonar la partida?
       </div>
       <div class="modal-footer-custom">
         <button id="customCancelButton" class="boton-cancelar-custom">
@@ -109,9 +129,8 @@ transform: translateY(-50px);
       </div>
     </div>
   </div>
-  <script>
+  <script th:src="@{/js/modalAyuda.js}"></script>
 
-  </script>
 </body>
 
 </html>
