@@ -96,3 +96,15 @@ $(document).ready(function () {
     actualizarTablero();
     setInterval(comprobarSiSeGano, 5000);
 });
+
+
+
+function abrirModalCompra() {
+    document.getElementById('modalCompra').style.display = 'flex';
+    document.querySelector('.flecha-atras').style.display = 'none';
+}
+
+function cerrarModalCompra() {
+    document.getElementById('modalCompra').style.display = 'none';
+    resetSecciones();
+}
