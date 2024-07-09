@@ -30,62 +30,66 @@ body {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    text-align: center;
     margin: 2%;
   }
   .cards {
     display: flex;
-  /*  overflow-x: auto;  Permite scroll horizontal en dispositivos pequeños */
     gap: 15px;
-    padding: 15px 0; /* Espaciado para separar de los bordes */
+    padding: 15px 0;
   
 }
 
 .cards .card {
     text-align: center;
-    flex: 0 0 auto; /* No crecerán, mantendrán su tamaño */
-    width: 250px;
+    flex: 0 0 auto; 
+    width: 200px;
     border-radius: 10px;
     color: rgb(0, 0, 0);
     cursor: pointer;
     transition: 400ms;
-    position: relative; /* Para posicionar las flechas */
+    position: relative; 
+    animation: glow 2s ease-in-out infinite alternate;
 }
 
   .cards .lilac-1 {
-    background-color: #D8BFD8; /* Thistle */
+    background-color: #ff65bd;
   }
   
   .cards .lilac-2 {
-    background-color: #E6E6FA; /* Lavender */
+    background-color: #37276b;
   }
   
   .cards .lilac-3 {
-    background-color: #DDA0DD; /* Plum */
+    background-color: #DDA0DD;
   }
   
   .cards .lilac-4 {
-    background-color: #DA70D6; /* Orchid */
+    background-color: #8a2be2;
   }
   
   .cards .lilac-5 {
-    background-color: #BA55D3; /* Medium Orchid */
+    background-color: #BA55D3;
   }
   
 
   
   
   .cards .card p.tip {
-    font-size: 1em;
-    color: rgb(36, 31, 98);
-    font-family: "Clip";
+    font-size: 1.2em;
+    font-family: 'Teko', sans-serif;
+    color: #fff;
     text-align: center;
     text-transform: uppercase;
+    margin: 0.2em;
     font-weight: 700;
 }
   
   
   .cards .card p.second-text {
-    font-size: .7em;
+    font-size: 0.8em;
+    color: rgb(18 15 54);
+    font-family: 'Teko', sans-serif;
   }
   
   .cards .card:hover {
@@ -323,35 +327,17 @@ body {
 
 }
 
-.scroll-btn {
-  .scroll-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    padding: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    z-index: 1; /* Para estar sobre las tarjetas */
-}
 
-.scroll-btn:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-.left-btn {
-    left: 10px;
-}
-
-.right-btn {
-    right: 10px;
-}
 
 .nav-bar {
     margin: 2%;
     height: 15px;
+    
+}
+.icono{
+   
     color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     text-align: center;
 }
-}
+

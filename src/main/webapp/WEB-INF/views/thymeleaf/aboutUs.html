@@ -57,45 +57,11 @@
                 <p class="tip">Ludmi</p>
                 <p class="second-text">La team leader del team gatitos</p>
             </div>
-            <!-- Flechas de navegación -->
-            <div class="scroll-btn left-btn">&#8249;</div>
-            <div class="scroll-btn right-btn">&#8250;</div>
+         
         </div>
     </div>
 
-    <script>
-        // Script para manejar la navegación con flechas
-        const scrollRight = document.querySelector('.right-btn');
-        const scrollLeft = document.querySelector('.left-btn');
-        const cards = document.querySelector('.cards');
-
-        // Función para verificar si hay overflow horizontal
-        function checkScroll() {
-            scrollLeft.style.display = cards.scrollLeft > 0 ? 'block' : 'none';
-            scrollRight.style.display = cards.scrollLeft + cards.clientWidth < cards.scrollWidth ? 'block' : 'none';
-        }
-
-        // Verificar al cargar la página y al redimensionar
-        checkScroll();
-        window.addEventListener('resize', checkScroll);
-
-        // Navegación al hacer clic en las flechas
-        scrollRight.addEventListener('click', function () {
-            cards.scrollBy({
-                left: 300,
-                behavior: 'smooth'
-            });
-            checkScroll();
-        });
-
-        scrollLeft.addEventListener('click', function () {
-            cards.scrollBy({
-                left: -300,
-                behavior: 'smooth'
-            });
-            checkScroll();
-        });
-    </script>
+    
 </body>
 
 </html>
