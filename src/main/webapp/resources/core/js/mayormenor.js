@@ -29,6 +29,14 @@ $(document).ready(function () {
     //seagrego
     function iniciarPartida() {
         $.get("ComenzarMayorMenor", function (data) {
+               // partidas anteriores
+    if (data.partidas) {
+        data.partidas.forEach(function (partida) {
+          $(".c-partidas").append(
+            partida.fechaYhora + " puntaje alcanzado: " + partida.puntaje + "</br>" 
+          );
+        });
+      }
             cartaActual = data.cartaInicial;
             aciertos = 0;
             actualizarAciertos(aciertos);
