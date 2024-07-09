@@ -227,81 +227,41 @@
       </div>
     </div>
 
-    <!-- HISOTRIAL PARTIDAS -->
     <div id="modal-history" class="modal">
       <div class="modal-content3">
         <span class="close" onclick="closeModal('modal-history')">&times;</span>
-        <h2>Mis Partidas</h2>
+        <h2 id="misPartidas">Mis Partidas</h2>
         <div class="filtro-div">
-          <h3>Filtrar por juego:</h3>
           <div id="filtro-juego">
-            <label
-              ><input
-                type="radio"
-                name="juego-op"
-                value="todos"
-                checked
-                onchange="filtrarPorJuego()"
-              />
-              Todos</label
-            >
-            <label
-              ><input
-                type="radio"
-                name="juego-op"
-                value="BINGO"
-                onchange="filtrarPorJuego()"
-              />
-              Bingo</label
-            >
-            <label
-              ><input
-                type="radio"
-                name="juego-op"
-                value="BLACKJACK"
-                onchange="filtrarPorJuego()"
-              />
-              Blackjack</label
-            >
-            <label
-              ><input
-                type="radio"
-                name="juego-op"
-                value="SENKU"
-                onchange="filtrarPorJuego()"
-              />
-              Senku</label
-            >
-            <label
-              ><input
-                type="radio"
-                name="juego-op"
-                value="MAYOR_MENOR"
-                onchange="filtrarPorJuego()"
-              />
-              Mayor o menor</label
-            >
+            <label><input type="radio" name="juego-op" value="todos" checked onchange="filtrarPorJuego()"/> Todos</label>
+            <label><input type="radio" name="juego-op" value="BINGO" onchange="filtrarPorJuego()"/>Bingo</label>
+            <label><input type="radio" name="juego-op" value="BLACKJACK" onchange="filtrarPorJuego()"/>Blackjack</label>
+            <label><input type="radio" name="juego-op" value="SENKU" onchange="filtrarPorJuego()"/>Senku</label>
+            <label><input type="radio" name="juego-op" value="MAYOR_MENOR" onchange="filtrarPorJuego()"/>Mayor o menor</label>
           </div>
         </div>
-        <table class="tabla-historial">
-          <thead class="tabla-historial-encabezados">
+        <div class="contenedorTablaHistorial">
+          <table class="tabla-historial">
+            <thead class="tabla-historial-encabezados">
             <tr>
               <th>Puntaje</th>
               <th>Juego</th>
               <th>Fecha</th>
             </tr>
-          </thead>
-          <tbody class="tabla-historial-cuerpo">
+            </thead>
+            <tbody class="tabla-historial-cuerpo">
             <tr>
               <td>-</td>
               <td>-</td>
               <td>-</td>
             </tr>
-          </tbody>
-        </table>
+            </tbody>
+          </table>
+        </div>
         <div id="mensaje-partidas"></div>
       </div>
     </div>
+
 
     <section class="container">
       <div class="columna">
@@ -319,6 +279,10 @@
             <span class="material-symbols-outlined">history</span>
             <span>Historial de partidas</span>
           </div>
+          <div class="menu-item">
+            <span class="material-symbols-outlined">info</span>
+            <a th:href="@{/aboutUs}"<span>Sobre Nosotros</span></a>
+        </div>
           <div class="menu-item" onclick="openModal('exitModal')">
             <span class="material-symbols-outlined">logout</span>
             <span>Salir</span>

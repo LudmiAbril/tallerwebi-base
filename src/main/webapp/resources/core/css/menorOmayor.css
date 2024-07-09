@@ -1,0 +1,427 @@
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #291033;
+    background-image: url("../imgStatic/fondos/fondoMoM.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+}
+
+.mt {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.nav-bar {
+    display: flex;
+    align-items: center;
+}
+
+.icono {
+    color: #e140ec;
+    font-size: 25px;
+    text-shadow: 0 0 10px #e140ec, 0 0 20px #e140ec, 0 0 30px #e140ec, 0 0 40px #e140ec, 0 0 50px #F9EADE, 0 0 60px #F9EADE, 0 0 70px #F9EADE;
+}
+
+.icono:hover {
+    color: white;
+}
+
+.top-right-buttons {
+    display: flex;
+    position: absolute;
+    top: 2%;
+    right: 20px;
+    gap: 10px;
+}
+
+.boton-ayuda, .boton-compra {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.boton-ayuda {
+    background-color: #5c35a2;
+}
+
+.boton-ayuda:hover {
+    background-color: #452c81;
+}
+
+.boton-compra {
+    background-color: #91690a;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.boton-compra:hover {
+    background-color: rgb(81, 60, 4);
+}
+
+.material-symbols-outlined {
+    margin-right: 5px;
+}
+
+/* Resto de los estilos */
+.aciertos-container {
+    display: flex;
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+    background-color: #8c4ca9;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 0 0px 50px 0px;
+    font-size: 18px;
+    box-shadow: 0 0 10px rgba(140, 76, 169, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.8);
+
+    animation: pulse 2s infinite;
+}
+
+.aciertos-container .material-symbols-outlined {
+    font-size: 30px;
+    margin-right: 10px;
+    animation: bounce 2s infinite;
+}
+
+/* Definición de la animación de pulso */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(140, 76, 169, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.8);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px rgba(140, 76, 169, 1), inset 0 0 20px rgba(0, 0, 0, 1);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(140, 76, 169, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.8);
+    }
+}
+
+/* Definición de la animación de rebote */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.container-main {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-left, .container-right {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    margin-left: 20px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+}
+
+.container-principal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50%;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+}
+
+.cartas-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.botones {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.botones button {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #f44336;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.botones button:hover {
+    background-color: #d32f2f;
+}
+
+.jugador-info {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.jugador-info h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.time {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tiempo {
+    font-size: 18px;
+}
+
+.partidas {
+    color: white;
+}
+
+.titulin {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.mensaje-partidas {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Modal de Ayuda */
+.modal-ayuda {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding-top: 60px;
+}
+
+.modal-contenido {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #888;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.cerrar-modal {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cerrar-modal:hover,
+.cerrar-modal:focus {
+    color: black;
+}
+
+.modal-body {
+    padding: 10px 0;
+}
+
+.modal-body img {
+    width: 100%;
+    height: auto;
+}
+
+/* Modal de fin de partida */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.modal-content h2,
+.modal-content h3 {
+    margin: 10px 0;
+}
+
+.botones-modal {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.boton-reiniciar,
+.boton-volver-inicio {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    background-color: #f44336;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.boton-reiniciar:hover,
+.boton-volver-inicio:hover {
+    background-color: #d32f2f;
+}
+
+/* Modal de Confirmación de Salida */
+.modal-custom {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding-top: 60px;
+}
+
+.modal-content-custom {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #888;
+    margin-bottom: 10px;
+}
+
+.modal-header-custom h5 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.close-custom {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-custom:hover,
+.close-custom:focus {
+    color: black;
+}
+
+.modal-body-custom {
+    padding: 10px 0;
+}
+
+.modal-footer-custom {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.boton-cancelar-custom,
+.boton-abandonar-custom {
+    padding: 10px 20px;
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.boton-cancelar-custom {
+    background-color: #5c35a2;
+}
+
+.boton-cancelar-custom:hover {
+    background-color: #452c81;
+}
+
+.boton-abandonar-custom {
+    background-color: #f44336;
+}
+
+.boton-abandonar-custom:hover {
+    background-color: #d32f2f;
+}
+
+/****---------------------------------SECCION COMPRA--------------------*******/
+

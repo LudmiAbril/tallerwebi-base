@@ -1,5 +1,5 @@
 /* Estilos para el modal de compra */
-.modal-ayuda {
+.modalCompra {
     display: none;
     position: fixed;
     top: 0;
@@ -15,7 +15,7 @@
     backdrop-filter: blur(5px);
 }
 
-.modal-contenido {
+.modal-contenido-compra {
     background-color: #333;
     padding: 20px;
     border-radius: 10px;
@@ -34,7 +34,7 @@
 
 }
 
-.modal-header {
+.modal-header-compra  {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -48,28 +48,28 @@
     z-index: 1000;
 
 }
-.modal-header h2 {
+.modal-header-compra  h2 {
     margin: 0;
     font-family: "Clip";
     color: white;
-    font-size: 2em;
+    font-size: 1.3em;
     text-transform: uppercase;
     text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
     -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
     0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
 }
 
-.cerrar-modal {
+.cerrar-modal-compra  {
     cursor: pointer;
     font-size: 24px;
     color: white;
 }
 
-.cerrar-modal:hover {
+.cerrar-modal-compra :hover {
     color: #fff;
 }
 
-.modal-body {
+.modal-body-compra  {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -270,12 +270,11 @@ a{
 }
 
 .card {
-    max-width: 300px;
+    max-width: 233px;
     margin: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(0, 0, 0, 0.8);
     border-radius: 10px;
     background-color: white;
-
     overflow: hidden;
 }
 
@@ -423,4 +422,16 @@ a{
 #resumenCompra th {
     background-color: #f1f1f1;
     font-weight: bold;
+}
+
+#seccionOpciones{
+    flex-direction:column;
+    align-items: center;
+}
+
+.intro-compra p{
+    color: white;
+    background-color: #0000005c;
+    border-radius: 10px;
+    padding: 5px;
 }
