@@ -95,8 +95,8 @@ public class VistaAccesoAjuegos extends VistaWeb {
 
     public void irAccesoAjuegos(String email, String contrasenia) {
         VistaHome vistaHome = new VistaHome(page);
-        vistaHome.irALogin(); // Navegar desde la página de inicio a la página de login
+        vistaHome.irALogin();
         VistaLogin vistaLogin = new VistaLogin(page);
-        vistaLogin.login(email, contrasenia); // Iniciar sesión con las credenciales proporcionadas
+        vistaLogin.login(email, contrasenia);
     }
 }
