@@ -61,7 +61,7 @@ body {
   }
   
   .cards .lilac-3 {
-    background-color: #DDA0DD;
+    background-color: #c164c1;
   }
   
   .cards .lilac-4 {
@@ -134,6 +134,14 @@ body {
     font-size: 1.5rem; 
     text-transform: uppercase;
     animation: glow 2s ease-in-out infinite alternate;
+    text-align: center;
+}
+.p {
+    color: white;
+    margin: 0;
+    font-family: 'Teko', sans-serif;
+    font-size: 1.5rem; 
+    text-transform: uppercase;
     text-align: center;
 }
 
@@ -327,17 +335,60 @@ body {
 
 }
 
+.icono {
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    z-index: 1000;
+    margin-left: 15px;
+    padding-top: 10px;
+    text-decoration: none;
+}
 
+.icono:hover {
+    text-shadow: 0 0 30px #e140ec, 0 0 50px #e140ec, 0 0 70px #e140ec, 0 0 60px #e140ec, 0 0 80px #F9EADE, 0 0 80px #F9EADE, 0 0 90px #F9EADE;
+    color: white;
+}
 
 .nav-bar {
-    margin: 2%;
-    height: 15px;
-    
-}
-.icono{
-   
-    color: white;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
+    height: 15px;
+}
+.desc {
+    text-align: center;
+    color: white;
+
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 600px; 
+    font-family: 'Teko', sans-serif;
 }
 
+.desc h3 {
+    font-family: 'Press Start 2P', cursive; /* Estilo de fuente pixel */
+    font-size: 24px;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+h4 {
+    font-family: 'Press Start 2P', cursive !important; /* Puedes mantener el estilo pixelado si quieres */
+    color: white;
+    animation: blink 1s infinite;
+    text-align: center; /* Para centrar el texto */
+    margin-top: 20px;
+}
