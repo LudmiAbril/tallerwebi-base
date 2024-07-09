@@ -733,3 +733,9 @@ button {
     color: rgba(207, 76, 234, 0.81);
 
 }
+.boton-empate{
+    position:absolute;
+    color:white;
+    top:20px;
+    right:40px;
+}
