@@ -34,17 +34,18 @@ body {
   }
   .cards {
     display: flex;
-    overflow-x: auto; /* Permite scroll horizontal en dispositivos pequeños */
+  /*  overflow-x: auto;  Permite scroll horizontal en dispositivos pequeños */
     gap: 15px;
     padding: 15px 0; /* Espaciado para separar de los bordes */
-    -webkit-overflow-scrolling: touch; /* Para mejorar la experiencia en iOS */
+  
 }
 
 .cards .card {
+    text-align: center;
     flex: 0 0 auto; /* No crecerán, mantendrán su tamaño */
     width: 250px;
     border-radius: 10px;
-    color: white;
+    color: rgb(0, 0, 0);
     cursor: pointer;
     transition: 400ms;
     position: relative; /* Para posicionar las flechas */
@@ -348,6 +349,9 @@ body {
 }
 
 .nav-bar {
+    margin: 2%;
     height: 15px;
+    color: white;
+    text-align: center;
 }
 }
