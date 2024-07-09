@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 @Entity
 @Table(name = "partida_MoM")
 public class PartidaMayorMenor extends Partida{
-    @Column(name = "aciertos")
+    @Column(name = "puntaje")
     private Integer puntaje;
 
 
