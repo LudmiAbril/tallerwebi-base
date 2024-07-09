@@ -70,7 +70,11 @@ public class ControladorAccesoJuegos {
         model.addAttribute("usuarioConfig", jugador.getConfig());
         return new ModelAndView("acceso-juegos", model);
     }
-
+    @RequestMapping(path = "/aboutUs")
+    public ModelAndView aboutUs() {
+       
+        return new ModelAndView("aboutUs");
+    }
     @RequestMapping(path = "/verRanking")
     public ModelAndView verRanking(@RequestParam("tipoJuego") Juego tipoJuego) {
 
