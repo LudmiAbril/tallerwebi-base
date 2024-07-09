@@ -34,7 +34,7 @@
         <div class="margin">
             <h1 class="sign"><span class="fast-flicker">R</span>A<span class="fast-flicker">N</span>K<span
                     class="fast-flicker">I</span>N<span class="fast-flicker">G</span></h1>
-            <h2 class="subtitulo">¡Los verdaderos gatos en la ciudad!</h2>
+            <h2 class="subtitulo">&iexcl;Los verdaderos gatos en la ciudad!</h2>
             <p th:if="${mensajeError}" th:text="${mensajeError}" class="mensajeError"></p>
             <p th:unless="${mensajeError}" class="subtitulojuego">
                 <span th:text="${nombreJuego}" class="subtitulojuego"></span>
@@ -45,8 +45,8 @@
                 <div class="w3-card-4 cajita-partida" th:classappend="${iterStat.index > 3} ? 'hidden'">
                     <div th:switch="${partida.getClass().simpleName}">
                         <div th:case="'PartidaBingo'">
-                            <p>Bingo: <span th:text="${partida.seHizoBingo ? 'si' : 'No'}"></span></p>
-                            <p>Línea: <span th:text="${partida.seHizoLinea ? 'si' : 'No'}"></span></p>
+                            <p>Bingo: <span th:text="${partida.seHizoBingo ? 'Si' : 'No'}"></span></p>
+                            <p>L&iacute;nea: <span th:text="${partida.seHizoLinea ? 'Si' : 'No'}"></span></p>
                             <p>Cantidad de numeros marcados: <span th:text="${partida.cantidadDeCasillerosMarcados}"></span></p>
                             <p>Casilleros marcados:</p>
                             <ul class="casilleros-marcados">
@@ -54,14 +54,14 @@
                                     <span th:text="${casillero}"></span>
                                 </li>
                             </ul>
-                            <p>Gano el bot: <span th:text="${partida.seHizoBingoBot ? 'si' : 'no'}"></span></p>
+                            <p>Gan&oacute; el bot: <span th:text="${partida.seHizoBingoBot ? 'Si' : 'No'}"></span></p>
                         </div>
                         <div th:case="'PartidaBlackJack'">
-                            <p>Ganado: <span th:text="${partida.gano ? 'Sí' : 'No'}"></span></p>
+                            <p>Ganado: <span th:text="${partida.gano ? 'S&iacute;' : 'No'}"></span></p>
                             <p>Puntaje: <span th:text="${partida.puntaje}"></span></p>
                         </div>
                         <div th:case="'PartidaSenku'">
-                            <p>Ganado: <span th:text="${partida.ganado ? 'Sí' : 'No'}"></span></p>
+                            <p>Ganado: <span th:text="${partida.ganado ? 'S&iacute;' : 'No'}"></span></p>
                             <p>Cantidad de movimientos: <span th:text="${partida.cantidadMovimientos}"></span></p>
                         </div>
                         <div th:case="'PartidaMayorMenor'">
