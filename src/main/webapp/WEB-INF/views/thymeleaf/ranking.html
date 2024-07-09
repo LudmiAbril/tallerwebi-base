@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,20 +9,15 @@
     <!-- Estilos personalizados -->
     <link rel="stylesheet" th:href="@{/css/ranking.css}" />
     <link rel="stylesheet" th:href="@{https://www.w3schools.com/w3css/4/w3.css}">
-
     <link th:href="@{https://fonts.googleapis.com/css?family=Teko:700&display=swap}" rel="stylesheet">
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
     <!-- Enlace a Google Fonts con Thymeleaf -->
     <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
     <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
-    <link
-        th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500&1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}"
-        rel="stylesheet">
-    <link rel="stylesheet"
-        th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0}" />
+    <link th:href="@{https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,800;1,600&family=DM+Mono:ital,wght@0,300;0,400;0,500&1,300;1,400;1,500&family=Graduate&family=Jersey+10&family=Jersey+10+Charted&family=Merriweather:wght@300;400&family=Roboto:wght@300&display=swap}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0}" />
 </head>
-
 <body>
     <nav class="nav-bar">
         <a href="volverAlMenu">
@@ -32,8 +26,7 @@
     </nav>
     <main>
         <div class="margin">
-            <h1 class="sign"><span class="fast-flicker">R</span>A<span class="fast-flicker">N</span>K<span
-                    class="fast-flicker">I</span>N<span class="fast-flicker">G</span></h1>
+            <h1 class="sign"><span class="fast-flicker">R</span>A<span class="fast-flicker">N</span>K<span class="fast-flicker">I</span>N<span class="fast-flicker">G</span></h1>
             <h2 class="subtitulo">&iexcl;Los verdaderos gatos en la ciudad!</h2>
             <p th:if="${mensajeError}" th:text="${mensajeError}" class="mensajeError"></p>
             <p th:unless="${mensajeError}" class="subtitulojuego">
@@ -55,20 +48,25 @@
                                 </li>
                             </ul>
                             <p>Gan&oacute; el bot: <span th:text="${partida.seHizoBingoBot ? 'Si' : 'No'}"></span></p>
+                            <p>Fecha y hora: <span th:text="${partida.fechaYhora}"></span></p>
                         </div>
                         <div th:case="'PartidaBlackJack'">
                             <p>Ganado: <span th:text="${partida.gano ? 'S&iacute;' : 'No'}"></span></p>
                             <p>Puntaje: <span th:text="${partida.puntaje}"></span></p>
+                            <p>Fecha y hora: <span th:text="${partida.fechaYhora}"></span></p>
                         </div>
                         <div th:case="'PartidaSenku'">
                             <p>Ganado: <span th:text="${partida.ganado ? 'S&iacute;' : 'No'}"></span></p>
                             <p>Cantidad de movimientos: <span th:text="${partida.cantidadMovimientos}"></span></p>
+                            <p>Fecha y hora: <span th:text="${partida.fechaYhora}"></span></p>
                         </div>
                         <div th:case="'PartidaMayorMenor'">
                             <p>Puntaje (aciertos): <span th:text="${partida.puntaje}"></span></p>
+                            <p>Fecha y hora: <span th:text="${partida.fechaYhora}"></span></p>
                         </div>
                         <div th:case="*">
                             <p>Puntaje: <span th:text="${partida.puntaje}"></span></p>
+                            <p>Fecha y hora: <span th:text="${partida.fechaYhora}"></span></p>
                         </div>
                     </div>
                 </div>
@@ -76,5 +74,4 @@
         </div>
     </main>
 </body>
-
 </html>

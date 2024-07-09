@@ -298,7 +298,7 @@ public ModelAndView finalizarPartida(HttpSession session) throws BingoBotEsNullE
     partidaSenku.setJuego(Juego.SENKU);
     ((PartidaSenku) partidaSenku).setGanado(seGano);
     ((PartidaSenku) partidaSenku).setCantidadMovimientos((Integer) session.getAttribute("contadorMovimientos"));
-
+    ((PartidaSenku) partidaSenku).setPuntaje(setearPuntaje((Integer) session.getAttribute("contadorMovimientos")));
     try {
         servicioPlataforma.agregarPartida(partidaSenku);
     } catch (IllegalArgumentException e) {
@@ -309,6 +309,17 @@ public ModelAndView finalizarPartida(HttpSession session) throws BingoBotEsNullE
 
     return new ModelAndView("redirect:/acceso-juegos");
 }
+
+private Integer setearPuntaje(Integer movimientosTotales) {
+    if (movimientosTotales <= 10) {
+        return 3;
+    } else if (movimientosTotales <= 20) {
+        return 6;
+    } else {
+        return 9 + (movimientosTotales - 20);
+    }
+}
+
 
 
 }

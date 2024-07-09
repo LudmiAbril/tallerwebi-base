@@ -264,7 +264,8 @@ public class RepositorioPartidaTest {
         Juego juego = Juego.SENKU;
         Boolean ganado = true;
         Integer cantidadMovimientos = 50;
-        Partida partidaSenku = new PartidaSenku(idJugador, juego, ganado, cantidadMovimientos);
+        Integer puntaje = 50;
+        Partida partidaSenku = new PartidaSenku(idJugador, juego, ganado, cantidadMovimientos, puntaje);
         // WHEN
         repositorio.guardar(partidaSenku);
         // THEN
