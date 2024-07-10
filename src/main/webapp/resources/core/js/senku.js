@@ -1,17 +1,6 @@
 import { start, stop } from './cronometro.js';
 
 $(document).ready(function () {
-    const tutoBtn = document.getElementById("boton-ayuda");
-    const carousel = document.getElementById("carouselExampleIndicators");
-    
-   
-    tutoBtn.addEventListener("click", function() {
-        if (carousel.style.display === "none" || carousel.style.display === "") {
-            carousel.style.display = "block";
-        } else {
-            carousel.style.display = "none";
-        }
-    });
 
     function actualizarTablero() {
         $.get("obtenerTablero", function (data) {

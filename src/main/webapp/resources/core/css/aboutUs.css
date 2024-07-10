@@ -31,7 +31,7 @@ main {
     justify-content: center;
     flex-direction: column;
     text-align: center;
-    margin: 2%;
+    margin: 1% 2% 2% 2%;
 }
 
 .cards {
@@ -169,8 +169,8 @@ main {
     color: white;
     font-size: 20px;
     z-index: 1000;
-    margin-left: 15px;
-    padding-top: 10px;
+    margin-left: 23px;
+    padding-top: 15px;
     text-decoration: none;
 }
 
@@ -180,18 +180,12 @@ main {
 }
 
 .nav-bar {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
     height: 15px;
 }
 
 .frasecita {
     text-align: center;
     font-style: italic;
-    margin-top: 50px;
     padding: 10px;
     border-top: 1px solid #d3d3d3;
     color: #6a0dad; /* Lilac color scheme */
