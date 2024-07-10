@@ -1,3 +1,5 @@
+
+
 function initializeCustomModal() {
     $('#openCustomExitModal').click(function (e) {
         e.preventDefault();
