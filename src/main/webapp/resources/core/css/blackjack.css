@@ -208,7 +208,7 @@ button {
     flex-direction: column;
     align-items: center;
     width: 380px;
-    max-height: 250px;
+    max-height: 370px;
 }
 
 .c-partidas {
@@ -279,7 +279,7 @@ button {
     font-weight: bold;
     text-transform: uppercase;
     font-size: larger;
-    margin-top: -35px;
+    margin-top: -7px;
     text-shadow: 2px 2px 4px rgba(116, 75, 139, 0.986);
 }
 
@@ -481,18 +481,16 @@ button {
 }
 
 
-/* Estilo general para la barra de desplazamiento */
 .c-partidas::-webkit-scrollbar {
     width: 12px;
 }
 
-/* Fondo de la barra de desplazamiento */
 .c-partidas::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 4px;
 }
 
-/* Thumb (la parte móvil de la barra de desplazamiento) */
+
 .c-partidas::-webkit-scrollbar-thumb {
     background: #967196e3;
     border-radius: 4px;
@@ -502,4 +500,52 @@ button {
 /* Hover sobre el thumb */
 .c-partidas::-webkit-scrollbar-thumb:hover {
     background: #d331c9;
+}
+
+
+.title-container {
+    justify-content:center;;
+    text-align: center;
+    position: relative;
+    display: flex;
+}
+
+.title-container h2 {
+    margin-top: -30px;
+    margin-bottom: 25px;
+    font-family: 'Arial Black', Arial, sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    color: #fff;
+    text-shadow: 0 1px 0 #FF0000,
+    0 2px 0 #FF4500,
+    0 3px 0 #FF6347,
+    0 4px 0 #FF8C00,
+    0 5px 0 #FFA500,
+    0 6px 1px rgba(255, 140, 0, 0.2),
+    0 0 5px rgba(255, 165, 0, 0.2),
+    0 1px 3px rgba(255, 215, 0, 0.5),
+    0 3px 5px rgba(255, 255, 0, 0.4),
+    0 5px 10px rgba(255, 69, 0, 0.5),
+    0 10px 10px rgba(255, 0, 0, 0.72),
+    0 20px 20px rgba(255, 0, 0, 0.72);
+    text-transform: uppercase;
+}
+
+.title-container i {
+    margin: -41px 10px 0 10px;
+    font-size: 45px;
+    color: #fff;
+    text-shadow: 0 1px 0 #FF0000,
+    0 2px 0 #FF4500,
+    0 3px 0 #FF6347,
+    0 4px 0 #FF8C00,
+    0 5px 0 #FFA500,
+    0 6px 1px rgba(255, 140, 0, 0.2),
+    0 0 5px rgba(255, 165, 0, 0.2),
+    0 1px 3px rgba(255, 215, 0, 0.5),
+    0 3px 5px rgba(255, 255, 0, 0.4),
+    0 5px 10px rgba(255, 69, 0, 0.5),
+    0 10px 10px rgba(255, 0, 0, 0.72),
+    0 20px 20px rgba(255, 0, 0, 0.72);
 }

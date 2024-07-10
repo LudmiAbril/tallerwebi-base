@@ -287,6 +287,7 @@ color: white;
 }
 .info-box .fa {
     margin-right: 10px;
+    color:white;
 }
 
 /* ------------------------ESTILOS MUSICA--------------------------- */
@@ -368,10 +369,12 @@ color: white;
 
 
 .modal-contentSenku {
+    margin: 5% auto;
+    border: 1px solid #888;
     background-color: #1b1b1b;
     color: #fff;
-    min-width: 40%;
-    padding: 20px;
+    max-width: 50%;
+    padding: 20px 0 53px 0;
     border-radius: 10px;
     text-align: center;
     position: relative;
@@ -404,7 +407,6 @@ color: white;
 
 
 .modal-contentSenku button {
-    background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
     font-size: 16px;
@@ -450,22 +452,22 @@ width: 50%;
 .modal-ayuda {
     display: none;
     position: fixed;
+    left:0;
     top: 0;
-    width: 120%;
-    height: 101%;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
     z-index: 4000;
     justify-content: center;
     align-items: center;
-    overflow: auto;
     padding: 20px;
     backdrop-filter: blur(5px);
-    transform: translate(-27%, -1%);
 }
 
 .modal-contenidoAyuda {
     background-color: #333;
     padding: 20px;
+    margin: 0 auto;
     border-radius: 10px;
     width: 80%;
     max-width: 1000px;
@@ -478,10 +480,9 @@ width: 50%;
     background-image: url("../imgStatic/gatos-bienvenida.png");
     background-size: cover;
     background-blend-mode: multiply;
-    transform: translate(15%, 0%);
 }
 
-.modal-header {
+.modal-headerSenku {
     display: flex;
     justify-content: space-between;
     align-items: start;
@@ -490,13 +491,13 @@ width: 50%;
     padding: 0 1rem 1rem 1rem
 }
 
-.modal-header div {
+.modal-headerSenku div {
     display: flex;
     flex-direction: column;
     gap: 1em;
 }
 
-.modal-header h2 {
+.modal-headerSenku h2 {
     margin: 0;
     font-family: "Clip";
     color: rgb(243 187 255 / 81%);
