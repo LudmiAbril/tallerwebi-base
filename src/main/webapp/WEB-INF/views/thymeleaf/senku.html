@@ -121,10 +121,13 @@
       </div>
     </div>
       
+    <div class="separacion">
  
       <!-- Mensaje Actualizacion Movimientos -->
+     
       <p class="mensaje" ><span class="mensaje" th:text="${mensaje}"></span></p>
             <!-- Tablero -->
+         
             <div class="tablero-fondo">
                 <div class="tablero"></div>
             </div>
@@ -135,6 +138,21 @@
                 </form>
 
             </div>
+       
+      
+          
+            <div class="partidas">
+                <p class="titulin">Tu historial de partidas</p>
+                <div th:each="partida, iterStat : ${partidas}" th:limit="2">
+                    <p>Partida ganada: <span th:text="${partida.ganado ? 'Sí' : 'No'}"></span></p>
+                    <p>Cantidad de movimientos: <span th:text="${partida.cantidadMovimientos}"></span></p>
+                    <p>Fecha y hora: <span th:text="${partida.fechaYhora}"></span></p>
+                    <hr th:if="${!iterStat.last}"> 
+                </div>
+                <p th:if="${#lists.isEmpty(partidas)}" class="no-partidas">Aún no hay partidas registradas.</p>
+            </div>
+            
+        </div>
             <!-- Modal de Confirmaci&oacute;n -->
             <div id="customExitModal" class="modal-custom">
                 <div class="modal-content-custom">

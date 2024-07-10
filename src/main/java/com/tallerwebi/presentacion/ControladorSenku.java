@@ -35,6 +35,7 @@ import com.tallerwebi.dominio.excepcion.CasilleroVacio;
 import com.tallerwebi.dominio.excepcion.MovimientoInvalidoException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 import com.tallerwebi.dominio.excepcion.PartidaDeUsuarioNoEncontradaException;
+import com.tallerwebi.dominio.excepcion.PartidasDelJuegoNoEncontradasException;
 
 @Controller
 public class ControladorSenku {
@@ -52,7 +53,7 @@ public class ControladorSenku {
     public ModelAndView inicioSenku() {
         ModelMap modelo = new ModelMap();
         modelo.put("nuevoJugador", new Jugador());
-       
+        
         return new ModelAndView("irAlSenku", modelo);
     }
 
@@ -60,88 +61,47 @@ public class ControladorSenku {
     public ModelAndView comenzarJuegoSenku(HttpSession session) {
         ModelMap model = new ModelMap();
         Usuario usuario;
-       
+        List<Partida> partidas = (List<Partida>) session.getAttribute("partidas");
         if (session.getAttribute("jugadorActual") == null
-                || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
-
+        || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
+            
             usuario = new Usuario();
             usuario.setNombre("user");
             session.setAttribute("jugadorActual", usuario);
         } else {
             usuario = (Usuario) session.getAttribute("jugadorActual");
-           
+            
         }
-
+        
         session.setAttribute("dimensionDelTablero", usuario.getConfig().getDimensionTablero());
         session.setAttribute("maxMovimientos", usuario.getConfig().getMaxMovimientos());
         Integer dimensionTablero = (Integer) session.getAttribute("dimensionDelTablero");
-  
+        
         if (dimensionTablero == null || dimensionTablero % 2 == 0) {
             dimensionTablero = 5;
         }
         Senku senku = new Senku(dimensionTablero);
         Tablero tablero = senku.getTablero();
         session.setAttribute("tablero", tablero);
+        try {
+            partidas = servicioPlataforma.obtenerUltimasPartidasDelUsuario(usuario.getId(), Juego.SENKU);
+            session.setAttribute("partidas", partidas);
+    
+        } catch (PartidaDeUsuarioNoEncontradaException e) {
+            model.addAttribute("mensajePartidas", "aun no hay partidas registradas");
+        }
         // PONGO LOS DATOS EN EL MODELO ASI LOS PUEDO RENDERIZAR CON THIMELEAF
         model.put("mensaje", "¡Bienvenido " + usuario.getNombre() + "!");
         model.put("mensaje2", "¡QUE COMIENCE EL JUEGO!");
         model.put("nombreJugador", usuario.getNombre());
         model.put("contadorMovimientos", 0);
-
+        model.addAttribute("nombreJuego", Juego.SENKU.toString());
+        model.addAttribute("tipoJuego", Juego.SENKU);
+        model.put("partidas", partidas);
         session.setAttribute("contadorMovimientos", 0);
         return new ModelAndView("senku", model);
     }
-    // @RequestMapping(path = "/senkuDificil", method = RequestMethod.GET)
-    // public ModelAndView comenzarSenkuModoDificil(HttpSession session,
-    //         @RequestParam(value = "tiempoLimite", required = false) Integer tiempoLimiteMinutos) {
-    //             ModelMap model = new ModelMap();
-    //             Usuario usuario;
-       
-    //             if (session.getAttribute("jugadorActual") == null
-    //                     || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
-        
-    //                 usuario = new Usuario();
-    //                 usuario.setNombre("user");
-    //                 session.setAttribute("jugadorActual", usuario);
-    //             } else {
-    //                 usuario = (Usuario) session.getAttribute("jugadorActual");
-                   
-    //             }
-        
-    //             //MODO DIFÍCIL=CONTRARELOJ
-    //             long tiempoLimiteMilisegundos = tiempoLimiteMinutos * 60 * 1000;
-    //             long tiempoExpiracion = System.currentTimeMillis() + tiempoLimiteMilisegundos;
-    //             Date fechaExpiracion = new Date(tiempoExpiracion);
-    //             SimpleDateFormat formato = new SimpleDateFormat("HH:mm");
-    //             String tiempoExpiracionFormateado = formato.format(fechaExpiracion);
-    //             //GUARDAR EN SESION
-    //             session.setAttribute("contrareloj", true);
-    //             session.setAttribute("tiempoLimite", tiempoExpiracionFormateado);
-    //             session.setAttribute("minutos", tiempoLimiteMinutos);
-    //             session.setAttribute("contadorMovimientos", 0);
-    //             session.setAttribute("dimensionDelTablero", usuario.getConfig().getDimensionTablero());
-    //             session.setAttribute("maxMovimientos", usuario.getConfig().getMaxMovimientos());
-    //             Integer dimensionTablero = (Integer) session.getAttribute("dimensionDelTablero");
-    //             if (dimensionTablero == null || dimensionTablero % 2 == 0) {
-    //                 dimensionTablero = 5;
-    //             }
-    //             Senku senku = new Senku(dimensionTablero);
-    //             Tablero tablero = senku.getTablero();
-    //             session.setAttribute("tablero", tablero);
-                
-                
-                
-    //             // AGREGANDO AL MODEL
-    //             model.put("mensaje", "¡Bienvenido " + usuario.getNombre() + "!");
-    //             model.put("mensaje2", "¡QUE COMIENCE EL JUEGO!");
-    //             model.put("nombreJugador", usuario.getNombre());
-    //             model.put("contadorMovimientos", 0);
-    //             model.put("tiempoDefault", usuario.getConfig().getDuracionSenku());
-    //             model.put("tiempoLimite", tiempoLimiteMinutos);
-    //     return new ModelAndView("senku", model);
-
-
-    //   }
+    
     @RequestMapping(path = "/obtenerTablero", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> obtenerTablero(HttpSession session) {

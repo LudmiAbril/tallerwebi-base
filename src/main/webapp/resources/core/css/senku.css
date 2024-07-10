@@ -114,6 +114,7 @@ main{
     }
 
 .mensaje{
+    color: white;
 text-align: center;
 margin: 1%;
 }
@@ -455,3 +456,48 @@ width: 50%;
     padding: 20px;
     backdrop-filter: blur(5px);
 }
+
+
+/* Estilos para el contenedor de las partidas */
+
+.partidas {
+    position: absolute;
+    bottom: 0;
+    left: 0.625em;
+margin: 1%;
+    display: flex;
+    color: white;
+    background-color: #000000a2;
+    border: 2px solid #712782b1;
+    padding: 0.625em;
+    border-radius: 8px;
+    width: 20%;
+    align-content: center;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    flex-direction: column;
+  
+}
+.separacion{
+    margin: 2%;
+}
+/* Estilos para el título del historial de partidas */
+.partidas .titulin {
+    font-size:0.875em; /* Tamaño de fuente */
+    font-weight: bold; /* Negrita */
+    margin-bottom: 0.625em; /* Espaciado inferior */
+}
+
+/* Estilos para cada línea de información de partida */
+.partidas p {
+    margin-bottom: 0.063em; 
+   font-size: 0.625em;
+}
+
+/* Estilos para el mensaje de no hay partidas */
+.partidas .no-partidas {
+    font-style: italic; /* Estilo de fuente cursiva */
+    color: #ff00c8; /* Color de texto gris */
+}
+
