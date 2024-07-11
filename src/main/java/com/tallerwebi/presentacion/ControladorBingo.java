@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.dominio.excepcion.NoHayCompras;
+import com.tallerwebi.dominio.excepcion.NoHayPartidasDeBingoException;
 import com.tallerwebi.dominio.excepcion.NoSePudoGuardarLaCompraException;
 import com.tallerwebi.dominio.excepcion.PartidaConPuntajeNegativoException;
 
@@ -325,8 +326,27 @@ public class ControladorBingo {
 			mav.setViewName("redirect:/irAlBingo");
 		} catch (Exception e) {
 			mav.setViewName("bingo");
-			mav.addObject("mensajeError", "Ocurrió un error al intentar guardar la partida.");
+			mav.addObject("mensajeError", "Ocurrió unx error al intentar guardar la partida.");
 		}
 	}
 
+	@RequestMapping(path = "/historialBingo", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> verHistorialDePartidas(HttpSession session) {
+		Map<String, Object> respuesta = new HashMap<>();
+		Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+		Long idUser = jugador.getId();
+		List<PartidaBingo> partidas = new ArrayList<>();
+		TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session
+		.getAttribute("tipoPartidaBingo");
+		try {
+			partidas = this.servicioPlataforma.generarRankingDePartidasDeBingo(idUser);
+			respuesta.put("tipoPartidaBingo", tipoPartidaBingoDeLaSesion);
+			respuesta.put("partidas", partidas);
+		} catch (NoHayPartidasDeBingoException e) {
+			respuesta.put("partidas", new ArrayList<>());  // En caso de excepción, devolvemos una lista vacía
+		}
+		return respuesta;
+	}
+	
 }

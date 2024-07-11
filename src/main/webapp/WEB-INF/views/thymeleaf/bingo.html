@@ -105,7 +105,7 @@
       </table>
 
       <!-- historial de compras -->
-      <div id="contenedorHistorial">
+      <!-- <div id="contenedorHistorial">
         <h3><i class="fas fa-history"></i>&Uacute;ltimas compras</h3>
         <div th:if="${compras}" style="min-width: 100%;">
           <div th:each="compra : ${compras}" class="compra">
@@ -120,8 +120,13 @@
         <div th:if="${mensajeErrorCompra}" class="mensaje-error">
           <p th:text="${mensajeErrorCompra}"></p>
         </div>
-      </div>
+      </div> -->
 
+    </div>
+
+    <div class="partidas" id="contenedorHistorial">
+      <p class="titulin">Tu historial de partidas</p>
+      <div id="bingoPartidas"></div>
     </div>
 
     <!-- Botones de Bingo y L&iacute;nea -->
@@ -162,7 +167,7 @@
   <div id="modalBingo" class="modal w3-animate-top">
     <div class="modal-content">
       <h3>Hiciste <span th:text="${tipoPartidaBingoDeLaSesion}"></span></h3>
-      <p>¡Felicidades, <span th:text="${nombreJugador}"></span>!</p>
+      <p>&iexcl;Felicidades, <span th:text="${nombreJugador}"></span>!</p>
       <form th:action="@{/finalizarPartida}" method="post">
         <div class="botones">
           <button type="submit" class="boton-volver">Finalizar</button>
@@ -301,7 +306,7 @@
   <div id="modalLimite" class="modal">
     <div class="modal-content2">
       <div class="text-container">
-        <h3>¡<span th:text="${nombreJugador}"></span>, alcanzaste el limite de numeros cantados!</h3>
+        <h3>&iexcl;<span th:text="${nombreJugador}"></span>, alcanzaste el limite de numeros cantados!</h3>
         <div class="botones">
           <form th:action="@{/finalizarPartida}" method="post">
             <div class="botones">

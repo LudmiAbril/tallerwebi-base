@@ -37,6 +37,28 @@ $(document).ready(function () {
 
     });
     intervaloRefresco = setInterval(refrescarNumero, 7000);
+
+    $.get("historialBingo", function (data) {
+        console.log(data);  // Verifica la estructura de datos
+        if (data.partidas && data.partidas.length > 0) {
+            data.partidas.forEach(function (partida) {
+                if (data.tipoPartidaBingo === "LINEA") {
+                    $("#bingoPartidas").append(
+                        "linea: " + partida.seHizoLinea + " fecha y hora: " + partida.fechaYhora + "<br>"
+                    );
+                } else if (data.tipoPartidaBingo === "BINGO") {
+                    $("#bingoPartidas").append(
+                        "bingo: " + partida.seHizoBingo + " fecha y hora: " + partida.fechaYhora + "<br>"
+                    );
+                }
+
+            });
+        } else {
+            $("#bingoPartidas").append("¡No hay partidas de bingo!");
+        }
+    });
+
+
 });
 function refrescarNumero() {
     obtenerLosNumerosEntregados();
@@ -203,3 +225,5 @@ function linea() {
 function abrirModalDeLimiteAlcanzado() {
     document.getElementById("modalLimite").style.display = "block";
 }
+
+

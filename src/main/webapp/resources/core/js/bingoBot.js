@@ -44,26 +44,18 @@ $(document).ready(function () {
     $(".cartonUser").html(cartonhtmluser);
     $(".cartonUser").addClass("w3-animate-bottom");
 
-
     $(".numeroCantadoContenedor").addClass("w3-animate-top");
 
     $("#numerosRestantesParaCompletarLaTirada").text(
       "Numeros restantes para completar la tirada: " +
-        data.numerosRestantesParaCompletarLaTirada
+      data.numerosRestantesParaCompletarLaTirada
     );
     console.log(numerosRestantesParaCompletarLaTirada);
 
     if (data.error) {
       alert(data.error);
     } else {
-      tipoPartidaBingo = data.tipoPartidaBingo;
-      if (tipoPartidaBingo === "LINEA") {
-        document.getElementById("botonLinea").style.display = "block";
-        document.getElementById("botonBingo").style.display = "none";
-      } else if (tipoPartidaBingo === "BINGO") {
-        document.getElementById("botonLinea").style.display = "none";
-        document.getElementById("botonBingo").style.display = "block";
-      }
+      document.getElementById("botonBingo").style.display = "block";
     }
   });
   console.log("no entre a la solicitud");
@@ -81,7 +73,7 @@ function refrescarNumero() {
       } else {
         $("#numerosRestantesParaCompletarLaTirada").text(
           "Numeros restantes para completar la tirada: " +
-            data.numerosRestantesParaCompletarLaTirada
+          data.numerosRestantesParaCompletarLaTirada
         );
         $("#numeroCantado").text(data.nuevoNumero);
         $(".numeroCantadoContenedor").addClass("w3-animate-top");
@@ -94,12 +86,12 @@ function refrescarNumero() {
         );
       }
       if (data.seHizoBingoBot) {
+        console.log("el bot hizo bingo")
         abrirModalBot();
         clearInterval(intervaloRefresco); // Detener la actualización del número
         intervaloRefresco = null;
       }
     });
-    console.log("no pude procesar la solicitud de obtener nuevo numero bot");
   }, 100);
 }
 
@@ -210,6 +202,7 @@ function bingo() {
 
 // GANO USER
 function abrirModal() {
+  console.log("abri el modal de victoria del user")
   $(".tituloModal").text("Ganaste!");
   $(".textoModal").text("felicidades");
   document.getElementById("modalBingo").style.display = "block";
@@ -218,6 +211,7 @@ function abrirModal() {
 
 // GANO BOT
 function abrirModalBot() {
+  console.log("abri el modal de victoria del bot")
   $(".tituloModal").text("Perdiste!");
   $(".textoModal").text("Suerte para la proxima!");
   document.getElementById("modalBingo").style.display = "block";
@@ -260,6 +254,6 @@ function abrirModalDeLimiteAlcanzado() {
   document.getElementById("modalLimite").style.display = "block";
 }
 
-function abrirModalDeCompra(){
-  document.getElementById("modalCompra").style.display="block";
+function abrirModalDeCompra() {
+  document.getElementById("modalCompra").style.display = "block";
 }
