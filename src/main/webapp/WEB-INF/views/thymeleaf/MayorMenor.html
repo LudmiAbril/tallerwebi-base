@@ -16,247 +16,261 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" th:href="@{/imgStatic/logo.png}" />
-    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}" />
+    <link rel="stylesheet"
+        th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css}" />
 
     <!-- javascript-->
     <script th:src="@{/js/mayormenor.js}"></script>
     <script th:src="@{/js/cronometro.js}"></script>
     <script th:src="@{/js/customModal.js}"></script>
     <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-<style>
-    .boton-compra {
-        position:absolute;
-        display: inline-flex;
-        align-items: center;
-        padding: 10px 20px;
-        background-color: #91690a;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 0 15px rgba(0, 0, 0, 0.5);
-        color: white;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-        top: 2%;
-        right:70px;
-    }
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        .boton-compra {
+            position: absolute;
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #91690a;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 0 15px rgba(0, 0, 0, 0.5);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            top: 2%;
+            right: 70px;
+        }
 
-    .boton-compra:hover {
-        color: white;
-        background-color: rgb(81, 60, 4);
-    }
+        .boton-compra:hover {
+            color: white;
+            background-color: rgb(81, 60, 4);
+        }
 
-    .material-symbols-outlined {
-        margin-right: 5px;
-    }
-</style>
+        .material-symbols-outlined {
+            margin-right: 5px;
+        }
+    </style>
 </head>
 
 <body>
-<nav class="nav-bar mt">
-    <a href="javascript:void(0)" id="openCustomExitModal">
-        <span class="material-symbols-outlined icono">arrow_back</span>
-    </a>
-</nav>
+    <nav class="nav-bar mt">
+        <a href="javascript:void(0)" id="openCustomExitModal">
+            <span class="material-symbols-outlined icono">arrow_back</span>
+        </a>
+    </nav>
 
-<div class="top-right-buttons">
-    <a href="javascript:void(0)" class="boton-ayuda" style="top: 15px;" onclick="abrirModalAyuda()">
-        <i class="fas fa-question-circle"></i>
-    </a>
-    <a href="javascript:void(0)" class="boton-compra abrir-modal" onclick="abrirModalCompra()">
-        <span class="material-symbols-outlined">monetization_on</span> EMPATE
-    </a>
-</div>
-
-<!-- Modal de ayuda -->
-<div id="modalAyuda" class="modal-ayuda">
-    <div class="modal-contenido">
-        <div class="modal-header">
-            <h2>¿CÓMO JUGAR?</h2>
-            <span class="cerrar-modal" onclick="cerrarModalAyuda()">&times;</span>
-        </div>
-        <div class="modal-body">
-            <img th:src="@{/imgStatic/tutoriales/infografiaMom.png}" class="infografia" alt="infografiaMom">
-        </div>
+    <div class="top-right-buttons">
+        <a href="javascript:void(0)" class="boton-ayuda" style="top: 15px;" onclick="abrirModalAyuda()">
+            <i class="fas fa-question-circle"></i>
+        </a>
+        <a href="javascript:void(0)" class="boton-compra abrir-modal" onclick="abrirModalCompra()">
+            <span class="material-symbols-outlined">monetization_on</span> EMPATE
+        </a>
     </div>
-</div>
 
-<!-- El modal que se abre al finalizar la partida -->
-<div id="modalFinPartida" class="modal">
-    <!-- Contenido del modal -->
-    <div class="modal-content">
-        <h2> ¡Partida Finalizada!</h2>
-        <h3 id="resultadoPartida"></h3>
-        <div class="botones-modal">
-            <form th:action="@{/reiniciarMayorMenor}" method="post">
-                <button type="submit" class="boton-reiniciar">
-                    Jugar otra partida
-                </button>
-            </form>
-            <form th:action="@{/finalizarMayorMenor}" method="post">
-                <button type="submit" class="boton-volver-inicio">
-                    Volver al inicio
-                </button>
-            </form>
-        </div>
-    </div>
-</div>
-
-<main class="container-main">
-    <div class="container-left">
-        <div id="aciertos" class="aciertos-container">Aciertos:
-            <span class="material-symbols-outlined">check_circle</span> Aciertos: 0
-        </div>
-        <div class="container-principal">
-            <div class="cartas-container" id="cartasJugador"></div>
-        </div>
-        <div class="botones">
-            <button id="btnMayor" class="btn btn-mayor">Mayor</button>
-            <button id="btnMenor" class="btn btn-menor">Menor</button>
-        </div>
-    </div>
-    <div class="container-right">
-        <div class="jugador-info">
-            <h3 class="nombre-jugador">Jugador: <span id="nombre"></span></h3>
-            <div class="time">
-                    <span style="color: white" class="material-symbols-outlined">access_time
-                    </span>
-                <p style="color: white ; margin-bottom: 0px;" class="tiempo">
-                    Tiempo transcurrido: <span class="reloj">00:00:00</span>
-                </p>
+    <!-- Modal de ayuda -->
+    <div id="modalAyuda" class="modal-ayuda">
+        <div class="modal-contenido">
+            <div class="modal-header">
+                <h2>¿CÓMO JUGAR?</h2>
+                <span class="cerrar-modal" onclick="cerrarModalAyuda()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <img th:src="@{/imgStatic/tutoriales/infografiaMom.png}" class="infografia" alt="infografiaMom">
             </div>
         </div>
-        <div class="partidas">
-            <p class="titulin">Tu historial de partidas</p>
-            <p th:text="${mensajePartidas}" class="mensaje-partidas"></p>
-            <div class="c-partidas"></div>
+    </div>
+
+
+    <!-- El modal que se abre al finalizar la partida -->
+    <div id="modalFinPartida" class="modal">
+        <!-- Contenido del modal -->
+        <div class="modal-content">
+            <h2> &iexcl;Partida Finalizada!</h2>
+            <h3 id="resultadoPartida"></h3>
+            <div class="botones-modal">
+                <form th:action="@{/reiniciarMayorMenor}" method="post">
+                    <button type="submit" class="boton-reiniciar">
+                        Jugar otra partida
+                    </button>
+                </form>
+                <form th:action="@{/finalizarMayorMenor}" method="post">
+                    <button type="submit" class="boton-volver-inicio">
+                        Volver al inicio
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
-</main>
-
-<!-- Modal de Confirmación -->
-<div id="customExitModal" class="modal-custom">
-    <div class="modal-content-custom">
-        <div class="modal-header-custom">
-            <h5>Confirmar Abandono</h5>
-            <span class="close-custom" id="closeCustomExitModal">&times;</span>
-        </div>
-        <div class="modal-body-custom">
-            ¿Estás seguro de que deseas abandonar la partida?
-        </div>
-        <div class="modal-footer-custom">
-            <button id="customCancelButton" class="boton-cancelar-custom">
-                Cancelar
-            </button>
-            <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom">Abandonar</a>
-        </div>
     </div>
-</div>
 
-
-
-<div id="modalCompra" class="modalCompra" style="display: none;">
-    <div class="modal-contenido-compra">
-        <div class="modal-header-compra">
-            <h2>¡Aumenta tus posibilidades de ganar!</h2>
-            <span class="cerrar-modal-compra" onclick="cerrarModalCompra()">&times;</span>
+    <main class="container-main">
+        <div class="container-left">
+            <div id="aciertos" class="aciertos-container">Aciertos:
+                <span class="material-symbols-outlined">check_circle</span> Aciertos: 0
+            </div>
+            <div class="container-principal">
+                <div class="cartas-container" id="cartasJugador"></div>
+            </div>
+            <div class="botones">
+                <button id="btnMayor" class="btn btn-mayor">Mayor</button>
+                <button id="btnMenor" class="btn btn-menor">Menor</button>
+            </div>
         </div>
-        <div class="modal-body-compra">
-        <span class="flecha-atras" onclick="irAtras()" style="display: none;">
-          <span class="material-symbols-outlined">arrow_back</span>
-        </span>
-            <section class="seccion seccion-activa" id="seccionOpciones">
-                <div class="intro-compra">
-                    <p>En el juego de Mayor o Menor, a veces la suerte puede jugar en tu contra y aparecerán dos cartas del mismo valor.
-                        Pero no te preocupes, ahora puedes adquirir un <strong>Comodín de Empate</strong> que te permitirá seguir jugando sin perder tu progreso.
-                   </p>
-                    <p><strong> Invierte en un comodín y asegura tu diversión continua.</strong></p>
+        <div class="container-right">
+            <div class="jugador-info">
+                <h3 class="nombre-jugador">Jugador: <span id="nombre"></span></h3>
+                <div class="time">
+                    <span style="color: white" class="material-symbols-outlined">access_time
+                    </span>
+                    <p style="color: white ; margin-bottom: 0px;" class="tiempo">
+                        Tiempo transcurrido: <span class="reloj">00:00:00</span>
+                    </p>
                 </div>
+            </div>
+            <div class="partidas">
+                <p class="titulin">Tu historial de partidas</p>
+                <p th:text="${mensajePartidas}" class="mensaje-partidas"></p>
+                <div class="c-partidas"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal de Confirmación -->
+    <div id="customExitModal" class="modal-custom">
+        <div class="modal-content-custom">
+            <div class="modal-header-custom">
+                <h5>Confirmar Abandono</h5>
+                <span class="close-custom" id="closeCustomExitModal">&times;</span>
+            </div>
+            <div class="modal-body-custom">
+                ¿Estás seguro de que deseas abandonar la partida?
+            </div>
+            <div class="modal-footer-custom">
+                <button id="customCancelButton" class="boton-cancelar-custom">
+                    Cancelar
+                </button>
+                <a th:href="@{/volverAlMenu}" class="boton-abandonar-custom">Abandonar</a>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="modalCompra" class="modalCompra" style="display: none;">
+        <div class="modal-contenido-compra">
+            <div class="modal-header-compra">
+                <h2>¡Aumenta tus posibilidades de ganar!</h2>
+                <span class="cerrar-modal-compra" onclick="cerrarModalCompra()">&times;</span>
+            </div>
+            <div class="modal-body-compra">
+                <span class="flecha-atras" onclick="irAtras()" style="display: none;">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                </span>
+                <section class="seccion seccion-activa" id="seccionOpciones">
+                    <div class="intro-compra">
+                        <p>En el juego de Mayor o Menor, a veces la suerte puede jugar en tu contra y aparecerán dos
+                            cartas del mismo valor.
+                            Pero no te preocupes, ahora puedes adquirir un <strong>Comodín de Empate</strong> que te
+                            permitirá seguir jugando sin perder tu progreso.
+                        </p>
+                        <p><strong> Invierte en un comodín y asegura tu diversión continua.</strong></p>
+                    </div>
                     <div class="card">
                         <img th:src="@{/imgStatic/empate.png}" class="card-img-top" alt="Comodín de Empate">
                         <div class="card-body">
                             <h5 class="card-title">Comodín de Empate</h5>
                             <p class="card-text">Precio: $100ARS</p>
-                            <button class="botonComprarTirada" id="btn1" onclick="abrirSeccionCompra('Comodín de Empate', '100', 1)">
+                            <button class="botonComprarTirada" id="btn1"
+                                onclick="abrirSeccionCompra('Comodín de Empate', '100', 1)">
                                 <i class="fas fa-money-bill-wave"></i> Comprar Comodín
                             </button>
                         </div>
                     </div>
 
-            </section>
+                </section>
 
-            <section class="seccion" id="seccionDatosTarjeta" style="display: none;">
-                <div class="contenidoTarjeta">
-                    <h2 class="tituloTarjeta"><i class="fas fa-credit-card"></i> Ingresa los datos de la tarjeta</h2>
-                    <div id="datosCompra"></div>
-                    <form class="formTarjeta" onsubmit="procesarCompra(event)" method="post" id="form">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="nombreTitular"><i class="fas fa-user"></i> Nombre del titular:</label>
-                                    <input type="text" id="nombreTitular" name="nombreTitular" class="form-control" required>
+                <section class="seccion" id="seccionDatosTarjeta" style="display: none;">
+                    <div class="contenidoTarjeta">
+                        <h2 class="tituloTarjeta"><i class="fas fa-credit-card"></i> Ingresa los datos de la tarjeta
+                        </h2>
+                        <div id="datosCompra"></div>
+                        <form class="formTarjeta" onsubmit="procesarCompra(event)" method="post" id="form">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="nombreTitular"><i class="fas fa-user"></i> Nombre del
+                                            titular:</label>
+                                        <input type="text" id="nombreTitular" name="nombreTitular" class="form-control"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="numeroTarjeta"><i class="fas fa-credit-card"></i> Número de
+                                            tarjeta:</label>
+                                        <input type="text" id="numeroTarjeta" name="numeroTarjeta" class="form-control"
+                                            maxlength="16" required>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="numeroTarjeta"><i class="fas fa-credit-card"></i> Número de tarjeta:</label>
-                                    <input type="text" id="numeroTarjeta" name="numeroTarjeta" class="form-control" maxlength="16"
-                                           required>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="dni"><i class="fas fa-id-card"></i> DNI del titular:</label>
+                                        <input type="number" id="dni" name="dni" class="form-control" maxlength="8"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="fechaCaducidad"><i class="fas fa-calendar-alt"></i> Fecha de
+                                            caducidad:</label>
+                                        <input type="month" id="fechaCaducidad" name="fechaCaducidad"
+                                            class="form-control" required>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="dni"><i class="fas fa-id-card"></i> DNI del titular:</label>
-                                    <input type="number" id="dni" name="dni" class="form-control" maxlength="8" required>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="codigoSeguridad"><i class="fas fa-lock"></i> Código de
+                                            seguridad:</label>
+                                        <input type="number" id="codigoSeguridad" name="codigoSeguridad"
+                                            class="form-control" maxlength="3" required>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="fechaCaducidad"><i class="fas fa-calendar-alt"></i> Fecha de caducidad:</label>
-                                    <input type="month" id="fechaCaducidad" name="fechaCaducidad" class="form-control" required>
-                                </div>
+                            <input type="hidden" name="tirada" id="tiradaComprada">
+                            <input type="hidden" name="precio" id="precioTirada">
+                            <div id="error">
+                                <p class="error"></p>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="codigoSeguridad"><i class="fas fa-lock"></i> Código de seguridad:</label>
-                                    <input type="number" id="codigoSeguridad" name="codigoSeguridad" class="form-control" maxlength="3"
-                                           required>
-                                </div>
+                            <div class="boton-comprar-container">
+                                <button type="submit" class="btn btn-primary" id="btn">Comprar</button>
                             </div>
-                        </div>
-                        <input type="hidden" name="tirada" id="tiradaComprada">
-                        <input type="hidden" name="precio" id="precioTirada">
-                        <div id="error">
-                            <p class="error"></p>
-                        </div>
-                        <div class="boton-comprar-container">
-                            <button type="submit" class="btn btn-primary" id="btn">Comprar</button>
-                        </div>
-                    </form>
-                </div>
-            </section>
-
-
-            <section class="seccion" id="seccionResumenCompra" style="display: none;">
-                <div class="contenidoResumen">
-                    <h2>Resumen de la compra</h2>
-                    <div id="resumenCompra"></div>
-                    <div class="botonesResumen">
-                        <button class="btn btn-secondary" onclick="cerrarModalCompra()">CANCELAR</button>
-                        <button class="btn btn-success" onclick="aceptarCompra()">Sí, acepto</button>
+                        </form>
                     </div>
-                </div>
-            </section>
+                </section>
 
+
+                <section class="seccion" id="seccionResumenCompra" style="display: none;">
+                    <div class="contenidoResumen">
+                        <h2>Resumen de la compra</h2>
+                        <div id="resumenCompra"></div>
+                        <div class="botonesResumen">
+                            <button class="btn btn-secondary" onclick="cerrarModalCompra()">CANCELAR</button>
+                            <button class="btn btn-success" onclick="aceptarCompra()">Sí, acepto</button>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
         </div>
     </div>
-</div>
 
-<script th:src="@{/js/modalAyuda.js}"></script>
-<script th:src="@{/js/compraMoM.js}"></script>
+    <script th:src="@{/js/modalAyuda.js}"></script>
+    <script th:src="@{/js/compraMoM.js}"></script>
 
 
 </body>

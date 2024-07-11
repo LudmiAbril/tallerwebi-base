@@ -222,12 +222,42 @@ public class ControladorBingoBot {
         return mav;
     }
 
-    // @RequestMapping(path = "/mostrarUltimasCompras", method = RequestMethod.GET)
-    // public ModelAndView mostrarUltimasCompras(HttpSession session) throws
-    // NoHayComprasParaEseUsuario, NoHayComprasParaEseJuego {
-    // ModelMap model = new ModelMap();
+    @RequestMapping(path = "/bingoUser", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> hacerBingo(HttpSession session) {
+        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+        Integer dimension = (Integer) session.getAttribute("dimensionDelCartonDeLaSesion");
+        Boolean seHizoBingo = this.servicioBingo.bingo(numerosMarcadosDeLaSesion,
+                dimension);
+        session.setAttribute("seHizoBingo", seHizoBingo);
+        Map<String, Object> respuesta = new HashMap<String, Object>();
+        respuesta.put("seHizoBingo", seHizoBingo);
+        return respuesta;
+    }
 
-    // return new ModelAndView("bingoBot", model);
-    // }
+    @RequestMapping(path = "/reiniciarPartidaBot", method = RequestMethod.GET)
+    public ModelAndView reiniciarPartidaBot(HttpSession session) throws PartidaConPuntajeNegativoException,
+            IllegalArgumentException {
+        ModelAndView mav = new ModelAndView();
+        Set<Integer> numerosMarcadosDeLaSesion = (Set<Integer>) session.getAttribute("numerosMarcadosDeLaSesion");
+        TipoPartidaBingo tipoPartidaBingoDeLaSesion = (TipoPartidaBingo) session
+                .getAttribute("tipoPartidaBingo");
+        Integer tiradaLimiteDeLaSesion = (Integer) session.getAttribute("tiradaLimiteDeLaSesion");
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        Integer cantidadDeCasillerosMarcados = numerosMarcadosDeLaSesion.size();
+        Boolean seHizoBingoBot = (Boolean) session.getAttribute("seHizoBingoBot");
 
+        try {
+            servicioPlataforma
+                    .agregarPartida(
+                            new PartidaBingo(jugador.getId(), Juego.BINGO, numerosMarcadosDeLaSesion, false,
+                                    false,
+                                    tipoPartidaBingoDeLaSesion, tiradaLimiteDeLaSesion, cantidadDeCasillerosMarcados,
+                                    seHizoBingoBot));
+        } catch (Exception e) {
+            mav.setViewName("bingoBot");
+            mav.addObject("mensajeError", "Ocurrió un error al intentar guardar la partida.");
+        }
+        return this.comenzarJuegoBingoBot(session);
+    }
 }
