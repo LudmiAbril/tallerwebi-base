@@ -307,6 +307,7 @@ main {
 }
 .cajita-partida p{
     font-family: 'Teko', sans-serif;
+    letter-spacing: 0.1em;
 }
 .hidden {
     display: none;

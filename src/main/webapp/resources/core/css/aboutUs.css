@@ -38,7 +38,7 @@ main {
     display: flex;
     gap: 15px;
     padding: 15px 0;
-    flex-wrap: wrap; /* Agregado para que las tarjetas se ajusten en pantallas pequeñas */
+    flex-wrap: wrap; 
 }
 
 .cards .card {
@@ -102,9 +102,8 @@ main {
     width: 100%;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 }
-.spacing{
-    letter-spacing: 0.1em;
-}
+
+
 .sign {
     display: flex;
     justify-content: center;
@@ -164,12 +163,29 @@ main {
     position: absolute;
     top: 0;
     left: 0;
-    color: #00ff00; /* Color del efecto glitch */
+    color: #0080ff; 
     overflow: hidden;
     clip: rect(0, 1000px, 0, 0);
     animation: noise-animation 2s infinite linear alternate-reverse;
 }
 
+
+
+.spacing span {
+    animation: glitch 1s infinite;
+}
+
+.spacing span:nth-child(2n) {
+    animation-delay: .1s;
+}
+
+.spacing span:nth-child(3n) {
+    animation-delay: .2s;
+}
+
+.spacing span:nth-child(4n) {
+    animation-delay: .3s;
+}
 @keyframes glitch-animation {
     0% {
         transform: translate(0);
@@ -211,6 +227,64 @@ main {
         clip: rect(40px, 1000px, 60px, 0);
     }
 }
+@keyframes oldVideoGame {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    10%, 30%, 60%, 90% {
+        transform: translateY(-5px);
+    }
+    40%, 70% {
+        transform: translateY(5px);
+    }
+}
+
+.nos {
+    color: white;
+    font-family: "Bebas Neue", cursive;
+    font-size: 20px;
+    text-align: center;
+    padding-top: 5px;
+}
+
+.nos span {
+    display: inline-block;
+    animation: oldVideoGame 5s infinite;
+}
+.nos span:nth-child(1) { animation-delay: 0s; }
+.nos span:nth-child(2) { animation-delay: 0.2s; }
+.nos span:nth-child(3) { animation-delay: 0.4s; }
+.nos span:nth-child(4) { animation-delay: 0.6s; }
+.nos span:nth-child(5) { animation-delay: 0.8s; }
+.nos span:nth-child(6) { animation-delay: 1s; }
+.nos span:nth-child(7) { animation-delay: 1.2s; }
+.nos span:nth-child(8) { animation-delay: 1.4s; }
+.nos span:nth-child(9) { animation-delay: 1.6s; }
+.nos span:nth-child(10) { animation-delay: 1.8s; }
+.nos span:nth-child(11) { animation-delay: 2s; }
+.nos span:nth-child(12) { animation-delay: 2.2s; }
+.nos span:nth-child(13) { animation-delay: 2.4s; }
+.nos span:nth-child(14) { animation-delay: 2.6s; }
+.nos span:nth-child(15) { animation-delay: 2.8s; }
+.nos span:nth-child(16) { animation-delay: 3s; }
+.nos span:nth-child(17) { animation-delay: 3.2s; }
+.nos span:nth-child(18) { animation-delay: 3.4s; }
+.nos span:nth-child(19) { animation-delay: 3.6s; }
+.nos span:nth-child(20) { animation-delay: 3.8s; }
+.nos span:nth-child(21) { animation-delay: 4s; }
+.nos span:nth-child(22) { animation-delay: 4.2s; }
+.nos span:nth-child(23) { animation-delay: 4.4s; }
+.nos span:nth-child(24) { animation-delay: 4.6s; }
+.nos span:nth-child(25) { animation-delay: 4.8s; }
+.nos span:nth-child(26) { animation-delay: 5s; }
+.nos span:nth-child(27) { animation-delay: 5.2s; }
+.nos span:nth-child(28) { animation-delay: 5.4s; }
+.nos span:nth-child(29) { animation-delay: 5.6s; }
+.nos span:nth-child(30) { animation-delay: 5.8s; }
+.nos span:nth-child(31) { animation-delay: 6s; }
+.nos span:nth-child(32) { animation-delay: 6.2s; }
+
+
 .icono {
     text-align: center;
     color: white;
@@ -235,9 +309,10 @@ main {
     font-style: italic;
     padding: 10px;
     border-top: 1px solid #d3d3d3;
-    color: #6a0dad; /* Lilac color scheme */
+    color: #6a0dad;
     font-size: 1.1em;
     background-color: #f9f9f9;
+    animation: frasecita-glow 1.5s infinite alternate;
 }
 
 .frasecita p {
@@ -247,6 +322,27 @@ main {
 .frasecita p:nth-child(2) {
     margin-top: 0.313em;
     font-weight: bold;
+}
+
+ small {
+    font-size: 0.8em;
+    color: rgba(0, 0, 0, 0.555);
+    animation: color-change 2s infinite;
+}
+
+@keyframes frasecita-glow {
+    0% {
+        text-shadow: 0 0 5px #6a0dad, 0 0 10px #6a0dad, 0 0 15px #6a0dad, 0 0 20px #6a0dad, 0 0 25px #6a0dad, 0 0 30px #6a0dad, 0 0 35px #6a0dad;
+    }
+    100% {
+        text-shadow: 0 0 10px #ff65bd, 0 0 20px #ff65bd, 0 0 30px #ff65bd, 0 0 40px #ff65bd, 0 0 50px #ff65bd, 0 0 60px #ff65bd, 0 0 70px #ff65bd;
+    }
+}
+
+@keyframes color-change {
+    0% { color: rgba(0, 0, 255, 0.766); }
+    50% { color: rgba(255, 217, 0, 0.671); }
+    100% { color: rgba(0, 0, 255, 0.599); }
 }
 
 
@@ -403,63 +499,6 @@ main {
         text-shadow: none;
     }
 }
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-30px);
-    }
-    60% {
-        transform: translateY(-15px);
-    }
-}
-
-.nos {
-    color: white;
-    font-family: "Bebas Neue", cursive;
-    font-size: 20px;
-    text-align: center;
-    padding-top: 5px;
-}
-
-.nos span {
-    display: inline-block;
-    animation: bounce 2s infinite;
-}
-
-.nos span:nth-child(1) { animation-delay: 0s; }
-.nos span:nth-child(2) { animation-delay: 0.6s; }
-.nos span:nth-child(3) { animation-delay: 1.2s; }
-.nos span:nth-child(4) { animation-delay: 1.8s; }
-.nos span:nth-child(5) { animation-delay: 2.4s; }
-.nos span:nth-child(6) { animation-delay: 3s; }
-.nos span:nth-child(7) { animation-delay: 3.6s; }
-.nos span:nth-child(8) { animation-delay: 4.2s; }
-.nos span:nth-child(9) { animation-delay: 4.8s; }
-.nos span:nth-child(10) { animation-delay: 5.4s; }
-.nos span:nth-child(11) { animation-delay: 6s; }
-.nos span:nth-child(12) { animation-delay: 6.6s; }
-.nos span:nth-child(13) { animation-delay: 7.2s; }
-.nos span:nth-child(14) { animation-delay: 7.8s; }
-.nos span:nth-child(15) { animation-delay: 8.4s; }
-.nos span:nth-child(16) { animation-delay: 9s; }
-.nos span:nth-child(17) { animation-delay: 9.6s; }
-.nos span:nth-child(18) { animation-delay: 10.2s; }
-.nos span:nth-child(19) { animation-delay: 10.8s; }
-.nos span:nth-child(20) { animation-delay: 11.4s; }
-.nos span:nth-child(21) { animation-delay: 12s; }
-.nos span:nth-child(22) { animation-delay: 12.6s; }
-.nos span:nth-child(23) { animation-delay: 13.2s; }
-.nos span:nth-child(24) { animation-delay: 13.8s; }
-.nos span:nth-child(25) { animation-delay: 14.4s; }
-.nos span:nth-child(26) { animation-delay: 15s; }
-.nos span:nth-child(27) { animation-delay: 15.6s; }
-.nos span:nth-child(28) { animation-delay: 16.2s; }
-.nos span:nth-child(29) { animation-delay: 16.8s; }
-.nos span:nth-child(30) { animation-delay: 17.4s; }
-.nos span:nth-child(31) { animation-delay: 18s; }
-.nos span:nth-child(32) { animation-delay: 18.6s; }
 
 
 @media (max-width: 768px) {
@@ -495,6 +534,7 @@ main {
 .mila{
     width: 10%;
     text-align: center;
+    animation: frasecita-glow 1.5s infinite alternate;
 }
 
 /*GATO*/
@@ -504,8 +544,8 @@ main {
 .cat {
     margin: 1%;
     position: relative;
-    height: 85px; /* Size is 85px */
-    width: calc(85px * 1.13); /* Adjusted width proportionally */
+    height: 85px; 
+    width: calc(85px * 1.13);
 }
 
 /* Ears */
@@ -568,8 +608,7 @@ main {
     position: absolute;
     height: 100%;
     width: 100%;
-   /* background: #161616;*/
-    /*border-radius: 50%;*/
+ 
 }
 
 /* Eyes */
