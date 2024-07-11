@@ -76,8 +76,12 @@ public class ControladorBlackjack {
             session.setAttribute("contrareloj", true);
             session.setAttribute("tiempoLimite", tiempoExpiracionFormateado);
             session.setAttribute("minutos", tiempoLimiteMinutos);
+            model.addAttribute("info", "BlackjackTime");
+
         } else {
             session.setAttribute("contrareloj", false);
+            model.addAttribute("info", "Blackjack");
+
         }
 
         try {
@@ -96,6 +100,7 @@ public class ControladorBlackjack {
         session.setAttribute("estadoPartida", servicioBlackjack.estadoPartida(cartasJugador, cartasCasa, false));
         session.setAttribute("ganador",
                 servicioBlackjack.ganador(cartasJugador, cartasCasa, nombreJugador, false));
+
 
         return new ModelAndView("blackjack", model);
 
@@ -143,6 +148,7 @@ public class ControladorBlackjack {
         session.setAttribute("ganador",
                 servicioBlackjack.ganador(cartasJugador, cartasCasa, nombreJugador, false));
         model.addAttribute("tituloMensaje", "BlackjackLengendary");
+        model.addAttribute("info", "BlackjackLengendary");
         return new ModelAndView("blackjack", model);
 
     }

@@ -899,7 +899,8 @@ hr {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50%;
+    width: 65%;
+    height: 70%;
     max-height: 80%;
     overflow: auto;
     background-color: white;
@@ -910,25 +911,39 @@ hr {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-image: url("../imgStatic/modalHistorial.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.contenedorTablaHistorial {
+    height:230px; /* Ajusta esta altura según sea necesario */
+    overflow-y: auto;
+    width: 63%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    margin-top:15px;
 }
 
 .tabla-historial {
+    border-radius: 10px;
+    border: 2px solid #b367a9;
+    padding: 5px;
     display: block;
-    width: 500px;
+    width: 100%;
     text-align: center;
     border-collapse: collapse;
 }
 
 .tabla-historial-encabezados th {
-    background-color: #6d2194;
+    background-color: #b367a9;
     color: white;
-    width: 200px;
+    width: 172px;
 }
 
 .tabla-historial-cuerpo {
     display: block;
-    height: 500px;
-    overflow-y: auto; 
 }
 
 .tabla-historial-cuerpo tr {
@@ -939,13 +954,91 @@ hr {
 
 th,
 td {
-    border: 1px solid #ddd;
+    color: #000;
+    background-color: antiquewhite;
+    border: 1px solid #333;
     padding: 8px;
     text-align: center;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+
 }
 
-.filtro-div{
+td {
+    border-top: none;
+}
+
+.filtro-div {
     display: flex;
     justify-content: space-around;
     gap: 30px;
+}
+
+#mensaje-partidas {
+    border-radius: 10px;
+    padding: 5px;
+    background-color: black;
+    font-weight: 800;
+    color: #ff0000;
+    font-size: 13px;
+    font-style: italic;
+}
+
+#misPartidas {
+    color: white;
+    font-family: "Bebas Neue", cursive;
+    font-size: 40px;
+    text-align: center;
+    padding-top: 5px;
+    animation: bounce 2s infinite;
+}
+#filtro-juego {
+    display: flex;
+    gap: 10px;
+}
+
+#filtro-juego input[type="radio"] {
+    display: none;
+}
+
+#filtro-juego label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    border: 1px solid #888;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#filtro-juego input[type="radio"]:checked + label {
+    background-color: #B367A9;
+    color: white;
+}
+
+#filtro-juego label:hover {
+    background-color: #b367a9;
+}
+
+.contenedorTablaHistorial::-webkit-scrollbar {
+    width: 12px;
+}
+
+.contenedorTablaHistorial::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.contenedorTablaHistorial::-webkit-scrollbar-thumb {
+    background: #d331c8b0;
+    border-radius: 10px;
+    border: 3px solid rgba(0, 0, 0, 0.7);
+}
+
+.contenedorTablaHistorial::-webkit-scrollbar-thumb:hover {
+    background: #d331c9;
 }

@@ -1,0 +1,437 @@
+/* Estilos para el modal de compra */
+.modalCompra {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.modal-contenido-compra {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    width: 60%;
+    max-width: 1000px;
+    min-height: 60%;
+    overflow: auto;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #555;
+    background-image: url("../imgStatic/fondos/fondoModalCompra.jpeg");
+    background-size: cover;
+    background-blend-mode: multiply;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8), inset 0 0 10px rgba(0, 0, 0, 0.8);
+
+}
+
+.modal-header-compra  {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #555;
+    padding-bottom: 10px;
+}
+#iconoModal{
+    color: white;
+    font-size: 20px;
+    z-index: 1000;
+
+}
+.modal-header-compra  h2 {
+    margin: 0;
+    font-family: "Clip";
+    color: white;
+    font-size: 1.3em;
+    text-transform: uppercase;
+    text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+    -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+    0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+}
+
+.cerrar-modal-compra  {
+    cursor: pointer;
+    font-size: 24px;
+    color: white;
+}
+
+.cerrar-modal-compra :hover {
+    color: #fff;
+}
+
+.modal-body-compra  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.table {
+    width: 100%;
+    color: #fff;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    border: 1px solid #555;
+    padding: 10px;
+    text-align: center;
+}
+
+.table th {
+    background-color: #444;
+    font-family: 'Special Elite', cursive;
+    color: #ffdf00;
+}
+
+.table td {
+    background-color: #333;
+}
+.boton-comprar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#btn{
+    padding: 15px 35px;
+    background-color: #d32f2f;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    border: none;
+    cursor: pointer;
+    min-width: 250px;
+    min-height: 50px;
+}
+
+#btn:hover {
+    background-color: #b71c1c;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(0, 0, 0, 0.6);
+    transform: translateY(-2px);
+}
+
+/* Estilos para los inputs */
+
+.form-group input:focus {
+    outline: none;
+    border-color: #6802a3;
+}
+
+.contenidoTarjeta {
+    margin: 15px;
+}
+
+.contenidoTarjeta h2{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tituloTarjeta {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ffffff;
+    padding: 5px ;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tituloTarjeta i {
+    margin-right: 10px;
+    font-size: 1.5rem;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-group {
+    flex: 1;
+    margin: 10px 5px; /* Reducido el margen vertical */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border: 1px solid #555;
+    background-color: #444;
+    color: #fff;
+    margin-top: 5px; /* Ajustado el margen superior */
+}
+#form{
+    margin-left: -8px;
+    width: 103%;
+}
+
+
+/* Estilos para las secciones del modal */
+.seccion {
+    display: none;
+}
+
+.seccion-activa {
+    display: flex;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.flecha-atras {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.flecha-atras:hover {
+    color: #fff;
+}
+#datosCompra{
+    display: flex;
+    justify-content: space-between;
+    background-color: #ffffffed;
+    padding: 5px 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+#datosCompra p{
+   margin: 5px 0;
+}
+
+
+#error p{
+    color: #f33a3a;
+    font-weight: 800;
+    text-align: center;
+    margin-left: 8px;
+    width: 96%;
+    border-radius: 10px;
+}
+.error{
+    background: black;
+    padding: 5px;
+}
+.boton-ayuda {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boton-ayuda .material-symbols-outlined {
+    margin-right: 8px; /* Ajusta el margen según sea necesario */
+}
+a{
+    text-decoration: none;
+}
+
+
+.card-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 10px 0;
+}
+
+.card {
+    max-width: 233px;
+    margin: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), inset 0 0 10px rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    background-color: white;
+    overflow: hidden;
+}
+
+
+.card img {
+    justify-content: center;
+    align-items: center;
+    max-height: 150px;
+    object-fit: cover;
+    width: 230px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    margin-bottom: 15px;
+}
+
+.botonComprarTirada{
+    background-color: #d32f2f;
+    color: white;
+    padding: 10px 8px;
+    text-decoration: none;
+    border-radius: 10px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    border: none;
+    cursor: pointer;
+
+}
+
+.botonComprarTirada i {
+    margin-right:3px;
+}
+
+
+/* Estilos para la sección del resumen de la compra */
+.contenidoResumen {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contenidoResumen h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow:inset 0 0 10px rgba(0, 0, 0, 0.3);
+    letter-spacing: -1px;
+
+}
+
+#resumenCompra {
+    font-family: 'Courier New', Courier, monospace;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.botonesResumen {
+    display: flex;
+    justify-content: space-between;
+}
+
+.botonesResumen .btn {
+    flex: 1;
+    margin: 0 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+    border: none;
+    box-shadow:inset 0 0 10px rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+}
+
+.botonesResumen .btn-secondary {
+    background-color: #d32f2f;
+    color: #fff;
+}
+
+.botonesResumen .btn-secondary:hover {
+    background-color: #8f1a1a;
+}
+
+.botonesResumen .btn-success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.botonesResumen .btn-success:hover {
+    background-color: #156326;
+}
+
+/* Estilo para el contenido del resumen de la compra */
+#resumenCompra {
+    border: 1px dashed #bbb;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+#resumenCompra p{
+    margin:8px 0;
+
+}
+
+#resumenCompra table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#resumenCompra th, #resumenCompra td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+#resumenCompra th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+}
+
+#seccionOpciones{
+    flex-direction:column;
+    align-items: center;
+}
+
+.intro-compra p{
+    color: white;
+    background-color: #0000005c;
+    border-radius: 10px;
+    padding: 5px;
+}
