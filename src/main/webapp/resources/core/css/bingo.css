@@ -558,12 +558,13 @@ table {
     display: inline-flex;
     align-items: center;
     padding: 10px 20px;
-    background-color: #6D466B;
+    background-color: #198754;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 0 15px rgba(0, 0, 0, 0.5);
     color: white;
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;
+    margin-top:10px;
 }
 
 .boton-compra:hover {
@@ -576,12 +577,12 @@ table {
 }
 
 
-#contenedorHistorial {
+#contenedorCompras {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    top: 90px;
+    top: 315px;
     right: 20px;
     position: fixed;
     background-color: rgba(0, 0, 0, 0.7);
@@ -590,11 +591,11 @@ table {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     width: 300px;
-    max-height: 500px;
+    max-height: 250px;
     overflow-y: auto;
 }
 
-#contenedorHistorial h3 {
+#contenedorCompras h3 ,  #contenedorHistorial h3{
     margin-top: 0;
     text-align: center;
     font-size: 1.8em;
@@ -604,7 +605,16 @@ table {
     width: 100%;
 }
 
-#contenedorHistorial h4 {
+ #contenedorHistorial h3{
+     text-transform:uppercase;
+    font-size: 1em;
+    color: #E19AFE;
+    border-bottom: 2px solid #E19AFE;
+    padding-bottom: 10px;
+}
+
+
+#contenedorCompras h4 {
     font-size: 1.5em;
     color: white;
     display: flex;
@@ -615,20 +625,20 @@ table {
     margin: 0px 0px 15px 0px;
 }
 
-#contenedorHistorial h4 i {
+#contenedorCompras h4 i {
     margin: 0 5px;
     font-size: 15px;
 }
 
-#contenedorHistorial p {
+#contenedorCompras p {
     margin: 10px 1px 10px 2px;
 }
 
-#contenedorHistorial span {
+#contenedorCompras span {
     font-weight: bold;
 }
 
-#contenedorHistorial .compra {
+#contenedorCompras .compra {
     padding: 5px;
     border-radius: 5px;
     margin-bottom: 20px;
@@ -640,7 +650,7 @@ table {
 
 
 
-#contenedorHistorial .mensaje-error {
+#contenedorCompras .mensaje-error {
     color: #ff4c4c;
     text-align: center;
 }
@@ -652,25 +662,33 @@ table {
 
 
 /* Estilo general para la barra de desplazamiento */
-#contenedorHistorial::-webkit-scrollbar {
+#contenedorCompras::-webkit-scrollbar, #contenedorHistorial::-webkit-scrollbar {
     width: 12px;
 }
 
 /* Fondo de la barra de desplazamiento */
-#contenedorHistorial::-webkit-scrollbar-track {
+#contenedorCompras::-webkit-scrollbar-track, #contenedorHistorial::-webkit-scrollbar-track  {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
 }
 
 /* Thumb (la parte móvil de la barra de desplazamiento) */
-#contenedorHistorial::-webkit-scrollbar-thumb {
+ #contenedorCompras::-webkit-scrollbar-thumb{
     background: #d331c8b0;
     border-radius: 10px;
     border: 3px solid rgba(0, 0, 0, 0.7);
 }
 
+#contenedorHistorial::-webkit-scrollbar-thumb{
+    background: #BB55FD;
+    border-radius: 10px;
+    border: 3px solid rgba(0, 0, 0, 0.7);
+
+}
+
+
 /* Hover sobre el thumb */
-#contenedorHistorial::-webkit-scrollbar-thumb:hover {
+#contenedorCompras::-webkit-scrollbar-thumb:hover, #contenedorHistorial::-webkit-scrollbar-thumb {
     background: #d331c9;
 }
 
@@ -775,4 +793,23 @@ table {
     color: rgba(207, 76, 234, 0.81);
 
 }
+/*------------------------HISTORIAL----------------------*/
+#contenedorHistorial {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    top: 90px;
+    right: 20px;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
 

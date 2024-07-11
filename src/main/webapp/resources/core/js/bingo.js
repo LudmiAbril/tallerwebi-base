@@ -43,13 +43,25 @@ $(document).ready(function () {
         if (data.partidas && data.partidas.length > 0) {
             data.partidas.forEach(function (partida) {
                 if (data.tipoPartidaBingo === "LINEA") {
-                    $("#bingoPartidas").append(
-                        "linea: " + partida.seHizoLinea + " fecha y hora: " + partida.fechaYhora + "<br>"
-                    );
+                    if (partida.seHizoLinea) {
+                        $("#bingoPartidas").append(
+                            "Linea: " + "si" + " fecha y hora: " + partida.fechaYhora + "<br>"
+                        );
+                    } else {
+                        $("#bingoPartidas").append(
+                            "Linea: " + "no" + " fecha y hora: " + partida.fechaYhora + "<br>"
+                        );
+                    }
                 } else if (data.tipoPartidaBingo === "BINGO") {
-                    $("#bingoPartidas").append(
-                        "bingo: " + partida.seHizoBingo + " fecha y hora: " + partida.fechaYhora + "<br>"
-                    );
+                    if (partida.seHizoBingo) {
+                        $("#bingoPartidas").append(
+                            "Bingo: " + "si" + " fecha y hora: " + partida.fechaYhora + "<br>"
+                        );
+                    } else {
+                        $("#bingoPartidas").append(
+                            "Bingo: " + "no" + " fecha y hora: " + partida.fechaYhora + "<br>"
+                        );
+                    }
                 }
 
             });

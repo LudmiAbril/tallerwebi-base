@@ -10,7 +10,7 @@ function validarFormulario() {
     var cantidadPelotas = parseInt(document.getElementById('cant-numeros').value);
 
     if (isNaN(cantidadPelotas) || cantidadPelotas < dimensionCarton * dimensionCarton) {
-        var errorMensaje = 'Ingrese al menos ' + dimensionCarton * dimensionCarton + ' n&uacute;meros.';
+        var errorMensaje = 'Ingrese al menos ' + dimensionCarton * dimensionCarton + ' numeros.';
         document.getElementById('mensajeError').innerText = errorMensaje;
         return false;
     }
