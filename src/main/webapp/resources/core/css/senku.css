@@ -469,9 +469,9 @@ width: 50%;
 
 .partidas {
     position: absolute;
-    bottom: 0;
-    left: 0.625em;
-margin: 1%;
+    right:9px;
+    top:90px;
+    margin: 1%;
     display: flex;
     color: white;
     background-color: #000000a2;
@@ -480,11 +480,11 @@ margin: 1%;
     border-radius: 8px;
     width: 20%;
     align-content: center;
-    justify-content: center;
-    align-items: flex-start;
+    justify-content: flex-start;
+    align-items: center;
     flex-wrap: nowrap;
     flex-direction: column;
-  
+    max-height: 300px;
 }
 .separacion{
     margin: 2%;
