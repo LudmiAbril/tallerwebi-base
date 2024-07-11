@@ -66,7 +66,7 @@ $(document).ready(function () {
 
             });
         } else {
-            $("#bingoPartidas").append("¡No hay partidas de bingo!");
+            $("#bingoPartidas").append("No hay partidas de bingo");
         }
     });
 
