@@ -53,7 +53,7 @@ public class ControladorSenku {
     public ModelAndView inicioSenku() {
         ModelMap modelo = new ModelMap();
         modelo.put("nuevoJugador", new Jugador());
-        
+
         return new ModelAndView("irAlSenku", modelo);
     }
 
@@ -63,20 +63,20 @@ public class ControladorSenku {
         Usuario usuario;
         List<Partida> partidas = (List<Partida>) session.getAttribute("partidas");
         if (session.getAttribute("jugadorActual") == null
-        || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
-            
+                || !(session.getAttribute("jugadorActual") instanceof Usuario)) {
+
             usuario = new Usuario();
             usuario.setNombre("user");
             session.setAttribute("jugadorActual", usuario);
         } else {
             usuario = (Usuario) session.getAttribute("jugadorActual");
-            
+
         }
-        
+
         session.setAttribute("dimensionDelTablero", usuario.getConfig().getDimensionTablero());
         session.setAttribute("maxMovimientos", usuario.getConfig().getMaxMovimientos());
         Integer dimensionTablero = (Integer) session.getAttribute("dimensionDelTablero");
-        
+
         if (dimensionTablero == null || dimensionTablero % 2 == 0) {
             dimensionTablero = 5;
         }
@@ -86,7 +86,7 @@ public class ControladorSenku {
         try {
             partidas = servicioPlataforma.obtenerUltimasPartidasDelUsuario(usuario.getId(), Juego.SENKU);
             session.setAttribute("partidas", partidas);
-    
+
         } catch (PartidaDeUsuarioNoEncontradaException e) {
             model.addAttribute("mensajePartidas", "aun no hay partidas registradas");
         }
@@ -101,12 +101,12 @@ public class ControladorSenku {
         session.setAttribute("contadorMovimientos", 0);
         return new ModelAndView("senku", model);
     }
-    
+
     @RequestMapping(path = "/obtenerTablero", method = RequestMethod.GET)
     @ResponseBody
     public Map<String, Object> obtenerTablero(HttpSession session) {
         Tablero tablero = (Tablero) session.getAttribute("tablero");
-        Integer maxMovimientos = (Integer)session.getAttribute("maxMovimientos");
+        Integer maxMovimientos = (Integer) session.getAttribute("maxMovimientos");
         Map<String, Object> respuesta = new HashMap<>();
         respuesta.put("tablero", tablero);
         respuesta.put("maxMovimientos", maxMovimientos);
@@ -205,77 +205,74 @@ public class ControladorSenku {
     }
 
     @RequestMapping(path = "/senkuGano", method = RequestMethod.POST)
-@ResponseBody
-public Map<String, Object> comprobarSiSeGano(HttpSession session) {
-    Map<String, Object> respuesta = new HashMap<>();
-   
-    if (session.getAttribute("tablero") == null) {
-        respuesta.put("error", "No se encontró el tablero en la sesión");
+    @ResponseBody
+    public Map<String, Object> comprobarSiSeGano(HttpSession session) {
+        Map<String, Object> respuesta = new HashMap<>();
+
+        if (session.getAttribute("tablero") == null) {
+            respuesta.put("error", "No se encontró el tablero en la sesión");
+            return respuesta;
+        }
+
+        Tablero tablero = (Tablero) session.getAttribute("tablero");
+        Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
+        Integer maxMovimientos = (Integer) session.getAttribute("maxMovimientos");
+        Boolean seGano = servicioSenku.seGano(tablero);
+        Boolean movimientosDisponibles = true;
+
+        if (!seGano) {
+            try {
+                movimientosDisponibles = servicioSenku.validarQueHayaMovimientosValidosDisponibles(tablero);
+            } catch (MovimientoInvalidoException e) {
+                e.printStackTrace();
+            }
+        }
+
+        int movimientosRealizados = tablero.getContadorMovimientos();
+
+        session.setAttribute("seGano", seGano);
+        session.setAttribute("movimientosDisponibles", movimientosDisponibles);
+
+        respuesta.put("seGano", seGano);
+        respuesta.put("movimientosDisponibles", movimientosDisponibles);
+        respuesta.put("movimientosRealizados", movimientosRealizados);
+        respuesta.put("nombreJugador", (jugador != null) ? jugador.getNombre() : "Jugador Anonimo");
+        respuesta.put("maxMovimientos", maxMovimientos);
+        respuesta.put("minutosLimite", 1);
+
         return respuesta;
     }
 
-    Tablero tablero = (Tablero) session.getAttribute("tablero");
-    Usuario jugador = (Usuario) session.getAttribute("jugadorActual");
-    Integer maxMovimientos = (Integer) session.getAttribute("maxMovimientos");
-    Boolean seGano = servicioSenku.seGano(tablero);
-    Boolean movimientosDisponibles = true;
+    @RequestMapping(path = "/senkuFinalizarPartida", method = RequestMethod.POST)
+    public ModelAndView finalizarPartida(HttpSession session) throws BingoBotEsNullException {
 
-    if (!seGano) {
+        Tablero tablero = (Tablero) session.getAttribute("tablero");
+        Boolean seGano = servicioSenku.seGano(tablero);
+        Usuario jugadorActual = (Usuario) session.getAttribute("jugadorActual");
+        Long id = jugadorActual.getId();
+        Partida partidaSenku = new PartidaSenku(id, Juego.SENKU, seGano,
+                (Integer) session.getAttribute("contadorMovimientos"),
+                setearPuntaje((Integer) session.getAttribute("contadorMovimientos")));
+
         try {
-            movimientosDisponibles = servicioSenku.validarQueHayaMovimientosValidosDisponibles(tablero);
-        } catch (MovimientoInvalidoException e) {
+            servicioPlataforma.agregarPartida(partidaSenku);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (PartidaConPuntajeNegativoException e) {
             e.printStackTrace();
         }
+
+        return new ModelAndView("redirect:/acceso-juegos");
     }
 
-    int movimientosRealizados = tablero.getContadorMovimientos();
-
-   
-
-    session.setAttribute("seGano", seGano);
-    session.setAttribute("movimientosDisponibles", movimientosDisponibles);
-
-    respuesta.put("seGano", seGano);
-    respuesta.put("movimientosDisponibles", movimientosDisponibles);
-    respuesta.put("movimientosRealizados", movimientosRealizados);
-    respuesta.put("nombreJugador", (jugador != null) ? jugador.getNombre() : "Jugador Anonimo");
-    respuesta.put("maxMovimientos", maxMovimientos);
-    respuesta.put("minutosLimite", 1); 
-
-    return respuesta;
-}
-
-
-@RequestMapping(path = "/senkuFinalizarPartida", method = RequestMethod.POST)
-public ModelAndView finalizarPartida(HttpSession session) throws BingoBotEsNullException{
-   
-    Tablero tablero = (Tablero) session.getAttribute("tablero");
-    Boolean seGano = servicioSenku.seGano(tablero);
-    Usuario jugadorActual = (Usuario) session.getAttribute("jugadorActual");
-    Long id = jugadorActual.getId();
-    Partida partidaSenku = new PartidaSenku(id,Juego.SENKU,seGano,(Integer) session.getAttribute("contadorMovimientos"),setearPuntaje((Integer) session.getAttribute("contadorMovimientos")));
-    
-    try {
-        servicioPlataforma.agregarPartida(partidaSenku);
-    } catch (IllegalArgumentException e) {
-        e.printStackTrace();
-    } catch (PartidaConPuntajeNegativoException e) {
-        e.printStackTrace();
+    private Integer setearPuntaje(Integer movimientosTotales) {
+        if (movimientosTotales <= 10) {
+            return 3;
+        } else if (movimientosTotales <= 20) {
+            return 6;
+        } else {
+            return 9 + (movimientosTotales - 20);
+        }
     }
-
-    return new ModelAndView("redirect:/acceso-juegos");
-}
-
-private Integer setearPuntaje(Integer movimientosTotales) {
-    if (movimientosTotales <= 10) {
-        return 3;
-    } else if (movimientosTotales <= 20) {
-        return 6;
-    } else {
-        return 9 + (movimientosTotales - 20);
-    }
-}
-
-
 
 }

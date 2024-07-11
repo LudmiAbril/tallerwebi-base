@@ -214,13 +214,8 @@ main {
     color: white;
     font-size: 1.25em;
     z-index: 1000;
-<<<<<<< HEAD
-    margin-left: 0.938em;
-    padding-top: 0.625em;
-=======
     margin-left: 23px;
     padding-top: 15px;
->>>>>>> fbf61525f25f201a3bf4518f12171351d499fb0e
     text-decoration: none;
 }
 
@@ -230,29 +225,14 @@ main {
 }
 
 .nav-bar {
-<<<<<<< HEAD
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 0.938em;
-=======
     height: 15px;
->>>>>>> fbf61525f25f201a3bf4518f12171351d499fb0e
 }
 
 .frasecita {
     text-align: center;
     font-style: italic;
-<<<<<<< HEAD
-    margin-top: 0.313em;
-    padding: 0.625em;
-    border-top: 0.063em solid #d3d3d3;
-=======
     padding: 10px;
     border-top: 1px solid #d3d3d3;
->>>>>>> fbf61525f25f201a3bf4518f12171351d499fb0e
     color: #6a0dad; /* Lilac color scheme */
     font-size: 1.1em;
     background-color: #f9f9f9;
