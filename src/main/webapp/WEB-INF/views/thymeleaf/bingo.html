@@ -105,8 +105,8 @@
       </table>
 
       <!-- historial de compras -->
-      <!-- <div id="contenedorHistorial">
-        <h3><i class="fas fa-history"></i>&Uacute;ltimas compras</h3>
+     <div id="contenedorCompras">
+        <h3><i class="fas fa-gift"></i>&Uacute;ltimas compras</h3>
         <div th:if="${compras}" style="min-width: 100%;">
           <div th:each="compra : ${compras}" class="compra">
             <h4><i class="fas fa-shopping-cart" id="iconCarro"></i>Compra: <span th:text="${compra.id}"></span></h4>
@@ -114,18 +114,16 @@
             <p><i class="fas fa-dollar-sign"></i> Precio: <span th:text="${compra.precio}"></span></p>
             <p><i class="fas fa-calendar-alt"></i> Fecha: <span th:text="${compra.fecha}"></span></p>
           </div>
-
-
         </div>
         <div th:if="${mensajeErrorCompra}" class="mensaje-error">
           <p th:text="${mensajeErrorCompra}"></p>
         </div>
-      </div> -->
+      </div>
 
     </div>
 
     <div class="partidas" id="contenedorHistorial">
-      <p class="titulin">Tu historial de partidas</p>
+      <h3><i class="fas fa-history"></i>Tu historial de partidas</h3>
       <div id="bingoPartidas"></div>
     </div>
 
