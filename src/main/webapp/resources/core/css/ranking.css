@@ -277,7 +277,6 @@ main {
 
 .partida-contenedor {
     display: flex;
-    column-count: 30em;
     margin: 0 auto;
     margin-bottom: 7em;
     max-width: 75em;
@@ -287,6 +286,7 @@ main {
 }
 
 .cajita-partida {
+    padding: 3%;
     margin: 0.625em;
     width: 18.75em;
     border-radius: 0.3125em;
@@ -305,7 +305,9 @@ main {
     background-color: #330885d8;
     box-shadow: 0 0.5em 1em 0 rgba(0, 0, 0, 0.2);
 }
-
+.cajita-partida p{
+    font-family: 'Teko', sans-serif;
+}
 .hidden {
     display: none;
 }
@@ -320,29 +322,7 @@ main {
     text-align: center;
     margin: 2%;
 }
-#mostrar-mas-btn {
-    text-transform: uppercase;
 
-    background-color: #3f06a8;
-    box-shadow: rgba(12, 1, 19, 0.733) 0px 0px 0px 2px inset, rgba(0, 0, 0, 0.856) 10px -10px 0px -3px,
-        #e92ac0d5 10px -10px, rgba(0, 0, 0, 0.781) 20px -20px 0px -3px,
-        rgba(200, 19, 255, 0.863) 20px -20px, rgba(0, 0, 0, 0.87) 30px -30px 0px -3px, rgba(113, 5, 255, 0.849) 30px -30px,
-        rgba(0, 0, 0, 0.904) 40px -40px 0px -3px, rgba(45, 1, 167, 0.815) 40px -40px;
-    border-radius: 0.5em;
-   
-}
-
-#mostrar-menos-btn {
-    text-transform: uppercase;
-   margin-left: 5%;
-    background-color: #ee35c6d5;
-    box-shadow: rgba(12, 1, 19, 0.733) 0px 0px 0px 2px inset, rgba(0, 0, 0, 0.856) 10px -10px 0px -3px,
-        #e92ac0d5 10px -10px, rgba(0, 0, 0, 0.781) 20px -20px 0px -3px,
-        rgba(200, 19, 255, 0.863) 20px -20px, rgba(0, 0, 0, 0.87) 30px -30px 0px -3px, rgba(113, 5, 255, 0.849) 30px -30px,
-        rgba(0, 0, 0, 0.904) 40px -40px 0px -3px, rgba(45, 1, 167, 0.815) 40px -40px;
-    border-radius: 0.5em;
-   
-}
 
 
 .icono {
